@@ -26,7 +26,7 @@ const Leaderboard: React.FC = () =>
     ];
 
     return (
-        <div className="max-w-2xl mx-auto p-4 bg-yellow-100 pt-10">
+        <div className="max-w-2xl mx-auto p-4 bg-yellow-100 pt-10 ">
             <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Community Leaderboard</h2>
             { users.map( ( user, index ) => (
                 <div className="flex items-center bg-white rounded-lg shadow-md p-4 mb-4 transition duration-300 hover:shadow-lg">
