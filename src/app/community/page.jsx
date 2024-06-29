@@ -112,7 +112,7 @@ const Community = () => {
               Sprint timer
             </div>
             <div className="mx-auto shadow-lg flex flex-col items-center justify-center hover:bg-slate-400 duration-1000 rounded-md hover:animate-pulse cursor-pointer h-44 w-60 bg-slate-200">
-              About reward pool
+              About reward  pool
             </div>
           </div>
         </div>
