@@ -1,14 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Community from "./components/Community";
 
-"use client";
 import { useEffect } from "react";
 
 export default function Home() {
   const getUserData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
-        credentials: "include", // Include cookies in request
+        credentials: "include", 
       });
       const data = await response.json();
       if (response.ok) {
