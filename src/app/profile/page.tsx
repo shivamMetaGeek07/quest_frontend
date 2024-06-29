@@ -106,6 +106,7 @@ const Profile: React.FC = () => {
               key={index}
               className="w-full h-40 sm:h-48 border rounded-md bg-cyan-200 neumorphism-box"
             ></div>
+            
           ))}
         </div>
       </div>
