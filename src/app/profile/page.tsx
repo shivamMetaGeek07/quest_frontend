@@ -26,6 +26,9 @@ const Profile: React.FC = () => {
   const handleEarnRewardsClick = () => {
     router.push("/");
   };
+
+  const boxes = Array(6).fill(0);
+
   return (
     <>
       <div className="flex flex-col lg:flex-row justify-between mx-4 lg:mx-10">
@@ -40,7 +43,7 @@ const Profile: React.FC = () => {
             />
             <div className="mt-4 lg:mt-8 lg:ml-4 text-center">
               <p className="bg-cyan-200 p-1 rounded-md neumorphism-username">
-                username.farm
+                username.fam
               </p>
               <div className="flex justify-center lg:justify-start p-4">
                 <div>
@@ -75,8 +78,7 @@ const Profile: React.FC = () => {
               onClick={handleEarnRewardsClicks}
               className="w-full lg:w-80 p-1 bg-slate-400 rounded-md text-center mt-3 text-white neumorphism-button"
             >
-              lifetime reward earn
-              {earned !== null ? `${earned} coins` : ""}
+              lifetime reward earn {earned !== null ? `${earned} coins` : ""}
             </p>
             <button
               onClick={handleEarnRewardsClick}
@@ -87,24 +89,24 @@ const Profile: React.FC = () => {
           </div>
         </div>
         <div className="mx-4 lg:mx-10 rounded-md">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 lg:mt-10 ">
-          <div className="w-40 h-40 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box "></div>
-          <div className="w-40 h-40 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box "></div>
-          <div className="w-40 h-40 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box "></div>
-          <div className="w-40 h-40 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box "></div>
-          <div className="w-40 h-40 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box "></div>
-          <div className="w-40 h-40 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box "></div>
-        </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 lg:mt-10">
+            {boxes.map((_, index) => (
+              <div
+                key={index}
+                className="w-40 h-48 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box"
+              ></div>
+            ))}
+          </div>
         </div>
       </div>
       <div className="border border-gray-500 p-5 mt-5 mx-4 lg:mx-10 rounded-md">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          <div className="w-full h-40 sm:h-48 border  rounded-md bg-cyan-200 neumorphism-box"></div>
-          <div className="w-full h-40 sm:h-48 border  rounded-md bg-cyan-200 neumorphism-box"></div>
-          <div className="w-full h-40 sm:h-48 border  rounded-md bg-cyan-200 neumorphism-box"></div>
-          <div className="w-full h-40 sm:h-48 border  rounded-md bg-cyan-200 neumorphism-box"></div>
-          <div className="w-full h-40 sm:h-48 border  rounded-md bg-cyan-200 neumorphism-box"></div>
-          <div className="w-full h-40 sm:h-48 border  rounded-md bg-cyan-200 neumorphism-box"></div>
+          {boxes.map((_, index) => (
+            <div
+              key={index}
+              className="w-full h-40 sm:h-48 border rounded-md bg-cyan-200 neumorphism-box"
+            ></div>
+          ))}
         </div>
       </div>
     </>
@@ -112,3 +114,6 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+
+
+// I need to only push the code i have already commmit
