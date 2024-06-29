@@ -21,7 +21,7 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
     const getFeed = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:4500/feed");
+        const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/feed` );
         const feedItems: FeedItem[] = response.data.feed;
         const foundItem = feedItems.find((item) => item.id === id);
 

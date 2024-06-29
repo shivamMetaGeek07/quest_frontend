@@ -72,7 +72,7 @@ export default function Feed() {
   {
     try
     {
-      const response = await axios.get("http://localhost:4500/feed");
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/feed` );
       setFeedItems(response.data.feed);
       setLoading(false)
     } catch (error) {
