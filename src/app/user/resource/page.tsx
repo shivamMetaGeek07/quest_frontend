@@ -1,16 +1,18 @@
 "use client";
 import React from "react";
 
-const Page = () => {
-  const signup = async () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/`;
+const Page = () =>
+{
+  const signup = async () =>
+  {
+    window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/twitter/`;
   };
 
   return (
-    <div>
-      {" "}
+    <div className="pt-40">
+      { " " }
       <button
-        onClick={signup}
+        onClick={ signup }
         className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-black text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
       >
         <div className=" p-2 rounded-full">
