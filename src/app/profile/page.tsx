@@ -9,6 +9,12 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import "./profilr.css";
 
+type userData = {
+  id: number;
+  title: string;
+  imageUrl: string;
+};
+
 const Profile: React.FC = () => {
   const router = useRouter();
 
@@ -16,7 +22,7 @@ const Profile: React.FC = () => {
 
   const handleEarnRewardsClicks = () => {
     if (earned === null) {
-      const earnedAmount: number = 5000; 
+      const earnedAmount: number = 5000;
       setEarned(earnedAmount);
     } else {
       setEarned(null);
@@ -27,7 +33,44 @@ const Profile: React.FC = () => {
     router.push("/");
   };
 
-  const boxes = Array(6).fill(0);
+  const userData: userData[] = [
+    {
+      id: 1,
+      title: "Dummy Title 1",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 2,
+      title: "Dummy Title 2",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 3,
+      title: "Dummy Title 3",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 4,
+      title: "Dummy Title 4",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 5,
+      title: "Dummy Title 5",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 6,
+      title: "Dummy Title 6",
+      imageUrl:
+        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+  ];
 
   return (
     <>
@@ -90,23 +133,26 @@ const Profile: React.FC = () => {
         </div>
         <div className="mx-4 lg:mx-10 rounded-md">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 lg:mt-10">
-            {boxes.map((_, index) => (
+            {userData.map((data) => (
               <div
-                key={index}
-                className="w-40 h-48 sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box"
-              ></div>
+                key={data.id}
+                className="w-40 h-full sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box"
+              >
+                <img src={data.imageUrl} alt="user image" className="md:w-full md:h-40 rounded object-cover" />
+              </div>
             ))}
           </div>
         </div>
       </div>
       <div className="border border-gray-500 p-5 mt-5 mx-4 lg:mx-10 rounded-md">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {boxes.map((_, index) => (
+          {userData.map((data) => (
             <div
-              key={index}
-              className="w-full h-40 sm:h-48 border rounded-md bg-cyan-200 neumorphism-box"
-            ></div>
-            
+              key={data.id}
+              className="w-40 h-full sm:h-48 sm:w-48 border rounded-md bg-cyan-200 neumorphism-box"
+            >
+             <img src={data.imageUrl} alt="user image" className=" md:h-48 md:w-full rounded object-cover" />
+            </div>
           ))}
         </div>
       </div>
@@ -115,5 +161,3 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
-
-

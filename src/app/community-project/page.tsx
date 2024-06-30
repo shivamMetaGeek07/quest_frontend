@@ -6,40 +6,41 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Community = () => {
-  const imageUrl = (
-    <svg
-      width="80px"
-      height="80px"
-      viewBox="0 0 1024 1024"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M512 616.2m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
-        fill="#E73B37"
-      />
-      <path
-        d="M511.6 656.9m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
-        fill="#E73B37"
-      />
-      <path
-        d="M512.4 697.7m-10 0a10 10 0 1 0 20 0 10 10 0 1 0-20 0Z"
-        fill="#E73B37"
-      />
-      <path
-        d="M512 130.8c42.1 0 81.7 16.4 111.5 46.2s46.2 69.4 46.2 111.5-16.4 81.7-46.2 111.5c-29.8 29.8-69.4 46.2-111.5 46.2s-81.7-16.4-111.5-46.2c-29.8-29.8-46.2-69.4-46.2-111.5s16.4-81.7 46.2-111.5 69.4-46.2 111.5-46.2m0-44c-111.4 0-201.6 90.3-201.6 201.6C310.4 399.8 400.7 490 512 490c111.4 0 201.6-90.3 201.6-201.6S623.3 86.8 512 86.8zM512.3 523.5L84 681.4v255.7h856V681.4L512.3 523.5zM896 893.1H128V712.6l384.3-142.4L896 712.6v180.5z"
-        fill="#39393A"
-      />
-      <path
-        d="M555.4 585.3l-1.4-0.5v159.9c0 11.7-4.8 22.3-12.4 30-7.7 7.7-18.3 12.4-30 12.4-23.4 0-42.4-19-42.4-42.4V585.3l-1.4 0.5-14.6 5.2v153.8c0 32.2 26.2 58.4 58.4 58.4S570 777 570 744.8V590.5l-14.6-5.2z"
-        fill="#E73B37"
-      />
-    </svg>
-  );
+type TopRankData = {
+  id: number;
+  name: string;
+  imageUrl: string;
+};
 
-  const firstSectionCards = Array.from({ length: 5 }).map(() => imageUrl);
-
+const Community : React.FC = () => {
+ 
+  const TopRankData: TopRankData[] = [
+    {
+      id: 1,
+      name: "John",
+      imageUrl: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 2,
+      name: "John",
+      imageUrl: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 3,
+      name: "John",
+      imageUrl: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 4,
+      name: "John",
+      imageUrl: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+    {
+      id: 5,
+      name: "John",
+      imageUrl: "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+    },
+  ]
   return (
     <>
       <div className="Main div">
@@ -74,7 +75,7 @@ const Community = () => {
           </div>
           <div className="basis-[60%] px-5 pt-16">
 
-            {/* dummy textt */}
+            {/* dummy text*/}
             <p>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem,
               possimus doloremque vitae, quis consequatur magnam ipsam autem
@@ -90,13 +91,13 @@ const Community = () => {
         </div>
         <div className="card p max-w-[1320px] py-5 flex flex-col lg:flex-row mx-auto gap-4">
           <div className="grid lg:grid-cols-5 md:grid-cols-5 gap-4 basis-[70%]">
-            {firstSectionCards.map((svg, index) => (
+            {TopRankData.map((data) => (
               <div
-                key={index}
+                key={data.id}
                 className="shadow-lg flex flex-col items-center h-40  justify-center hover:bg-slate-400 duration-1000 rounded-md hover:animate-pulse cursor-pointer"
               >
-                {svg}
-                <p className="text-center text py-2">Top performer</p>
+                 <img src={data.imageUrl} className="mx-auto rounded-full w-24 h-24 object-cover" alt={data.name}/>
+                <p className="text-center text py-1 font-semibold text-zinc-600">{data.name}</p>
               </div>
             ))}
            <div className="flex flex-col space-y-4">
