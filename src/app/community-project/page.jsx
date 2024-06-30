@@ -73,6 +73,8 @@ const Community = () => {
             </div>
           </div>
           <div className="basis-[60%] px-5 pt-16">
+
+            {/* dummy text */}
             <p>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rem,
               possimus doloremque vitae, quis consequatur magnam ipsam autem
