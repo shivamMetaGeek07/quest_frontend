@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import KolsForm from '../components/kols/kols-form'
-
-type Props = {}
-
-const page = (props: Props) => {
-  return (
-    <div className='bg-gray-700'> <KolsForm/></div>
-  )
-=======
 "use client";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation'
@@ -22,7 +11,6 @@ interface bounti {
 	image: string,
 	name: string,
 	description: string,
->>>>>>> 34edfd36684d610a52e38a58df9acc08b4eed17a
 }
 
 const Home = () => {
