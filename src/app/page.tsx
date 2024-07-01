@@ -1,11 +1,15 @@
 "use client";
+
+import Image from "next/image";
+import Community from "./components/Community";
+
 import { useEffect } from "react";
 
 export default function Home() {
   const getUserData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
-        credentials: "include", // Include cookies in request
+        credentials: "include", 
       });
       const data = await response.json();
       if (response.ok) {
@@ -23,6 +27,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       landing page
+      <div>
+        <Community />
+      </div>
     </main>
   );
 }
