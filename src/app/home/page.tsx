@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation'
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 interface data {
 	id: Number,
 	profilePic: string,
@@ -156,31 +159,67 @@ const Home = () => {
 		}
 	])
 
+	//slider
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 6,
+		slidesToScroll: 1,
+		nextArrow: <NextArrow />,
+		prevArrow: <PrevArrow />,
+		responsive: [
+		  {
+			breakpoint: 1024,
+			settings: {
+			  slidesToShow: 3,
+			  slidesToScroll: 1,
+			  infinite: true,
+			  dots: true
+			}
+		  },
+		  {
+			breakpoint: 600,
+			settings: {
+			  slidesToShow: 2,
+			  slidesToScroll: 1,
+			  initialSlide: 2
+			}
+		  },
+		  {
+			breakpoint: 480,
+			settings: {
+			  slidesToShow: 1,
+			  slidesToScroll: 1
+			}
+		  }
+		]
+	  };
+
 	return (
 		<div className="container mx-auto  bg-white ">
 			{/* user profile  */}
-			<div className="flex overflow-x-auto gap-4 p-4 scrollbar-hide ">
-				{userData.map((user) => {
-					return (
-						<div className="border border-gray-300 shadow-lg p-4  text-center hover:border-blue-800 relative flex-none bg-blue-50 rounded-3xl overflow-hidden w-64 transform transition-transform duration-300 hover:scale-105">
-							<div className="w-full h-20 bg-blue-200 absolute top-0 left-0 z-0"></div>
-							<div className="w-24 h-24 mx-auto mb-2 mt-1 relative z-10">
-								<img className="w-full h-full object-cover rounded-full border-4 border-slate-500" src="https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600" />
-							</div>
-							<h1 className="text-xl font-bold text-gray-800 mb-2 z-20 relative">Raj veer</h1>
-							<div className="flex justify-between z-20 relative">
-								<h1 className="text-md font-medium text-gray-600 mt-2">Rank</h1>
-								<h1 className="text-lg font-medium text-gray-600 mt-1">Badges Earned</h1>
-							</div>
-						</div>
-
-
-
-
-					);
-				})}
-			</div>
-
+			<div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="w-full relative">
+        <Slider {...settings}>
+          {userData.map((user, index) => (
+            <div key={index} className="p-2">
+              <div className="border border-gray-300 shadow-lg p-4 text-center hover:border-blue-800 relative bg-blue-50 rounded-3xl overflow-hidden w-full transform transition-transform duration-300 hover:scale-105 mx-auto h-full">
+                <div className="w-full h-20 bg-blue-200 absolute top-0 left-0 z-0"></div>
+                <div className="w-24 h-24 mx-auto mb-2 mt-1 relative z-10">
+                  <img className="w-full h-full object-cover rounded-full border-4 border-slate-500" src={user.profilePic} alt={user.title} />
+                </div>
+                <h1 className="text-xl font-bold text-gray-800 mb-2 z-20 relative">{user.title}</h1>
+                <div className="flex justify-between z-20 relative">
+                  <h1 className="text-md font-medium text-gray-600 mt-2">Rank</h1>
+                  <h1 className="text-lg font-medium text-gray-600 mt-1">Badges Earned</h1>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </div>
 			{/* ecoSystem lebal */}
 			<div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4">
 				{userData.map((data, index) => (
@@ -326,4 +365,45 @@ const Home = () => {
 	);
 };
 
+const NextArrow = (props:any) => {
+	const { className, style, onClick } = props;
+	return (
+	  <div
+		className={className}
+		style={{
+		  ...style,
+		height:"30px",
+		width:"30px",
+		  display: 'block',
+		  background: 'blue',
+		  borderRadius: '50%',
+		  right: '100px',
+		  zIndex: '2',
+		  transform: 'translateY(-50%)'
+		}}
+		onClick={onClick}
+	  />
+	);
+  };
+  
+  const PrevArrow = (props:any) => {
+	const { className, style, onClick } = props;
+	return (
+	  <div
+		className={className}
+		style={{
+		  ...style,
+		  display: 'block',
+		  background: 'blue',
+		  borderRadius: '50%',
+		  left: '100px',
+		  zIndex: '2',
+		  transform: 'translateY(-50%)'
+		}}
+		onClick={onClick}
+	  />
+	);
+  };
+  
+  
 export default Home;
