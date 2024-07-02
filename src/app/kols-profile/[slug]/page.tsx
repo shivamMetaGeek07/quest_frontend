@@ -4,9 +4,11 @@ import React ,{useState} from "react";
 type Props = {};
 
 const kolsProfileSlug = (props: Props) => {
-    // const { slug } = props;
-    const [votes, setvotes]=useState(0);
 
+  const [ votes, setvotes ] = useState( 0 );
+ 
+  const users = JSON.parse(localStorage.getItem('user') || '{}')
+  console.log(users.image)
   return (
     <div>
       <div className="bg-gray-100">
@@ -16,10 +18,10 @@ const kolsProfileSlug = (props: Props) => {
               <div className="bg-white shadow rounded-lg p-6">
                 <div className="flex flex-col items-center">
                   <img
-                    src="https://randomuser.me/api/portraits/men/94.jpg"
-                    className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
+                    src={users.image}
+                    className="w-32 h-32  rounded-full mb-4 shrink-0"
                   ></img>
-                  <h1 className="text-xl font-bold text-gray-700">John Doe</h1>
+                  <h1 className="text-xl font-bold text-gray-700">{ users?.displayName }</h1>
                   <p className="text-gray-700">Software Developer</p>
                 </div>
 
@@ -165,7 +167,7 @@ const kolsProfileSlug = (props: Props) => {
             </div>
             <div className="col-span-4 sm:col-span-9">
               <div className="bg-white shadow rounded-lg p-6">
-                <h2 className="text-xl font-bold mb-4 text-black">About Me</h2>
+                <h2 className="text-xl font-bold mt-4 mb-4 text-black">About Me</h2>
                 <p className="text-gray-700">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                   finibus est vitae tortor ullamcorper, ut vestibulum velit
