@@ -135,7 +135,7 @@ const Ecosystem: React.FC = () => {
             <div
               onClick={handleIconClick}
               key={data.id}
-              className="group shadow-lg p-5 flex flex-col items-center justify-center hover:bg-slate-400 duration-1000 rounded-md hover:animate-pulse cursor-pointer"
+              className="group shadow-lg p-5 flex flex-col items-center justify-center hover:bg-slate-400 duration-1000 rounded-md  cursor-pointer"
             >
               <img
                 src={data.imageUrl}
