@@ -3,43 +3,37 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
+  
 interface FeedItem {
-  id: number;
+  id:string
   title: string;
   description: string;
   imageUrl: string;
 }
 
 export default function FeedItemPage({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id, 10);
+  const id = params.id
   const [item, setItem] = useState<FeedItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const getFeed = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/feed` );
-        const feedItems: FeedItem[] = response.data.feed;
-        const foundItem = feedItems.find((item) => item.id === id);
-
-        if (foundItem) {
-          setItem(foundItem);
-        } else {
-          setError("Feed item not found");
-        }
-      } catch (err) {
-        setError("Failed to fetch feed data");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     getFeed();
   }, [id]);
+
+  const getFeed = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/feed/${id}` );
+        setItem(response.data.feed)
+     
+    } catch (err) {
+      setError("Failed to fetch feed data");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
