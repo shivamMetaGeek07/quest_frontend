@@ -15,7 +15,7 @@ const Navbar = () =>
   };
 
   return (
-    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden" style={{zIndex:"1000"}}>
+    <nav className="bg-gray-800 border-gray-200 w-full overflow-hidden" style={{zIndex:"1000"}}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
@@ -215,7 +215,7 @@ const Navbar = () =>
               placeholder="Search..."
             />
           </div>
-          <ul className="flex lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="flex lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
             <li className="mb-2 md:mb-2 md:inline-block">
               <Link
                 href="/feed"
