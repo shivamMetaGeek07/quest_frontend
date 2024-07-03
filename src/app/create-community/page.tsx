@@ -10,9 +10,13 @@ const CreateCommunity = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newCommunity = { title, description, logo, category };
+   
+    const newCommunity = { title, description, logo, category, ecosystem: "tech"};
+    console.log(newCommunity)
     try {
-      await axios.post('/api/communities', newCommunity); // Adjust the endpoint as needed
+      const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/`, newCommunity );
+      console.log(response.data.msg)
+      alert( `${ response.data.msg} `)
       // Clear form
       setTitle('');
       setDescription('');
@@ -22,7 +26,7 @@ const CreateCommunity = () => {
       console.error('Error creating community:', error);
     }
   };
-60
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-blue-300 flex flex-col items-center justify-center py-10 px-5">
       <div className="bg-white mt-10 p-10 rounded-xl shadow-xl w-full max-w-lg">
