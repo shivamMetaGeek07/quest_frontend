@@ -27,7 +27,7 @@ const AddFeedPage = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -90,7 +90,10 @@ const AddFeedPage = () => {
 
         <div className="mb-5">          
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
-          <input id="file_input" name='imageUrl' onChange={handleChange} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" required/>
+          {/* for url */}
+          <input type='string' name='imageUrl' className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" onChange={handleChange}  required/>
+          {/* for file upload*/}
+          {/* <input id="file_input" name='imageUrl' onChange={handleChange} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" required/> */}
         </div>
 
         <div className="mb-5">
