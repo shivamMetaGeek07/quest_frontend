@@ -199,11 +199,11 @@ const Home = () => {
 	return (
 		<div className="container mx-auto  bg-white ">
 			{/* user profile  */}
-			<div className="min-h-screen bg-gray-100 flex items-center justify-center">
+			<div className="h-72 bg-gray-100 flex items-center justify-center">
       <div className="w-full relative">
         <Slider {...settings}>
           {userData.map((user, index) => (
-            <div key={index} className="p-2">
+            <div key={index} className="p-2 mt-24">
               <div className="border border-gray-300 shadow-lg p-4 text-center hover:border-blue-800 relative bg-blue-50 rounded-3xl overflow-hidden w-full transform transition-transform duration-300 hover:scale-105 mx-auto h-full">
                 <div className="w-full h-20 bg-blue-200 absolute top-0 left-0 z-0"></div>
                 <div className="w-24 h-24 mx-auto mb-2 mt-1 relative z-10">
@@ -221,7 +221,7 @@ const Home = () => {
       </div>
     </div>
 			{/* ecoSystem lebal */}
-			<div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4">
+			<div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4 mt-7">
 				{userData.map((data, index) => (
 					<div key={index} className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4">
 						<div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
