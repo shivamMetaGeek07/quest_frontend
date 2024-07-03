@@ -58,19 +58,19 @@ const UserProfile: React.FC = () => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+      <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center" style={{zIndex:"10"}}>
         <div className="mt-10 flex flex-col gap-5 text-white">
           <button className="place-self-end text-2xl" onClick={handleClose}>
             X
           </button>
           <div className="bg-slate-400 rounded-xl px-20 py-10 flex flex-col items-center mx-4 hover:bg-slate-300 duration-1000 cursor-pointer">
             <img onClick={handleuserdetails}
-              src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
+              src="https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg"
               alt="user image"
-              className="h-32 w-32 rounded-full mt-4"
+              className="h-32 w-32 rounded-full mt-4 object-cover"
             />
             <div className="mt-4 h-8 w-80 bg-slate-500 rounded-md flex items-center justify-center">
-              <p className="text-center">Username.fam</p>
+              <p className="text-center">Sachin Kumar</p>
             </div>
             <div className="mt-4 h-8 w-72 bg-slate-500 rounded-md flex items-center justify-center">
               <p className="text-center">Setup Password</p>

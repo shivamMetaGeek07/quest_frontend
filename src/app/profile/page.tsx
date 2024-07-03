@@ -15,6 +15,12 @@ type userData = {
   imageUrl: string;
 };
 
+type frndData = {
+  id: number;
+  title: string;
+  imageUrl: string;
+};
+
 const Profile: React.FC = () => {
   const router = useRouter();
 
@@ -33,42 +39,85 @@ const Profile: React.FC = () => {
     router.push("/");
   };
 
+  const handleEarnRewardsClickss = () => {
+    router.push("/leaderboard");
+  };
+
   const userData: userData[] = [
     {
       id: 1,
-      title: "Dummy Title 1",
+      title: "Badges earn",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+        "https://cdn0.iconfinder.com/data/icons/dev-coding-2/100/Coding_award-512.png",
     },
     {
       id: 2,
-      title: "Dummy Title 2",
+      title: "Badges earn",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+        "https://cdn0.iconfinder.com/data/icons/dev-coding-2/100/Coding_award-512.png",
     },
     {
       id: 3,
-      title: "Dummy Title 3",
+      title: "Badges earn",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+        "https://cdn0.iconfinder.com/data/icons/dev-coding-2/100/Coding_award-512.png",
     },
     {
       id: 4,
-      title: "Dummy Title 4",
+      title: "Badges earn",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+        "https://people.ce.pdn.ac.lk/images/badges/volunteered-developer.png",
     },
     {
       id: 5,
-      title: "Dummy Title 5",
+      title: "Badges earn",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+        "https://people.ce.pdn.ac.lk/images/badges/volunteered-developer.png",
     },
     {
       id: 6,
-      title: "Dummy Title 6",
+      title: "Badges earn",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg",
+        "https://people.ce.pdn.ac.lk/images/badges/volunteered-developer.png",
+    },
+  ];
+
+  const frndData: frndData[] = [
+    {
+      id: 1,
+      title: "John",
+      imageUrl:
+        "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg",
+    },
+    {
+      id: 2,
+      title: "John",
+      imageUrl:
+        "https://t4.ftcdn.net/jpg/05/80/60/33/360_F_580603305_ysEbDBvHCKM9TyzEINHyW614NWLdTe0b.jpg",
+    },
+    {
+      id: 3,
+      title: "John",
+      imageUrl:
+        "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    },
+    {
+      id: 4,
+      title: "John",
+      imageUrl:
+        "https://designimages.appypie.com/profilepicture/profilepicture-2-portrait-head.jpg",
+    },
+    {
+      id: 5,
+      title: "John",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3kqDrhX9VxmHMYIYvkxdzQWn67rt5g7D3S4ESTr2fdfjnDEW9Wnj1AuwAkHPzk4wwgfo&usqp=CAU",
+    },
+    {
+      id: 6,
+      title: "John",
+      imageUrl:
+        "https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg",
     },
   ];
 
@@ -114,8 +163,8 @@ const Profile: React.FC = () => {
             </div>
           </div>
           <div className="mt-8">
-            <p className="w-full lg:w-80 p-1 bg-slate-400 rounded-md text-center text-white neumorphism-button">
-              global leaderboard rank
+            <p onClick={handleEarnRewardsClickss} className="w-full lg:w-80 p-1 bg-slate-400 rounded-md text-center text-white neumorphism-button">
+               go to global leaderboard rank
             </p>
             <p
               onClick={handleEarnRewardsClicks}
@@ -136,9 +185,10 @@ const Profile: React.FC = () => {
             {userData.map((data) => (
               <div
                 key={data.id}
-                className="w-40 h-full sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box"
+                className="w-40 h-full sm:w-48 sm:h-40 rounded-md bg-cyan-200 neumorphism-box flex items-center flex-col justify-center"
               >
-                <img src={data.imageUrl} alt="user image" className="md:w-full md:h-40 rounded object-cover" />
+                <img src={data.imageUrl} alt="user image" className="h-24 w-24 rounded-full object-cover " />
+                <h1 className="pt-2 text-slate-700 font-medium">{data.title}</h1>
               </div>
             ))}
           </div>
@@ -146,7 +196,7 @@ const Profile: React.FC = () => {
       </div>
       <div className="border border-gray-500 p-5 mt-5 mx-4 lg:mx-10 rounded-md">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {userData.map((data) => (
+          {frndData.map((data) => (
             <div
               key={data.id}
               className="w-40 h-full sm:h-48 sm:w-48 border rounded-md bg-cyan-200 neumorphism-box"
