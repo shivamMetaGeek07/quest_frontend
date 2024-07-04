@@ -17,7 +17,7 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  useEffect(() => {     
     getFeed();
   }, [id]);
 
