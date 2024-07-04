@@ -4,6 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
+interface NavbarProps {
+  toggleSlider: () => void;
+}
+
 const Navbar = () =>
 {
   const [ isMenuOpen, setIsMenuOpen ] = useState( false );
@@ -171,7 +175,7 @@ const Navbar = () =>
               <Link href="/user-profile">Profile</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="#">Create a community</Link>
+              <Link href="/create-community">Create a community</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/leaderboard">Leaderboard</Link>
