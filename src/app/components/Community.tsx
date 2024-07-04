@@ -7,7 +7,7 @@ const Community: React.FC = () =>
         <div className="max-w-2xl mx-auto p-4 py-20 h-full pt-52">
             <h1 className="text-4xl font-bold text-center">Community Page</h1>
             <div className="bg-white rounded-lg shadow-lg">
-                <div className="h-36 bg-gray-300 relative z-0">
+                <div className="h-36 bg-gray-300 ">
                     <img
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOwRConBYl2t6L8QMOAQqa5FDmPB_bg7EnGA&s"
                         alt="Community Banner"
@@ -17,7 +17,7 @@ const Community: React.FC = () =>
 
                 <div className="p-4">
                     <div className="flex items-start mb-4 ">
-                        <div className="w-44 h-16 rounded-full mr-4 flex-shrink-0 z-50 ">
+                        <div className="w-44 h-16 rounded-full mr-4 flex-shrink-0">
                             <img
                                 src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
                                 alt="Logo"
