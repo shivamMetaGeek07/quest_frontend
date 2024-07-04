@@ -1,10 +1,11 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { describe } from 'node:test';
 
 const AddFeedPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -12,8 +13,79 @@ const AddFeedPage = () => {
     imageUrl: '',
     summary: ''
   });
+  const [file, setFile] = useState<File | null>(null);
+  const [uploadUrl, setUploadUrl] = useState<string>('');
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFile(event.target.files[0]);
+    }
+    console.log("file changed", file);
+  };
 
-  const router = useRouter();
+  useEffect(() => {
+    console.log(file)
+  }, [file]);
+
+  const getUploadUrl = async (fileName: string) => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/aws/generate-upload-url`, {
+        folder: 'feedImage',
+        fileName,
+      });
+      setUploadUrl(response.data.url);
+      console.log('Upload URL:', response.data.url);
+    } catch (error) {
+      console.error('Error getting upload URL:', error);
+    }
+
+  };
+
+  // const getImageUrl=async (fileName: string) => {
+  //   try {
+  //       const key = `feedImage/${fileName}`;
+  //     const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/aws/generate-get-url`, {
+  //       params: {
+  //         key
+  //       }
+  //     });
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       imageUrl: response.data.url
+  //     }));
+  //     console.log('Image URL:', response.data.url);
+  //   } catch (error) {
+  //     console.error('Error getting image URL:', error);
+  //   }
+  // };
+
+  const handleUpload = async () => {
+    if (!file) return;
+
+    await getUploadUrl(file.name);
+    try {
+      const response = await axios.put(uploadUrl, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+      });
+      if(response.status===200){
+        const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/feedImage/${file.name}`;
+        console.log(path);
+        setFormData((prevData) => ({
+          ...prevData,
+          imageUrl: path
+        }));
+        console.log('File uploaded successfully');  
+      }
+      else{
+        console.log('File upload failed', response);
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -27,10 +99,12 @@ const AddFeedPage = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // e.preventDefault();
+    e.preventDefault();
     const token = localStorage.getItem('token');
     if (token) {
       try {
+        await handleUpload();
+        
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/add-feed`,
           {
@@ -91,9 +165,9 @@ const AddFeedPage = () => {
         <div className="mb-5">          
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
           {/* for url */}
-          <input type='string' name='imageUrl' className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" onChange={handleChange}  required/>
-          {/* for file upload*/}
-          {/* <input id="file_input" name='imageUrl' onChange={handleChange} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" required/> */}
+          {/* <input type='string' name='imageUrl' className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" onChange={handleChange}  required/> */}
+          {/* for file upload */}
+          <input id="file_input" type='file' onChange={handleFileChange}  name='imageUrl' className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" required/>
         </div>
 
         <div className="mb-5">
