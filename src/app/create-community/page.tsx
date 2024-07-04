@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import Image from 'next/image';
 import Navbar from "../components/Navbar";
 
 const CreateCommunity = () => {
