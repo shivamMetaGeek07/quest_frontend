@@ -9,6 +9,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
 import Navbar from "./components/Navbar";
+import headerImage from "../../public/assests/headerImage.png"
+import { images } from "../../public/assests/image"
 
 interface data {
   id: Number;
@@ -23,207 +25,8 @@ interface bounti {
 }
 
 export default function Home() {
-  const router = useRouter();
-  const [userData, setUserData] = useState<data[]>([
-    {
-      id: 1,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Ven Disel",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 2,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Michel",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 3,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Ranvijay",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 4,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Raj",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 5,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Masumiyat Anna",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 6,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Vinay raj",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 7,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Priyanka",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 8,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Rajveer",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      id: 9,
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Vikram",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-  ]);
-  const [label, setLabel] = useState([
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Ven Disel",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Michel",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Ranvijay",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Raj",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Masumiyat Anna",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Vinay raj",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Priyanka",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Rajveer",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      profilePic:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Vikram",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-  ]);
-
-  const [bounties, setBounties] = useState([
-    {
-      image:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      name: "first",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      image:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      name: "first",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-    {
-      image:
-        "https://images.pexels.com/photos/573299/pexels-photo-573299.jpeg?auto=compress&cs=tinysrgb&w=600",
-      name: "first",
-      description:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed, aliquid.",
-    },
-  ]);
-
-  //slider
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 6,
-    slidesToScroll: 1,
-    // nextArrow: <NextArrow />,
-    // prevArrow: <PrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+  const router = useRouter()
+  
 
   const getUserData = async () => {
     try {
@@ -247,217 +50,109 @@ export default function Home() {
     getUserData();
   }, []);
   return (
-    <div>
+    <div className=" bg-black">
       <Navbar />
-      <div className="container mx-auto  bg-white ">
-        {/* user profile  */}
-        <div className="h-72 bg-gray-100 flex items-center justify-center">
-          <div className="w-full relative">
-            <Slider {...settings}>
-              {userData.map((user, index) => (
-                <div key={index} className="p-2 mt-24">
-                  <div className="border border-gray-300 shadow-lg p-4 text-center hover:border-blue-800 relative bg-blue-50 rounded-3xl overflow-hidden w-full transform transition-transform duration-300 hover:scale-105 mx-auto h-full">
-                    <div className="w-full h-20 bg-blue-200 absolute top-0 left-0 z-0"></div>
-                    <div className="w-24 h-24 mx-auto mb-2 mt-1 relative z-10">
-                      <img
-                        className="w-full h-full object-cover rounded-full border-4 border-slate-500"
-                        src={user.profilePic}
-                        alt={user.title}
-                      />
-                    </div>
-                    <h1 className="text-xl font-bold text-gray-800 mb-2 z-20 relative">
-                      {user.title}
-                    </h1>
-                    <div className="flex justify-between z-20 relative">
-                      <h1 className="text-md font-medium text-gray-600 mt-2">
-                        Rank
-                      </h1>
-                      <h1 className="text-lg font-medium text-gray-600 mt-1">
-                        Badges Earned
-                      </h1>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </Slider>
+      <div className="lg:mx-20 mx-auto">
+
+        {/* header section */}
+        <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
+  <div className="w-full lg:w-2/5 text-center lg:text-left">
+    <h1 className="text-white text-2xl font-bold mb-4">Discover Your Community Here</h1>
+    <p className="text-white">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
+    </p>
+    <button className="bg-[#5865F2] rounded-sm mt-4 px-8 py-3 text-white">Learn more</button>
+  </div>
+  <div className="w-full lg:w-2/6 flex justify-center lg:justify-end">
+    <Image
+      className="w-full max-w-full lg:max-w-lg rounded-lg"
+      src={images.headerImage}
+      alt="Community Image"
+    />
+  </div>
+</div>
+
+
+        {/* Contact with us */}
+        <div className="mt-12">
+          <h1 className="text-white text-2xl font-bold mb-4 text-center lg:text-left">Contact With US</h1>
+          <div className="flex flex-wrap justify-center md:justify-center lg:justify-between items-center gap-4">
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.instagram} alt="instagram" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.telegram} alt="telegram" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.fourthicon} alt="fourth icon" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.vector} alt="vector" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.telegram} alt="telegram" />
+            </div>
           </div>
         </div>
-        {/* ecoSystem lebal */}
-        <div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4 mt-7">
-          {userData.map((data, index) => (
-            <div
-              key={index}
-              className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4"
-            >
-              <div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
-                <div className="h-40">
-                  <img
-                    className="w-full h-full object-cover rounded-xl"
-                    src={data.profilePic}
-                    alt=""
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {data.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {data.description}
-                  </p>
-                </div>
-              </div>
+
+
+
+        {/* EcoSystem */}
+        <div className="mt-12">
+          <h1 className="text-white text-2xl font-bold mb-4 text-center lg:text-left">EcoSystem</h1>
+          <div className="flex flex-wrap justify-center md:justify-center lg:justify-between  items-center gap-4">
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image11} alt="instagram" />
             </div>
-          ))}
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image7} alt="telegram" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image8} alt="fourth icon" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image9} alt="vector" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image11} alt="telegram" />
+            </div>
+          </div>
         </div>
 
-        <div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4">
-          {userData.map((data, index) => (
-            <div
-              key={index}
-              className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4"
-            >
-              <div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
-                <div className="h-40">
-                  <img
-                    className="w-full h-full object-cover rounded-xl"
-                    src={data.profilePic}
-                    alt=""
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {data.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {data.description}
-                  </p>
-                </div>
-              </div>
+
+
+        {/* Category */} 
+        <div className="mt-12">
+          <h1 className="text-white text-2xl font-bold mb-4 text-center lg:text-left">Category</h1>
+          <div className="flex flex-wrap justify-center md:justify-center  lg:justify-between  items-center gap-4">
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image12} alt="instagram" />
             </div>
-          ))}
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image13} alt="telegram" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image14} alt="fourth icon" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image15} alt="vector" />
+            </div>
+            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+              <Image src={images.image16} alt="telegram" />
+            </div>
+          </div>
         </div>
 
-        <div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4">
-          {userData.map((data, index) => (
-            <div
-              key={index}
-              className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4"
-            >
-              <div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
-                <div className="h-40">
-                  <img
-                    className="w-full h-full object-cover rounded-xl"
-                    src={data.profilePic}
-                    alt=""
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {data.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {data.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
 
-        <div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4">
-          {userData.map((data, index) => (
-            <div
-              key={index}
-              className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4"
-            >
-              <div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
-                <div className="h-40">
-                  <img
-                    className="w-full h-full object-cover rounded-xl"
-                    src={data.profilePic}
-                    alt=""
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {data.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {data.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+       
+      
 
-        <div className="flex overflow-x-auto  scrollbar-hide  gap-6 p-4">
-          {userData.map((data, index) => (
-            <div
-              key={index}
-              className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4"
-            >
-              <div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
-                <div className="h-40">
-                  <img
-                    className="w-full h-full object-cover rounded-xl"
-                    src={data.profilePic}
-                    alt=""
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {data.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {data.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+       
 
-        <div className="flex  flex-wrap justify-between gap-6 p-4">
-          {bounties.map((data, index) => (
-            <div
-              key={index}
-              className="  flex-none w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/4"
-            >
-              <div className="bg-blue-50 border border-gray-300 shadow-lg p-4 rounded-2xl overflow-hidden hover:shadow-xl transform transition-transform duration-300 hover:border-blue-900 hover:scale-105">
-                <div className="h-40">
-                  <img
-                    className="w-full h-full object-cover rounded-xl"
-                    src={data.image}
-                    alt=""
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    {data.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {data.description}
-                  </p>
-                  <button className="mt-4 p-1 bg-blue-900 hover:bg-blue-800 text-white text-sm rounded transition duration-300 ease-in-out">
-                    Click
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div
-          onClick={() => router.push("/points-parlor")}
-          className="fixed bottom-2 p-2 text-center cursor-pointer w-full h-12 sm:h-10 bg-opacity-75 bg-blue-400 rounded-lg shadow-md"
-        >
-          <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">
-            Points Parlor
-          </h3>
+  
         </div>
       </div>
-    </div>
+   
   );
 }
 
