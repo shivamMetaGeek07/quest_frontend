@@ -38,7 +38,9 @@ export default function Home() {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log("User Data:", data.user);
+        console.log( "User Data:", data.user );
+        // set to local storage
+        localStorage.setItem("user", JSON.stringify(data.user));
       } else {
         console.error("Failed to fetch user data", data.user);
       }

@@ -26,7 +26,7 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
   const getFeed = async () => {
     try {
       setLoading(true);
-      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/feed/${id}` );
+      const response = await axios.get(`${ process.env.NEXT_PUBLIC_SERVER_URL }/feed/${id}`);
         setItem(response.data.feed)
      
     } catch (err) {
