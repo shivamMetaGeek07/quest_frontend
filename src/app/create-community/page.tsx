@@ -1,9 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import axios from "axios";
+import { useDropzone } from 'react-dropzone'
 import Image from 'next/image';
 import Navbar from "../components/Navbar";
-
+import { useRouter } from "next/navigation";
 const CreateCommunity = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -13,7 +14,24 @@ const CreateCommunity = () => {
   const [canProceed, setCanProceed] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string>('');
-  
+  const router = useRouter();
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Do something with the files
+    setFile(acceptedFiles[0]);
+  }, [])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+
+  useEffect(() => {
+    console.log(file);
+    if (!file) return;
+    const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/CommunityLogo/${file.name}`;
+    console.log(path);
+    setLogo(path);  
+  }, [file]);
+
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFile(event.target.files[0]);
@@ -50,9 +68,7 @@ const CreateCommunity = () => {
         },
       });
       if(response.status===200){
-        const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/CommunityLogo/${file.name}`;
-        console.log(path);
-        setLogo(path);
+        
         console.log('Logo uploaded successfully');  
       }
       else{
@@ -81,6 +97,9 @@ const CreateCommunity = () => {
       setDescription("");
       setLogo("");
       setCategory("");
+      setFile(null);
+      router.push("/");
+      
     } catch (error) {
       console.error("Error creating community:", error);
     }
@@ -111,14 +130,25 @@ const CreateCommunity = () => {
             <div className="mb-5 mt-10">
               <label className="block text-white font-semibold">Logo</label>
               <div className="relative">
-                <input
+              <div {...getRootProps()} className='bg-gray-700 h-20 mt-2 rounded-lg text-white flex justify-center items-center'>
+            <input {...getInputProps()} />
+            {
+              isDragActive ?
+                <p>Drop the logo here ...</p> :
+                <p>Drag 'n' drop some logo here, or click to select logo</p>
+            }
+          </div>
+          <div className='mt-2 text-white'>
+            <h2>{file?.name}</h2>
+          </div>
+                {/* <input
                   id="logo"
                   type="file"
                   name="logo"
                   onChange={handleFileChange}
                   className="file:bg-zinc-700 text-neutral-300 file:rounded-full file:text-white file:border-none file:p-1 file:px-3 file:font-light  w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 cursor-pointer transition-colors duration-300 font-light  bg-[#282828]"
                   required
-                />
+                /> */}
                 <p className="text-neutral-300">
                   Recommended size is 256x256px
                 </p>
