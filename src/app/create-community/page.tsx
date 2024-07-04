@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
 
 const CreateCommunity = () => {
   const [title, setTitle] = useState<string>("");
@@ -10,13 +9,67 @@ const CreateCommunity = () => {
   const [category, setCategory] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [canProceed, setCanProceed] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
+  const [uploadUrl, setUploadUrl] = useState<string>('');
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFile(event.target.files[0]);
+    }
+    console.log("file changed", file);
+  };
+
+  useEffect(() => {
+    console.log(file)
+  }, [file]);
+
+  const getUploadUrl = async (fileName: string) => {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/aws/generate-upload-url`, {
+        folder: 'CommunityLogo',
+        fileName,
+      });
+      setUploadUrl(response.data.url);
+      console.log('Upload URL:', response.data.url);
+    } catch (error) {
+      console.error('Error getting upload URL:', error);
+    }
+  };
+
+
+  const handleUpload = async () => {
+    if (!file) return;
+
+    await getUploadUrl(file.name);
+    try {
+      const response = await axios.put(uploadUrl, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+      });
+      if(response.status===200){
+        const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/CommunityLogo/${file.name}`;
+        console.log(path);
+        setLogo(path);
+        console.log('Logo uploaded successfully');  
+      }
+      else{
+        console.log('Logo upload failed', response);
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
    
-    const newCommunity = { title, description, logo, category, ecosystem: "tech"};
-    console.log(newCommunity)
     try {
+      await handleUpload();
+
+      const newCommunity = { title, description, logo, category, ecosystem: "tech"};
+      console.log(newCommunity)
+
       const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/`, newCommunity );
       console.log(response.data.msg)
       alert( `${ response.data.msg} `)
@@ -57,8 +110,10 @@ const CreateCommunity = () => {
               <label className="block text-white font-semibold">Logo</label>
               <div className="relative">
                 <input
+                  id="logo"
                   type="file"
-                  onChange={() => {}}
+                  name="logo"
+                  onChange={handleFileChange}
                   className="file:bg-zinc-700 text-neutral-300 file:rounded-full file:text-white file:border-none file:p-1 file:px-3 file:font-light  w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 cursor-pointer transition-colors duration-300 font-light  bg-[#282828]"
                   required
                 />

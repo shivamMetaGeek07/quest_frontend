@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone'
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { describe } from 'node:test';
@@ -15,16 +16,24 @@ const AddFeedPage = () => {
   });
   const [file, setFile] = useState<File | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string>('');
-  
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-    }
-    console.log("file changed", file);
-  };
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Do something with the files
+    setFile(acceptedFiles[0]);
+  }, [])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
 
   useEffect(() => {
-    console.log(file)
+    console.log(file);
+    if (!file) return;
+
+    const path = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/feedImage/${file.name}`;
+    console.log(path);
+    setFormData((prevData) => ({
+      ...prevData,
+      imageUrl: path
+    }));
   }, [file]);
 
   const getUploadUrl = async (fileName: string) => {
@@ -69,20 +78,17 @@ const AddFeedPage = () => {
           'Content-Type': file.type,
         },
       });
-      if(response.status===200){
-        const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/feedImage/${file.name}`;
-        console.log(path);
-        setFormData((prevData) => ({
-          ...prevData,
-          imageUrl: path
-        }));
-        console.log('File uploaded successfully');  
+      if (response.status === 200) {
+        console.log('File uploaded successfully');
+        return true;
       }
-      else{
+      else {
         console.log('File upload failed', response);
+        return false
       }
     } catch (error) {
       console.error('Error uploading file:', error);
+      return false;
     }
   };
 
@@ -103,36 +109,42 @@ const AddFeedPage = () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await handleUpload();
-        
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/add-feed`,
-          {
-            ...formData
-          },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        console.log('Blog feed created:', response.data.blogFeed);
+        const res = await handleUpload();
+        if (res) {
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/add-feed`,
+            {
+              ...formData
+            },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+
+          console.log('Blog feed created:', response.data.blogFeed);
+          alert('Blog feed created successfully');
+          setFormData({ title: '', description: '', author: '', imageUrl: '', summary: '' });
+          setFile(null);
+          setUploadUrl('');
+        }
         // router.push('/dashboard');
       } catch (error) {
         console.error('Error creating blog feed:', error);
       }
     }
-    else{
+    else {
       console.error('Token not found');
       router.push('/admin/login');
     }
   };
 
   return (
-  <div className="h-screen bg-gray-950">
+    <div className="h-screen bg-gray-950">
       <form
         className="mx-auto bg-gray-900 p-8"
         onSubmit={handleSubmit}
       >
         <div className="flex justify-center mb-6">
-        < h2 className="text-2xl font-bold text-white">Add Feed</h2>
-      </div>
+          < h2 className="text-2xl font-bold text-white">Add Feed</h2>
+        </div>
 
         <div className="mb-5">
           <label
@@ -162,12 +174,19 @@ const AddFeedPage = () => {
           ></textarea>
         </div>
 
-        <div className="mb-5">          
+        <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
-          {/* for url */}
-          {/* <input type='string' name='imageUrl' className="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" onChange={handleChange}  required/> */}
-          {/* for file upload */}
-          <input id="file_input" type='file' onChange={handleFileChange}  name='imageUrl' className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" required/>
+          <div {...getRootProps()} className='bg-gray-700 h-20 rounded-lg text-white flex justify-center items-center'>
+            <input {...getInputProps()} />
+            {
+              isDragActive ?
+                <p>Drop the files here ...</p> :
+                <p>Drag 'n' drop some files here, or click to select files</p>
+            }
+          </div>
+          <div className='mt-2 text-white'>
+            <h2>{file?.name}</h2>
+          </div>
         </div>
 
         <div className="mb-5">
