@@ -4,7 +4,10 @@ import React from "react";
 
 const Login: React.FC = () => {
   const signup = async () => {
-    window.location.href =  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google`;
+    window.location.href =  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/user`;
+  };
+  const signupKOl = async () => {
+    window.location.href =  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/kol`;
   };
 
   return (

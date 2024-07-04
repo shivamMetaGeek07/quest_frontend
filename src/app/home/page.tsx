@@ -317,7 +317,7 @@ const Home = () => {
 
 
 
-			<div onClick={() => router.push('/points-parlor')} className="fixed bottom-2 p-2 text-center cursor-pointer w-full h-12 sm:h-10 bg-opacity-75 bg-blue-400 rounded-lg shadow-md">
+			<div onClick={() => router.push('/points-parlor')} className="fixed bottom-0 p-2 text-center cursor-pointer w-full h-12 sm:h-10 bg-opacity-75 bg-blue-400 rounded-lg shadow-md">
 				<h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">Points Parlor</h3>
 			</div>
 
