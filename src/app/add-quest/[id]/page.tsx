@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createQuest, createQuest1, Reward } from '../../redux/reducer/questSlice';
-import { RootState, AppDispatch } from '../../redux/store';
+import { createQuest, createQuest1, Reward } from '../../../redux/reducer/questSlice';
+import { RootState, AppDispatch } from '../../../redux/store';
+import { useParams } from 'next/navigation';
+import axios from 'axios';
 
 function CreateQuest ()
 {
@@ -13,6 +15,8 @@ function CreateQuest ()
   const [ title, setTitle ] = useState<string>( '' );
   const [ description, setDescription ] = useState<string>( '' );
   const [ rewards, setRewards ] = useState<Reward[]>( [ { type: '', value: 0 } ] );
+
+  const { communityId } = useParams<{ communityId: string; }>();
 
   const handleRewardChange = ( index: number, field: 'type' | 'value', value: string | number ) =>
   {
@@ -36,10 +40,13 @@ function CreateQuest ()
   const handleSubmit = async ( e: React.FormEvent ) =>
   {
     e.preventDefault();
-    const newQuest = { title, description, type: "DAILY", status: "NOT_STARTED", rewards };
     try
     {
+      const newQuest = { title, description, type: 'DAILY', status: 'NOT_STARTED', rewards, communityId };
+      // console.log(newQuest)
+
       const resultAction = await dispatch( createQuest1( newQuest ) );
+
       if ( createQuest1.fulfilled.match( resultAction ) )
       {
         alert( 'Quest created successfully' );
@@ -47,6 +54,8 @@ function CreateQuest ()
         setTitle( '' );
         setDescription( '' );
         setRewards( [ { type: '', value: 0 } ] );
+        // redirect to previous page
+        window.history.back();
       } else
       {
         alert( 'Failed to create quest' );
