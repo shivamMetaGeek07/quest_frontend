@@ -21,6 +21,8 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
     getFeed();
   }, [id]);
 
+  
+
   const getFeed = async () => {
     try {
       setLoading(true);
