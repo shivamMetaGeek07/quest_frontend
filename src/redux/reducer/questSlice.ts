@@ -26,13 +26,44 @@ const initialState: QuestState = {
   error: null,
 };
 
+interface CreateQuestPayload {
+  communityId?: string;
+  questData?: Omit<Quest, 'community'>;
+}
+
+
 export const createQuest = createAsyncThunk(
   'quests/createQuest',
-  async (newQuest: Quest, { rejectWithValue }) => {
+  async ({ communityId, questData }: CreateQuestPayload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/quest/`, newQuest);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/communities/${communityId}/quests`,
+        questData
+      );
       return response.data;
-    } catch (err) {
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // If the error has a response from the server, return that message
+        return rejectWithValue(error.response.data.message || 'Failed to create quest');
+      }
+      // If it's not an Axios error or doesn't have a response, return a generic message
+      return rejectWithValue('An error occurred while creating the quest');
+    }
+  }
+);
+
+export const createQuest1 = createAsyncThunk(
+  'quests/createQuest',
+  async ( newQuest: Quest, { rejectWithValue } ) =>
+  {
+    // console.log(newQuest)
+    try {
+      const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL}/quest/`, newQuest );
+      // console.log(response)
+      return response.data;
+    } catch ( err )
+    {
+      console.log(err)
       return rejectWithValue('Failed to create quest');
     }
   }
