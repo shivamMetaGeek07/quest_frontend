@@ -216,8 +216,8 @@ export default function Home() {
               <Image src={images.telegram} alt="telegram" />
             </div>
             {data?.discordInfo ? (
-               <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center bg-gray-300">
-                <p className="text-center text-black bg-violet-800 ">Already logged in to Discord</p>
+               <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center bg-violet-800">
+                <p className="text-center font-semibold text-white  ">Already logged in to Discord</p>
               </div>
                   ) : (
                 <div onClick={signupDiscord} className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
