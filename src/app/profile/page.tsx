@@ -126,7 +126,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row justify-between mx-4 lg:mx-10">
+      <div className="flex flex-col lg:flex-row justify-between mt-4 mx-4 lg:mx-10">
         <div>
           <div className="flex flex-col lg:flex-row items-center">
           {user?(<><img
@@ -144,10 +144,18 @@ const Profile: React.FC = () => {
             /></>)
           }
             <div className="mt-4 lg:mt-8 lg:ml-4 text-center">
-              <p className="bg-cyan-200 p-1 rounded-md neumorphism-username">
-                {user?.displayName}
-              </p>
-              <div className="flex justify-center lg:justify-start p-4">
+               <div className="flex justify-start gap-5 row">
+               <p className=" p-1 font-bold text-2xl font-mono  ">
+                @GhostRider15
+                </p>
+                <button className="bg-blue-500 text-white rounded-full text-md px-4 py-2" >
+                    Follow
+                </button>
+                </div>
+                
+              
+              {/* social icons */}
+              {/* <div className="flex justify-center lg:justify-start p-4">
                 <div>
                   <FontAwesomeIcon
                     icon={faTwitter}
@@ -169,30 +177,49 @@ const Profile: React.FC = () => {
                     className="text-pink-600 w-9 h-8 cursor-pointer"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="mt-8">
-            <p onClick={handleEarnRewardsClickss} className="w-full lg:w-80 p-1 bg-slate-400 rounded-md text-center text-white neumorphism-button">
-               {user?.rank}
-            </p>
+          <div className="flex row gap-2 items-center ">
+          <p className="font-bold text-xl font-serif px-4 py-2">
+                {user?.displayName}
+          </p>
+            <div onClick={handleEarnRewardsClickss} className="">
+              <h2 className="bg-orange-50 rounded-full w-fit px-2 py-1 text-md font-bold text-white" >{user?.rank}</h2>
+            </div>
+            </div>
+
+            <div className="flex row gap-3">
+              <button className="px-4 font-bold py-2 rounded-full text-center hover:text-blue-600 ">123 following</button>
+              <button className="px-4 font-bold py-2 rounded-full text-center hover:text-blue-600 ">24 followers</button>
+            </div>
+          
+          <div className="flex col gap-5 justify-start items-center">
             <p
               onClick={handleEarnRewardsClicks}
-              className="w-full lg:w-80 p-1 bg-slate-400 rounded-md text-center mt-3 text-white neumorphism-button"
+              className="w-fit bg-slate-600 rounded-md text-start px-4 py-2 mt-3 text-white"
             >
-              lifetime reward earn {earned !== null ? `${earned} coins` : ""}
+              12312 points
             </p>
             <button
               onClick={handleEarnRewardsClick}
-              className="w-full lg:w-80 p-1 rounded-md bg-slate-500 mt-3 neumorphism-earnButton "
+              className="p-1 rounded-lg bg-blue-500 mt-3 px-4 py-2"
             >
               earn rewards
-            </button>
+            </button></div>
+            
           </div>
         </div>
         <div className="mx-4 lg:mx-10 rounded-md">
-          <div className="flex items-end justify-end  "><button className="bg-blue-600 rounded-full px-2 py-1 text-sm font-bold">View all</button></div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 lg:mt-10">
+          <div className="flex items-end justify-end ">
+          <button onClick={()=>{
+            router.push('/badges')
+          }} className="bg-blue-600 rounded-full px-2 py-1 text-sm font-bold">
+            View all
+          </button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2 ">
             {userData.map((data) => (
               <div
                 key={data.id}

@@ -6,61 +6,61 @@ type UserData = {
   description: string;
   imageUrl: string;
 };
-const Rewards: React.FC = () => {
+const Badges: React.FC = () => {
 
   const userData: UserData[] = [
     {
       id: 1,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 2,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 3,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 4,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 5,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 6,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 7,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
     },
     {
       id: 8,
-      title: "Rewards",
+      title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
         "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
@@ -96,4 +96,4 @@ const Rewards: React.FC = () => {
   );
 };
 
-export default Rewards;
+export default Badges;
