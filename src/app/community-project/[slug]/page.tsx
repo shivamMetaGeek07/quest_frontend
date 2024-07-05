@@ -6,13 +6,12 @@ import { fetchCommunity } from '../../../redux/reducer/communitySlice';
 import { RootState, AppDispatch } from '../../../redux/store';
 import { faTwitter, faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from 'next/link';
 
 export default function FeedItemPage ( { params }: { params: { slug: string; }; } )
 {
   const id = params.slug;
   const dispatch = useDispatch<AppDispatch>();
-  const temp = useSelector( ( state: RootState ) => console.log(state) );
-  
   const { data: community, loading, error } = useSelector( ( state: RootState ) => state.community );
 
   useEffect( () =>
@@ -73,81 +72,81 @@ export default function FeedItemPage ( { params }: { params: { slug: string; }; 
       </div>
     );
   }
-    return (
-        <div className="Main div container mx-auto px-4">
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-center text-[#4169E1] mt-0 mb-5">
-                { community.title }
-            </h1>
-
-            <div className="flex flex-col md:flex-row gap-8 mb-8">
-                <div className="md:w-2/5 flex flex-col items-center md:items-start">
-                    <img
-                        src={ `https://dummyimage.com/600x400/000/fff&text=${ community.title[ 0 ] }` }
-                        alt={ community.title }
-                        className="rounded-full w-48 h-48 sm:w-64 sm:h-64 object-cover mb-4"
-                    />
-                    { community.members && community.members.length > 0 && (
-                        <div className="flex justify-center md:justify-start mt-4 relative ml-7">
-                            { community.members.slice( 0, 8 ).map( ( memberId, index ) => (
-                                <img
-                                    key={ memberId }
-                                    src={ `https://dummyimage.com/40x40/000/fff&text=${ index + 1 }` }
-                                    alt={ `Member ${ index + 1 }` }
-                                    className="w-8 h-8 rounded-full object-cover border-2 border-white -mr-2"
-                                    title={ `Member ${ index + 1 }` }
-                                />
-                            ) ) }
-                            { community.members.length > 8 && (
-                                <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-xs font-semibold">
-                                    +{ community.members.length - 8 }
-                                </div>
-                            ) }
-                        </div>
-                    ) }
-                </div>
-
-                <div className="md:w-3/5">
-                    <p className="text-lg">{ community.description }</p>
-                </div>
+  return (
+    <div className="bg-gray-500 min-h-screen">
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-gray-300 rounded-lg shadow-lg overflow-hidden">
+          <div className="relative h-64 bg-blue-600">
+            <img
+              src={ `https://dummyimage.com/1200x400/000/fff&text=${ community.title[ 0 ] }` }
+              alt={ community.title }
+              className="w-full h-full object-cover opacity-50"
+            />
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
+              <h1 className="text-4xl font-bold text-white mb-2">{ community.title }</h1>
+              <p className="text-xl text-gray-200">{ community.members?.length || 0 } Members</p>
             </div>
+          </div>
 
+          <div className="p-6">
+            <p className="text-lg text-gray-700 mb-6">{ community.description }</p>
 
-            <div className="flex flex-col lg:flex-row gap-8">
-                <div className="lg:w-3/4">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
-
-                    </div>
-                        <h1
-                            className="text-2xl sm:text-3xl font-bold text-center text-[#4169E1] mb-4"
-                        
-                        >EcoSystems</h1>
-                    <div className="space-y-4">
-                        { community.ecosystem.map( ( eco, index ) => (
-                            <div key={ index } className="bg-slate-400 p-3 rounded-md text-white text-center hover:bg-blue-400 duration-300 hover:animate-pulse cursor-pointer">
-                                { eco }
-                            </div>
-                        ) ) }
-                    </div>
-                </div>  
-                <div className="lg:w-1/4 space-y-4">
-                    <div className="shadow-lg flex items-center justify-center h-28 bg-slate-200 rounded-md hover:bg-slate-400 duration-300 hover:animate-pulse cursor-pointer">
-                        <h1
-                            className="text-2xl sm:text-3xl font-bold text-center text-[#416
-                            9F] hover:text-white duration-300 hover:animate-pulse cursor-pointer"
-                        >
-                            00:45:09
-                        </h1>
-                    </div>
-                    <div className="shadow-lg flex items-center justify-center h-44 bg-slate-200 rounded-md hover:bg-slate-400 duration-300 hover:animate-pulse cursor-pointer">
-                        <p className="text-2xl sm:text-3xl font-bold text-center text-[#416
-                            9F] hover:text-white duration-300 hover:animate-pulse cursor-pointer">
-                            About reward pool
-                        </p>
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h2 className="text-2xl font-semibold text-blue-600 mb-4">Ecosystems</h2>
+                <div className="flex flex-wrap gap-2">
+                  { community.ecosystem.map( ( eco, index ) => (
+                    <span key={ index } className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
+                      { eco }
+                    </span>
+                  ) ) }
                 </div>
+              </div>
+
+              <div>
+                <div
+                  className="flex gap-2"
+                >
+
+                  <h2 className="text-2xl font-semibold text-blue-600 mb-4">Community Stats</h2>
+                  <button
+                    // onclick send the user to add-quest url endpoint
+                    onClick={ () => window.location.href = `/add-quest/${id}`
+                    }
+                    className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+                  >
+
+                    Create A New Quest
+
+                  </button>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="text-3xl font-bold text-blue-800">{ community.quests?.length || 0 }</p>
+                  <p className="text-gray-600">Active Quests</p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    );
-}
 
+        <h2 className="text-3xl font-semibold text-gray-800 mt-12 mb-6">Active Quests</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          { community.quests?.map( ( questId ) => (
+            <Link href={ `/quest/${ questId }` } key={ questId }>
+              <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="bg-blue-100 h-40 flex items-center justify-center">
+                  <span className="text-6xl text-blue-500">🏆</span>
+                </div>
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">Quest #{ questId }</h3>
+                  <p className="text-gray-600">Click to view quest details</p>
+                </div>
+              </div>
+            </Link>
+          ) ) }
+        </div>
+      </div>
+    </div>
+  );
+}

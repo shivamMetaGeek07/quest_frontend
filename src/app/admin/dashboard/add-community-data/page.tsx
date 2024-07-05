@@ -52,11 +52,11 @@ const CommunityDataPage = (props: Props) => {
   }, [])
 
   return (
-    <div className="h-screen bg-gray-900">
+    <div className="py-10 bg-gray-950 mx-auto w-[60%] rounded-lg">
       <div className="flex justify-center mb-6 p-4 py-6">
         < h2 className="text-4xl font-bold text-white">Edit Community MetaData</h2>
       </div>
-      <div className="flex justify-center items-start text-white p-4 gap-4">
+      {/* <div className="flex justify-center items-start text-white p-4 gap-4">
         <div className="w-1/2 border justify-center items-center p-4 rounded-md bg-gray-800">
           <h2 className="text-2xl text-center p-2">Categories</h2>
           <div>
@@ -77,9 +77,9 @@ const CommunityDataPage = (props: Props) => {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
       <form
-        className="mx-auto bg-gray-900 p-8"
+        className=" p-8"
         onSubmit={handleSubmit}
       >
         {/* <div className="mb-5">
@@ -128,7 +128,7 @@ const CommunityDataPage = (props: Props) => {
             <div className="mt-2 bg-gray-700 rounded-2xl p-1">
               <div className="flex gap-2 flex-wrap">
                 {categories.map((category, index) => (
-                  <div key={index} className="bg-white rounded-full">
+                  <div key={index} className="bg-white text-black rounded-full">
                     <input
                       type="text"
                       value={category}
@@ -186,7 +186,7 @@ const CommunityDataPage = (props: Props) => {
             <div className="mt-2 bg-gray-700 rounded-2xl p-1">
               <div className="flex gap-2 flex-wrap">
                 {ecosystems.map((ecosystem, index) => (
-                  <div key={index} className="bg-white rounded-full">
+                  <div key={index} className="bg-white text-black rounded-full">
                     <input
                       type="text"
                       value={ecosystem}
