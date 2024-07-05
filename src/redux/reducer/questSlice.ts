@@ -75,15 +75,15 @@ const questSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createQuest.pending, (state) => {
+      .addCase(createQuest1.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(createQuest.fulfilled, (state, action) => {
+      .addCase(createQuest1.fulfilled, (state, action) => {
         state.loading = false;
         state.quests.push(action.payload);
       })
-      .addCase(createQuest.rejected, (state, action) => {
+      .addCase(createQuest1.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

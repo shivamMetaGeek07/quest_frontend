@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuest, createQuest1, Reward } from '../../../redux/reducer/questSlice';
 import { RootState, AppDispatch } from '../../../redux/store';
-import { useParams } from 'next/navigation';
+import { useParams,useRouter } from 'next/navigation';
 import axios from 'axios';
 
 function CreateQuest ()
 {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error } = useSelector( ( state: RootState ) => state.quest );
 
@@ -16,7 +17,10 @@ function CreateQuest ()
   const [ description, setDescription ] = useState<string>( '' );
   const [ rewards, setRewards ] = useState<Reward[]>( [ { type: '', value: 0 } ] );
 
-  const { communityId } = useParams<{ communityId: string; }>();
+  const id = useParams<{ communityId: any; }>();
+  const communityId = id?.id;
+
+  // console.log(communityId)
 
   const handleRewardChange = ( index: number, field: 'type' | 'value', value: string | number ) =>
   {
@@ -37,13 +41,14 @@ function CreateQuest ()
     setRewards( newRewards );
   };
 
+
+
   const handleSubmit = async ( e: React.FormEvent ) =>
   {
     e.preventDefault();
     try
     {
       const newQuest = { title, description, type: 'DAILY', status: 'NOT_STARTED', rewards, communityId };
-      // console.log(newQuest)
 
       const resultAction = await dispatch( createQuest1( newQuest ) );
 
@@ -54,8 +59,8 @@ function CreateQuest ()
         setTitle( '' );
         setDescription( '' );
         setRewards( [ { type: '', value: 0 } ] );
-        // redirect to previous page
-        window.history.back();
+        // Redirect to community page
+        router.push( `/add-task/${ communityId }` );
       } else
       {
         alert( 'Failed to create quest' );
@@ -65,7 +70,6 @@ function CreateQuest ()
       console.error( 'Error creating quest:', err );
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-100 to-purple-300 flex flex-col items-center justify-center py-10 px-5">
