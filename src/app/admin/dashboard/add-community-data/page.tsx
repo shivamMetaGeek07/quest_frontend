@@ -52,11 +52,11 @@ const CommunityDataPage = (props: Props) => {
   }, [])
 
   return (
-    <div className="h-screen bg-gray-900">
+    <div className=" py-10 ">
       <div className="flex justify-center mb-6 p-4 py-6">
         < h2 className="text-4xl font-bold text-white">Edit Community MetaData</h2>
       </div>
-      <div className="flex justify-center items-start text-white p-4 gap-4">
+      {/* <div className="flex justify-center items-start text-white p-4 gap-4">
         <div className="w-1/2 border justify-center items-center p-4 rounded-md bg-gray-800">
           <h2 className="text-2xl text-center p-2">Categories</h2>
           <div>
@@ -77,7 +77,7 @@ const CommunityDataPage = (props: Props) => {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
       <form
         className="mx-auto bg-gray-900 p-8"
         onSubmit={handleSubmit}
