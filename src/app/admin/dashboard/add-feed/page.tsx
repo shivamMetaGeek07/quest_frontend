@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone'
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { describe } from 'node:test';
+import { BallTriangle } from "react-loader-spinner";
 
 const AddFeedPage = () => {
   const router = useRouter();
@@ -11,30 +11,16 @@ const AddFeedPage = () => {
     title: '',
     description: '',
     author: '',
-    imageUrl: '',
     summary: ''
   });
   const [file, setFile] = useState<File | null>(null);
-  const [uploadUrl, setUploadUrl] = useState<string>('');
+  const [loader, setLoader] = useState(false);
 
+  //dropzone for file uploading
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Do something with the files
     setFile(acceptedFiles[0]);
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
-
-
-  useEffect(() => {
-    console.log(file);
-    if (!file) return;
-
-    const path = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/feedImage/${file.name}`;
-    console.log(path);
-    setFormData((prevData) => ({
-      ...prevData,
-      imageUrl: path
-    }));
-  }, [file]);
 
   const getUploadUrl = async (fileName: string) => {
     try {
@@ -42,8 +28,8 @@ const AddFeedPage = () => {
         folder: 'feedImage',
         fileName,
       });
-      setUploadUrl(response.data.url);
       console.log('Upload URL:', response.data.url);
+      return response.data.url;
     } catch (error) {
       console.error('Error getting upload URL:', error);
     }
@@ -71,8 +57,8 @@ const AddFeedPage = () => {
   const handleUpload = async () => {
     if (!file) return;
 
-    await getUploadUrl(file.name);
     try {
+      const uploadUrl = await getUploadUrl(file.name);
       const response = await axios.put(uploadUrl, file, {
         headers: {
           'Content-Type': file.type,
@@ -92,38 +78,48 @@ const AddFeedPage = () => {
     }
   };
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    console.log(e.target)
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
-
-    console.log(formData);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoader(true);
+    if ( !file ){ 
+      setLoader(false);  
+      return alert( "Please upload a community logo" );
+    }
+
+    if(file.type!=='image/jpeg' && file.type!=='image/png' && file.type!=='image/webp' && file.type!=='image/gif' && file.type!=='image/svg'){
+       setLoader(false);
+       return alert( "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
+    }
     const token = localStorage.getItem('token');
     if (token) {
+      
       try {
         const res = await handleUpload();
+
         if (res) {
+          if(!file) return;
+          const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/feedImage/${file.name}`
+
+          const newfeed = {
+            title: formData.title,
+            description: formData.description,
+            author: formData.author,
+            imageUrl: path,
+            summary: formData.summary
+          }
+
+          //add feed
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/add-feed`,
             {
-              ...formData
+              ...newfeed
             },
             { headers: { Authorization: `Bearer ${token}` } }
           );
-
-          console.log('Blog feed created:', response.data.blogFeed);
-          alert('Blog feed created successfully');
-          setFormData({ title: '', description: '', author: '', imageUrl: '', summary: '' });
+          setFormData({ title: '', description: '', author: '', summary: '' });
           setFile(null);
-          setUploadUrl('');
+          setLoader(false);
+          alert('Blog feed created successfully');
         }
         // router.push('/dashboard');
       } catch (error) {
@@ -136,10 +132,22 @@ const AddFeedPage = () => {
     }
   };
 
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    console.log(e.target)
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+
+    console.log(formData);
+  };
+
   return (
-    <div className="h-screen bg-gray-950">
+    <div className="bg-gray-950 mx-auto w-[60%]">
       <form
-        className="mx-auto bg-gray-900 p-8"
+        className="p-8 rounded-lg"
         onSubmit={handleSubmit}
       >
         <div className="flex justify-center mb-6">
@@ -219,13 +227,16 @@ const AddFeedPage = () => {
             required
           ></textarea>
         </div>
-
-        <button
+        {
+          !loader?(<button
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Submit
-        </button>
+        </button>):
+        <BallTriangle/>
+        }
+        
       </form>
     </div>
   );

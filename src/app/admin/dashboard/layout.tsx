@@ -18,10 +18,9 @@ export default function AdminLayout ( {
   return (
     <div>
         <AdminNavbar />
-        <div className="md:px-28 py-10 bg-gray-900">
+        <div className="md:px-28 py-10 bg-gray-900 text-white">
         { children }
         </div>
-        
     </div>
     
   );

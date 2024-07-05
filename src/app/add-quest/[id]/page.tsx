@@ -16,7 +16,9 @@ function CreateQuest ()
   const [ description, setDescription ] = useState<string>( '' );
   const [ rewards, setRewards ] = useState<Reward[]>( [ { type: '', value: 0 } ] );
 
-  const { communityId } = useParams<{ communityId: string; }>();
+  const id = useParams<{ communityId: any; }>();
+  const communityId = id?.id;  
+  console.log("comunityId",communityId);
 
   const handleRewardChange = ( index: number, field: 'type' | 'value', value: string | number ) =>
   {

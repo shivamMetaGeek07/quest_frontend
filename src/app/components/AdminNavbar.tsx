@@ -24,7 +24,7 @@ const Navbar = () =>
   return (
     <nav className="bg-gray-800 border-gray-200 w-full overflow-hidden" style={{zIndex:"1000"}}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link href="/admin/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-8 "
@@ -33,7 +33,7 @@ const Navbar = () =>
             height={ 32 }
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Logo
+            Admin panel
           </span>
         </Link>
 
