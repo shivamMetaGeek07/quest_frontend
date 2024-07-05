@@ -3,12 +3,16 @@
 import React from "react";
 
 const Login: React.FC = () => {
-  const signup = async () => {
+ 
+  
+
+  const signupUser = () => {
     window.location.href =  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/user`;
   };
-  const signupKOl = async () => {
-    window.location.href =  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/kol`;
-  };
+  const signupKol = async () => {
+    window.location.href = ` ${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/kol`;
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
@@ -18,7 +22,7 @@ const Login: React.FC = () => {
             <div className="w-full flex-1 mt-8">
               <div className="flex flex-col items-center">
                 <button
-                  onClick={signup}
+                  onClick={signupUser}
                   className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
                 >
                   <div className="bg-white p-2 rounded-full">

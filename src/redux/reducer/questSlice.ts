@@ -5,7 +5,7 @@ export interface Reward {
   type: string;
   value: number;
 }
-
+ 
 export interface Quest {
   title: string;
   description: string;
@@ -13,13 +13,13 @@ export interface Quest {
   status: string;
   rewards: Reward[];
 }
-
+ 
 interface QuestState {
   quests: Quest[];
   loading: boolean;
   error: string | null;
 }
-
+ 
 const initialState: QuestState = {
   quests: [],
   loading: false,

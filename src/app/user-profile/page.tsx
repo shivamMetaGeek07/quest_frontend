@@ -40,6 +40,8 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const UserProfile: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -51,7 +53,7 @@ const UserProfile: React.FC = () => {
   };
 
   if (!isOpen) return null;
-
+    const user=useSelector((state:RootState)=>state.login.user)
   const handleuserdetails = () =>{
     router.push('/profile')
   }
@@ -64,13 +66,22 @@ const UserProfile: React.FC = () => {
             X
           </button>
           <div className="bg-slate-400 rounded-xl px-20 py-10 flex flex-col items-center mx-4 hover:bg-slate-300 duration-1000 cursor-pointer">
-            <img onClick={handleuserdetails}
+             {user?(
+              <> 
+              <img onClick={handleuserdetails}
+                src={user.image}     
+              alt="user image"
+              className="h-32 w-32 rounded-full mt-4 object-cover"
+            /></>
+                ):( 
+             <> <img onClick={handleuserdetails}
               src="https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg"
               alt="user image"
               className="h-32 w-32 rounded-full mt-4 object-cover"
-            />
+            /></>
+              )}
             <div className="mt-4 h-8 w-80 bg-slate-500 rounded-md flex items-center justify-center">
-              <p className="text-center">Sachin Kumar</p>
+              <p className="text-center">{user?.displayName}</p>
             </div>
             <div className="mt-4 h-8 w-72 bg-slate-500 rounded-md flex items-center justify-center">
               <p className="text-center">Setup Password</p>

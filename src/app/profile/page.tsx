@@ -8,6 +8,8 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import "./profilr.css";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 type userData = {
   id: number;
@@ -34,7 +36,8 @@ const Profile: React.FC = () => {
       setEarned(null);
     }
   };
-
+  const user=useSelector((state:RootState)=>state.login.user)
+  useSelector((state:RootState)=>console.log(state.login.user))
   const handleEarnRewardsClick = () => {
     router.push("/");
   };
@@ -126,16 +129,23 @@ const Profile: React.FC = () => {
       <div className="flex flex-col lg:flex-row justify-between mx-4 lg:mx-10">
         <div>
           <div className="flex flex-col lg:flex-row items-center">
-            <img
+          {user?(<><img
+              src={user.image}
+              alt="avatar photo"
+              width={200}
+              height={200}
+              className="neumorphism-avatar mt-8"
+            /></>):(  <><img
               src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
               alt="avatar photo"
               width={200}
               height={200}
               className="neumorphism-avatar mt-8"
-            />
+            /></>)
+          }
             <div className="mt-4 lg:mt-8 lg:ml-4 text-center">
               <p className="bg-cyan-200 p-1 rounded-md neumorphism-username">
-                username.fam
+                {user?.displayName}
               </p>
               <div className="flex justify-center lg:justify-start p-4">
                 <div>
@@ -164,7 +174,7 @@ const Profile: React.FC = () => {
           </div>
           <div className="mt-8">
             <p onClick={handleEarnRewardsClickss} className="w-full lg:w-80 p-1 bg-slate-400 rounded-md text-center text-white neumorphism-button">
-               go to global leaderboard rank
+               {user?.rank}
             </p>
             <p
               onClick={handleEarnRewardsClicks}
