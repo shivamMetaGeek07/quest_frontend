@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import communityReducer from './reducer/communitySlice';
 import questReducer from './reducer/questSlice';
+import adminCommunityReducer from './reducer/adminCommunitySlice';
 import userReducer from './reducer/auth'
+
 export const store = configureStore({
   reducer: {
-        community: communityReducer,
-       quests: questReducer,
-       login:userReducer
+    community: communityReducer,
+    quest: questReducer,
+    adminCommunity:adminCommunityReducer,
+    login:userReducer
+
   },
 });
 

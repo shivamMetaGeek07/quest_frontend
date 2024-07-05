@@ -27,7 +27,7 @@ const Navbar = () =>
   };
 
   return (
-    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden">
+    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
@@ -180,10 +180,13 @@ const Navbar = () =>
             </li> 
             
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/user-profile">Profile</Link>
+              <Link href="/profile">Profile</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/create-community">Create a community</Link>
+            </li>
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+            <Link href="/mycommunities">My communities</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/leaderboard">Leaderboard</Link>

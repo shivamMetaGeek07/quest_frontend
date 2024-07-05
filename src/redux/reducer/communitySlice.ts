@@ -4,15 +4,15 @@ import axios from 'axios';
 export interface CommunityData {
   _id: string;
   title: string;
-  description: string;
-  count_of_members: number;
+  description?: string;
+  count_of_members?: number;
   logo: string;
   ecosystem: string[];
   category: string[];
-  quests: string[];
-  members: string[];
-  createdAt: string;
-  updatedAt: string;
+  quests?: string[];
+  members?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface CommunityState {
@@ -27,6 +27,7 @@ const initialState: CommunityState = {
   error: null,
 };
 
+// fetch the community by id
 export const fetchCommunity = createAsyncThunk(
   'community/fetchCommunity',
   async (id: string, { rejectWithValue }) => {
@@ -39,14 +40,22 @@ export const fetchCommunity = createAsyncThunk(
   }
 );
 
+// create a community;
 export const createCommunity = createAsyncThunk(
   'community/createCommunity',
-  async (communityData: Partial<CommunityData>, { rejectWithValue }) => {
+  async (communityData: {title: string;
+    description: string;
+    logo: string;
+    category: string[];
+    ecosystem: string[];
+  }, { rejectWithValue } ) =>
+  {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/community/`,
         communityData
       );
+      // console.log(response.data)
       return response.data.community;
     } catch (err) {
       return rejectWithValue('Failed to create community');

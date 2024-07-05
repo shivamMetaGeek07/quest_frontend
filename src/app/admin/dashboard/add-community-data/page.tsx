@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { BallTriangle } from "react-loader-spinner";
 type Props = {};
 
 const CommunityDataPage = (props: Props) => {
@@ -10,10 +11,12 @@ const CommunityDataPage = (props: Props) => {
   const [description, setDescription] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [newEcosystem, setNewEcosystem] = useState("");
+  const [loader,setLoader]=useState(false)
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoader(true);
     const token = localStorage.getItem("token");
     console.log(categories, ecosystems, description);
     if (token) {
@@ -26,6 +29,7 @@ const CommunityDataPage = (props: Props) => {
         console.log("Community created:", response.data.community);
         setNewCategory("");
         setNewEcosystem("");
+        setLoader(false);
         // router.push('/dashboard');
       } catch (error) {
         console.error("Error creating community:", error);
@@ -52,11 +56,11 @@ const CommunityDataPage = (props: Props) => {
   }, [])
 
   return (
-    <div className="h-screen bg-gray-900">
+    <div className="py-10 bg-gray-950 mx-auto w-[60%] rounded-lg">
       <div className="flex justify-center mb-6 p-4 py-6">
         < h2 className="text-4xl font-bold text-white">Edit Community MetaData</h2>
       </div>
-      <div className="flex justify-center items-start text-white p-4 gap-4">
+      {/* <div className="flex justify-center items-start text-white p-4 gap-4">
         <div className="w-1/2 border justify-center items-center p-4 rounded-md bg-gray-800">
           <h2 className="text-2xl text-center p-2">Categories</h2>
           <div>
@@ -77,9 +81,9 @@ const CommunityDataPage = (props: Props) => {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
       <form
-        className="mx-auto bg-gray-900 p-8"
+        className=" p-8"
         onSubmit={handleSubmit}
       >
         {/* <div className="mb-5">
@@ -109,7 +113,7 @@ const CommunityDataPage = (props: Props) => {
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
               placeholder="New Category"
-              className="rounded-lg border border-gray-300 p-2 text-sm"
+              className="rounded-lg border border-gray-300 p-2 text-sm text-black"
             />
             <button
               className="bg-blue-500 rounded-3xl px-4 py-2 text-white text-sm"
@@ -128,7 +132,7 @@ const CommunityDataPage = (props: Props) => {
             <div className="mt-2 bg-gray-700 rounded-2xl p-1">
               <div className="flex gap-2 flex-wrap">
                 {categories.map((category, index) => (
-                  <div key={index} className="bg-white rounded-full">
+                  <div key={index} className="bg-white text-black rounded-full">
                     <input
                       type="text"
                       value={category}
@@ -137,7 +141,7 @@ const CommunityDataPage = (props: Props) => {
                         newCategories[index] = e.target.value;
                         setCategories(newCategories);
                       }}
-                      className="w-20 rounded-full  px-2 py-1 text-sm"
+                      className="w-20 rounded-full  px-2 py-1 text-sm text-black "
                     />
                     <button
                       type="button"
@@ -168,7 +172,7 @@ const CommunityDataPage = (props: Props) => {
               value={newEcosystem}
               onChange={(e) => setNewEcosystem(e.target.value)}
               placeholder="New Ecosystem"
-              className="rounded-lg border border-gray-300 p-2 text-sm"
+              className="rounded-lg border border-gray-300 p-2 text-sm text-black"
             />
             <button
               className="bg-blue-500 rounded-3xl px-4 py-2 text-white text-sm"
@@ -186,7 +190,7 @@ const CommunityDataPage = (props: Props) => {
             <div className="mt-2 bg-gray-700 rounded-2xl p-1">
               <div className="flex gap-2 flex-wrap">
                 {ecosystems.map((ecosystem, index) => (
-                  <div key={index} className="bg-white rounded-full">
+                  <div key={index} className="bg-white text-black rounded-full">
                     <input
                       type="text"
                       value={ecosystem}
@@ -195,7 +199,7 @@ const CommunityDataPage = (props: Props) => {
                         newEcosystems[index] = e.target.value;
                         setEcosystems(newEcosystems);
                       }}
-                      className="w-20 rounded-full  px-2 py-1 text-sm"
+                      className="w-20 rounded-full text-black px-2 py-1 text-sm"
                     />
                     <button
                       type="button"
@@ -213,13 +217,20 @@ const CommunityDataPage = (props: Props) => {
           }
 
         </div>
-
-        <button
+        {
+          !loader?(
+            <button
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Submit
         </button>
+          ):<BallTriangle
+          height={70}
+          width={70}
+          />
+        }
+        
       </form>
     </div>
   );
