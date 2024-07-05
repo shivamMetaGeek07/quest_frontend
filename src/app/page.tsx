@@ -9,10 +9,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
 import Navbar from "./components/Navbar";
-import headerImage from "../../public/assests/headerImage.png"
-import { images } from "../../public/assests/image"
+import headerImage from "../../public/assests/headerImage.png";
+import { images } from "../../public/assests/image";
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
-import { AiOutlineDisconnect } from "react-icons/ai"
+import { AiOutlineDisconnect } from "react-icons/ai";
 
 interface data {
   id: Number;
@@ -159,8 +159,7 @@ const cardData: CommunitiesData[] = [
 ];
 
 export default function Home() {
-  const router = useRouter()
-  
+  const router = useRouter();
 
   const getUserData = async () => {
     try {
@@ -187,107 +186,136 @@ export default function Home() {
     <div className=" bg-black">
       <Navbar />
       <div className="lg:mx-20 mx-auto">
-
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
-  <div className="w-full lg:w-2/5 text-center lg:text-left">
-    <h1 className="text-white text-2xl font-bold mb-4">Discover Your Community Here</h1>
-    <p className="text-white">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
-    </p>
-    <button className="bg-[#5865F2] rounded-sm mt-4 px-8 py-3 text-white">Learn more</button>
-  </div>
-  <div className="w-full lg:w-2/6 flex justify-center lg:justify-end">
-    <Image
-      className="w-full max-w-full lg:max-w-lg rounded-lg"
-      src={images.headerImage}
-      alt="Community Image"
-    />
-  </div>
-</div>
-
+          <div className="w-full lg:w-2/5 text-center lg:text-left basis-[49%] lg:mb-10">
+            <h1 className="text-white text-4xl font-medium mb-4">
+              Discover Your Community Here
+            </h1>
+            <p className="text-neutral-300 text-md">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type
+            </p>
+            <button className="bg-[#5865F2] rounded-lg mt-6 px-8 py-3 text-white hover:shadow-md hover:-translate-y-1 transition">
+              Learn More
+            </button>
+          </div>
+          <div className="w-full lg:w-2/4 flex justify-center lg:justify-end basis-[51%]">
+            <Image
+              className="w-full max-w-full lg:max-w-lg rounded-lg"
+              src={images.headerImage}
+              alt="Community Image"
+            />
+          </div>
+        </div>
 
         {/* Contact with us */}
-        <div className="mt-12">
-          <h1 className="text-white text-2xl font-bold mb-4 text-center lg:text-left">Contact With US</h1>
+        <div className="lg:mt-12 ">
+          <h1 className="text-white text-3xl font-medium mb-8 text-center lg:text-left">
+            Connect With Us
+          </h1>
           <div className="flex flex-wrap justify-center md:justify-center lg:justify-between items-center gap-4">
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div
+              className="border  w-72  md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center"
+              style={{
+                background:
+                  "linear-gradient(to bottom, #0F0C29 0%, #0F2027 93.33%)",
+              }}
+            >
               <Image src={images.instagram} alt="instagram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div
+              className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center"
+              style={{
+                background:
+                  "linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)",
+              }}
+            >
               <Image src={images.telegram} alt="telegram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div
+              className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center"
+              style={{
+                background:
+                  "linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)",
+              }}
+            >
               <Image src={images.fourthicon} alt="fourth icon" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div
+              className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center"
+              style={{
+                background:
+                  "linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)",
+              }}
+            >
               <Image src={images.vector} alt="vector" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div
+              className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center"
+              style={{
+                background:
+                  "linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)",
+              }}
+            >
               <Image src={images.telegram} alt="telegram" />
             </div>
           </div>
         </div>
 
-
-
         {/* EcoSystem */}
-        <div className="mt-12">
-          <h1 className="text-white text-2xl font-bold mb-4 text-center lg:text-left">EcoSystem</h1>
+        <div className="lg:mt-20 mt-6">
+          <h1 className="text-white text-3xl font-medium mb-8 text-center lg:text-left">
+            EcoSystem
+          </h1>
           <div className="flex flex-wrap justify-center md:justify-center lg:justify-between  items-center gap-4">
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center bg-white">
               <Image src={images.image11} alt="instagram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center bg-white">
               <Image src={images.image7} alt="telegram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center bg-white">
               <Image src={images.image8} alt="fourth icon" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center bg-white">
               <Image src={images.image9} alt="vector" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center bg-white">
               <Image src={images.image11} alt="telegram" />
             </div>
           </div>
         </div>
 
-
-
-        {/* Category */} 
-        <div className="mt-12">
-          <h1 className="text-white text-2xl font-bold mb-4 text-center lg:text-left">Category</h1>
+        {/* Category */}
+        <div className="lg:mt-20 mt-6">
+          <h1 className="text-white text-3xl font-medium mb-8 text-center lg:text-left">
+            Category
+          </h1>
           <div className="flex flex-wrap justify-center md:justify-center  lg:justify-between  items-center gap-4">
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.image12} alt="instagram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.image13} alt="telegram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.image14} alt="fourth icon" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.image15} alt="vector" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.image16} alt="telegram" />
             </div>
           </div>
         </div>
+      </div>
 
-
-       
-      
-
-       
-
-  
-        </div>
-
-<div className="mx-4 lg:mx-20 text-white">
-        <div className="text-2xl pt-10 font-bold">
+      <div className="mx-4 lg:mx-20 text-white lg:mt-14 mt-8">
+        <div className="text-3xl pt-10 font-medium">
           <h1>Trending Communities</h1>
         </div>
 
@@ -316,7 +344,9 @@ export default function Home() {
               <div className="flex flex-wrap gap-2 pt-3 text-gray-400">
                 <div className="flex bg-white/10 rounded-lg p-2 items-center">
                   <AiOutlineDisconnect className="w-5 h-5" />
-                  <div className="pl-1">{card.stats.AiOutlineDisconnect.toLocaleString()}</div>
+                  <div className="pl-1">
+                    {card.stats.AiOutlineDisconnect.toLocaleString()}
+                  </div>
                 </div>
                 <div className="flex bg-white/10 rounded-lg p-2 items-center">
                   <FaUser className="w-5 h-5" />
@@ -337,7 +367,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="text-2xl pt-20 font-bold">
+        <div className="text-3xl pt-20 font-medium">
           <h1>Educational Quates</h1>
         </div>
 
@@ -367,7 +397,9 @@ export default function Home() {
               <div className="flex flex-wrap gap-2 pt-3 text-gray-400">
                 <div className="flex bg-white/10 rounded-lg p-2 items-center">
                   <AiOutlineDisconnect className="w-5 h-5" />
-                  <div className="pl-1">{card.stats.AiOutlineDisconnect.toLocaleString()}</div>
+                  <div className="pl-1">
+                    {card.stats.AiOutlineDisconnect.toLocaleString()}
+                  </div>
                 </div>
                 <div className="flex bg-white/10 rounded-lg p-2 items-center">
                   <FaUser className="w-5 h-5" />
@@ -388,7 +420,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="text-2xl pt-20 font-bold">
+        <div className="text-3xl pt-20 font-medium">
           <h1>Kol Quests</h1>
         </div>
 
@@ -397,7 +429,7 @@ export default function Home() {
           {KolsquateData.map((card, index) => (
             <div
               key={index}
-              className="bg-white/5 sm:p-6 border rounded-xl h-auto w-full sm:w-auto shadow-lg group hover:scale-105 hover:bg-white/10 border-t"
+              className="bg-white/5 sm:p-6 border rounded-xl h-auto w-full sm:w-auto shadow-lg group hover:scale-105 hover:bg-white/10 border-t p-2 "
             >
               <div className="text-xl font-bold mb-2 sm:mb-4">
                 <h1 className="text-lg sm:text-xl text-center sm:text-left">
@@ -413,7 +445,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="text-2xl pt-20 font-bold">
+        <div className="text-3xl pt-20 font-medium">
           <h1>Grants bounties & hackathons</h1>
         </div>
 
@@ -442,11 +474,7 @@ export default function Home() {
             />
           </div>
         </div>
-      </div >
-    
-
       </div>
-   
+    </div>
   );
 }
-
