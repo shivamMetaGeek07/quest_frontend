@@ -171,10 +171,13 @@ const Navbar = () =>
               <Link href="#">Signup</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/user-profile">Profile</Link>
+              <Link href="/profile">Profile</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/create-community">Create a community</Link>
+            </li>
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+            <Link href="/mycommunities">My communities</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/leaderboard">Leaderboard</Link>

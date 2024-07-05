@@ -88,9 +88,15 @@ const CreateCommunity = () =>
       e.preventDefault();
       setLoader(true);
 
-      if ( !file ) return alert( "Please upload a community logo" );
+      if ( !file ){
+        setLoader(false);
+        return alert( "Please upload a community logo" );
+      } 
 
-      if(file.type!=='image/jpeg' && file.type!=='image/png' && file.type!=='image/webp' && file.type!=='image/gif' && file.type!=='image/svg') return alert( "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
+      if(file.type!=='image/jpeg' && file.type!=='image/png' && file.type!=='image/webp' && file.type!=='image/gif' && file.type!=='image/svg'){
+         setLoader(false);
+         return alert( "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
+      }
 
       try
       {
@@ -115,6 +121,8 @@ const CreateCommunity = () =>
           setEcosystems( [] );
           setFile(null);
           setLoader(false);
+
+          router.push('/mycommunities');
         } else
         {
           alert( 'Failed to create community' );
@@ -162,7 +170,7 @@ const CreateCommunity = () =>
               <label className="block text-white font-semibold">Logo*</label>
               <div className="relative">
                 <div {...getRootProps()} className='bg-gray-700 h-20 mt-2 rounded-lg text-white flex justify-center items-center'>
-                  <input {...getInputProps()} />
+                  <input {...getInputProps()}/>
                     {
                       isDragActive ?
                         <p>Drop the logo here ...</p> :

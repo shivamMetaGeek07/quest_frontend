@@ -181,6 +181,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
         <div className="mx-4 lg:mx-10 rounded-md">
+          <div className="flex items-end justify-end  "><button className="bg-blue-600 rounded-full px-2 py-1 text-sm font-bold">View all</button></div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 lg:mt-10">
             {userData.map((data) => (
               <div

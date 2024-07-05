@@ -8,7 +8,6 @@ type Props = {};
 
 const LoginPage = (props: Props) => {
   const router=useRouter();
-    const [notify, setNotify] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
@@ -18,7 +17,6 @@ const LoginPage = (props: Props) => {
             console.log(response);
 
             const data=response.data;
-            setNotify(data.msg);
             if(response.status===200){
               localStorage.setItem('token',data.token)
               router.push('/admin/dashboard');
@@ -40,7 +38,7 @@ const LoginPage = (props: Props) => {
             
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Login in to your account {notify}
+                Login in to your account 
               </h1>
               <form className="space-y-4 md:space-y-6" action="#">
                 <div>
