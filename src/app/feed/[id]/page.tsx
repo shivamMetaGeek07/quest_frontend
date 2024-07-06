@@ -67,7 +67,7 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
           <p className="text-neutral-300 mb-4">{item.summary}</p>
         </div>
         </div>
-        <Link href="/user/feed" className="text-cyan-500 hover:text-blue-800">
+        <Link href="/feed" className="text-cyan-500 hover:text-blue-800">
           Back to Feed
         </Link>
       </div>
