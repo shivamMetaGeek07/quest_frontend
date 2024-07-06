@@ -50,7 +50,7 @@ const MyCommunities: React.FC = () =>
 
           <div
             key={ index }
-            onClick={ () => router.push( `/community-project/${ card._id }` ) }
+            onClick={ () => router.push( `/user/community-project/${ card._id }` ) }
             className="bg-white/5 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10"
           >
             <div className="flex gap-3 items-center">

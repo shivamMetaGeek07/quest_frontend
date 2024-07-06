@@ -170,7 +170,7 @@ const Navbar = () =>
           </div>
           <ul className="flex flex-col justify-center items-center">
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-              <Link href="feed">Daily Feed</Link>
+              <Link href="/user/feed">Daily Feed</Link>
             </li>
                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
              <Link href="#">Login</Link>

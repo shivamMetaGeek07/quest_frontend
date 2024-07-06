@@ -60,7 +60,7 @@ function CreateQuest ()
         setDescription( '' );
         setRewards( [ { type: '', value: 0 } ] );
         // Redirect to community page
-        router.push( `/add-task/${ communityId }` );
+        router.push( `/kol/add-task/${ communityId }` );
       } else
       {
         alert( 'Failed to create quest' );

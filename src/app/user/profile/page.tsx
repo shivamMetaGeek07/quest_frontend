@@ -43,7 +43,7 @@ const Profile: React.FC = () => {
   };
 
   const handleEarnRewardsClickss = () => {
-    router.push("/leaderboard");
+    router.push("/user/leaderboard");
   };
 
   const userData: userData[] = [
@@ -214,7 +214,7 @@ const Profile: React.FC = () => {
         <div className="mx-4 lg:mx-10 rounded-md">
           <div className="flex items-end justify-end ">
           <button onClick={()=>{
-            router.push('/badges')
+            router.push('/user/rewards')
           }} className="bg-blue-600 rounded-full px-2 py-1 text-sm font-bold">
             View all
           </button>

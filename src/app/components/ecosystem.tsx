@@ -20,7 +20,7 @@ const Ecosystem: React.FC = () => {
   const router = useRouter();
 
   const handleIconClick = () => {
-    router.push("/community-project");
+    router.push("/user/community-project");
   };
 
   const userData: UserData[] = [

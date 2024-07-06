@@ -112,7 +112,7 @@ export default function FeedItemPage ( { params }: { params: { slug: string; }; 
                   <h2 className="text-2xl font-semibold text-blue-600 mb-4">Community Stats</h2>
                   <button
                     // onclick send the user to add-quest url endpoint
-                    onClick={ () => window.location.href = `/add-quest/${id}`
+                    onClick={ () => window.location.href = `/kol/add-quest/${id}`
                     }
                     className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
                   >
@@ -133,7 +133,7 @@ export default function FeedItemPage ( { params }: { params: { slug: string; }; 
         <h2 className="text-3xl font-semibold text-gray-800 mt-12 mb-6">Active Quests</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           { community.quests?.map( ( questId ) => (
-            <Link href={ `/quest/${ questId }` } key={ questId }>
+            <Link href={ `/user/quest/${ questId }` } key={ questId }>
               <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="bg-blue-100 h-40 flex items-center justify-center">
                   <span className="text-6xl text-blue-500">🏆</span>

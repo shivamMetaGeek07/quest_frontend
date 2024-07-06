@@ -55,7 +55,7 @@ const UserProfile: React.FC = () => {
   if (!isOpen) return null;
     const user=useSelector((state:RootState)=>state.login.user)
   const handleuserdetails = () =>{
-    router.push('/profile')
+    router.push('/user/profile')
   }
 
   return (
