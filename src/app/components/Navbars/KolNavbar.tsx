@@ -165,13 +165,10 @@ const KolNavbar = () =>
           </div>
           <ul className="flex flex-col justify-center items-center">
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard">Dashboard</Link>
+            <Link href="/kol/profile">profile</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard/add-community-data">community MetaData</Link>
-            </li>
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard/add-feed">add feed</Link>
+              <Link href="/kol/create-community">create community</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <button onClick={handleLogout}>Logout</button>
@@ -212,7 +209,7 @@ const KolNavbar = () =>
           </div>
           <ul className="flex lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-              <Link href="/user/feed">Daily Feed</Link>
+              <Link href="/feed">Daily Feed</Link>
             </li>
                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
              <Link href="#">Login</Link>

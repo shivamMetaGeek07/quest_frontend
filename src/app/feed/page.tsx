@@ -40,7 +40,7 @@ function FeedCard({ _id, title, description, imageUrl }: data) {
         </div>    
         <div className='mt-2 flex justify-start'>
           <Link
-            href={`/user/feed/${_id}`}
+            href={`/feed/${_id}`}
             className='text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none bg-blue-900 shadow-sm hover:bg-gray-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2  '
               >
             Read More
