@@ -7,12 +7,16 @@ import communityReducer from './reducer/communitySlice';
 import questReducer from './reducer/questSlice';
 import adminCommunityReducer from './reducer/adminCommunitySlice';
 import userReducer from './reducer/auth';
+import taskReducer from './reducer/taskSlice';
+import taskOptionReducer from './reducer/taskOptionSlice';
 
 const rootReducer = combineReducers({
   community: communityReducer,
   quest: questReducer,
   adminCommunity: adminCommunityReducer,
-  login: userReducer
+  login: userReducer,
+  task: taskReducer,
+  taskOption : taskOptionReducer
 });
 
 const persistConfig = {
