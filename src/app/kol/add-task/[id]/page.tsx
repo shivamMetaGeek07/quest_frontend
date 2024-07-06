@@ -174,7 +174,7 @@ const AddTask = () => {
       )}
 
       {isOpen && (
-        <div className=" inset-0 z-50 overflow-y-auto bg-[#121212] bg-opacity-50 flex items-center justify-center">
+        <div className=" inset-0 z-50 border overflow-y-auto bg-[#121212] bg-opacity-50 flex items-center justify-center">
           <div className="relative p-4 w-3/4 ">
             <div className="relative bg-gray-900 text-white rounded-3xl  mb-5 shadow dark:bg-gray-700">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-700 bg-[#282828]">
