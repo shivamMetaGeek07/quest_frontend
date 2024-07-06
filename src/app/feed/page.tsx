@@ -23,7 +23,7 @@ function FeedCard({ _id, title, description, imageUrl }: data) {
     : description;
 
   return (
-    <div className='bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out flex flex-col md:flex-row'>
+    <div className='bg-white/15 hover:bg-white/25 hover:scale-x-105  rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-1000 ease-in-out flex flex-col md:flex-row'>
       <div className='md:w-1/3 h-48 md:h-auto overflow-hidden'>
         <img
           className='w-full h-full object-cover'
@@ -33,15 +33,15 @@ function FeedCard({ _id, title, description, imageUrl }: data) {
       </div>              
       <div className='p-5 md:w-2/3 flex flex-col justify-between'>
         <div>
-          <h3 className='text-xl font-bold text-gray-800 mb-3 text-center'>
+          <h3 className='text-2xl font-medium mb-3 text-center md:text-start'>
             {title}
           </h3>
-          <p className='text-sm text-gray-600 mb-2'>{shortDescription}</p>
+          <p className='text-neutral-300 mb-2'>{shortDescription}</p>
         </div>    
-        <div className='mt-2'>
+        <div className='mt-2 flex justify-end'>
           <Link
             href={`/feed/${_id}`}
-            className='text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2'
+            className='text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none bg-gray-900 shadow-sm hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  '
               >
             Read More
           </Link>
@@ -80,13 +80,13 @@ export default function Feed() {
   };  
   
   return (
-    <div className='feed'>
-      <div className='max-w-7xl mx-auto px-4 py-8'>
-        <div className='mb-8'>
-          <h2 className='text-2xl font-bold text-gray-800'>Feed</h2>
+    <div className='feed lg:mx-20'>
+       <div className='lg:10 mt-6 mx-32'>
+          <h2 className='lg:text-4xl  text-2xl font-medium'>Daily Feed</h2>
         </div>
+      <div className='max-w-7xl mx-auto px-4 py-8'>
 
-        <div className='space-y-6'>
+        <div className='lg:mx-20 space-y-6'>
           {feedItems?.map((item) => (
             <FeedCard key={item._id} {...item} />     
           ))}
