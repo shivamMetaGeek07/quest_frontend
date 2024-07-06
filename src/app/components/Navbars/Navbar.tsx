@@ -6,21 +6,23 @@ import { useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
-interface NavbarProps {
+interface NavbarProps
+{
   toggleSlider: () => void;
 }
 
 const Navbar = () =>
 {
-    const dispatch=useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const [ isMenuOpen, setIsMenuOpen ] = useState( false );
   const [ drop, setDrop ] = useState( false );
 
-  const data=useSelector((state:RootState)=>state.login.user);
-  const logout=()=>{
-    window.location.href=`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`
+  const data = useSelector( ( state: RootState ) => state.login.user );
+  const logout = () =>
+  {
+    window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`;
 
-}  
+  };
   const handleClose = () =>
   {
     setDrop( false );
@@ -172,19 +174,19 @@ const Navbar = () =>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
               <Link href="/feed">Daily Feed</Link>
             </li>
-               <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-             <Link href="#">Login</Link>
-             </li>
-             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-            <Link href="#">Signups</Link>
-            </li> 
-            
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+              <Link href="#">Login</Link>
+            </li>
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+              <Link href="#">Signups</Link>
+            </li>
+
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/user/profile">Profile</Link>
             </li>
-            
+
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-            <Link href="/user/my-community">My community</Link>
+              <Link href="/user/my-community">My community</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/user/leaderboard">Leaderboard</Link>
@@ -238,26 +240,26 @@ const Navbar = () =>
                 Daily Feed
               </Link>
             </li>
-              {data?
-                (<><li className="text-center md:text-left">
+            { data ?
+              ( <><li className="text-center md:text-left">
                 <span
-                onClick={logout}
-                className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
-                aria-current="page"
-                 >
-                Logout
-               </span>
-                </li></>):
-                (<> <li className="text-center md:text-left">
+                  onClick={ logout }
+                  className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
+                  aria-current="page"
+                >
+                  Logout
+                </span>
+              </li></> ) :
+              ( <> <li className="text-center md:text-left">
                 <Link
-                href="/user/login"
-                className="block py-2 px-3 rounded md:bg-transparent md:p-0 "
-                aria-current="page"
-               >
-                Login
-               </Link>
-            </li>
-             </>)}
+                  href="/user/login"
+                  className="block py-2 px-3 rounded md:bg-transparent md:p-0 "
+                  aria-current="page"
+                >
+                  Login
+                </Link>
+              </li>
+              </> ) }
           </ul>
         </div>
       </div>

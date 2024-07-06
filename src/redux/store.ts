@@ -1,20 +1,37 @@
 import { configureStore } from '@reduxjs/toolkit';
+  import { persistStore, persistReducer } from 'redux-persist';
+  import storage from 'redux-persist/lib/storage';
+import { combineReducers } from 'redux';
+
 import communityReducer from './reducer/communitySlice';
 import questReducer from './reducer/questSlice';
 import adminCommunityReducer from './reducer/adminCommunitySlice';
-import userReducer from './reducer/auth'
+import userReducer from './reducer/auth';
 
-export const store = configureStore({
-  reducer: {
-    community: communityReducer,
-    quest: questReducer,
-    adminCommunity:adminCommunityReducer,
-    login:userReducer
-
-  },
+const rootReducer = combineReducers({
+  community: communityReducer,
+  quest: questReducer,
+  adminCommunity: adminCommunityReducer,
+  login: userReducer
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch
+const persistConfig = {
+  key: 'root',
+  storage,
+  // Only persist the login state if you want
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
