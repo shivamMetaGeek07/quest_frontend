@@ -13,8 +13,9 @@ import headerImage from "../../public/assests/headerImage.png"
 import { images } from "../../public/assests/image"
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchUserData } from "@/redux/reducer/auth";
 
 interface data {
   id: Number;
@@ -162,7 +163,8 @@ const cardData: CommunitiesData[] = [
 
 export default function Home() {
   const router = useRouter()
-  
+  const dispatch=useDispatch<AppDispatch>();
+
   const signupDiscord = async () =>
     {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord` ;
@@ -173,7 +175,10 @@ export default function Home() {
     };
 
     const data=  useSelector( ( state: RootState ) =>state.login.user);
-    
+    useEffect(() => {
+   
+      dispatch(fetchUserData())
+      }, [dispatch]);
    return (
     <div className=" bg-black">
       <Navbar />
