@@ -13,6 +13,9 @@ import headerImage from "../../public/assests/headerImage.png"
 import { images } from "../../public/assests/image"
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchUserData } from "@/redux/reducer/auth";
 
 interface data {
   id: Number;
@@ -160,51 +163,51 @@ const cardData: CommunitiesData[] = [
 
 export default function Home() {
   const router = useRouter()
-  
+  const dispatch=useDispatch<AppDispatch>();
 
-  const getUserData = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`,
-        {
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        console.log("User Data:", data.user);
-      } else {
-        console.error("Failed to fetch user data", data.user);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    getUserData();
-  }, []);
-  return (
+  const signupDiscord = async () =>
+    {
+      window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord` ;
+    };
+    const signupX = async () =>
+    {
+      window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter `;
+    };
+
+    const data=  useSelector( ( state: RootState ) =>state.login.user);
+    useEffect(() => {
+   
+      dispatch(fetchUserData())
+      }, [dispatch]);
+   return (
     <div className=" bg-black">
       <Navbar />
       <div className="lg:mx-20 mx-auto">
 
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
-  <div className="w-full lg:w-2/5 text-center lg:text-left">
-    <h1 className="text-white text-2xl font-bold mb-4">Discover Your Community Here</h1>
-    <p className="text-white">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
-    </p>
-    <button className="bg-[#5865F2] rounded-sm mt-4 px-8 py-3 text-white">Learn more</button>
-  </div>
-  <div className="w-full lg:w-2/6 flex justify-center lg:justify-end">
-    <Image
-      className="w-full max-w-full lg:max-w-lg rounded-lg"
-      src={images.headerImage}
-      alt="Community Image"
-    />
-  </div>
-</div>
+        <div className="w-full lg:w-2/5 text-center lg:text-left">
+        <h1 className="text-white text-2xl font-bold mb-4">
+      
+       {data ? (
+        <h1 className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </h1>
+             ) : (
+        <div className="text-white text-2xl font-bold mb-4">Your Community Here...</div>
+        )}
+          </h1>
+          <p className="text-white">
+             Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
+         </p>
+       <button className="bg-[#5865F2] rounded-sm mt-4 px-8 py-3 text-white">Learn more</button>
+       </div>
+       <div className="w-full lg:w-2/6 flex justify-center lg:justify-end">
+            <Image
+            className="w-full max-w-full lg:max-w-lg rounded-lg"
+            src={images.headerImage}
+             alt="Community Image"
+            />
+      </div>
+      </div>
 
 
         {/* Contact with us */}
@@ -214,18 +217,29 @@ export default function Home() {
             <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.instagram} alt="instagram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
               <Image src={images.telegram} alt="telegram" />
             </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
-              <Image src={images.fourthicon} alt="fourth icon" />
-            </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
-              <Image src={images.vector} alt="vector" />
-            </div>
-            <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
-              <Image src={images.telegram} alt="telegram" />
-            </div>
+            {data?.discordInfo ? (
+               <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center bg-violet-800">
+                <p className="text-center font-semibold text-white  ">Already logged in to Discord</p>
+              </div>
+                  ) : (
+                <div onClick={signupDiscord} className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+          <Image src={images.fourthicon} alt="fourth icon" />
+              </div>
+            )}
+      
+             {data?.twitterInfo ? (
+                <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center bg-gray-300">
+                <p className="text-center text-gray-700">Already logged in to Twitter</p>
+                </div>
+                 ) : (
+                <div onClick={signupX} className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+                 <Image src={"/Asset/102075304.webp"} width={70} height={70} alt="vector" />
+                  </div>
+                )}
+          
           </div>
         </div>
 
