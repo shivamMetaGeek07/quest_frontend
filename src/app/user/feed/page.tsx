@@ -38,10 +38,10 @@ function FeedCard({ _id, title, description, imageUrl }: data) {
           </h3>
           <p className='text-neutral-300 mb-2'>{shortDescription}</p>
         </div>    
-        <div className='mt-2 flex justify-end'>
+        <div className='mt-2 flex justify-start'>
           <Link
             href={`/user/feed/${_id}`}
-            className='text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none bg-gray-900 shadow-sm hover:bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2  '
+            className='text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none bg-blue-900 shadow-sm hover:bg-gray-800 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2  '
               >
             Read More
           </Link>
@@ -81,11 +81,10 @@ export default function Feed() {
   
   return (
     <div className='feed lg:mx-20'>
-       <div className='lg:10 mt-6 mx-32'>
-          <h2 className='lg:text-4xl  text-2xl font-medium'>Daily Feed</h2>
+       <div className='lg:10 mt-6 mb-8'>
+          <h2 className='lg:text-5xl  text-3xl text-center font-medium'>Daily Feeds</h2>
         </div>
-      <div className='max-w-7xl mx-auto px-4 py-8'>
-
+      <div className='w-[90%] md:w-[85%] mx-auto px-4 py-8'>
         <div className='lg:mx-20 space-y-6'>
           {feedItems?.map((item) => (
             <FeedCard key={item._id} {...item} />     

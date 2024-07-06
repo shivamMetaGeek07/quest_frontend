@@ -1,15 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Community from "./components/Community";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { useEffect } from "react";
-import Navbar from "./components/Navbar";
-import headerImage from "../../public/assests/headerImage.png";
 import { images } from "../../public/assests/image";
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
@@ -181,7 +174,6 @@ export default function Home() {
       }, [dispatch]);
    return (
     <div className=" bg-black">
-      <Navbar />
       <div className="lg:mx-20 mx-auto">
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
