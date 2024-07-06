@@ -15,17 +15,34 @@ export interface CommunityData {
   updatedAt?: string;
 }
 
-interface CommunityState {
+interface CommunityState
+{
+  allCommunities: CommunityData | null;
   data: CommunityData | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CommunityState = {
+  allCommunities:null,
   data: null,
   loading: false,
   error: null,
 };
+
+// fetch the community by id
+export const fetchAllCommunities = createAsyncThunk(
+  'community/fetchAllCommunities',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/` );
+      console.log(response)
+      return response.data.communities;
+    } catch (err) {
+      return rejectWithValue('Failed to fetch community data');
+    }
+  }
+);
 
 // fetch the community by id
 export const fetchCommunity = createAsyncThunk(
@@ -80,7 +97,21 @@ const communitySlice = createSlice({
       .addCase(fetchCommunity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      } )
+      
+       .addCase(fetchAllCommunities.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
+      .addCase(fetchAllCommunities.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allCommunities = action.payload;
+      })  
+      .addCase(fetchAllCommunities.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
       .addCase(createCommunity.pending, (state) => {
         state.loading = true;
         state.error = null;
