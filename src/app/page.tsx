@@ -178,14 +178,14 @@ export default function Home() {
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
         <div className="w-full lg:w-2/5 text-center lg:text-left">
-        <h1 className="text-white text-2xl font-bold mb-4">
+        <div className="text-white text-2xl font-bold mb-4">
       
        {data ? (
         <h1 className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </h1>
              ) : (
         <div className="text-white text-2xl font-bold mb-4">Your Community Here...</div>
         )}
-          </h1>
+          </div>
           <p className="text-white">
              Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
          </p>
