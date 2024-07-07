@@ -1,5 +1,6 @@
 "use client";
 import {  RootState } from '@/redux/store';
+import { useProtectedRoute } from '@/utlis/privateRoute';
 import React,{useState,useEffect} from 'react'
 import {  useSelector } from 'react-redux';
 
@@ -38,7 +39,9 @@ interface KolsData {
     },
   };
 
-const kolsProfile = (props: Props) => {
+const kolsProfile = ( props: Props ) =>
+{
+  useProtectedRoute("kol");
     const [kol, setKol] = useState<KolsData>({
         name: "",
         userName: "",
