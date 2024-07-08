@@ -38,8 +38,9 @@ const Profile: React.FC = () => {
     }
   };
   const user=useSelector((state:RootState)=>state.login.user)
-  useSelector((state:RootState)=>console.log( state)) 
-   const handleEarnRewardsClick = () => {
+  useSelector( ( state: RootState ) => console.log( state) )
+  
+  const handleEarnRewardsClick = () => {
     router.push("/");
   };
  
@@ -125,10 +126,8 @@ const Profile: React.FC = () => {
         "https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg",
     },
   ];
-  useEffect(() => {
-   
-    dispatch(fetchUserData())
-    }, [dispatch]);  return (
+ 
+  return (
     <>
       <div className="flex flex-col lg:flex-row justify-between mt-4 mx-4 lg:mx-10">
         <div>

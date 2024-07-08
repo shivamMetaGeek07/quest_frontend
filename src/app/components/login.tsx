@@ -1,16 +1,20 @@
-"use client"
-import React, { useState } from 'react'
+"use client";
+import React, { useState } from 'react';
 
-const Registrartion = () => {
-	const [user, setUser] = useState('kols')
+const Registrartion = () =>
+{
+	const [ user, setUser ] = useState( 'kols' );
 
-	const signup = async () => {
-		if (user == 'user') {
-			window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/user`;
-		} else {
-			window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/kol`;
+	const signup = async () =>
+	{
+		if ( user == 'user' )
+		{
+			window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/google/user`;
+		} else
+		{
+			window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/kol`;
 		}
-	}
+	};
 
 	return (
 		<>
@@ -78,11 +82,10 @@ const Registrartion = () => {
 				</p>
 			  </div>
 			</div>
-		  </div>
 		</div>
-	  </>
-	  
+	</div></>
+
 	)
 }
 
-export default Registrartion
+export default Registrartion;

@@ -6,21 +6,31 @@ import { useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
-interface NavbarProps {
+interface NavbarProps
+{
   toggleSlider: () => void;
 }
 
 const Navbar = () =>
 {
-    const dispatch=useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const [ isMenuOpen, setIsMenuOpen ] = useState( false );
   const [ drop, setDrop ] = useState( false );
 
-  const data=useSelector((state:RootState)=>state.login.user);
-  const logout=()=>{
-    window.location.href=`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`
+  const data = useSelector( ( state: RootState ) => state.login.user );
+  const logout = () =>
+  {
+    window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`;
 
-}  
+  };
+  const handleKolLogout = () =>
+  {
+    //kol logout logic
+  }
+
+  const handleUserLogout = () => {
+    //user logout logic
+  }
   const handleClose = () =>
   {
     setDrop( false );
@@ -29,49 +39,22 @@ const Navbar = () =>
   return (
     <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <Image
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8 "
-            alt="Flowbite Logo"
-            width={ 32 }
-            height={ 32 }
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white">
-            Logo
-          </span>
-        </Link>
-
-        {/* Search bar */ }
-        <div className="flex md:order-2 lg:order-1 mr-32"  >
-          <div className="relative hidden md:block ">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-              <span className="sr-only">Search icon</span>
-            </div>
-            <input
-              type="text"
-              id="search-navbar"
-              className="block w-full p-2 ps-10  text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-              placeholder="Search..."
+        {/* Logo */ }
+        <div>
+          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <Image
+              src="https://flowbite.com/docs/images/logo.svg"
+              className="h-8 "
+              alt="Flowbite Logo"
+              width={ 32 }
+              height={ 32 }
             />
-          </div>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white">
+              Cluster Protocol
+            </span>
+        </Link>
         </div>
-
+        {/* Notifications */}
         <div>
           <button
             type="button"
@@ -94,33 +77,72 @@ const Navbar = () =>
           </button>
         </div>
 
-        {/* Menu toggle buttons */ }
-        <div className="flex md:order-3">
-          <button
-            // onClick={ () => setIsMenuOpen( !drop ) }
-            type="button"
-            className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"
-          >
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        {/* Navigation menu */ }
+        <div
+          className="items-center justify-between w-full md:flex md:w-auto md:order-1 hidden">
+        {/* Search section*/ }
+          <div className="flex relative "  >
+              <input
+                type="text"
+                id="search-navbar"
+                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+                placeholder="Search..."
               />
-            </svg>
-            <span className="sr-only">Search</span>
-          </button>
+              {/* search icon */}
+              <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+          </div>
+          <ul className="flex text-white lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li className="mb-2 md:mb-2 md:inline-block">
+              <Link
+                href="/feed"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-cyan-700 md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
+                Daily Feed
+              </Link>
+            </li>
+            { data ?
+              (<li className="text-center md:text-left">
+                <span
+                  onClick={ logout }
+                  className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
+                  aria-current="page"
+                >
+                  Logout
+                </span>
+              </li>) :
+              (<li className="text-center md:text-left">
+                <Link
+                  href="/login"
+                  className="block py-2 px-3 rounded md:bg-transparent md:p-0 "
+                  aria-current="page"
+                >
+                  Login
+                </Link>
+              </li>
+              ) }
+          </ul>
+        </div>
+
+        {/* Menu toggle button */ }
+        <div className="md:order-3">
           <button
-            onClick={ () => setDrop( true ) }
-            type="button"
+            onClick={ () => setDrop( ( prev ) => !prev ) }
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-search"
             aria-expanded={ isMenuOpen }
@@ -149,6 +171,7 @@ const Navbar = () =>
           className={ `fixed top-0 right-0 h-full w-64 bg-gray-900 rounded-md text-white transform ${ drop ? "translate-x-0" : "translate-x-full"
             } transition-transform duration-300 ease-in-out z-10` }
         >
+          {/* close button */}
           <div className="flex justify-end p-4">
             <button
               onClick={ handleClose }
@@ -168,96 +191,59 @@ const Navbar = () =>
               </svg>
             </button>
           </div>
+
           <ul className="flex flex-col justify-center items-center">
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
               <Link href="/feed">Daily Feed</Link>
             </li>
-               <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-             <Link href="#">Login</Link>
-             </li>
-             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-            <Link href="#">Signups</Link>
-            </li> 
-            
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/kol/profile">Profile</Link>
-            </li>
-            
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-            <Link href="/user/my-community">My community</Link>
-            </li>
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/user/leaderboard">Leaderboard</Link>
-            </li>
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/user/rewards">Rewards</Link>
-            </li>
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/user/rate-kols">Rank kols</Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Navigation menu */ }
-        <div
-          className={ `items-center justify-between ${ isMenuOpen ? "block" : "hidden"
-            } w-full md:flex md:w-auto md:order-1` }
-          id="navbar-search"
-        >
-          <div className="relative mt-3 md:hidden">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              type="text"
-              id="search-navbar-mobile"
-              className="block w-full p-2 ps-96 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-              placeholder="Search..."
-            />
-          </div>
-          <ul className="flex text-white lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li className="mb-2 md:mb-2 md:inline-block">
-              <Link
-                href="/feed"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-cyan-700 md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Daily Feed
-              </Link>
-            </li>
-              {data?
-                (<><li className="text-center md:text-left">
-                <span
-                onClick={logout}
-                className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
-                aria-current="page"
-                 >
-                Logout
-               </span>
-                </li></>):
-                (<> <li className="text-center md:text-left">
-                <Link
-                href="/user/login"
-                className="block py-2 px-3 rounded md:bg-transparent md:p-0 "
-                aria-current="page"
-               >
-                Login
-               </Link>
-            </li>
-             </>)}
+            { 
+            data?
+            (
+              data.role==='kol'?
+              (
+              <>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/kol/kols-profile">profile</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/kol/create-community">create community</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <button onClick={handleKolLogout}>Logout</button>
+                </li>
+              </>
+              ):
+              (
+              <>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/user/profile">Profile</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/user/my-community">My community</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/user/leaderboard">Leaderboard</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/user/rewards">Rewards</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <Link href="/user/rate-kols">Rank kols</Link>
+                </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+                  <button onClick={handleUserLogout} >Logout</button>
+                </li>
+              </>
+                
+              )
+            ): (
+              <>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+                    <Link href="#">Login</Link>
+                </li>
+              </>
+            )
+      }
           </ul>
         </div>
       </div>

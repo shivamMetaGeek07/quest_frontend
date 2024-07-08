@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import Navbar from '../Navbars/Navbar';
 import AdminNavbar from '../Navbars/AdminNavbar';
 import Footer from '../Footer';
-import KolNavbar from '../Navbars/KolNavbar';
 
 
 const MainLayout = ({
@@ -20,7 +19,7 @@ const MainLayout = ({
 
   return (
     <div>
-      {isAdminRoute ? (<AdminNavbar />): (isKolRoute ? <KolNavbar /> : <Navbar />)}
+      {isAdminRoute ? (<AdminNavbar />): <Navbar />}
       <main className='min-h-screen'>{children}</main>
       <Footer />
     </div>
