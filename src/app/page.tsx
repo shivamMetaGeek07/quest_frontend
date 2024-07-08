@@ -9,6 +9,7 @@ import { AiOutlineDisconnect } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/auth";
+import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
 
 interface data {
   id: Number;
@@ -167,9 +168,11 @@ export default function Home() {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter `;
     };
 
-    const data=  useSelector( ( state: RootState ) =>state.login.user);
+  const data = useSelector( ( state: RootState ) => state.login.user );
+  useSelector( ( state: any ) => console.log( state.task ) )
+  const id = '66892bbf1d9a4d4ac701280b'
     useEffect(() => {
-   
+   dispatch(fetchTaskById(id))
       dispatch(fetchUserData())
       }, [dispatch]);
    return (

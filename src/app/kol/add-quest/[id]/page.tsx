@@ -20,7 +20,7 @@ function CreateQuest ()
   const id = useParams<{ communityId: any; }>();
 
   const communityId = id?.id;  
-  console.log("comunityId",communityId);
+  // console.log("comunityId",communityId);
 
   const handleRewardChange = ( index: number, field: 'type' | 'value', value: string | number ) =>
   {
@@ -51,16 +51,18 @@ function CreateQuest ()
       const newQuest = { title, description, type: 'DAILY', status: 'NOT_STARTED', rewards, communityId };
 
       const resultAction = await dispatch( createQuest1( newQuest ) );
-
+      
       if ( createQuest1.fulfilled.match( resultAction ) )
-      {
-        alert( 'Quest created successfully' );
-        // Clear form
-        setTitle( '' );
-        setDescription( '' );
-        setRewards( [ { type: '', value: 0 } ] );
+        {
+          alert( 'Quest created successfully' );
+          // Clear form
+          setTitle( '' );
+          setDescription( '' );
+          setRewards( [ { type: '', value: 0 } ] );
+        // console.log( resultAction.payload.newQuest._id )
         // Redirect to community page
-        router.push( `/kol/add-task/${ communityId }` );
+        router.push( `/kol/add-task/${resultAction.payload.newQuest._id}` );
+        
       } else
       {
         alert( 'Failed to create quest' );
@@ -72,7 +74,7 @@ function CreateQuest ()
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-purple-100 to-purple-300 flex flex-col items-center justify-center py-10 px-5">
+    <div className="min-h-screen text-black bg-gradient-to-r from-purple-100 to-purple-300 flex flex-col items-center justify-center py-10 px-5">
       <div className="bg-white mt-10 p-10 rounded-xl shadow-xl w-full max-w-lg">
         <h1 className="text-3xl font-bold mb-6 text-center text-purple-700">Create New Quest</h1>
         <form onSubmit={ handleSubmit }>
