@@ -5,31 +5,56 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { BallTriangle } from "react-loader-spinner";
 
+
+interface Feed {
+    _id: number;
+    title: string;
+    description: string;
+    imageUrl: string;
+    author: string;
+    summary: string;
+}
 const AddFeedPage = () =>
 {
   const router = useRouter();
-  const [ activeTab, setActiveTab ] = useState( 'create' );
   const [ formData, setFormData ] = useState( {
     title: '',
     description: '',
     author: '',
     summary: ''
   } );
-  const [ file, setFile ] = useState<File | null>( null );
-  // for update the file
-  const [ updateFile, setUpdateFile ] = useState<File | null>( null );
-  const [ loader, setLoader ] = useState( false );
-  const [ updateFormData, setUpdateFormData ] = useState( {
-    id: '',
-    title: '',
-    description: '',
-    author: '',
-    summary: ''
-  } );
+  const [file, setFile ] = useState<File | null>( null );
+  const [feeds, setFeeds] = useState<Feed[] | any>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loader, setLoader ] = useState( false );
+  
+  let limit=10;
+  
+  const getFeeds = async () =>
+  {
+    try
+    {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL }/feed`,{
+        params: {
+          page: currentPage,
+          limit: limit, // Example limit
+        },
+     });
+    //  console.log(response.data);
+      setFeeds(response.data.feeds);
+      setTotalPages(response.data.totalPages);
 
-  const [ deleteFormData, setDeleteFormData ] = useState( {
-    id: ''
-  } );
+      console.log('feed items :-',response.data)
+      setLoader(false)
+    } catch (error) {
+      console.log('error in getting feed :-',error)
+    }
+  };
+
+  useEffect(() => {
+    getFeeds();
+  }, [currentPage]);
 
 
   //dropzone for file uploading
@@ -38,16 +63,6 @@ const AddFeedPage = () =>
     setFile( acceptedFiles[ 0 ] );
   }, [] );
   const { getRootProps, getInputProps, isDragActive } = useDropzone( { onDrop } );
-
-  // this dropzone is for updating the url
-  const onUpdateDrop = useCallback( ( acceptedFiles: File[] ) =>
-  {
-    setUpdateFile( acceptedFiles[ 0 ] );
-  }, [] );
-
-  const { getRootProps: getUpdateRootProps, getInputProps: getUpdateInputProps, isDragActive: isUpdateDragActive } = useDropzone( { onDrop: onUpdateDrop } );
-
-
 
   const getUploadUrl = async ( fileName: string ) =>
   {
@@ -65,24 +80,6 @@ const AddFeedPage = () =>
     }
 
   };
-
-  // const getImageUrl=async (fileName: string) => {
-  //   try {
-  //       const key = `feedImage/${fileName}`;
-  //     const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/aws/generate-get-url`, {
-  //       params: {
-  //         key
-  //       }
-  //     });
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       imageUrl: response.data.url
-  //     }));
-  //     console.log('Image URL:', response.data.url);
-  //   } catch (error) {
-  //     console.error('Error getting image URL:', error);
-  //   }
-  // };
 
   const handleUpload = async () =>
   {
@@ -112,7 +109,6 @@ const AddFeedPage = () =>
       return false;
     }
   };
-
 
   const handleChange = ( e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) =>
   {
@@ -189,188 +185,65 @@ const AddFeedPage = () =>
     }
   };
 
-  const handleUpdateUpload = async () =>
-  {
-    if ( !updateFile ) return;
-
-    try
-    {
-      const uploadUrl = await getUploadUrl( updateFile.name );
-      const response = await axios.put( uploadUrl, file, {
-        headers: {
-          'Content-Type': updateFile.type,
-        },
-      } );
-      if ( response.status === 200 )
-      {
-        console.log( 'File uploaded successfully' );
-        return true;
-      }
-      else
-      {
-        console.log( 'File upload failed', response );
-        return false;
-      }
-    } catch ( error )
-    {
-      console.error( 'Error uploading file:', error );
-      return false;
-    }
-  };
-
-  // submit for updating the feed
-  const handleUpdateSubmit = async ( e: React.FormEvent ) =>
-  {
-    e.preventDefault();
-    setLoader( true );
-
-    const token = localStorage.getItem( 'token' );
-    if ( !token )
-    {
-      console.error( 'Token not found' );
-      router.push( '/admin/login' );
-      return;
-    }
-
-    try
-    {
-      let updatedFeed: any = {
-        id: updateFormData.id,
-      };
-
-      // Only include fields that have been filled
-      if ( updateFormData.title ) updatedFeed.title = updateFormData.title;
-      if ( updateFormData.description ) updatedFeed.description = updateFormData.description;
-      if ( updateFormData.author ) updatedFeed.author = updateFormData.author;
-      if ( updateFormData.summary ) updatedFeed.summary = updateFormData.summary;
-
-      if ( updateFile )
-      {
-        const res = await handleUpdateUpload();
-        if ( res )
-        {
-          const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/feedImage/${ updateFile.name }`;
-          updatedFeed.imageUrl = path;
-        } else
-        {
-          setLoader( false );
-          alert( "Failed to upload new image" );
-          return;
-        }
-      }
-
-      const response = await axios.patch(
-        `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/update-feed/${ updateFormData.id }`,
-        updatedFeed,
-        { headers: { Authorization: `Bearer ${ token }` } }
-      );
-
-      console.log( "response :-", response );
-
-      setUpdateFormData( { id: '', title: '', description: '', author: '', summary: '' } );
-      setUpdateFile( null );
-      setLoader( false );
-      alert( 'Blog feed updated successfully' );
-    } catch ( error: any )
-    {
-      console.error( 'Error updating blog feed:', error );
-      setLoader( false );
-      alert( `Error updating blog feed: ${ error.response?.data?.message || error.message }` );
-    }
-  };
-
-
-  // submit for deleting the feed by id
-  const handleDeleteSubmit = async ( e: React.FormEvent ) =>
-  {
-    e.preventDefault();
-    setLoader( true );
-    // const response = await axios( `${ process.env.NEXT_PUBLIC_SERVER_URL }/feed` )
-    // console.log(response)
-    const token = localStorage.getItem( 'token' );
-    if ( !token )
-    {
-      console.error( 'Token not found' );
-      router.push( '/admin/login' );
-      return;
-    }
-
-    try
-    {
-      const response = await axios.delete( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/delete-feed/${ deleteFormData.id }`, { headers: { Authorization: `Bearer ${ token }` } } );
-      console.log( "response :-", response );
-      setLoader( false );
-      alert( 'Blog feed deleted successfully' );
-      setDeleteFormData( { id: '' } );
-    } catch ( error: any )
-    {
-      console.error( 'Error deleting blog feed:', error );
-      setLoader( false );
-      alert( `Error deleting blog feed: ${ error.response?.data?.message || error.message }` );
-    }
-  };
-
-  // this is tab section
-  const TabNavigation = () => (
-    <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 ">
-      <ul className="flex flex-wrap -mb-px justify-evenly bg-yellow-50">
-        <li className="mr-2">
-          <a
-
-            className={ `inline-block p-4 border-b-2 rounded-t-lg ${ activeTab === 'create'
-              ? 'text-white text-base bg-gray-900 w-24 mt-2 dark:text-white border-gray-900'
-              : 'hover:text-white text-base hover:bg-gray-900 w-24 mt-2 hover:border-gray-900'
-              }` }
-            onClick={ () => setActiveTab( 'create' ) }
-          >
-            Create
-          </a>
-        </li>
-        <li className="mr-2">
-          <a
-
-            className={ `inline-block p-4 border-b-2 rounded-t-lg ${ activeTab === 'update'
-              ? 'text-white text-base bg-gray-900 w-24 mt-2 dark:text-white border-gray-900'
-              : 'hover:text-white text-base hover:bg-gray-900 w-24 mt-2 hover:border-gray-900'
-              }` }
-            onClick={ () => setActiveTab( 'update' ) }
-          >
-            Update
-          </a>
-        </li>
-        <li className="mr-2">
-          <a
-
-            className={ `inline-block p-4 border-b-2 rounded-t-lg ${ activeTab === 'delete'
-              ? 'text-white text-base bg-gray-900 w-24 mt-2 dark:text-white border-gray-900'
-              : 'hover:text-white text-base hover:bg-gray-900 w-24 mt-2 hover:border-gray-900'
-              }` }
-            onClick={ () => setActiveTab( 'delete' ) }
-          >
-            Delete
-          </a>
-        </li >
-      </ul >
-    </div >
-  );
-
   return (
     <>
-      <div className="bg-gray-950 mx-auto w-[60%]">
-        <TabNavigation />
-        { activeTab === 'create' && (
-          <form
+      <div className="bg-slate-100 " id='edit-feed'>  
+        <div className='h-screen'>
+          <div className='p-4 mx-auto w-[80%] flex flex-col justify-center items-center '>
+            <div className='w-full flex justify-end items-end'>
+              <button className='border-2 shadow-md text-white font-bold py-2 px-4 rounded-full bg-slate-700 hover:bg-slate-900' >
+                <span className='mr-2 text-sm'>
+                  <i className="bi bi-plus-circle"></i>
+                </span>
+                <span className='text-sm' >Add Feed
+                </span>
+              </button>
+            </div>
+            <table className=" w-[80%] bg-white text-black rounded-lg">
+              <thead className='p-4 bg-slate-900 rounded-t-lg'>
+                <tr className="text-white rounded-lg">
+                  <th className='p-4 border-r text-center'>S.No</th>
+                  <th className='p-4 border-r text-center'>Title</th>
+                  <th className='p-4 text-center '>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feeds.map((feed:Feed, index:number) => (
+                  <tr key={index} className={`${index!=limit-1 ? 'border-b' : ''} p-4 m-2`}>
+                    <td className='p-2 text-center border-r '>{index+1}</td>
+                    <td className='p-2 border-r '>{feed.title}</td>
+                    <td className='p-2'>
+                    <div className='flex justify-center items-center'>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "  >View</button>
+                    </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className='flex justify-center items-center gap-4 mt-5 '>
+              <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} className='border hover:shadow-md bg-slate-600 hover:bg-slate-800  text-white font-bold py-2 px-4 rounded-full'>
+                Prev
+              </button>
+              <span className='text-black'>{currentPage}</span>
+              <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)} className='border hover:shadow-md bg-slate-600 hover:bg-slate-800  text-white font-bold py-2 px-4 rounded-full'>Next</button>
+            </div>
+          </div>
+          </div>
+
+          <div className='text-black bg-white mx-auto w-[60%] mt-10'>
+            <form
             className="p-8 rounded-lg"
             onSubmit={ handleSubmit }
           >
             <div className="flex justify-center mb-6">
-              < h2 className="text-2xl font-bold text-white">Add Feed</h2>
+              < h2 className="text-2xl font-bold ">Add Feed</h2>
             </div>
 
             <div className="mb-5">
               <label
                 htmlFor="title"
-                className="block mb-2 text-sm font-medium text-white "
+                className="block mb-2 text-sm font-medium  "
               >
                 Title
               </label>
@@ -379,7 +252,7 @@ const AddFeedPage = () =>
             <div className="mb-5">
               <label
                 htmlFor="description"
-                className="block mb-2 text-sm font-medium text-white "
+                className="block mb-2 text-sm font-medium  "
               >
                 Description
               </label>
@@ -396,7 +269,7 @@ const AddFeedPage = () =>
             </div>
 
             <div className="mb-5">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
+              <label className="block mb-2 text-sm font-medium text-gray-900 " htmlFor="file_input">Upload file</label>
               <div { ...getRootProps() } className='bg-gray-700 h-20 rounded-lg text-white flex justify-center items-center'>
                 <input { ...getInputProps() } />
                 {
@@ -405,13 +278,13 @@ const AddFeedPage = () =>
                     <p>Drag 'n' drop some files here, or click to select files</p>
                 }
               </div>
-              <div className='mt-2 text-white'>
+              <div className='mt-2 text-black'>
                 <h2>{ file?.name }</h2>
               </div>
             </div>
 
             <div className="mb-5">
-              <label htmlFor='author' className="block mb-2 text-sm font-medium text-white ">Author</label>
+              <label htmlFor='author' className="block mb-2 text-sm font-medium  ">Author</label>
               <input
                 type="text"
                 id="author"
@@ -425,9 +298,9 @@ const AddFeedPage = () =>
             <div className="mb-5">
               <label
                 htmlFor="summary"
-                className="block mb-2 text-sm font-medium text-white "
+                className="block mb-2 text-sm font-medium "
               >
-                summary
+              Content
               </label>
               <textarea
                 id="summary"
@@ -451,144 +324,8 @@ const AddFeedPage = () =>
             }
 
           </form>
-        ) }
-
-        {/* // Update form */ }
-        { activeTab === 'update' && (
-          <form
-            className="p-8 rounded-lg"
-            onSubmit={ handleUpdateSubmit }
-          >
-            <div className="flex justify-center mb-6">
-              < h2 className="text-2xl font-bold text-white">Update the feed Feed</h2>
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor="update-id"
-                className="block mb-2 text-sm font-medium text-white"
-              >
-                Id
-              </label>
-              <input
-                name="id"
-                type="text"
-                id="update-id"
-                value={ updateFormData.id }
-                onChange={ ( e ) => setUpdateFormData( { ...updateFormData, id: e.target.value } ) }
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="id of the feed to update"
-                required
-              />
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor="title"
-                className="block mb-2 text-sm font-medium text-white "
-              >
-                Title
-              </label>
-              <input name="title" type="text" id="title" value={ updateFormData.title } onChange={ ( e ) => setUpdateFormData( { ...updateFormData, title: e.target.value } ) } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="title" />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="description"
-                className="block mb-2 text-sm font-medium text-white "
-              >
-                Description
-              </label>
-              <textarea
-                id="description"
-                rows={ 4 }
-                name="description"
-                value={ updateFormData.description }
-                onChange={ ( e ) => setUpdateFormData( { ...updateFormData, description: e.target.value } ) }
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here"
-
-              ></textarea>
-            </div>
-
-            <div className="mb-5">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="update_file_input">Update Image (optional)</label>
-              <div { ...getUpdateRootProps() } className='bg-gray-700 h-20 rounded-lg text-white flex justify-center items-center'>
-                <input { ...getUpdateInputProps() } />
-                {
-                  isUpdateDragActive ?
-                    <p>Drop the file here ...</p> :
-                    <p>Drag 'n' drop a new image here, or click to select a file</p>
-                }
-              </div>
-              <div className='mt-2 text-white'>
-                <h2>{ updateFile?.name || 'No new file selected' }</h2>
-              </div>
-            </div>
-
-            <div className="mb-5">
-              <label htmlFor='author' className="block mb-2 text-sm font-medium text-white ">Author</label>
-              <input
-                type="text"
-                id="author"
-                value={ updateFormData.author }
-                onChange={ ( e ) => setUpdateFormData( { ...updateFormData, author: e.target.value } ) }
-                name="author"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-
-              />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="summary"
-                className="block mb-2 text-sm font-medium text-white "
-              >
-                summary
-              </label>
-              <textarea
-                id="summary"
-                rows={ 4 }
-                name='summary'
-                value={ updateFormData.summary }
-                onChange={ ( e ) => setUpdateFormData( { ...updateFormData, summary: e.target.value } ) }
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here"
-
-              ></textarea>
-            </div>
-            {
-              !loader ? ( <button
-                type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Update
-              </button> ) :
-                <BallTriangle />
-            }
-
-          </form>
-        ) }
-        { activeTab === 'delete' && (
-          // Delete form
-          <form className="p-8 rounded-lg" onSubmit={ handleDeleteSubmit }>
-            <div className="mb-5">
-              <label htmlFor="delete-id" className="block mb-2 text-sm font-medium text-white">
-                Feed ID to Delete
-              </label>
-              <input
-                type="text"
-                id="delete-id"
-                name="id"
-                value={ deleteFormData.id }
-                onChange={ ( e ) => setDeleteFormData( { id: e.target.value } ) }
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div>
-            <button type="submit" className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-              Delete Feed
-            </button>
-          </form>
-        ) }
+          </div>
+         
       </div>
     </>
   );

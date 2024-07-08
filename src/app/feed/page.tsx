@@ -59,6 +59,8 @@ export default function Feed() {
     title: string;
     description: string;
     imageUrl: string;
+    author: string;
+    summary: string;
   }
   const [feedItems, setFeedItems] = useState<Feed[]>([]);
   const [ loading, setLoading ] = useState<Boolean>( true );
