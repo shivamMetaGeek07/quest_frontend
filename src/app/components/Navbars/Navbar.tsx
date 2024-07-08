@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { AppDispatch, RootState } from "@/redux/store";
+import { useEffect, useState } from "react";
+import { AppDispatch, persistor, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "@/redux/reducer/authSlice";
+import { useRouter } from "next/navigation";
 
 interface NavbarProps
 {
@@ -14,14 +16,20 @@ interface NavbarProps
 const Navbar = () =>
 {
   const dispatch = useDispatch<AppDispatch>();
+  const router=useRouter();
   const [ isMenuOpen, setIsMenuOpen ] = useState( false );
   const [ drop, setDrop ] = useState( false );
-
-  const data = useSelector( ( state: RootState ) => state.login.user );
-  const logout = () =>
-  {
-    window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`;
-
+  const [isClient, setIsClient] = useState(false);
+  const data = useSelector( ( state: RootState ) => state.login?.user );
+  const logoutClient = async () => {
+    try {
+      await dispatch(logoutUser()); // Dispatch the logout action and handle the promise
+      await persistor.flush();      // Ensure state updates are saved to local storage
+      localStorage.clear();        // Clear local storage
+      router.push('/login');// Redirect to login page
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
   const handleKolLogout = () =>
   {
@@ -35,7 +43,11 @@ const Navbar = () =>
   {
     setDrop( false );
   };
+  useEffect(() => {
+    setIsClient(true); // Set the client flag to true on the client side
+  }, []);
 
+  if (!isClient) return null;
   return (
     <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -116,26 +128,29 @@ const Navbar = () =>
                 Daily Feed
               </Link>
             </li>
-            { data ?
-              (<li className="text-center md:text-left">
-                <span
-                  onClick={ logout }
-                  className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
-                  aria-current="page"
-                >
-                  Logout
-                </span>
-              </li>) :
-              (<li className="text-center md:text-left">
-                <Link
-                  href="/login"
-                  className="block py-2 px-3 rounded md:bg-transparent md:p-0 "
-                  aria-current="page"
-                >
-                  Login
-                </Link>
-              </li>
-              ) }
+            {data ? (
+        <li className="text-center md:text-left">
+          <Link
+            href="#"
+            onClick={logoutClient}
+            className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
+            aria-current="page"
+          >
+            Logout
+          </Link>
+        </li>
+      ) : (
+        <li className="text-center md:text-left">
+          <Link
+            href="/login"
+            className="block py-2 px-3 rounded md:bg-transparent md:p-0"
+            aria-current="page"
+          >
+            Login
+          </Link>
+        </li>
+      )}
+    
           </ul>
         </div>
 
@@ -203,7 +218,7 @@ const Navbar = () =>
               (
               <>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <Link href="/kol/kols-profile">profile</Link>
+                  <Link href="/kols-profile">profile</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/kol/create-community">create community</Link>
@@ -216,7 +231,7 @@ const Navbar = () =>
               (
               <>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <Link href="/user/profile">Profile</Link>
+                  <Link href="/profile">Profile</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/user/my-community">My community</Link>

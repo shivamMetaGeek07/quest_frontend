@@ -8,7 +8,8 @@ import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { fetchUserData } from "@/redux/reducer/auth";
+import { fetchUserData } from "@/redux/reducer/authSlice";
+import { BallTriangle } from "react-loader-spinner";
 
 interface data {
   id: Number;
@@ -155,8 +156,9 @@ const cardData: CommunitiesData[] = [
 ];
 
 export default function Home() {
-  const router = useRouter()
-  const dispatch=useDispatch<AppDispatch>();
+  const [isClient, setIsClient] = useState(false);
+
+ 
   const signupDiscord = async () =>
     {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord` ;
@@ -167,11 +169,17 @@ export default function Home() {
     };
 
     const data=  useSelector( ( state: RootState ) =>state.login.user);
-    console.log(data)
+     
     useEffect(() => {
-   
-      dispatch(fetchUserData())
-      }, [dispatch]);
+      setIsClient(true); // Set the client flag to true on the client side
+
+      }, []);
+      if (!isClient) return (
+        <div className="flex justify-center h-screen items-center">
+        <BallTriangle/>
+        </div>
+      );
+
    return (
     <div className=" bg-black">
       <div className="lg:mx-20 mx-auto">
@@ -181,7 +189,7 @@ export default function Home() {
         <div className="text-white text-2xl font-bold mb-4">
       
        {data ? (
-        <h1 className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </h1>
+        <div className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </div>
              ) : (
         <div className="text-white text-2xl font-bold mb-4">Your Community Here...</div>
         )}

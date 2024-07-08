@@ -60,27 +60,33 @@ const Registrartion = () =>
 				  Sign in with Google
 				</h1>
 			  </a>
-			  <div className="mt-4 flex items-center justify-between">
-				<span className="border-b w-1/5 lg:w-1/4"></span>
-				<a
+			  <div className="mt-4 flex items-center ">
+				<span className="border-b   w-full "></span>
+				<span className="m-3">
+					<a
 				  href="#"
-				  className="text-xs text-center text-gray-500 uppercase"
-				>
-				or Login as an {user === 'user' ?  'user':'Kols'}
-				</a>
-				<span className="border-b w-1/5 lg:w-1/4"></span>
+				  className="text-sm font-semibold text-center text-gray-500 "
+					>
+						Or
+					</a>	
+				</span>
+				<span className="border-b   w-full"></span>
 			  </div>
-			  <div className="mt-6 p-6 bg-white rounded-lg shadow-md">
-				<p className="text-gray-500 text-sm">
-				  If you are {user === 'user' ?'Kols':  'user'}, please login from here
-				  <span
+			  <div className="flex items-center justify-center">
+			  <a
+				  href="#"
+				  className="text-base font-semibold text-center text-gray-500 "
+				>
+				 Login as an  
+				<span
 					className="text-blue-700 hover:underline pl-1 cursor-pointer hover:text-blue-900"
 					onClick={() => setUser(user === 'user' ? 'Kols' : 'user')}
 				  >
-					click here
+					{user === 'user' ?'Kols':  'user'}
 				  </span>
-				</p>
+				</a>
 			  </div>
+			  
 			</div>
 		</div>
 	</div></>

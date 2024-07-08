@@ -1,26 +1,36 @@
 "use client";
 import {  RootState } from '@/redux/store';
-import { useProtectedRoute } from '@/utlis/privateRoute';
+import { useProtectedRoute } from '../../../utils/privateRoute';
 import React,{useState,useEffect} from 'react'
 import { BallTriangle } from 'react-loader-spinner';
 import {  useSelector } from 'react-redux';
+import ModalForm from '../../components/ModalForm';
 
 type Props = {}
 
 const kolsProfile = ( props: Props ) =>
 {
-    useProtectedRoute("kol");
+    const [isClient, setIsClient] = useState(false);
+
     const user=  useSelector( ( state: RootState ) =>state.login.user);
     const loading = useSelector((state: RootState) => state.login.loading);
-      console.log(user)
+    useEffect(() => {
+      setIsClient(true); // Set the client flag to true on the client side
+
+      }, []);
     if (loading) {
       return <><div className='min-h-screen flex justify-center items-center'><BallTriangle/></div>;</>
     }
     if (!user) {
       return <><div className='min-h-screen flex justify-center items-center'><BallTriangle/></div>;</>
     }
-  
-    return<>    
+    
+    if (!isClient) return (
+      <div className="flex justify-center h-screen items-center">
+      <BallTriangle/>
+      </div>
+    );
+    return <>
     { user && user?.discordInfo && (
       <div className="min-h-screen bg-slate-800">
         <div className=" h-screen">
@@ -40,6 +50,12 @@ const kolsProfile = ( props: Props ) =>
                     <p className="text-gray-700 mb-4 text-sm font bold bg-orange-300 ">
                       {user.rank}
                     </p>
+                    <p className="text-gray-700 mb-4 text-sm font bold bg-orange-300 ">
+                      {user.nickname}
+                    </p>
+                    <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
+                      <ModalForm/>
+                    </span>
                   </div>
                   <div className="flex flex-wrap items-center justify-center gap-4">
                     <div>
@@ -91,27 +107,15 @@ const kolsProfile = ( props: Props ) =>
               </div>
               <div className="col-span-4 sm:col-span-9">
                 <div className="bg-white shadow rounded-lg p-6">
-                  <h2 className="text-xl font-bold mb-4">About Me</h2>
+                  <h2 className="text-xl text-black font-bold mb-4">About Me</h2>
                   <p className="text-gray-700">
-                    {/* {user.aboutMe || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed finibus est vitae tortor ullamcorper, ut vestibulum velit convallis. Aenean posuere risus non velit egestas suscipit. Nunc finibus vel ante id euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam erat volutpat. Nulla vulputate pharetra tellus, in luctus risus rhoncus id."} */}
+                    {user.bio}
                   </p>
                   <h3 className="font-semibold text-center mt-3 -mb-2">
                     Find me on
                   </h3>
-                  {/* <SocialLinks links={kol.socialLinks} /> */}
                   <h2 className="text-xl font-bold mt-6 mb-4">Experience</h2>
-                  {/* {user.experiences.map((exp, index) => (
-                    <div key={index} className="mb-6">
-                      <div className="flex justify-between flex-wrap gap-2 w-full">
-                        <span className="text-gray-700 font-bold">{exp.position}</span>
-                        <p>
-                          <span className="text-gray-700 mr-2">at {exp.company}</span>
-                          <span className="text-gray-700">{exp.years}</span>
-                        </p>
-                      </div>
-                      <p className="mt-2">{exp.description}</p>
-                    </div>
-                  ))} */}
+                   
                 </div>
               </div>
             </div>
@@ -119,8 +123,8 @@ const kolsProfile = ( props: Props ) =>
         </div>
       </div>
     )}
-</>
-  }
+  </>
+  };
 
 
 export default kolsProfile
