@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import { Providers } from "../provider";
 
 
  
@@ -9,9 +10,9 @@ export default function UserLayout ( {
 }> )
 {
   return (
-    <div>
+    <Providers> <div>
         <Navbar/>
         <div>{ children }</div>
-    </div>
+    </div></Providers>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import {
@@ -8,8 +8,9 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import "./profilr.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { fetchUserData } from "@/redux/reducer/auth";
 
 type userData = {
   id: number;
@@ -27,7 +28,7 @@ const Profile: React.FC = () => {
   const router = useRouter();
 
   const [earned, setEarned] = useState<number | null>(null);
-
+  const dispatch=useDispatch()
   const handleEarnRewardsClicks = () => {
     if (earned === null) {
       const earnedAmount: number = 5000;
@@ -37,11 +38,12 @@ const Profile: React.FC = () => {
     }
   };
   const user=useSelector((state:RootState)=>state.login.user)
-  useSelector((state:RootState)=>console.log(state.login.user))
-  const handleEarnRewardsClick = () => {
+  useSelector((state:RootState)=>console.log( state)) 
+   const handleEarnRewardsClick = () => {
     router.push("/");
   };
-
+ 
+ 
   const handleEarnRewardsClickss = () => {
     router.push("/user/leaderboard");
   };
@@ -123,8 +125,10 @@ const Profile: React.FC = () => {
         "https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg",
     },
   ];
-
-  return (
+  useEffect(() => {
+   
+    dispatch(fetchUserData())
+    }, [dispatch]);  return (
     <>
       <div className="flex flex-col lg:flex-row justify-between mt-4 mx-4 lg:mx-10">
         <div>

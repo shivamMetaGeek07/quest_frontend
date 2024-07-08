@@ -1,5 +1,7 @@
 "use client";
 import {  RootState } from '@/redux/store';
+import { useProtectedRoute } from '@/utils/protectionRoute';
+import { useRouter } from 'next/navigation';
 import React,{useState,useEffect} from 'react'
 import {  useSelector } from 'react-redux';
 
@@ -38,7 +40,10 @@ interface KolsData {
     },
   };
 
-const kolsProfile = (props: Props) => {
+  const kolsProfile = (props: Props) => {
+    const router=useRouter()
+
+  // useProtectedRoute('kol');
     const [kol, setKol] = useState<KolsData>({
         name: "",
         userName: "",
@@ -57,8 +62,7 @@ const kolsProfile = (props: Props) => {
       });
     const user=  useSelector( ( state: RootState ) =>state.login.user);
     const loading = useSelector((state: RootState) => state.login.loading);
-   
-
+      console.log(user)
     if (loading) {
       return <><div className='mt-25 text-3xl relative text-red-600'>Loading...</div>;</>
     }
@@ -71,6 +75,8 @@ const kolsProfile = (props: Props) => {
    
       setKol(sampleKol);
       }, []);
+  
+        
   return<>    
    { user && user?.discordInfo && (
     <div>
@@ -170,6 +176,7 @@ const kolsProfile = (props: Props) => {
     </div>
   )}
 </>
-}
+  }
+
 
 export default kolsProfile

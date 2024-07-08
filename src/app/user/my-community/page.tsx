@@ -27,6 +27,8 @@ const MyCommunities: React.FC = () =>
   // const { data: community, loading, error } = useSelector( ( state: RootState ) => state.community );
   const temp = useSelector( ( state: RootState ) => console.log( state.community.allCommunities ) );
   const cardData = useSelector( ( state: RootState ) => state.community.allCommunities );
+  const data=  useSelector( ( state: RootState ) =>state);
+    console.log(data)
   useEffect( () =>
   {
     dispatch( fetchAllCommunities() );

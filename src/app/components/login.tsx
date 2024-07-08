@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 const Registrartion = () => {
-	const [user, setUser] = useState('Kols')
+	const [user, setUser] = useState('kols')
 
 	const signup = async () => {
 		if (user == 'user') {
@@ -25,7 +25,7 @@ const Registrartion = () => {
 			</div>
 			<div className="w-full p-8 lg:w-1/2">
 			  <h2 className="text-2xl font-semibold text-gray-700 text-center">
-				Login as an {user === 'user' ? 'Kols' : 'user'}
+				Login as an {user === 'user' ?  'user':'Kols'}
 			  </h2>
 			  <a
 				href="#"
@@ -62,13 +62,13 @@ const Registrartion = () => {
 				  href="#"
 				  className="text-xs text-center text-gray-500 uppercase"
 				>
-				  or login as {user === 'user' ? 'Kols' : 'user'}
+				or Login as an {user === 'user' ?  'user':'Kols'}
 				</a>
 				<span className="border-b w-1/5 lg:w-1/4"></span>
 			  </div>
 			  <div className="mt-6 p-6 bg-white rounded-lg shadow-md">
 				<p className="text-gray-500 text-sm">
-				  If you are KOLS, please login from here
+				  If you are {user === 'user' ?'Kols':  'user'}, please login from here
 				  <span
 					className="text-blue-700 hover:underline pl-1 cursor-pointer hover:text-blue-900"
 					onClick={() => setUser(user === 'user' ? 'Kols' : 'user')}

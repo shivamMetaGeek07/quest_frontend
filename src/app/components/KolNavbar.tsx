@@ -180,7 +180,7 @@ const Navbar = () =>
             </li> 
             
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/kol/profile">Profile</Link>
+              <Link href="/user/profile">Profile</Link>
             </li>
             
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
