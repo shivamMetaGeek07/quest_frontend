@@ -19,9 +19,10 @@ const rootReducer = combineReducers({
   taskOption : taskOptionReducer
 });
 
-const persistConfig = {
+const persistConfig = { 
   key: 'root',
   storage,
+  whitelist: ['login']
   // Only persist the login state if you want
 };
 
