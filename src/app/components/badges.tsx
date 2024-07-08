@@ -14,56 +14,56 @@ const Badges: React.FC = () => {
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
     },
     {
       id: 2,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
     },
     {
       id: 3,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://cdna.artstation.com/p/assets/images/images/063/962/232/large/divya-theepireddy-icon-1-copy.jpg?1686768810",
     },
     {
       id: 4,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://cdna.artstation.com/p/assets/images/images/063/962/232/large/divya-theepireddy-icon-1-copy.jpg?1686768810",
     },
     {
       id: 5,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://cdna.artstation.com/p/assets/images/images/063/962/232/large/divya-theepireddy-icon-1-copy.jpg?1686768810",
     },
     {
       id: 6,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://cdna.artstation.com/p/assets/images/images/063/962/232/large/divya-theepireddy-icon-1-copy.jpg?1686768810",
     },
     {
       id: 7,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
     },
     {
       id: 8,
       title: "Badges",
       description: "Lorem ipsum dolor sit amet.",
       imageUrl:
-        "https://static.vecteezy.com/system/resources/thumbnails/004/989/579/small/simple-illustration-of-golden-award-medal-with-ribbons-for-winners-free-vector.jpg",
+        "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
     },
   ]
 
@@ -77,7 +77,7 @@ const Badges: React.FC = () => {
           {userData.map((data) => (
             <div
               key={data.id}
-              className="group shadow-lg p-5 flex flex-col items-center justify-center hover:bg-slate-400 duration-1000 rounded-md cursor-pointer"
+              className="group shadow-lg p-5 flex flex-col items-center justify-center hover:bg-slate-400 bg-slate-800 duration-1000 rounded-md cursor-pointer"
             >
               <img
                 src={data.imageUrl}

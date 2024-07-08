@@ -66,13 +66,13 @@ const Registrartion = () =>
 								href="#"
 								className="text-xs text-center text-gray-500 uppercase"
 							>
-								or Login as an { user === 'user' ? 'user' : 'Kols' }
+								or Login as an { user === 'user' ? 'Kol' : 'User' }
 							</a>
 							<span className="border-b w-1/5 lg:w-1/4"></span>
 						</div>
 						<div className="mt-6 p-6 bg-white rounded-lg shadow-md">
 							<p className="text-gray-500 text-sm">
-								If you are { user === 'user' ? 'Kols' : 'user' }, please login from here
+								If you are a { user === 'user' ? 'Kol' : 'User' }, please login from here
 								<span
 									className="text-blue-700 hover:underline pl-1 cursor-pointer hover:text-blue-900"
 									onClick={ () => setUser( user === 'user' ? 'Kols' : 'user' ) }

@@ -1,73 +1,43 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { BallTriangle, TailSpin } from "react-loader-spinner";
 
 type Props = {};
 
 interface KolsData {
-  name: string;
+  displayName: string;
   userName: string;
   role: string;
   bio: string;
-  imageUrl: string;
+  image: string;
   upVotes: number;
   downVotes: number;
-  socialLinks: {
-    linkedin: string;
-    youtube: string;
-    facebook: string;
-    instagram: string;
-    twitter: string;
-  };
-}
-interface SliderProps {
-  kols: KolsData[];
 }
 
 const RateKols = (props: Props) => {
-  // const sliderSettings = {
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 3,
-  //   slidesToScroll: 1,
-  //   responsive: [
-  //     {
-  //       breakpoint: 1024,
-  //       settings: {
-  //         slidesToShow: 2,
-  //         slidesToScroll: 1,
-  //         infinite: true,
-  //         dots: true,
-  //       },
-  //     },
-  //     {
-  //       breakpoint: 768,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1,
-  //         initialSlide: 0,
-  //       },
-  //     },
-  //   ],
-  // };
+
   const [kols, setKols] = useState<KolsData[]>([]);
+  const [loader,setloader]=useState(false);
   useEffect(() => {
     const fetchKols = async () => {
+      setloader(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/kols/getAllKols`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/kols/get`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const res = await response.json();
-
         console.log(res);
-        setKols(res.data);
+        setKols(res.kols);
+        setloader(false);
       } catch (error) {
         console.error("Error fetching KOLs:", error);
       }
@@ -80,19 +50,31 @@ const RateKols = (props: Props) => {
     console.log(kols); // Log kols whenever it changes
   }, [kols]);
   return (
-    <div className="flex bg-slate-100 justify-center items-center">
-    <div className="bg-gray-100 w-full">
-      <div className="container mx-auto py-8">
-        <div className="grid gap-6 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {kols.map((kol) => (
+    <div className="min-h-screen">
+
+    <div className=" w-full bg-slate-900 h-screen">
+      <div className="flex justify-center items-center h-32 w-full bg-slate-800">
+        <div className="text-3xl text-center font-bold text-white">Rate Kols</div>
+      </div>
+      <div className="container  mx-auto mt-8">
+      <div className="text-2xl  font-bold h-20 text-start text-white"
+      >All the kols:</div>
+      {loader?
+      <div className="flex justify-center h-screen items-center">
+        <TailSpin height="70" width="70"/>
+      </div>
+      :
+      (
+      <div className="grid gap-6 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ">
+          {kols?.map((kol) => (
             <div  className="bg-white shadow rounded-lg p-6">
               <div className="flex flex-col items-center">
                 <img
-                  src={kol.imageUrl}
+                  src={kol.image}
                   className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
-                  alt={kol.name}
+                  alt={kol.displayName}
                 />
-                <h1 className="text-xl font-bold text-gray-700">{kol.name}</h1>
+                <h1 className="text-xl font-bold text-gray-700">{kol.displayName}</h1>
                 <p className="text-gray-700">{kol.userName}</p>
               </div>
   
@@ -138,7 +120,7 @@ const RateKols = (props: Props) => {
                   </svg>
                 </button>
               </div>
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <h3 className="font-semibold text-start text-black">
                   Follow me on
                 </h3>
@@ -146,7 +128,7 @@ const RateKols = (props: Props) => {
                   <a
                     className="text-gray-700 hover:text-orange-600"
                     aria-label="Visit LinkedIn"
-                    href={kol.socialLinks.linkedin}
+                    href={kol?.socialLinks?.linkedin}
                     target="_blank"
                   >
                     <svg
@@ -163,7 +145,7 @@ const RateKols = (props: Props) => {
                   <a
                     className="text-gray-700 hover:text-orange-600"
                     aria-label="Visit YouTube"
-                    href={kol.socialLinks.youtube}
+                    href={kol?.socialLinks?.youtube}
                     target="_blank"
                   >
                     <svg
@@ -180,7 +162,7 @@ const RateKols = (props: Props) => {
                   <a
                     className="text-gray-700 hover:text-orange-600"
                     aria-label="Visit Facebook"
-                    href={kol.socialLinks.facebook}
+                    href={kol?.socialLinks?.facebook}
                     target="_blank"
                   >
                     <svg
@@ -197,7 +179,7 @@ const RateKols = (props: Props) => {
                   <a
                     className="text-gray-700 hover:text-orange-600"
                     aria-label="Visit Instagram"
-                    href={kol.socialLinks.instagram}
+                    href={kol?.socialLinks?.instagram}
                     target="_blank"
                   >
                     <svg
@@ -214,7 +196,7 @@ const RateKols = (props: Props) => {
                   <a
                     className="text-gray-700 hover:text-orange-600"
                     aria-label="Visit Twitter"
-                    href={kol.socialLinks.twitter}
+                    href={kol?.socialLinks?.twitter}
                     target="_blank"
                   >
                     <svg
@@ -229,10 +211,13 @@ const RateKols = (props: Props) => {
                     </svg>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           ))}
-        </div>
+      </div>
+      )
+      }
+        
       </div>
     </div>
   </div>
