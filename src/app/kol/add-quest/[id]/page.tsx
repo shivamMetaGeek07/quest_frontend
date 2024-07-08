@@ -6,9 +6,12 @@ import { createQuest, createQuest1, Reward } from '../../../../redux/reducer/que
 import { RootState, AppDispatch } from '../../../../redux/store';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useProtectedRoute } from '@/utils/privateRoute';
 
 function CreateQuest ()
 {
+  useProtectedRoute("kol");
+
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error } = useSelector( ( state: RootState ) => state.quest );

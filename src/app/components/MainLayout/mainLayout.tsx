@@ -13,9 +13,7 @@ const MainLayout = ({
 }> ) => {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith('/admin');
-  const isKolRoute = pathname.startsWith('/kol');
 
-  console.log(isAdminRoute, isKolRoute);
 
   return (
     <div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { useProtectedRoute } from "@/utils/privateRoute";
 
 
 interface TaskOption {
@@ -15,6 +16,8 @@ interface PollOption {
 }
 
 const AddTask = () => {
+  useProtectedRoute("kol");
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<TaskOption | null>(null);
   const [pollQuestion, setPollQuestion] = useState("");
