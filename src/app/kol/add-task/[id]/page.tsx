@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Navbar from "@/app/components/Navbar";
+
 
 
 interface TaskOption {
@@ -31,6 +31,7 @@ const AddTask = () => {
     { text: "" },
     { text: "" },
   ]);
+  
 
   const taskOptions: TaskOption[] = [
     {
@@ -65,13 +66,13 @@ const AddTask = () => {
     },
     {
       name: "Poll",
-      icon: "https://thumbs.dreamstime.com/b/external-link-icon-user-will-know-leaving-app-to-visit-website-flat-style-139079210.jpg",
+      icon: "https://thumbs.dreamstime.com/b/green-poll-document-icon-isolated-green-background-long-shadow-style-vector-green-poll-document-icon-isolated-green-312441221.jpg",
       description: "Vote in a poll",
       category: "Answers",
     },
     {
       name: "Quiz",
-      icon: "https://thumbs.dreamstime.com/b/external-link-icon-user-will-know-leaving-app-to-visit-website-flat-style-139079210.jpg",
+      icon: "https://cdn.pixabay.com/photo/2022/11/02/02/30/quiz-7563812_640.png",
       description: "Respond to a quiz with multiple answer choices",
       category: "Answers",
     },
@@ -200,7 +201,10 @@ const AddTask = () => {
   };
 
 
-
+  const handleTaskSelection = (task: TaskOption) => {
+    setSelectedTask(task);
+    console.log('Selected Task:', task);
+  };
 
 
   const handleAddTask = () => {
@@ -209,13 +213,16 @@ const AddTask = () => {
     if (selectedTask?.name === "Poll") {
       console.log("Poll Question:", pollQuestion);
       console.log("Poll Options:", pollOptions);
+
     }
     closeTaskModal();
   };
 
+
+  // console.log(selectedTask)
   return (
     <>
-    <Navbar/>
+    
   {!isOpen && (
     <div className="fixed inset-0 bg-black bg-opacity-25 flex justify-center items-center z-50">
       <button
@@ -229,7 +236,7 @@ const AddTask = () => {
 
   {isOpen && (
     <div className=" inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center">
-      <div className="relative p-4 w-3/4">
+      <div className="relative p-4 lg:w-3/4 w-full sm:h-full">
         <div className="relative bg-[#121212] rounded-3xl shadow-lg">
           <div className="flex items-center justify-between p-4 md:p-5 border-b border-gray-700 bg-[#282828] rounded-xl">
             <h3 className="text-lg font-semibold text-gray-300">Find a task type</h3>
@@ -260,7 +267,9 @@ const AddTask = () => {
             <div className="p-4 md:p-5 flex flex-col gap-4 bg-[#141414] text-white w-full md:w-1/2">
               {["Actions", "Social"].map((category) => (
                 <div key={category}>
-                  <h4 className="text-xl font-medium mb-2 text-gray-400">{category}</h4>
+                  <div className="mx-4">
+                  <h4 className="text-xl font-medium mb-2 text-gray-400 ">{category}</h4>
+                  </div>
                   <div className="space-y-2 mb-7 grid gap-4 sm:grid-cols-1">
                     {taskOptions
                       .filter((task) => task.category === category)
@@ -294,7 +303,9 @@ const AddTask = () => {
             <div className="p-4 md:p-5 gap-4 bg-[#141414] text-white w-full md:w-1/2">
               {["Answers", "On-chain action"].map((category) => (
                 <div key={category}>
+                  <div className="mx-4">
                   <h4 className="text-xl font-medium mb-2 text-gray-400">{category}</h4>
+                  </div>
                   <div className="space-y-2 mb-7 grid gap-4 sm:grid-cols-1">
                     {taskOptions
                       .filter((task) => task.category === category)
@@ -379,6 +390,7 @@ const AddTask = () => {
                       type="url"
                       className="w-full p-2 border rounded-lg  mb-2 bg-[#282828]"
                       placeholder="https:/"
+                     
                     />
                     <button
                       className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
@@ -439,7 +451,7 @@ const AddTask = () => {
                   <div>
                     <input
                       type="text"
-                      className="w-full p-2 border rounded mb-2 "
+                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
                       placeholder="Enter quiz question"
                       value={quizQuestion}
                       onChange={handleQuizQuestionChange}
@@ -448,7 +460,7 @@ const AddTask = () => {
                       <div key={index} className="flex items-center mb-2">
                         <input
                           type="text"
-                          className="w-full p-2 border rounded"
+                          className="w-full p-2 border rounded-lg bg-[#282828]"
                           placeholder={`Choice ${index + 1}`}
                           value={option.text}
                           onChange={(e) =>
@@ -457,12 +469,14 @@ const AddTask = () => {
                         />
                       </div>
                     ))}
+                    <div className="flex justify-center">
                     <button
-                      className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                      className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
                       onClick={handleAddTask}
                     >
                       Add Quiz Task
                     </button>
+                    </div>
                   </div>
                 )}
               </div>
