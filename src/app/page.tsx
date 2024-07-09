@@ -8,8 +8,14 @@ import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
+<<<<<<< HEAD
 import { fetchUserData } from "@/redux/reducer/auth";
 import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
+import { BallTriangle } from "react-loader-spinner";
+=======
+import { fetchUserData } from "@/redux/reducer/authSlice";
+import { BallTriangle } from "react-loader-spinner";
+>>>>>>> c7d78b41b3bd4c20bdbd90dc9629200b01b0907d
 
 interface data {
   id: Number;
@@ -156,9 +162,9 @@ const cardData: CommunitiesData[] = [
 ];
 
 export default function Home() {
-  const router = useRouter()
-  const dispatch=useDispatch<AppDispatch>();
+  const [isClient, setIsClient] = useState(false);
 
+ 
   const signupDiscord = async () =>
     {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord` ;
@@ -168,27 +174,32 @@ export default function Home() {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter `;
     };
 
-  const data = useSelector( ( state: RootState ) => state.login.user );
-  // console.log(data)
-
+    const data=  useSelector( ( state: RootState ) =>state.login.user);
+     
     useEffect(() => {
-   
-      dispatch(fetchUserData())
-      }, [dispatch]);
+      setIsClient(true); // Set the client flag to true on the client side
+
+      }, []);
+      if (!isClient) return (
+        <div className="flex justify-center h-screen items-center">
+        <BallTriangle/>
+        </div>
+      );
+
    return (
     <div className=" bg-black">
       <div className="lg:mx-20 mx-auto">
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
         <div className="w-full lg:w-2/5 text-center lg:text-left">
-        <h1 className="text-white text-2xl font-bold mb-4">
+        <div className="text-white text-2xl font-bold mb-4">
       
        {data ? (
-        <h1 className="text-white text-4xl font-bold mb-4">Welcome {data.displayName} </h1>
+        <div className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </div>
              ) : (
         <div className="text-white lg:text-4xl text-3xl font-medium mb-4">Your Community Here...</div>
         )}
-          </h1>
+          </div>
           <p className="text-white">
              Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
          </p>

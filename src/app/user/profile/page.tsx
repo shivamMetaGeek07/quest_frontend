@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import {
@@ -7,10 +7,13 @@ import {
   faFacebook,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
+import { FaEdit } from "react-icons/fa";
 import "./profilr.css";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { fetchUserData } from "@/redux/reducer/auth";
+import { AppDispatch, RootState } from "@/redux/store";
+import { BallTriangle } from "react-loader-spinner";
+import ModalForm from "../../components/ModalForm";
+import { fetchUserData } from "@/redux/reducer/authSlice";
 
 type userData = {
   id: number;
@@ -26,9 +29,9 @@ type frndData = {
 
 const Profile: React.FC = () => {
   const router = useRouter();
-
+  const [isClient, setIsClient] = useState(false);
   const [earned, setEarned] = useState<number | null>(null);
-
+  const dispatch=useDispatch<AppDispatch>();
   const handleEarnRewardsClicks = () => {
     if (earned === null) {
       const earnedAmount: number = 5000;
@@ -43,7 +46,8 @@ const Profile: React.FC = () => {
   const handleEarnRewardsClick = () => {
     router.push("/");
   };
-
+ 
+ 
   const handleEarnRewardsClickss = () => {
     router.push("/user/leaderboard");
   };
@@ -125,7 +129,17 @@ const Profile: React.FC = () => {
         "https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg",
     },
   ];
- 
+  useEffect(() => {
+    setIsClient(true); // Set the client flag to true on the client side
+
+    dispatch(fetchUserData())
+    }, [dispatch]);
+
+  if (!isClient) return (
+    <div className="flex justify-center h-screen items-center">
+    <BallTriangle/>
+    </div>
+  );
   return (
     <>
       <div className="flex flex-col lg:flex-row justify-between mt-4 mx-4 lg:mx-10">
@@ -146,14 +160,20 @@ const Profile: React.FC = () => {
             /></>)
           }
             <div className="mt-4 lg:mt-8 lg:ml-4 text-center">
-               <div className="flex justify-start gap-5 row">
+              <div> 
+                <div className="flex justify-start gap-5 row">
                <p className=" p-1 font-bold text-2xl font-mono  ">
-                @GhostRider15
+                {user?.nickname}
                 </p>
                 <button className="bg-blue-500 text-white rounded-full text-md px-4 py-2" >
                     Follow
                 </button>
                 </div>
+                <div>
+                  <ModalForm/>
+                </div>
+                </div>
+
                 
               
               {/* social icons */}
@@ -232,6 +252,11 @@ const Profile: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      <div className="border border-gray-500 p-5 mt-5 mx-4 lg:mx-10 rounded-md">
+        <div className="gap-2 ">
+            <span>{user?.bio}</span>
         </div>
       </div>
       <div className="border border-gray-500 p-5 mt-5 mx-4 lg:mx-10 rounded-md">

@@ -22,7 +22,7 @@ const Navbar = () =>
   }
 
   return (
-    <nav className="bg-gray-800 border-gray-200 w-full overflow-hidden" style={{zIndex:"1000"}}>
+    <nav className="bg-gray-800 border-gray-200 text-white w-full overflow-hidden" style={{zIndex:"1000"}}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link href="/admin/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
@@ -163,15 +163,15 @@ const Navbar = () =>
               </svg>
             </button>
           </div>
-          <ul className="flex flex-col justify-center items-center">
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+          <ul className="flex flex-col justify-center text-white items-center">
+            <li className="flex justify-center items-center  font-bold my-4 hover:text-cyan-500">
               <Link href="/admin/dashboard">Dashboard</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/admin/dashboard/add-community-data">community MetaData</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard/add-feed">add feed</Link>
+              <Link href="/admin/dashboard/feed-section">feed section</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <button onClick={handleLogout}>Logout</button>
@@ -214,7 +214,7 @@ const Navbar = () =>
             <li className="mb-2 md:mb-2 md:inline-block">
               <Link
                 href="/admin/dashboard"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-cyan-700 md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                className="block py-2 px-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-cyan-700 md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Dashboard
               </Link>

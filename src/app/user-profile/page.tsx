@@ -38,12 +38,14 @@
 
 // export default UserProfile
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { BallTriangle } from "react-loader-spinner";
 
 const UserProfile: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
 
@@ -57,7 +59,15 @@ const UserProfile: React.FC = () => {
   const handleuserdetails = () =>{
     router.push('/user/profile')
   }
+  useEffect(() => {
+    setIsClient(true); // Set the client flag to true on the client side
 
+    }, []);
+  if (!isClient) return (
+    <div className="flex justify-center h-screen items-center">
+    <BallTriangle/>
+    </div>
+  );
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center" style={{zIndex:"10"}}>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/auth";
+import { useProtectedRoute } from "@/utils/privateRoute";
 
 
 
@@ -30,6 +31,7 @@ interface PollOption
 
 const AddTask = ( { params }: { params: { id: string; }; } ) =>
 {
+  useProtectedRoute( "kol" );
   const dispatch = useDispatch();
   const [ isOpen, setIsOpen ] = useState( true );
   const [ selectedTask, setSelectedTask ] = useState<TaskOption | null>( null );

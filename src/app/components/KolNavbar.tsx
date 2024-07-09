@@ -3,28 +3,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
-const KolNavbar = () =>
+interface NavbarProps {
+  toggleSlider: () => void;
+}
+
+const Navbar = () =>
 {
+    const dispatch=useDispatch<AppDispatch>();
   const [ isMenuOpen, setIsMenuOpen ] = useState( false );
   const [ drop, setDrop ] = useState( false );
-  const router = useRouter();
+
+  const data=useSelector((state:RootState)=>state.login.user);
+  const logout=()=>{
+    window.location.href=`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`
+
+}  
   const handleClose = () =>
   {
     setDrop( false );
   };
 
-  const handleLogout = () =>
-  {
-      localStorage.removeItem("token");
-      router.push("/admin/login");
-  }
-
   return (
-    <nav className="bg-gray-800 border-gray-200 w-full overflow-hidden" style={{zIndex:"1000"}}>
+    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link href="/admin/dashboard" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-8 "
@@ -32,8 +37,8 @@ const KolNavbar = () =>
             width={ 32 }
             height={ 32 }
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Cluster Protocol
+          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white">
+            Logo
           </span>
         </Link>
 
@@ -146,7 +151,7 @@ const KolNavbar = () =>
         >
           <div className="flex justify-end p-4">
             <button
-              onClick={handleClose }
+              onClick={ handleClose }
               className="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 flex justify-center items-center"
             >
               <svg
@@ -164,14 +169,31 @@ const KolNavbar = () =>
             </button>
           </div>
           <ul className="flex flex-col justify-center items-center">
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+              <Link href="/user/feed">Daily Feed</Link>
+            </li>
+               <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+             <Link href="#">Login</Link>
+             </li>
+             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+            <Link href="#">Signups</Link>
+            </li> 
+            
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-            <Link href="/kol/profile">profile</Link>
+              <Link href="/user/profile">Profile</Link>
+            </li>
+            
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+            <Link href="/user/my-community">My community</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/kol/create-community">create community</Link>
+              <Link href="/user/leaderboard">Leaderboard</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <button onClick={handleLogout}>Logout</button>
+              <Link href="/user/rewards">Rewards</Link>
+            </li>
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+              <Link href="/user/rate-kols">Rank kols</Link>
             </li>
           </ul>
         </div>
@@ -207,14 +229,35 @@ const KolNavbar = () =>
               placeholder="Search..."
             />
           </div>
-          <ul className="flex lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
-            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-              <Link href="/feed">Daily Feed</Link>
+          <ul className="flex text-white lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li className="mb-2 md:mb-2 md:inline-block">
+              <Link
+                href="/user/feed"
+                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-cyan-700 md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >
+                Daily Feed
+              </Link>
             </li>
-               <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
-             <Link href="#">Login</Link>
-             </li>
-
+              {data?
+                (<><li className="text-center md:text-left">
+                <span
+                onClick={logout}
+                className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
+                aria-current="page"
+                 >
+                Logout
+               </span>
+                </li></>):
+                (<> <li className="text-center md:text-left">
+                <Link
+                href="/user/login"
+                className="block py-2 px-3 rounded md:bg-transparent md:p-0 "
+                aria-current="page"
+               >
+                Login
+               </Link>
+            </li>
+             </>)}
           </ul>
         </div>
       </div>
@@ -222,4 +265,4 @@ const KolNavbar = () =>
   );
 };
 
-export default KolNavbar;
+export default Navbar;

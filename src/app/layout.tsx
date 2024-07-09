@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { Providers } from "./provider";
 import MainLayout from "./components/MainLayout/mainLayout";
@@ -25,7 +26,6 @@ export default function RootLayout ( {
         <MainLayout>
         { children }
         </MainLayout>
-        
         </Providers>
       </body>
     </html>

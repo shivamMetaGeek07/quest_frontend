@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-  import { persistStore, persistReducer } from 'redux-persist';
-  import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 
 import communityReducer from './reducer/communitySlice';
 import questReducer from './reducer/questSlice';
 import adminCommunityReducer from './reducer/adminCommunitySlice';
-import userReducer from './reducer/auth';
+import userReducer from './reducer/authSlice'
 import taskReducer from './reducer/taskSlice';
 import taskOptionReducer from './reducer/taskOptionSlice';
 
@@ -22,8 +22,7 @@ const rootReducer = combineReducers({
 const persistConfig = { 
   key: 'root',
   storage,
-  whitelist: ['login']
-  // Only persist the login state if you want
+  whitelist: ['login'], 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
