@@ -31,14 +31,7 @@ const Navbar = () =>
       console.error('Error logging out:', error);
     }
   };
-  const handleKolLogout = () =>
-  {
-    //kol logout logic
-  }
 
-  const handleUserLogout = () => {
-    //user logout logic
-  }
   const handleClose = () =>
   {
     setDrop( false );
@@ -218,20 +211,20 @@ const Navbar = () =>
               (
               <>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <Link href="/kols-profile">profile</Link>
+                  <Link href="/kol/kols-profile">profile</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/kol/create-community">create community</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button onClick={handleKolLogout}>Logout</button>
+                  <button >Logout</button>
                 </li>
               </>
               ):
               (
               <>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/user/profile">Profile</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/user/my-community">My community</Link>
@@ -246,7 +239,7 @@ const Navbar = () =>
                   <Link href="/user/rate-kols">Rank kols</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button onClick={handleUserLogout} >Logout</button>
+                  <button  >Logout</button>
                 </li>
               </>
                 

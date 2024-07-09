@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { BallTriangle } from "react-loader-spinner";
+// import {Button} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 
 
 interface Feed {
@@ -13,24 +15,59 @@ interface Feed {
     imageUrl: string;
     author: string;
     summary: string;
+    id:any
 }
 const AddFeedPage = () =>
 {
-  const router = useRouter();
   const [ formData, setFormData ] = useState( {
     title: '',
     description: '',
     author: '',
-    summary: ''
+    summary: '',
+    id:''
   } );
   const [file, setFile ] = useState<File | null>( null );
   const [feeds, setFeeds] = useState<Feed[] | any>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [loader, setLoader ] = useState( false );
-  
+  const [loader, setLoader ] = useState<boolean>( false );
+  const [editFlag, setEditFlag] = useState<boolean>(false);
   let limit=10;
   
+  const router = useRouter();
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  
+  const initailFormData = () =>{
+    setFormData({
+      title: '',
+      description: '',
+      author: '',
+      summary: '',
+      id:''
+    });
+    setFile(null);
+  }
+  const handleOpen = (option: string, feed: Feed| null) => {
+    initailFormData();
+    if(option === 'edit' && feed){
+      setFormData({
+        title: feed.title,
+        description: feed.description,
+        author: feed.author,
+        summary: feed.summary,
+        id:feed.id
+      });
+    }
+    setEditFlag(option === 'edit' ? true : false);
+    onOpen();
+  }
+  const handleModalClose = () => {
+    initailFormData();
+    setEditFlag(false);
+    setLoader(false);
+    onClose();
+    
+  }
   const getFeeds = async () =>
   {
     try
@@ -123,7 +160,7 @@ const AddFeedPage = () =>
   };
 
   // submit for creating the feed
-  const handleSubmit = async ( e: React.FormEvent ) =>
+  const handleAddFeed = async ( e: React.FormEvent ) =>
   {
     e.preventDefault();
     setLoader( true );
@@ -167,8 +204,7 @@ const AddFeedPage = () =>
             },
             { headers: { Authorization: `Bearer ${ token }` } }
           );
-          setFormData( { title: '', description: '', author: '', summary: '' } );
-          setFile( null );
+          initailFormData();
           setLoader( false );
           alert( 'Blog feed created successfully' );
         }
@@ -184,6 +220,89 @@ const AddFeedPage = () =>
       router.push( '/admin/login' );
     }
   };
+  //submit for update the feed
+  const handleUpdateFeed = async ( e: React.FormEvent ) =>{
+    e.preventDefault();
+    setLoader(true);
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      setLoader(false);
+      initailFormData();
+      router.push('/admin/login');
+    }
+
+    try {
+      let newfeed;
+      if(!file){
+        newfeed = {
+          title: formData.title,
+          description: formData.description,
+          author: formData.author,
+          summary: formData.summary
+        };
+      }
+      else{
+        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp' && file.type !== 'image/gif' && file.type !== 'image/svg') {
+          setLoader(false);
+          return alert('Only JPEG, PNG, WEBP, GIF, SVG images are allowed');
+        }
+
+        const res = await handleUpload();
+        const path = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/feedImage/${file.name}`;
+        newfeed = {
+          title: formData.title,
+          description: formData.description,
+          author: formData.author,
+          imageUrl: path,
+          summary: formData.summary
+        };
+      }
+        const response = await axios.put(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/feed/:${formData.id}`,
+          {
+            ...newfeed
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if(response.status===200){
+          initailFormData();
+          setLoader(false);
+          alert('Blog feed updated successfully');  
+        }
+    }
+    catch (error) {
+      console.error('Error creating blog feed:', error);
+    }
+  }
+
+  //submit for delete the feed
+  const handleDeleteFeed = async (id:any) =>{
+    setLoader(true);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token not found');
+      setLoader(false);
+      initailFormData();
+      router.push('/admin/login');
+    }
+
+    try {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/feed/:${id}`, {
+        headers: { Authorization: `Bearer ${token}` 
+      }
+      });
+      if(response.status===200){
+        initailFormData();
+        setLoader(false);
+        alert('Blog feed deleted successfully');  
+      }
+    }
+    catch (error) {
+      console.error('Error deleting blog feed:', error);
+    }
+  }
 
   return (
     <>
@@ -191,7 +310,7 @@ const AddFeedPage = () =>
         <div className='h-screen'>
           <div className='p-4 mx-auto w-[80%] flex flex-col justify-center items-center '>
             <div className='w-full flex justify-end items-end'>
-              <button className='border-2 shadow-md text-white font-bold py-2 px-4 rounded-full bg-slate-700 hover:bg-slate-900' >
+              <button className='border-2 shadow-md text-white font-bold py-2 px-4 rounded-full bg-slate-700 hover:bg-slate-900' onClick={()=>handleOpen("add",null)} >
                 <span className='mr-2 text-sm'>
                   <i className="bi bi-plus-circle"></i>
                 </span>
@@ -214,7 +333,8 @@ const AddFeedPage = () =>
                     <td className='p-2 border-r '>{feed.title}</td>
                     <td className='p-2'>
                     <div className='flex justify-center items-center'>
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "  >View</button>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded " onClick={() => handleOpen("edit",feed)}><i className="bi bi-pencil-square"></i></button>
+                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2" onClick={() => handleDeleteFeed(feed._id)}><i className="bi bi-trash3"></i></button>
                     </div>
                     </td>
                   </tr>
@@ -230,102 +350,203 @@ const AddFeedPage = () =>
             </div>
           </div>
           </div>
-
-          <div className='text-black bg-white mx-auto w-[60%] mt-10'>
-            <form
-            className="p-8 rounded-lg"
-            onSubmit={ handleSubmit }
-          >
-            <div className="flex justify-center mb-6">
-              < h2 className="text-2xl font-bold ">Add Feed</h2>
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor="title"
-                className="block mb-2 text-sm font-medium  "
-              >
-                Title
-              </label>
-              <input name="title" type="text" id="title" value={ formData.title } onChange={ handleChange } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="title" required />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="description"
-                className="block mb-2 text-sm font-medium  "
-              >
-                Description
-              </label>
-              <textarea
-                id="description"
-                rows={ 4 }
-                name="description"
-                value={ formData.description }
-                onChange={ handleChange }
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here"
-                required
-              ></textarea>
-            </div>
-
-            <div className="mb-5">
-              <label className="block mb-2 text-sm font-medium text-gray-900 " htmlFor="file_input">Upload file</label>
-              <div { ...getRootProps() } className='bg-gray-700 h-20 rounded-lg text-white flex justify-center items-center'>
-                <input { ...getInputProps() } />
+          <div className="flex flex-wrap bg-red-600 gap-3">
+      </div>
+      <Modal backdrop="transparent" size='2xl' closeButton={false} scrollBehavior="outside" isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1  ">
+              <div className='flex justify-between items-center'>
+              <div className='text-slate-900 text-center font-bold text-2xl'>{editFlag ? 'Update Feed' : 'Add Feed'}</div>
+              <div className='text-slate-900 text-center'><button onClick={() => handleModalClose} ><i className="bi bi-x-circle"></i></button></div>
+              </div>
+              </ModalHeader>
+              <ModalBody className="flex flex-col gap-1 text-black p-8" >
                 {
-                  isDragActive ?
-                    <p>Drop the files here ...</p> :
-                    <p>Drag 'n' drop some files here, or click to select files</p>
+                  editFlag?(
+                    // update feed form
+                    <div>
+                      <form onSubmit={ handleUpdateFeed }>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="title"
+                            className="block mb-2 text-sm font-medium  "
+                          >
+                            Title
+                          </label>
+                          <input name="title" type="text" id="title" value={ formData.title } onChange={ handleChange } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="title" required />
+                        </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="description"
+                            className="block mb-2 text-sm font-medium  "
+                          >
+                            Description
+                          </label>
+                          <textarea
+                            id="description"
+                            rows={ 4 }
+                            name="description"
+                            value={ formData.description }
+                            onChange={ handleChange }
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Write your thoughts here"
+                            required
+                          ></textarea>
+                        </div>
+                        <div className="mb-4">
+                          <label className="block mb-2 text-sm font-medium text-gray-900 " htmlFor="file_input">Upload file</label>
+                          <div { ...getRootProps() } className='bg-gray-600 h-28 rounded-lg text-white flex justify-center items-center'>
+                            <input { ...getInputProps() } />
+                            {
+                              isDragActive ?
+                                <p>Drop the files here ...</p> :
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                            }
+                          </div>
+                          <div className='mt-2 text-blue-500 font-bold mx-2'>
+                            <h2>{ file?.name }</h2>
+                          </div>
+                        </div>
+                        <div className="mb-4">
+                          <label htmlFor='author' className="block mb-2 text-sm font-medium  ">Author</label>
+                          <input
+                            type="text"
+                            id="author"
+                            value={ formData.author }
+                            onChange={ handleChange }
+                            name="author"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="summary"
+                            className="block mb-2 text-sm font-medium "
+                          >
+                          Content
+                          </label>
+                          <textarea
+                            id="summary"
+                            rows={ 4 }
+                            name='summary'
+                            value={ formData.summary }
+                            onChange={ handleChange }
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Write your thoughts here"
+                            required
+                          ></textarea>
+                        </div>
+                        <div className='flex justify-end items-center'>
+                        {
+                          !loader ? ( 
+                            <Button type="submit" color="primary" variant="solid">
+                              Submit
+                            </Button>  
+                          ) 
+                          :
+                            <BallTriangle />
+                        }
+                        </div>
+                      </form>
+                    </div>
+                  ):(
+                    // add feed form
+                    <div>
+                      <form onSubmit={ handleAddFeed }>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="title"
+                            className="block mb-2 text-sm font-medium  "
+                          >
+                            Title
+                          </label>
+                          <input name="title" type="text" id="title" value={ formData.title } onChange={ handleChange } className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="title" required />
+                        </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="description"
+                            className="block mb-2 text-sm font-medium  "
+                          >
+                            Description
+                          </label>
+                          <textarea
+                            id="description"
+                            rows={ 4 }
+                            name="description"
+                            value={ formData.description }
+                            onChange={ handleChange }
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Write your thoughts here"
+                            required
+                          ></textarea>
+                        </div>
+                        <div className="mb-4">
+                          <label className="block mb-2 text-sm font-medium text-gray-900 " htmlFor="file_input">Upload file</label>
+                          <div { ...getRootProps() } className='bg-gray-600 h-28 rounded-lg text-white flex justify-center items-center'>
+                            <input { ...getInputProps() } />
+                            {
+                              isDragActive ?
+                                <p>Drop the files here ...</p> :
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                            }
+                          </div>
+                          <div className='mt-2 text-blue-500 font-bold mx-2'>
+                            <h2>{ file?.name }</h2>
+                          </div>
+                        </div>
+                        <div className="mb-4">
+                          <label htmlFor='author' className="block mb-2 text-sm font-medium  ">Author</label>
+                          <input
+                            type="text"
+                            id="author"
+                            value={ formData.author }
+                            onChange={ handleChange }
+                            name="author"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <label
+                            htmlFor="summary"
+                            className="block mb-2 text-sm font-medium "
+                          >
+                          Content
+                          </label>
+                          <textarea
+                            id="summary"
+                            rows={ 4 }
+                            name='summary'
+                            value={ formData.summary }
+                            onChange={ handleChange }
+                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Write your thoughts here"
+                            required
+                          ></textarea>
+                        </div>
+                        <div className='flex justify-end items-center'>
+                        {
+                          !loader ? ( 
+                          <Button color="primary" variant="solid">
+                              Submit
+                          </Button>  
+                          ) :
+                            <BallTriangle />
+                        }
+
+                        </div>
+                      </form>
+                    </div>
+                  )
                 }
-              </div>
-              <div className='mt-2 text-black'>
-                <h2>{ file?.name }</h2>
-              </div>
-            </div>
-
-            <div className="mb-5">
-              <label htmlFor='author' className="block mb-2 text-sm font-medium  ">Author</label>
-              <input
-                type="text"
-                id="author"
-                value={ formData.author }
-                onChange={ handleChange }
-                name="author"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="summary"
-                className="block mb-2 text-sm font-medium "
-              >
-              Content
-              </label>
-              <textarea
-                id="summary"
-                rows={ 4 }
-                name='summary'
-                value={ formData.summary }
-                onChange={ handleChange }
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here"
-                required
-              ></textarea>
-            </div>
-            {
-              !loader ? ( <button
-                type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Submit
-              </button> ) :
-                <BallTriangle />
-            }
-
-          </form>
-          </div>
-         
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
       </div>
     </>
   );
