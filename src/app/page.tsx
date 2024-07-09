@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import { BallTriangle } from "react-loader-spinner";
+import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
 
 interface data {
   id: Number;
@@ -158,7 +159,7 @@ const cardData: CommunitiesData[] = [
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
 
- 
+  const dispatch=useDispatch<AppDispatch>()
   const signupDiscord = async () =>
     {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord` ;
@@ -180,6 +181,9 @@ export default function Home() {
         </div>
       );
 
+    useEffect(() => {
+      dispatch(fetchUserData())
+      }, [dispatch]);
    return (
     <div className=" bg-black">
       <div className="lg:mx-20 mx-auto">
@@ -191,7 +195,7 @@ export default function Home() {
        {data ? (
         <div className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </div>
              ) : (
-        <div className="text-white text-2xl font-bold mb-4">Your Community Here...</div>
+        <div className="text-white lg:text-4xl text-3xl font-medium mb-4">Your Community Here...</div>
         )}
           </div>
           <p className="text-white">
@@ -216,7 +220,7 @@ export default function Home() {
           </h1>
           <div className="flex flex-wrap justify-center md:justify-center lg:justify-between items-center gap-4">
             <div
-              className="border  w-72  md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center"
+              className="border  w-72  md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center"
               style={{
                 background:
                   "linear-gradient(to bottom, #0F0C29 0%, #0F2027 93.33%)",
@@ -224,25 +228,36 @@ export default function Home() {
             >
               <Image src={images.instagram} alt="instagram" />
             </div>
-            <div className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+            <div className="border w-72 cursor-pointer sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center"
+             style={{
+              background:
+                'linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)',
+            }}
+            >
               <Image src={images.telegram} alt="telegram" />
             </div>
             {data?.discordInfo ? (
-               <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center bg-violet-800">
+               <div className="border w-72 sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center bg-violet-800">
                 <p className="text-center font-semibold text-white  ">Already logged in to Discord</p>
               </div>
                   ) : (
-                <div onClick={signupDiscord} className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+                <div onClick={signupDiscord} className="border w-72 cursor-pointer sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)',
+                }}
+                >
           <Image src={images.fourthicon} alt="fourth icon" />
               </div>
             )}
       
              {data?.twitterInfo ? (
-                <div className="border w-full sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center bg-gray-300">
+                <div className="border w-full sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center bg-gray-300">
                 <p className="text-center text-gray-700">Already logged in to Twitter</p>
                 </div>
                  ) : (
-                <div onClick={signupX} className="border w-full cursor-pointer sm:w-full md:w-1/3 lg:w-56 h-32 rounded-lg border-gray-500 flex justify-center items-center">
+                <div onClick={signupX} className="border w-72 cursor-pointer sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center"
+                >
                  <Image src={"/Asset/102075304.webp"} width={70} height={70} alt="vector" />
                   </div>
                 )}

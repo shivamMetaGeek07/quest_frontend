@@ -56,7 +56,7 @@ export const createQuest1 = createAsyncThunk(
   'quests/createQuest',
   async ( newQuest: Quest, { rejectWithValue } ) =>
   {
-    // console.log(newQuest)
+    console.log(newQuest)
     try {
       const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL}/quest/`, newQuest );
       // console.log(response)

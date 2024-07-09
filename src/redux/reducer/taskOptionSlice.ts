@@ -17,7 +17,7 @@ const initialState: ITaskOption = {
 
 export const getTaskOptionsSuccess = createAsyncThunk(
   'taskOption/getTaskOptionsSuccess',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue }): Promise<any> => {
     try {
         const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/task/task-options` );
         console.log(response)
