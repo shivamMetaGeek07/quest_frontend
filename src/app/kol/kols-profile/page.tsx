@@ -13,14 +13,10 @@ const kolsProfile = ( props: Props ) =>
     const [isClient, setIsClient] = useState(false);
 
     const user=  useSelector( ( state: RootState ) =>state.login.user);
-    const loading = useSelector((state: RootState) => state.login.loading);
     useEffect(() => {
       setIsClient(true); // Set the client flag to true on the client side
 
       }, []);
-    if (loading) {
-      return <><div className='min-h-screen flex justify-center items-center'><BallTriangle/></div>;</>
-    }
     if (!user) {
       return <><div className='min-h-screen flex justify-center items-center'><BallTriangle/></div>;</>
     }

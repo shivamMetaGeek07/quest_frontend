@@ -218,7 +218,7 @@ const Navbar = () =>
               (
               <>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <Link href="/kols-profile">profile</Link>
+                  <Link href="/kol/kols-profile">profile</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/kol/create-community">create community</Link>
@@ -231,7 +231,7 @@ const Navbar = () =>
               (
               <>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/user/profile">Profile</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/user/my-community">My community</Link>
