@@ -31,14 +31,7 @@ const Navbar = () =>
       console.error('Error logging out:', error);
     }
   };
-  const handleKolLogout = () =>
-  {
-    //kol logout logic
-  }
 
-  const handleUserLogout = () => {
-    //user logout logic
-  }
   const handleClose = () =>
   {
     setDrop( false );
@@ -224,7 +217,7 @@ const Navbar = () =>
                   <Link href="/kol/create-community">create community</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button onClick={handleKolLogout}>Logout</button>
+                  <button >Logout</button>
                 </li>
               </>
               ):
@@ -246,7 +239,7 @@ const Navbar = () =>
                   <Link href="/user/rate-kols">Rank kols</Link>
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button onClick={handleUserLogout} >Logout</button>
+                  <button  >Logout</button>
                 </li>
               </>
                 
