@@ -19,14 +19,13 @@ export default function KolLayout ( {
 {
     const { isLoading, hasAccess } = useProtectedRoute("kol");
     if (isLoading) {
-
         <div className="flex justify-center h-screen items-center">
         <BallTriangle/>
         </div>
         }
         if (hasAccess) {
             // Render children if the role matches
-            return <div>{children}</div>;
+            return <>{children}</>;
         }
         
 }
