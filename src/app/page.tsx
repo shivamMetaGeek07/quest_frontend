@@ -171,19 +171,17 @@ export default function Home() {
 
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
-     
-      if (!isClient) return (
-        // <div className="flex justify-center h-screen items-center">
-        // <BallTriangle/>
-        // </div>
-         null
-      );
-
-    useEffect(() => {
+     useEffect(() => {
+      // dispatch(fetchUserData());
       setIsClient(true); // Set the client flag to true on the client side
+    }, [dispatch]);
 
-      dispatch(fetchUserData())
-      }, [dispatch]);
+    if (!isClient) return (
+      <div className="flex justify-center h-screen items-center">
+      <BallTriangle/>
+      </div>
+    );
+
    return (
     <div className=" bg-black">
       <div className="lg:mx-20 mx-auto">
