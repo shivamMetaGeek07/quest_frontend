@@ -39,6 +39,16 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     { text: "" },
   ] );
 
+
+  const [ quizQuestion, setQuizQuestion ] = useState( "" );
+  const [ quizOptions, setQuizOptions ] = useState<{ text: string; }[]>( [
+    { text: "" },
+    { text: "" },
+    { text: "" },
+    { text: "" },
+  ] );
+
+
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
 
@@ -94,6 +104,19 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       setPollOptions( newOptions );
     }
   };
+
+  const handleQuizQuestionChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
+  {
+    setQuizQuestion( e.target.value );
+  };
+
+  const handleQuizOptionChange = ( index: number, value: string ) =>
+  {
+    const newOptions = [ ...quizOptions ];
+    newOptions[ index ].text = value;
+    setQuizOptions( newOptions );
+  };
+  console.log(selectedTask?.name)
 
   const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   {
@@ -184,12 +207,14 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     {
       const response = await dispatch( createTask( taskData ) );
       console.log( "Task created successfully:", response?.payload?.new_task );
-      alert( response?.payload?.msg );
-      // closeTaskModal();
+      alert( response?.payload?.msg || "Task created successfully" );
+
+      closeTaskModal();
       // toggleModal();
     } catch ( error )
     {
       console.error( "Error creating task:", error );
+      alert( "Error creating task" );
       // Handle the error (e.g., show an error message to the user)
     }
     // closeTaskModal();
@@ -206,7 +231,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
         >
           <button
             onClick={ toggleModal }
-            className="text-white justify-center bg-gray-900 hover:bg-gray-600 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 bg-center my-80 w-3/4  mx-32"
+            className="text-white justify-center bg-gray-900 hover:bg-gray-600 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 bg-center w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 mx-4 my-4 sm:my-8"
           >
             Add Task
           </button>
@@ -214,10 +239,10 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       ) }
 
       { isOpen && (
-        <div className=" inset-0 z-50 border overflow-y-auto bg-[#121212] bg-opacity-50 flex items-center justify-center">
-          <div className="relative p-4 w-3/4 ">
-            <div className="relative bg-gray-900 text-white rounded-3xl  mb-5 shadow dark:bg-gray-700">
-              <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-700 bg-[#282828]">
+        <div className=" inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center">
+          <div className="relative p-4 lg:w-3/4 w-full sm:h-full">
+            <div className="relative bg-[#121212] rounded-3xl shadow-lg">
+              <div className="flex items-center justify-between p-4 md:p-5 border-b border-gray-700 bg-[#282828] rounded-xl">
                 <h3 className="text-lg font-semibold text-gray-300">
                   Find a task type
                 </h3>
@@ -243,23 +268,23 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                   <span className="sr-only">Close modal</span>
                 </button>
               </div>
-              <div
-                className="p-4 md:p-5 grid grid-cols-2 
-                            gap-4 bg-[#141414FF] text-white "
-              >
-                { categories.map(
-                  ( category: string ) => (
+
+              <div className="flex flex-col md:flex-row">
+                <div
+                  className="p-4 md:p-5 flex flex-col gap-4 bg-[#141414] text-white w-full md:w-1/2" >
+                  { categories.slice( 0, Math.ceil( categories.length / 2 ) ).map( ( category: string ) => (
                     <div key={ category }>
-                      <h4 className="text-xl font-medium mb-2 text-gray-400 lg:mx-6">
-                        { category }
-                      </h4>
+
+                      <div className="mx-4">
+                        <h4 className="text-xl font-medium mb-2 text-gray-400 ">{ category }</h4>
+                      </div>
                       <div className="space-y-2 mb-7 grid gap-4 sm:grid-cols-1">
                         { taskOptions
                           .filter( ( task: any ) => task.category === category )
                           .map( ( task: any, index: any ) => (
                             <div
                               key={ index }
-                              className="flex items-center p-3 text-base font-medium rounded-3xl dark:text-white cursor-pointer hover:bg-[#272A2AFF] text-white shadow"
+                              className="flex items-center p-3 text-base font-medium rounded-3xl dark:text-white cursor-pointer hover:bg-[#272A2A] text-white shadow"
                               onClick={ () => openTaskModal( task ) }
                             >
 
@@ -285,21 +310,76 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                       </div>
                     </div>
                   )
-                ) }
+                  ) }
+                </div>
+
+                <div
+                  className="p-4 md:p-5 flex flex-col gap-4 bg-[#141414] text-white w-full md:w-1/2" >
+                  { categories.slice( Math.ceil( categories.length / 2 ) ).map( ( category: string ) => (
+                    <div key={ category }>
+
+                      <div className="mx-4">
+                        <h4 className="text-xl font-medium mb-2 text-gray-400 ">{ category }</h4>
+                      </div>
+                      <div className="space-y-2 mb-7 grid gap-4 sm:grid-cols-1">
+                        { taskOptions
+                          .filter( ( task: any ) => task.category === category )
+                          .map( ( task: any, index: any ) => (
+                            <div
+                              key={ index }
+                              className="flex items-center p-3 text-base font-medium rounded-3xl dark:text-white cursor-pointer hover:bg-[#272A2A] text-white shadow"
+                              onClick={ () => openTaskModal( task ) }
+                            >
+
+                              <div className="flex items-center justify-center  mr-3">
+                                <img
+                                  src={ task.icon }
+                                  alt={ task.name }
+                                  // width={40}
+                                  // height={40}
+                                  className="flex-shrink-0 h-12 w-12 rounded-full object-cover"
+                                />
+                              </div>
+
+                              <div className="flex-1 ">
+                                <h3>{ task.name }</h3>
+                                <div className="text-sm  ">
+                                  <p className="text-gray-400"> { task.description } </p>
+                                </div>
+                              </div>
+                            </div>
+
+                          ) ) }
+                      </div>
+                    </div>
+                  )
+                  ) }
+                </div>               
               </div>
+
             </div>
           </div>
         </div>
       ) }
 
       { selectedTask && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-gray-600 bg-opacity-50 flex items-center justify-center rounded">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
           <div className="relative p-4 w-full max-w-md">
             <div className="relative bg-gray-600 rounded-lg shadow text-white">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 className="text-lg font-semibold  dark:text-white">
-                  { selectedTask.name }
-                </h3>
+               
+                <div className="flex items-center ">
+                  <img
+                    src={ selectedTask.icon }
+                    alt=""
+                    className="h-10 w-10 object-cover rounded-full"
+                  />
+                  <div className="mx-2">
+                    <h3 className="text-lg font-semibold dark:text-white">
+                      { selectedTask.name }
+                    </h3>
+                  </div>
+                </div>
                 <button
                   onClick={ closeTaskModal }
                   className="text-gray-100 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -321,25 +401,46 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                   </svg>
                   <span className="sr-only">Close modal</span>
                 </button>
+
               </div>
+
               <div className="p-4 md:p-5">
                 <p className="text-sm text-gray-100 mb-4">
                   { selectedTask.description }
                 </p>
-                { selectedTask.name === "Poll" ? (
-                  <>
+
+                { selectedTask.name === "Visit Link" && (
+                  <div >
+                    <input
+                      type="url"
+                      className="w-full p-2 border rounded-lg  mb-2 bg-[#282828]"
+                      placeholder="https:/"
+                  onChange={handleInputChange}
+                    />
+                    <button
+                      className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
+                      onClick={ handleAddTask }
+                    >
+                      Add Visit Link
+                    </button>
+                  </div>
+                ) }
+
+                { selectedTask.name === "Poll" && (
+                  <div>
                     <input
                       type="text"
-                      className="w-full p-2 border rounded mb-2"
+                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
                       placeholder="Enter poll question"
                       value={ pollQuestion }
                       onChange={ handlePollQuestionChange }
+
                     />
                     { pollOptions.map( ( option, index ) => (
                       <div key={ index } className="flex items-center mb-2">
                         <input
                           type="text"
-                          className="w-full p-2 border rounded"
+                          className="w-full p-2 border rounded-lg bg-[#282828] "
                           placeholder={ `Option ${ index + 1 }` }
                           value={ option.text }
                           onChange={ ( e ) =>
@@ -356,34 +457,74 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                         ) }
                       </div>
                     ) ) }
-                    <button
-                      onClick={ addPollOption }
-                      className="mt-2 text-blue-500"
-                    >
-                      Add Option
-                    </button>
-                  </>
-                ) : (
+                    <div className="flex justify-around">
+                      <button
+                        onClick={ addPollOption }
+                        className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
+                      >
+                        Add Option
+                      </button>
+                      <button
+                        className="mt-4 bg-[#231b1b] text-white px-4 py-2 rounded hover:bg-[#484848]"
+                        onClick={ handleAddTask }
+                      >
+                        Add Poll Task
+                      </button>
+                    </div>
+                  </div>
+                ) }
+
+                { selectedTask.name === "Quiz" && (
+                  <div>
+                    <input
+                      type="text"
+                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
+                      placeholder="Enter quiz question"
+                      value={ quizQuestion }
+                      onChange={ handleQuizQuestionChange }
+                    />
+                    { quizOptions.map( ( option, index ) => (
+                      <div key={ index } className="flex items-center mb-2">
+                        <input
+                          type="text"
+                          className="w-full p-2 border rounded-lg bg-[#282828]"
+                          placeholder={ `Choice ${ index + 1 }` }
+                          value={ option.text }
+                          onChange={ ( e ) =>
+                            handleQuizOptionChange( index, e.target.value )
+                          }
+                        />
+                      </div>
+                    ) ) }
+                    <div className="flex justify-center">
+                      <button
+                        className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
+                        onClick={ handleAddTask }
+                      >
+                        Add Quiz Task
+                      </button>
+                    </div>
+                  </div>
+                ) }
+
+                { selectedTask.name !== "Poll" && selectedTask.name !== "Quiz" && selectedTask.name != "Visit Link" && (
+                  <>
                   <input
                     type="text"
-                    className="w-full p-2 border rounded text-black"
+                      className="w-full p-2 border rounded-lg  mb-2 bg-[#282828]"
                     placeholder={ `Enter ${ selectedTask.name.toLowerCase() } details...` }
                     onChange={ handleInputChange }
-                  // value={
-                  //   selectedTask.visitLink ||
-                  //   selectedTask.inviteLink ||
-                  //   selectedTask.uploadLink ||
-                  //   selectedTask.correctAnswer ||
-                  //   ''
-                  // }
+                  
                   />
-                ) }
+               
                 <button
                   className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                   onClick={ handleAddTask }
                 >
                   Add Task
                 </button>
+                  </>
+                ) }
               </div>
             </div>
           </div>

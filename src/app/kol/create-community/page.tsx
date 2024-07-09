@@ -122,7 +122,7 @@ const CreateCommunity = () =>
           setFile(null);
           setLoader(false);
 
-          router.push('/user/my-community');
+          router.push('/kol/my-community');
         } else
         {
           alert( 'Failed to create community' );
