@@ -39,6 +39,7 @@ const cardData: CardData[] = [
     description: "This is the description for card 5.",
     link: "View task details",
   },
+  
 ];
 
 const Page: React.FC = () => {
@@ -48,8 +49,15 @@ const Page: React.FC = () => {
   const [quizQuestion, setQuizQuestion] = useState("");
   const [quizOptions, setQuizOptions] = useState<string[]>(["", ""]);
 
+  const [progress, setProgress] = useState(0);
+
   const handleCardClick = (card: CardData) => {
     setSelectedCard(card);
+    const increment = Math.ceil(100 / cardData.length);
+    setProgress((prevProgress) => {
+      const newProgress = prevProgress + increment;
+      return newProgress > 100 ? 100 : newProgress;
+    });
   };
 
   const handleClosePopup = () => {
@@ -84,6 +92,23 @@ const Page: React.FC = () => {
             neque magni dolorum dignissimos enim delectus velit ut aspernatur.
           </p>
         </div>
+
+        <div className="banner mt-5">
+          <h1 className="text-2xl">Getting started</h1>
+
+          <div className="flex justify-between mb-1">
+            <span className="text-sm font-medium text-blue-700 dark:text-white">
+              {progress}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div
+              className="bg-green-500 h-2.5 rounded-full"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+        </div>
+
         <div className="grid gap-4 sm:gap-8  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10 ">
           {cardData?.map((card, index) => (
             <div

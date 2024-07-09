@@ -8,13 +8,8 @@ import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { BallTriangle } from "react-loader-spinner";
-
-
 import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
-
 
 interface data {
   id: Number;
@@ -67,7 +62,7 @@ const KolsquateData: KolsquateData[] = [
   {
     title: "Everything was beautiful",
     description:
-      "Lorem Ipsum is simply dummy text of the  and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,when an unknown printer took a galley ",
+      "Lorem Ipsum is simply dummy text of the  and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,when an unknown printer took a galley ",
   },
   {
     title: "We are what we pretend",
@@ -161,11 +156,9 @@ const cardData: CommunitiesData[] = [
 ];
 
 export default function Home() {
+  const router = useRouter()
+  const dispatch=useDispatch<AppDispatch>();
 
-  const dispatch = useDispatch<AppDispatch>();
-  const [isClient, setIsClient] = useState(false);
-
- 
   const signupDiscord = async () =>
     {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord` ;
@@ -175,22 +168,10 @@ export default function Home() {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter `;
     };
 
-    const data=  useSelector( ( state: RootState ) =>state.login.user);
-     
-    useEffect(() => {
-      setIsClient(true); // Set the client flag to true on the client side
+  const data = useSelector( ( state: RootState ) => state.login.user );
 
-      }, []);
-      if (!isClient) return (
-        <div className="flex justify-center h-screen items-center">
-        <BallTriangle/>
-        </div>
-      );
-
-  useSelector( ( state: any ) => console.log( state.task ) )
-  const id = '66892bbf1d9a4d4ac701280b'
     useEffect(() => {
-   dispatch(fetchTaskById(id))
+   
       dispatch(fetchUserData())
       }, [dispatch]);
    return (
@@ -199,14 +180,14 @@ export default function Home() {
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
         <div className="w-full lg:w-2/5 text-center lg:text-left">
-        <div className="text-white text-2xl font-bold mb-4">
+        <h1 className="text-white text-2xl font-bold mb-4">
       
        {data ? (
-        <div className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </div>
+        <h1 className="text-white text-4xl font-bold mb-4">Welcome {data.displayName} </h1>
              ) : (
         <div className="text-white lg:text-4xl text-3xl font-medium mb-4">Your Community Here...</div>
         )}
-          </div>
+          </h1>
           <p className="text-white">
              Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
          </p>
