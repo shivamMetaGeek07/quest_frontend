@@ -1,40 +1,34 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// common for both
-interface ITaskBase extends Document {
+// Base interface for all task types
+interface ITaskBase extends Document
+{
   _id: string;
   category: 'Actions' | 'Answers' | 'Social' | 'On-chain action';
+  type: 'visit' | 'poll' | 'quiz' | 'invite' | 'upload';
+  questId: string;
   creator: string;
-}
+  completions: Array<{
+    user: string;
+    completedAt: Date;
+    submission?: string;
+  }>;
+} 
 
-// Interface for visit
-export interface IVisite extends ITaskBase {
-  visitLink: string;
-}
 
-// Interface for Poll
-export interface IPoll extends ITaskBase {
-  question: string;
-  options: string[];
-  correctAnswer: string;
-}
-
-// Interface for quiz
-export interface IQuiz extends ITaskBase {
-  question: string;
-  options: string[];
-  correctAnswer: string;
-}
-
-// Interface for invite
-export interface IInvite extends ITaskBase {
-  inviteLink: string;
+// Combined type for all task types
+export type TaskOrPoll = ITaskBase & {
+  visitLink?: string;
+  visitor?: string[];
+  question?: string;
+  options?: string[];
+  correctAnswer?: string;
+  inviteLink?: string;
   invitee?: string[];
-}
+  uploadLink?: string;
+};
 
-// Combined type
-export type TaskOrPoll = IVisite | IPoll | IQuiz | IInvite;
 
 // Define the state interface
 interface TaskState {
@@ -68,42 +62,52 @@ export const fetchTasks = createAsyncThunk(
   }
 );
 
+// task by quest id
 export const fetchTaskById = createAsyncThunk(
   'tasks/fetchById',
-  async (id: string, { rejectWithValue }) => {
+  async ( id: string, { rejectWithValue } ) =>
+  {
+    
     try {
-      const response = await axios.get(`${API_BASE_URL}/${id}`);
+      const response = await axios.get( `${ API_BASE_URL }/${ id }` );
+      // console.log(response)
       return response.data;
     } catch (error) {
-      return rejectWithValue('Failed to fetch task');
+      if (axios.isAxiosError(error)) {
+        // Handle Axios errors
+        if (error.response) {
+          return rejectWithValue(`Error ${error.response.status}: ${error.response.data}`);
+        } else if (error.request) {
+          // The request was made but no response was received
+          return rejectWithValue('No response received from server');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          return rejectWithValue(`Error: ${error.message}`);
+        }
+      }
+      // Handle non-Axios errors  
+      return rejectWithValue('An unexpected error occurred');
     }
   }
 );
 
 export const createTask = createAsyncThunk(
   'tasks/create',
-  async (task: Partial<TaskOrPoll>, { rejectWithValue }) => {
+  async (task: Partial<TaskOrPoll>, { rejectWithValue }) : Promise<any> => {
     try {
-      const response = await axios.post(API_BASE_URL, task);
+      const response = await axios.post( API_BASE_URL, task );
+      console.log(response)
       return response.data;
-    } catch (error) {
+    } catch ( error )
+    {
+      console.log(error)
       return rejectWithValue('Failed to create task');
     }
   }
 );
 
-export const updateTask = createAsyncThunk(
-  'tasks/update',
-  async ({ id, task }: { id: string; task: Partial<TaskOrPoll> }, { rejectWithValue }) => {
-    try {
-      const response = await axios.patch(`${API_BASE_URL}/${id}`, task);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue('Failed to update task');
-    }
-  }
-);
 
+// delete the perticular task
 export const deleteTask = createAsyncThunk(
   'tasks/delete',
   async (id: string, { rejectWithValue }) => {
@@ -115,6 +119,8 @@ export const deleteTask = createAsyncThunk(
     }
   }
 );
+
+
 
 // Create the slice
 const taskSlice = createSlice({
@@ -134,7 +140,8 @@ const taskSlice = createSlice({
       .addCase(fetchTasks.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      })
+      } )
+      
       // Fetch task by ID
       .addCase(fetchTaskById.pending, (state) => {
         state.loading = true;
@@ -146,7 +153,8 @@ const taskSlice = createSlice({
       .addCase(fetchTaskById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      })
+      } )
+      
       // Create task
       .addCase(createTask.pending, (state) => {
         state.loading = true;
@@ -158,22 +166,8 @@ const taskSlice = createSlice({
       .addCase(createTask.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      })
-      // Update task
-      .addCase(updateTask.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateTask.fulfilled, (state, action: PayloadAction<TaskOrPoll | any>) => {
-        state.loading = false;
-        const index = state.tasks.findIndex(task => task._id === action.payload._id);
-        if (index !== -1) {
-          state.tasks[index] = action.payload;
-        }
-      })
-      .addCase(updateTask.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
+      } )
+      
       // Delete task
       .addCase(deleteTask.pending, (state) => {
         state.loading = true;
