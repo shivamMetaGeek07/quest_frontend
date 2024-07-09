@@ -17,9 +17,9 @@ const Page = () => {
 
     // Ensure we navigate only on the client side
     if (data?.role === 'kol') {
-      router.push('/kols-profile');
+      router.push('/kol/kols-profile');
     } else if (data) {
-      router.push('/profile');
+      router.push('/user/profile');
     }
   }, [data, dispatch, router]); // Added 'data' as a dependency
 

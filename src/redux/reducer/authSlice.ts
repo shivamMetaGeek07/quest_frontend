@@ -89,7 +89,8 @@ export const updateUserProfile = createAsyncThunk(
       const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile/update`, formData, {
         withCredentials: true,
       });
-      return response.data;
+      console.log(response);
+      return response.data.user;
     } catch (err) {
       return rejectWithValue('Failed to update user profile');
     }

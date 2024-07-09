@@ -1,10 +1,12 @@
 import { updateUserProfile } from '@/redux/reducer/authSlice';
 import { AppDispatch, RootState } from '@/redux/store';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ModalForm = () => {
+  const router=useRouter();
     const dispatch = useDispatch<AppDispatch>();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -23,9 +25,12 @@ const ModalForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateUserProfile(formData));
+    const resultAction = await dispatch(updateUserProfile(formData));
+    if (updateUserProfile.fulfilled.match(resultAction)) {
+      router.refresh(); // Reload the current page
+      setIsModalVisible(false)
+    }
   };
-
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
