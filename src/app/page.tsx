@@ -169,10 +169,10 @@ export default function Home() {
     };
 
   const data = useSelector( ( state: RootState ) => state.login.user );
-  useSelector( ( state: any ) => console.log( state.task ) )
-  const id = '66892bbf1d9a4d4ac701280b'
+  // console.log(data)
+
     useEffect(() => {
-   dispatch(fetchTaskById(id))
+   
       dispatch(fetchUserData())
       }, [dispatch]);
    return (

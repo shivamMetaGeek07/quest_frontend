@@ -1,36 +1,38 @@
 
 "use client";
-import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
+import { fetchUserData } from "@/redux/reducer/auth";
+import { fetchAllCommunities, fetchCommunitiesByIds } from "@/redux/reducer/communitySlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
-interface CardData
-{
-  image: string;
-  name: string;
-  description: string;
-  stats: {
-    user: string;
-    bolt: string;
-    twitter: string;
-  };
-}
-
 
 const MyCommunities: React.FC = () =>
 {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  // const { data: community, loading, error } = useSelector( ( state: RootState ) => state.community );
-  const temp = useSelector( ( state: RootState ) => console.log( state.community.allCommunities ) );
   const cardData = useSelector( ( state: RootState ) => state.community.allCommunities );
+  // const userCommunities = useSelector( ( state: RootState ) => state.login.user?.community );
+  
+  const userCommunities = useSelector( ( state: RootState ) => state.community.userCommunities );
+  const userCommunityIds = useSelector( ( state: RootState ) => state.login.user?.community );
+
+  console.log(userCommunities)
+  // console.log()
   useEffect( () =>
   {
-    dispatch( fetchAllCommunities() );
+    dispatch( fetchUserData() );
   }, [ dispatch ] );
+
+  useEffect( () =>
+  {
+    if ( userCommunityIds && userCommunityIds.length > 0 )
+    {
+      dispatch( fetchCommunitiesByIds( userCommunityIds ) );
+    }
+  }, [ dispatch, userCommunityIds ] );
   return (
     <div className="bg-black text-white min-h-screen ">
       <div className="mx-4 lg:mx-20">

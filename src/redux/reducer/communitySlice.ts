@@ -19,12 +19,14 @@ interface CommunityState
 {
   allCommunities: CommunityData | null;
   data: CommunityData | null;
+  userCommunities: [];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CommunityState = {
-  allCommunities:null,
+  allCommunities: null,
+  userCommunities: [],
   data: null,
   loading: false,
   error: null,
@@ -80,50 +82,84 @@ export const createCommunity = createAsyncThunk(
   }
 );
 
+export const fetchCommunitiesByIds = createAsyncThunk(
+  'community/fetchCommunitiesByIds',
+  async (communityIds: string[], thunkAPI) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/community/getByIds`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ communityIds }),
+      });
+      const data = await response.json();
+      return data.communities;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Failed to fetch communities');
+    }
+  }
+);
+
 const communitySlice = createSlice({
   name: 'community',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCommunity.pending, (state) => {
+      .addCase( fetchCommunity.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(fetchCommunity.fulfilled, (state, action) => {
+      } )
+      .addCase( fetchCommunity.fulfilled, ( state, action ) =>
+      {
         state.loading = false;
         state.data = action.payload;
-      })
-      .addCase(fetchCommunity.rejected, (state, action) => {
+      } )
+      .addCase( fetchCommunity.rejected, ( state, action ) =>
+      {
         state.loading = false;
         state.error = action.payload as string;
       } )
       
-       .addCase(fetchAllCommunities.pending, (state) => {
+      .addCase( fetchAllCommunities.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(fetchAllCommunities.fulfilled, (state, action) => {
+      } )
+      .addCase( fetchAllCommunities.fulfilled, ( state, action ) =>
+      {
         state.loading = false;
         state.allCommunities = action.payload;
-      })  
-      .addCase(fetchAllCommunities.rejected, (state, action) => {
+      } )
+      .addCase( fetchAllCommunities.rejected, ( state, action ) =>
+      {
         state.loading = false;
         state.error = action.payload as string;
-      })
+      } )
 
-      .addCase(createCommunity.pending, (state) => {
+      .addCase( createCommunity.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(createCommunity.fulfilled, (state, action) => {
+      } )
+      .addCase( createCommunity.fulfilled, ( state, action ) =>
+      {
         state.loading = false;
         state.data = action.payload;
-      })
-      .addCase(createCommunity.rejected, (state, action) => {
+      } )
+      .addCase( createCommunity.rejected, ( state, action ) =>
+      {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      } )
+    
+      .addCase( fetchCommunitiesByIds.fulfilled, ( state, action ) =>
+      {
+        state.loading = false;
+        state.userCommunities = action.payload;
+      } );
   },
 });
 
