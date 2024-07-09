@@ -9,13 +9,12 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 
 
 interface Feed {
-    _id: number;
+    _id: string;
     title: string;
     description: string;
     imageUrl: string;
     author: string;
     summary: string;
-    id:any
 }
 const AddFeedPage = () =>
 {
@@ -49,13 +48,15 @@ const AddFeedPage = () =>
   }
   const handleOpen = (option: string, feed: Feed| null) => {
     initailFormData();
+    setLoader(false);
+    console.log('feed:-',feed)
     if(option === 'edit' && feed){
       setFormData({
         title: feed.title,
         description: feed.description,
         author: feed.author,
         summary: feed.summary,
-        id:feed.id
+        id:feed._id,
       });
     }
     setEditFlag(option === 'edit' ? true : false);
@@ -63,7 +64,6 @@ const AddFeedPage = () =>
   }
   const handleModalClose = () => {
     initailFormData();
-    setEditFlag(false);
     setLoader(false);
     onClose();
     
@@ -206,6 +206,7 @@ const AddFeedPage = () =>
           );
           initailFormData();
           setLoader( false );
+          getFeeds();
           alert( 'Blog feed created successfully' );
         }
         // router.push('/dashboard');
@@ -260,7 +261,7 @@ const AddFeedPage = () =>
         };
       }
         const response = await axios.put(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/feed/:${formData.id}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/feed/${formData?.id}`,
           {
             ...newfeed
           },
@@ -269,6 +270,7 @@ const AddFeedPage = () =>
         if(response.status===200){
           initailFormData();
           setLoader(false);
+          getFeeds();
           alert('Blog feed updated successfully');  
         }
     }
@@ -289,7 +291,7 @@ const AddFeedPage = () =>
     }
 
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/feed/:${id}`, {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/feed/${id}`, {
         headers: { Authorization: `Bearer ${token}` 
       }
       });
@@ -297,6 +299,7 @@ const AddFeedPage = () =>
         initailFormData();
         setLoader(false);
         alert('Blog feed deleted successfully');  
+        getFeeds();
       }
     }
     catch (error) {
@@ -323,6 +326,7 @@ const AddFeedPage = () =>
                 <tr className="text-white rounded-lg">
                   <th className='p-4 border-r text-center'>S.No</th>
                   <th className='p-4 border-r text-center'>Title</th>
+                  <th className='p-4 border-r text-center'>Author</th>
                   <th className='p-4 text-center '>Actions</th>
                 </tr>
               </thead>
@@ -331,6 +335,7 @@ const AddFeedPage = () =>
                   <tr key={index} className={`${index!=limit-1 ? 'border-b' : ''} p-4 m-2`}>
                     <td className='p-2 text-center border-r '>{index+1}</td>
                     <td className='p-2 border-r '>{feed.title}</td>
+                    <td className='p-2 border-r '>{feed.author}</td>
                     <td className='p-2'>
                     <div className='flex justify-center items-center'>
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded " onClick={() => handleOpen("edit",feed)}><i className="bi bi-pencil-square"></i></button>
@@ -357,10 +362,7 @@ const AddFeedPage = () =>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1  ">
-              <div className='flex justify-between items-center'>
               <div className='text-slate-900 text-center font-bold text-2xl'>{editFlag ? 'Update Feed' : 'Add Feed'}</div>
-              <div className='text-slate-900 text-center'><button onClick={() => handleModalClose} ><i className="bi bi-x-circle"></i></button></div>
-              </div>
               </ModalHeader>
               <ModalBody className="flex flex-col gap-1 text-black p-8" >
                 {
@@ -442,7 +444,8 @@ const AddFeedPage = () =>
                         <div className='flex justify-end items-center'>
                         {
                           !loader ? ( 
-                            <Button type="submit" color="primary" variant="solid">
+                            <Button type="submit" 
+                            onPress={handleModalClose} color="primary" variant="solid">
                               Submit
                             </Button>  
                           ) 
@@ -530,7 +533,7 @@ const AddFeedPage = () =>
                         <div className='flex justify-end items-center'>
                         {
                           !loader ? ( 
-                          <Button color="primary" variant="solid">
+                          <Button type='submit' color="primary" variant="solid" onPress={()=>{handleModalClose()}}>
                               Submit
                           </Button>  
                           ) :
