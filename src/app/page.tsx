@@ -171,17 +171,17 @@ export default function Home() {
 
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
-    useEffect(() => {
-      setIsClient(true); // Set the client flag to true on the client side
-
-      }, []);
+     
       if (!isClient) return (
-        <div className="flex justify-center h-screen items-center">
-        <BallTriangle/>
-        </div>
+        // <div className="flex justify-center h-screen items-center">
+        // <BallTriangle/>
+        // </div>
+         null
       );
 
     useEffect(() => {
+      setIsClient(true); // Set the client flag to true on the client side
+
       dispatch(fetchUserData())
       }, [dispatch]);
    return (
