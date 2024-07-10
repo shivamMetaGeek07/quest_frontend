@@ -7,7 +7,7 @@ import { AppDispatch, persistor, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/redux/reducer/authSlice";
 import { useRouter } from "next/navigation";
-import {Dropdown,Avatar, DropdownItem,DropdownMenu, DropdownTrigger,Input} from "@nextui-org/react"
+import {Dropdown,Avatar, DropdownItem,DropdownMenu, DropdownTrigger,Input,Badge,Button} from "@nextui-org/react"
 
 interface NavbarProps
 {
@@ -57,31 +57,22 @@ console.log("data",data)
               height={ 32 }
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap">
-              Cluster Protocol
+              Fam Protocol
             </span>
         </Link>
         </div>
         {/* Notifications */}
         <div>
-          <button
-            type="button"
-            className="relative inline-flex items-center p-3 text-sm font-medium text-center bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-          >
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 16"
+          <Badge content="99+" shape="circle" color="danger">
+            <Button
+              radius="full"
+              isIconOnly
+              aria-label="more than 99 notifications"
+              variant="light"
             >
-              <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-              <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
-            </svg>
-            <span className="sr-only">Notifications</span>
-            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-              2
-            </div>
-          </button>
+              <i className="bi bi-bell-fill text-white text-2xl"></i>
+            </Button>
+          </Badge>
         </div>
 
         {/* Navigation menu */ }
@@ -168,7 +159,7 @@ console.log("data",data)
         {/* Pop up */ }
         <div
           className={ `fixed top-0 right-0 h-full w-64 bg-gray-900 rounded-md text-white transform ${ drop ? "translate-x-0" : "translate-x-full"
-            } transition-transform duration-300 ease-in-out z-10` }
+            } transition-transform duration-300 ease-in-out z-100` }
         >
           {/* close button */}
           <div className="flex justify-end p-4">
@@ -207,9 +198,13 @@ console.log("data",data)
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/kol/create-community">create community</Link>
                 </li>
-                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button >Logout</button>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 ">
+                <Link href="/kol/my-community">My Community</Link>
                 </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 ">
+                  <Link href="/All-community">All Communities</Link>
+                </li>
+                
               </>
               ):
               (
@@ -228,9 +223,6 @@ console.log("data",data)
                 </li>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/user/rate-kols">Rank kols</Link>
-                </li>
-                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button  >Logout</button>
                 </li>
               </>
                 

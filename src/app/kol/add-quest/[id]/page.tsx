@@ -77,7 +77,7 @@ function CreateQuest ()
   };
 
   return (
-    <div className="min-h-screen text-black bg-gradient-to-r from-purple-100 to-purple-300 flex flex-col items-center justify-center py-10 px-5">
+    <div className="min-h-screen text-black bg-gradient-to-r from-slate-100 to-slate-300 flex flex-col items-center justify-center py-10 px-5">
       <div className="bg-white mt-10 p-10 rounded-xl shadow-xl w-full max-w-lg">
         <h1 className="text-3xl font-bold mb-6 text-center text-purple-700">Create New Quest</h1>
         <form onSubmit={ handleSubmit }>

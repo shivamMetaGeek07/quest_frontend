@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
 import { BallTriangle } from "react-loader-spinner";
+import Link from "next/link"
 
 interface data {
   id: Number;
@@ -172,6 +173,7 @@ export default function Home() {
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
     useEffect(() => {
+      dispatch(fetchUserData());
       setIsClient(true); // Set the client flag to true on the client side
     }, [dispatch]);
 
@@ -181,30 +183,24 @@ export default function Home() {
       </div>
     );
 
-      if (!isClient) return (
-        <div className="flex justify-center h-screen items-center">
-        <BallTriangle/>
-        </div>
-      );
-
    return (
     <div className=" bg-black">
       <div className="lg:mx-20 mx-auto">
         {/* header section */}
         <div className="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-10 justify-between p-4">
         <div className="w-full lg:w-2/5 text-center lg:text-left">
-        <h1 className="text-white text-2xl font-bold mb-4">
+        <div className="text-white font-bold mb-4">
       
        {data ? (
-        <div className="text-white text-2xl font-bold mb-4">Welcome {data.displayName} </div>
+        <div className=" text-5xl font-bold mb-4">Welcome {data.displayName} </div>
              ) : (
-        <div className="text-white lg:text-4xl text-3xl font-medium mb-4">Your Community Here...</div>
+        <div className=" lg:text-4xl text-3xl font-medium mb-4">Your Community Here...</div>
         )}
-          </h1>
-          <p className="text-white">
+          </div>
+          <p className="text-lg">
              Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit explicabo, in nihil nobis hic culpa ullam! Fuga labore veritatis perferendis! Aliquid, velit cumque ipsam dolorum similique consequuntur
          </p>
-       <button className="bg-[#5865F2] rounded-sm mt-4 px-8 py-3 text-white">Learn more</button>
+       <Link href="/All-community"><button className="bg-[#5865F2] rounded-sm mt-4 px-8 py-3 text-white">Learn more</button></Link>
        </div>
        <div className="w-full lg:w-2/6 flex justify-center lg:justify-end">
             <Image
@@ -270,9 +266,14 @@ export default function Home() {
 
         {/* EcoSystem */}
         <div className="lg:mt-20 mt-6">
-          <h1 className="text-white text-3xl font-medium mb-8 text-center lg:text-left">
-            EcoSystem
-          </h1>
+        <div className="flex justify-between items-center">
+          <div className="text-white text-3xl font-medium mb-8 text-center lg:text-left">
+          EcoSystem
+          </div>
+          <div className="item-center">
+            <Link href={{ pathname: '/All-community', query: {eco:"educcation"  } }} className="bg-blue-700 px-4 py-2">View All</Link>
+          </div>
+        </div>
           <div className="flex flex-wrap justify-center md:justify-center lg:justify-between  items-center gap-4">
             <div className="border w-72 sm:w-72 md:w-1/3 lg:w-56 h-40 rounded-lg border-gray-500 flex justify-center items-center bg-white">
               <Image src={images.image11} alt="instagram" />

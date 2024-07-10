@@ -73,13 +73,12 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
   console.log(selectedCard)
 
   return (
-    <div className="bg-[#000000] text-white min-h-screen">
-      <div className="mx-4 lg:mx-20 py-10">
+    <div className="text-white min-h-screen">
+      <div className="w-[80%] mx-auto py-10">
         <h1 className="text-2xl font-bold mb-4">Quest Monitoring</h1>
-
-         <div className="banner mt-5">
-          <h1 className="text-2xl">Getting started</h1>
-
+        {/* progress bar */}
+         {/* <div className="my-5">
+          <h1 className="text-2xl">Task progress Bar</h1>
           <div className="flex justify-between mb-1">
             <span className="text-sm font-medium text-blue-700 dark:text-white">
               {progress}%
@@ -91,7 +90,7 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-        </div>
+        </div> */}
         { tasks && tasks?.length > 0 && (
 
           <div className="flex flex-col md:flex-row md:justify-between">
@@ -138,7 +137,7 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
           </div>
         ) }
 
-        <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 my-4">
 
           { tasks?.map( ( task: CardData, index: number ) => (
             <div
