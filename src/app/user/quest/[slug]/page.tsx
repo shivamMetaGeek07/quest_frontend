@@ -2,6 +2,7 @@
 import { fetchQuestById } from "@/redux/reducer/questSlice";
 import { completeTask, fetchTaskById } from "@/redux/reducer/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -56,7 +57,7 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
     setSubmission( "" );
   };
 
-  const handleSubmission = ( taskId: string ) =>
+  const handleSubmission = ( taskId: string | any ) =>
   {
 
     try {
@@ -66,7 +67,7 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
         userName: string | undefined;
         submission: string;
       } = { taskId, submission, userId:user?._id, userName: user?.displayName };
-console.log(data)
+// console.log(data)
       dispatch( completeTask( data ) )
       
     } catch (error) {
@@ -90,6 +91,51 @@ console.log(data)
         <div className="max-w-[600px] pt-4 text-white">
           <p>Complete the following tasks to progress in your quest.</p>
         </div>
+
+        { tasks && tasks?.length > 0 && (
+
+          <div className="flex flex-col md:flex-row md:justify-between">
+            <div className="max-w-[600px] pt-4 text-gray-400 flex justify-end">
+              <p className="text-white mb-6">Monitor task completions and submissions.</p>
+            </div>
+
+            <div className="md:pt-6 md:inline-block">
+              <button className="bg-gray-700 hover:bg-gray-900 text-white font-medium w-full md:w-auto px-5 py-2 rounded-3xl"
+               onClick={()=>window.history.back()}
+              >
+                Go Back 
+              </button>
+            </div>
+          </div>
+        ) }
+
+        { ( tasks.length == 0 ) && (
+          <div className="flex flex-col items-center justify-center h-[60vh]">
+            <div className="text-center bg-white/5 p-8 rounded-xl shadow-lg max-w-md w-full">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400 mb-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                />
+              </svg>
+              <h3 className="text-xl font-medium text-white mb-2">No tasks available</h3>
+              <p className="text-gray-400 mb-6">Get started by creating a new task for this quest.</p>
+              <button className="bg-gray-700 hover:bg-gray-900 text-white font-medium w-full md:w-auto px-5 py-2 rounded-3xl"
+ >
+                Go Back
+              </button>
+            </div>
+          </div>
+        ) }
+
         <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10 text-white">
           { tasks.map( ( task: CardData, index: number ) => (
             <div
@@ -173,17 +219,12 @@ console.log(data)
                           href={selectedCard.visitLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-white hover:underline"
+                          className="text-white underline"
+                          onClick={() => setSubmission(selectedCard?.visitLink)}
                         >
                           Visit this link
                         </a>
-                        <input
-                          type="text"
-                          className="w-full p-2 border rounded-lg mt-2 bg-[#282828]"
-                          placeholder="Enter proof of visit"
-                          value={submission}
-                          onChange={(e) => setSubmission(e.target.value)}
-                        />
+                       
                       </div>
                     )}
                 { selectedCard.type === "Poll" && (
