@@ -22,7 +22,8 @@ const rootReducer = combineReducers({
 const persistConfig = { 
   key: 'root',
   storage,
-  whitelist: ['login'], 
+  whitelist: ['login']
+  // Only persist the login state if you want
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

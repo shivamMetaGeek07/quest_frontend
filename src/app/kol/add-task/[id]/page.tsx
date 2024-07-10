@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useProtectedRoute } from "@/utils/privateRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
 import { useRouter } from 'next/navigation';
 
@@ -46,8 +46,8 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
   useEffect( () =>
   {
-    dispatch( fetchUserData() );
-    dispatch( getTaskOptionsSuccess() );
+    dispatch(fetchUserData() );
+    dispatch(getTaskOptionsSuccess() );
   }, [ dispatch ] );
 
   const toggleModal = () =>

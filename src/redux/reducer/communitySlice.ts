@@ -14,7 +14,11 @@ export interface CommunityData {
   createdAt?: string;
   updatedAt?: string;
 }
-
+export interface forAll{
+  ecosystem: string[];
+  category: string[];
+  
+}
 interface CommunityState
 {
   allCommunities: CommunityData | null;
@@ -22,6 +26,7 @@ interface CommunityState
   userCommunities: [];
   loading: boolean;
   error: string | null;
+  forall:forAll|null
 }
 
 const initialState: CommunityState = {
@@ -30,6 +35,7 @@ const initialState: CommunityState = {
   data: null,
   loading: false,
   error: null,
+  forall:null
 };
 
 // fetch the community by id
@@ -38,8 +44,18 @@ export const fetchAllCommunities = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/` );
-      console.log(response)
       return response.data.communities;
+    } catch (err) {
+      return rejectWithValue('Failed to fetch community data');
+    }
+  }
+);
+export const fetchCategoryEcosystem = createAsyncThunk(
+  'community/CategoryEcosystem',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/getCommunityData` );
+      return response.data;
     } catch (err) {
       return rejectWithValue('Failed to fetch community data');
     }
@@ -177,9 +193,23 @@ const communitySlice = createSlice({
       {
         state.loading = false;
         state.error = action.payload as string;
-      } )
-    
-      .addCase( fetchCommunitiesByIds.fulfilled, ( state, action ) =>
+      })
+      .addCase(fetchCategoryEcosystem.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCategoryEcosystem.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forall = {
+          ecosystem: action.payload.ecosystems,
+          category: action.payload.categories,
+        };
+      })
+      .addCase(fetchCategoryEcosystem.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })    
+      .addCase( fetchCommunitiesByIds.fulfilled, (state,action ) =>
       {
         state.loading = false;
         state.userCommunities = action.payload;

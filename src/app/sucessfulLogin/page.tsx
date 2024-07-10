@@ -2,9 +2,10 @@
 
 import { fetchUserData } from '@/redux/reducer/authSlice';
 import { AppDispatch, RootState } from '@/redux/store';
+import { Spinner } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
-import { BallTriangle } from 'react-loader-spinner';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 const Page = () => {
@@ -24,7 +25,7 @@ const Page = () => {
   }, [data, dispatch, router]); // Added 'data' as a dependency
 
   return (
-    <div className='bg-gray-900 items-center flex justify-center opacity-35 h-screen'><BallTriangle/></div>
+    <div className='bg-gray-500 items-center flex justify-center opacity-35 h-screen'> <Spinner color="success"/></div>
   );
 };
 
