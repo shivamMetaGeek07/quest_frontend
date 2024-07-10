@@ -9,8 +9,8 @@ import { AiOutlineDisconnect } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { BallTriangle } from "react-loader-spinner";
 import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
+import { BallTriangle } from "react-loader-spinner";
 
 interface data {
   id: Number;
@@ -171,8 +171,7 @@ export default function Home() {
 
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
-     useEffect(() => {
-      // dispatch(fetchUserData());
+    useEffect(() => {
       setIsClient(true); // Set the client flag to true on the client side
     }, [dispatch]);
 
@@ -181,6 +180,12 @@ export default function Home() {
       <BallTriangle/>
       </div>
     );
+
+      if (!isClient) return (
+        <div className="flex justify-center h-screen items-center">
+        <BallTriangle/>
+        </div>
+      );
 
    return (
     <div className=" bg-black">
