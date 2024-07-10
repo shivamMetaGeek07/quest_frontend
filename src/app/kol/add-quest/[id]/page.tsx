@@ -20,38 +20,38 @@ function CreateQuest ()
   const [ description, setDescription ] = useState<string>( '' );
   const [ rewards, setRewards ] = useState<Reward[]>( [ { type: '', value: 0 } ] );
 
-  const id = useParams<{ communityId: any; }>();
+  const communityId = useParams();
 
-  const communityId = id?.id;  
-  // console.log("comunityId",communityId);
-
+  // const communityId  = id?.id;  
+  
   const handleRewardChange = ( index: number, field: 'type' | 'value', value: string | number ) =>
-  {
-    const newRewards = rewards.map( ( reward, i ) =>
-      i === index ? { ...reward, [ field ]: value } : reward
+    {
+      const newRewards = rewards.map( ( reward, i ) =>
+        i === index ? { ...reward, [ field ]: value } : reward
     );
     setRewards( newRewards );
   };
-
+  
   const addReward = () =>
-  {
-    setRewards( [ ...rewards, { type: '', value: 0 } ] );
-  };
-
-  const removeReward = ( index: number ) =>
+    {
+      setRewards( [ ...rewards, { type: '', value: 0 } ] );
+    };
+    
+    const removeReward = ( index: number ) =>
   {
     const newRewards = rewards.filter( ( _, i ) => i !== index );
     setRewards( newRewards );
   };
-
+  
 
 
   const handleSubmit = async ( e: React.FormEvent ) =>
-  {
+    {
+    console.log("comunityId",communityId);
     e.preventDefault();
     try
     {
-      const newQuest = { title, description, type: 'DAILY', status: 'NOT_STARTED', rewards, communityId };
+      const newQuest = { title, description, type: 'DAILY', status: 'NOT_STARTED', rewards, communityId:communityId.id };
 
       const resultAction = await dispatch( createQuest1( newQuest ) );
       
@@ -64,7 +64,7 @@ function CreateQuest ()
           setRewards( [ { type: '', value: 0 } ] );
         // console.log( resultAction.payload.newQuest._id )
         // Redirect to community page
-        router.push( `/kol/add-task/${resultAction.payload.newQuest._id}` );
+        router.push( `/kol/quest/${resultAction.payload.newQuest._id}` );
         
       } else
       {

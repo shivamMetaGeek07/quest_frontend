@@ -33,7 +33,7 @@ export type TaskOrPoll = ITaskBase & {
 // Define the state interface
 interface TaskState {
   tasks: TaskOrPoll[];
-  currentTask: TaskOrPoll | [];
+  currentTask:  [];
   loading: boolean;
   error: string | null;
 }
@@ -52,7 +52,7 @@ const API_BASE_URL = `${process.env.NEXT_PUBLIC_SERVER_URL}/task`;
 // Async thunks
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue }):Promise<any> => {
     try {
       const response = await axios.get(API_BASE_URL);
       return response.data;
@@ -65,12 +65,12 @@ export const fetchTasks = createAsyncThunk(
 // task by quest id
 export const fetchTaskById = createAsyncThunk(
   'tasks/fetchById',
-  async ( id: string, { rejectWithValue } ) =>
+  async ( id: string, { rejectWithValue } ):Promise<any> =>
   {
-    
+    console.log("id from quest :", id)
     try {
       const response = await axios.get( `${ API_BASE_URL }/${ id }` );
-      // console.log(response)
+      console.log(response)
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -105,6 +105,30 @@ export const createTask = createAsyncThunk(
     }
   }
 );
+
+// complete the task
+export const completeTask = createAsyncThunk(
+  'tasks/complete',
+  async ( { taskId, userId, submission, userName }: { taskId:string, userId:string | undefined, submission:string, userName:string | undefined}, { rejectWithValue } ): Promise<any> =>
+  {
+    console.log("task is completing")
+    try
+    {
+      const response = await axios.post( `${ API_BASE_URL }/complete`,
+         { taskId, userId, submission, userName }
+      );
+      console.log( response )
+      alert(response.data.message)
+      return response.data;
+    }
+    catch ( error:any )
+    {
+      alert(error?.response?.data?.message)
+      return rejectWithValue( 'Failed to complete task' );
+    }
+  }
+);
+  
 
 
 // delete the perticular task

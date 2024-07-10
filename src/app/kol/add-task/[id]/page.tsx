@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/authSlice";
+import { AppDispatch } from "@/redux/store";
 
 
 
@@ -32,7 +33,7 @@ interface PollOption
 const AddTask = ( { params }: { params: { id: string; }; } ) =>
 {
     useProtectedRoute('kol')
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [ isOpen, setIsOpen ] = useState( true );
   const [ selectedTask, setSelectedTask ] = useState<TaskOption | null>( null );
   const [ pollQuestion, setPollQuestion ] = useState( "" );
@@ -58,8 +59,8 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
   useEffect( () =>
   {
-    dispatch( fetchUserData() );
-    dispatch( getTaskOptionsSuccess() );
+    dispatch(fetchUserData() );
+    dispatch(getTaskOptionsSuccess() );
   }, [ dispatch ] );
 
   const toggleModal = () => setIsOpen( !isOpen );
@@ -118,7 +119,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     newOptions[ index ].text = value;
     setQuizOptions( newOptions );
   };
-  console.log(selectedTask?.name)
+  
 
   const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   {
@@ -207,7 +208,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
     try
     {
-      const response = await dispatch( createTask( taskData ) );
+      const response = await dispatch(createTask(taskData) );
       console.log( "Task created successfully:", response?.payload?.new_task );
       alert( response?.payload?.msg || "Task created successfully" );
 

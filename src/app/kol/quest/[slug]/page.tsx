@@ -1,138 +1,156 @@
 "use client";
-import React, { useState } from "react";
+import { fetchQuestById } from "@/redux/reducer/questSlice";
+import { completeTask, fetchTaskById } from "@/redux/reducer/taskSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { AnyAction } from 'redux';
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-interface CardData {
+interface Completion
+{
+  user: string;
+  completedAt: string;
+  submission: string;
+  userName: string;
+  _id: string;
+}
+
+interface CardData
+{
+  _id: string;
   image: string;
   name: string;
   description: string;
-  link: string;
+  type: string;
+  category: string;
+  visitLink?: string;
+  question?: string;
+  options?: string[];
+  correctAnswer?: string;
+  inviteLink?: string;
+  uploadLink?: string;
+  completions: Completion[];
 }
 
-const cardData: CardData[] = [
-  {
-    image: "https://zealy.io/nstatic/xp-reward.webp",
-    name: "Visit the link get some extra xp coins",
-    description: "This is the description for card 1.",
-    link: "Visit link",
-  },
-  {
-    image: "https://zealy.io/nstatic/xp-reward.webp",
-    name: "Chose the correct poll get some xp ",
-    description: "This is the description for card 2.",
-    link: "Poll",
-  },
-  {
-    image: "https://zealy.io/nstatic/xp-reward.webp",
-    name: "Chose the correct answer and get xp",
-    description: "This is the description for card 3.",
-    link: "Quiz",
-  },
-  {
-    image: "https://example.com/image4.jpg",
-    name: "Card 4",
-    description: "This is the description for card 4.",
-    link: "View task",
-  },
-  {
-    image: "https://example.com/image5.jpg",
-    name: "Card 5",
-    description: "This is the description for card 5.",
-    link: "View task details",
-  },
-];
+const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
+{
+  const dispatch: AppDispatch = useDispatch();
 
-const Page: React.FC = () => {
-  const [selectedCard, setSelectedCard] = useState<CardData | null>(null);
-  const [pollQuestion, setPollQuestion] = useState("");
-  const [pollOptions, setPollOptions] = useState<string[]>(["", ""]);
-  const [quizQuestion, setQuizQuestion] = useState("");
-  const [quizOptions, setQuizOptions] = useState<string[]>(["", ""]);
+  const router = useRouter();
+  const questId: string | any = params.slug;
+  const [ selectedCard, setSelectedCard ] = useState<CardData | null>( null );
+  const [ isCreatorView, setIsCreatorView ] = useState( true ); // Set this based on user role
+  const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
+  // useSelector((state:any)=>console.log(state.task))
+  // console.log(tasks)
+  useEffect( () =>
+  {
+    dispatch( fetchTaskById( questId ) );
+  }, [] );
 
-  const handleCardClick = (card: CardData) => {
-    setSelectedCard(card);
+  const handleCardClick = ( card: CardData ) =>
+  {
+    setSelectedCard( card );
   };
 
-  const handleClosePopup = () => {
-    setSelectedCard(null);
-    setPollQuestion("");
-    setPollOptions(["", ""]);
-    setQuizQuestion("");
-    setQuizOptions(["", "", "", ""]);
+  const handleClosePopup = () =>
+  {
+    setSelectedCard( null );
   };
 
-  const handlePollOptionChange = (index: number, value: string) => {
-    const newOptions = [...pollOptions];
-    newOptions[index] = value;
-    setPollOptions(newOptions);
+  const addTask = () =>
+  {
+    router.push( `/kol/add-task/${ questId }` )
   };
 
-  const handleQuizOptionChange = (index: number, value: string) => {
-    const newOptions = [...quizOptions];
-    newOptions[index] = value;
-    setQuizOptions(newOptions);
-  };
+  console.log(selectedCard)
 
   return (
-    <div className="bg-[#000] text-white ">
-      <div className="mx-4 lg:mx-20">
-        <div className="text-2xl pt-10 font-bold">
-          <h1>My Quest</h1>
-        </div>
-        <div className="max-w-[600px] pt-4 text-gray-400">
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore
-            neque magni dolorum dignissimos enim delectus velit ut aspernatur.
-          </p>
-        </div>
-        <div className="grid gap-4 sm:gap-8  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10 ">
-          {cardData?.map((card, index) => (
+    <div className="bg-[#000000] text-white min-h-screen">
+      <div className="mx-4 lg:mx-20 py-10">
+        <h1 className="text-2xl font-bold mb-4">Quest Monitoring</h1>
+        { tasks && tasks?.length > 0 && (
+
+          <div className="flex flex-col md:flex-row md:justify-between">
+            <div className="max-w-[600px] pt-4 text-gray-400 flex justify-end">
+              <p className="text-white mb-6">Monitor task completions and submissions.</p>
+            </div>
+
+            <div className="md:pt-6 md:inline-block">
+              <button className="bg-gray-700 hover:bg-gray-900 text-white font-medium w-full md:w-auto px-5 py-2 rounded-3xl"
+                onClick={ addTask }
+              >
+                Add task
+              </button>
+            </div>
+          </div>
+        ) }
+
+        { ( tasks.length === 0 ) && (
+          <div className="flex flex-col items-center justify-center h-[60vh]">
+            <div className="text-center bg-white/5 p-8 rounded-xl shadow-lg max-w-md w-full">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400 mb-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                />
+              </svg>
+              <h3 className="text-xl font-medium text-white mb-2">No tasks available</h3>
+              <p className="text-gray-400 mb-6">Get started by creating a new task for this quest.</p>
+              <button
+                onClick={ addTask }
+                className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Add New Task
+              </button>
+            </div>
+          </div>
+        ) }
+
+        <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+
+          { tasks?.map( ( task: CardData, index: number ) => (
             <div
-              key={index}
-              className=" border border-gray-200 bg-white/5 sm:p-2 lg:py-4 rounded-xl h-full w-full shadow-lg group hover:scale-105 hover:bg-white/10"
-              onClick={() => handleCardClick(card)}
+              key={ index }
+              className="border border-gray-200 bg-white/5 p-4 rounded-xl shadow-lg hover:bg-white/10 cursor-pointer"
+              onClick={ () => handleCardClick( task ) }
             >
-              <div className="flex gap-3 items-center justify-between mx-2">
-                <div className="text-xl font-medium basis-[65%]">
-                  <h1>{card.name}</h1>
-                </div>
-                <div className="basis-[25%]">
-                  <div className="relative flex justify-center">
-                    <img
-                      src="https://zealy.io/nstatic/xp-reward.webp"
-                      alt="XP Image"
-                      className="w-full h-auto rounded-lg "
-                    />
-                    <div className="absolute bottom-0  bg-purple-500 opacity-40 text-white px-2 rounded-lg flex justify-center mr-2.5">
-                      <p>70</p>
-                    </div>
-                  </div>
-                </div>
+              <h2 className="text-xl font-medium mb-2">{ task.type }</h2>
+              <p className="text-sm mb-2">{ task.description }</p>
+              <div className="flex justify-between items-center">
+                <span className="bg-purple-500 text-white px-2 py-1 rounded-lg text-xs">
+                  { task.category }
+                </span>
+                <span className="text-sm">
+                  Completions: { task.completions.length }
+                </span>
               </div>
             </div>
-          ))}
+          ) ) }
         </div>
       </div>
 
-      {selectedCard && (
+      { selectedCard && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="relative p-4 w-full max-w-md">
+          <div className="relative p-4 w-full max-w-4xl">
             <div className="relative bg-[#282828] rounded-3xl shadow text-white">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <div className="flex items-center ">
-                  {/* <img
-                    src={selectedCard.image}
-                    alt=""
-                    className="h-14 w-14 object-cover rounded-full"
-                  /> */}
-                  <div className="mx-2">
-                    <h3 className="text-lg font-semibold dark:text-white">
-                      {selectedCard.name}
-                    </h3>
-                  </div>
-                </div>
+                <h3 className="text-xl font-semibold text-white">
+                  { selectedCard.name } Completions
+                </h3>
                 <button
-                  onClick={handleClosePopup}
-                  className="text-gray-100 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  onClick={ handleClosePopup }
+                  className="text-white bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
                 >
                   <svg
                     className="w-3 h-3"
@@ -149,93 +167,40 @@ const Page: React.FC = () => {
                       d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                     />
                   </svg>
-                  <span className="sr-only">Close modal</span>
                 </button>
               </div>
-              <div className="p-4 md:p-5">
-                <p className="text-sm text-gray-100 mb-4">
-                  {selectedCard.description}
-                </p>
-                {selectedCard.link === "Visit link" && (
-                  <div>
-                    <input
-                      type="url"
-                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                      placeholder="https://"
-                    />
-                    <button
-                      className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848]"
-                      onClick={() => console.log("Add Visit Link")}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                )}
-                {selectedCard.link === "Poll" && (
-                  <div>
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                      placeholder="Enter poll question"
-                      value={pollQuestion}
-                      onChange={(e) => setPollQuestion(e.target.value)}
-                    />
-                    {pollOptions.map((option, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                        placeholder={`Option ${index + 1}`}
-                        value={option}
-                        onChange={(e) =>
-                          handlePollOptionChange(index, e.target.value)
-                        }
-                      />
-                    ))}
-                    <button
-                      className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848]"
-                      onClick={() => console.log("Add Poll Task")}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                )}
-                {selectedCard.link === "Quiz" && (
-                  <div>
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                      placeholder="Enter quiz question"
-                      value={quizQuestion}
-                      onChange={(e) => setQuizQuestion(e.target.value)}
-                    />
-                    {quizOptions.map((option, index) => (
-                      <input
-                        key={index}
-                        type="text"
-                        className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                        placeholder={`Option ${index + 1}`}
-                        value={option}
-                        onChange={(e) =>
-                          handleQuizOptionChange(index, e.target.value)
-                        }
-                      />
-                    ))}
-                    <button
-                      className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848]"
-                      onClick={() => console.log("Add Quiz Task")}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                )}
+              <div className="p-4 md:p-5 max-h-[70vh] overflow-y-auto">
+                { selectedCard.completions.length > 0 ? (
+                  <table className="w-full text-sm text-left text-gray-200">
+                    <thead className="text-xs text-gray-100 uppercase bg-gray-700">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">User ID</th>
+                        <th scope="col" className="px-6 py-3">User Name</th>
+                        <th scope="col" className="px-6 py-3">Completed At</th>
+                        <th scope="col" className="px-6 py-3">Submission</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      { selectedCard.completions.map( ( completion, index ) => (
+                        <tr key={ index } className="bg-gray-800 border-b border-gray-700">
+                          <td className="px-6 py-4">{ completion.user }</td>
+                          <td className="px-6 py-4">{ completion?.userName }</td>
+                          <td className="px-6 py-4">{ new Date( completion.completedAt ).toLocaleString() }</td>
+                          <td className="px-6 py-4">{ completion.submission }</td>
+                        </tr>
+                      ) ) }
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="text-center text-gray-400">No completions yet.</p>
+                ) }
               </div>
             </div>
           </div>
         </div>
-      )}
+      ) }
     </div>
   );
 };
 
-export default Page;
+export default QuestPage;

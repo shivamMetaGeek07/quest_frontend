@@ -24,7 +24,9 @@ export interface IDiscordInfo {
 }
 
 // Define an interface for the User schema
-export interface IUser {
+export interface IUser
+{
+  _id?: string;
   googleId: string;
   displayName: string;
   email: string;
@@ -38,6 +40,7 @@ export interface IUser {
   quest: Quest[];
   twitterInfo?: ITwitterInfo;
   discordInfo?: IDiscordInfo;
+  community?: [];
 }
 
 // Define the initial state interface
@@ -57,14 +60,19 @@ const initialState: UserState = {
 // Define async thunks
 export const fetchUserData = createAsyncThunk(
   'login/fetchUserData',
-  async (_, { rejectWithValue }) => {
+  async ( _, { rejectWithValue } ) =>
+  {
+    console.log("this is user")
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
         withCredentials: true, // Ensure credentials are included in the request
       });
       const data = response.data;
+      console.log(data)
       return data;
-    } catch (err) {
+    } catch ( err )
+    {
+      console.log("Failed to detch user :-", err)
       return rejectWithValue('Failed to fetch user data');
     }
   }
