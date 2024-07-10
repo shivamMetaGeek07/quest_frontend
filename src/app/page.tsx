@@ -8,14 +8,9 @@ import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { AiOutlineDisconnect } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-<<<<<<< HEAD
-import { fetchUserData } from "@/redux/reducer/auth";
+import { fetchUserData } from "@/redux/reducer/authSlice";
 import { fetchTaskById, fetchTasks } from "@/redux/reducer/taskSlice";
 import { BallTriangle } from "react-loader-spinner";
-=======
-import { fetchUserData } from "@/redux/reducer/authSlice";
-import { BallTriangle } from "react-loader-spinner";
->>>>>>> c7d78b41b3bd4c20bdbd90dc9629200b01b0907d
 
 interface data {
   id: Number;

@@ -2,17 +2,12 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCommunity } from "../../../../redux/reducer/communitySlice";
+import {  fetchCommunity } from "../../../../redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "../../../../redux/store";
-import {
-  faTwitter,
-  faFacebook,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 
-export default function FeedItemPage({ params }: { params: { slug: string } }) {
+import { fetchQuests } from "@/redux/reducer/questSlice";
+
+export default function CommunityProject({ params }: { params: { slug: string } }) {
   const id = params.slug;
   const dispatch = useDispatch<AppDispatch>();
   const {
@@ -20,10 +15,20 @@ export default function FeedItemPage({ params }: { params: { slug: string } }) {
     loading,
     error,
   } = useSelector((state: RootState) => state.community);
-
+  const currentQuests =  useSelector( ( state: any ) => state.quest.currentQuests );
+  const questIds = community?.quests 
+  // console.log(community?.quests)
   useEffect(() => {
-    dispatch(fetchCommunity(id));
-  }, [dispatch, id]);
+    dispatch( fetchCommunity( id ) );
+  }, [ dispatch, id ] );
+  
+  useEffect( () =>
+    {
+      if ( questIds && questIds.length > 0 )
+        {
+      dispatch( fetchQuests( questIds))
+    }
+  }, [ dispatch, questIds ] );
 
   if (loading) {
     return (
@@ -176,20 +181,31 @@ export default function FeedItemPage({ params }: { params: { slug: string } }) {
           Active Quests
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {community.quests?.map((questId) => (
-            <Link href={`/user/quest/${questId}`} key={questId}>
+          { currentQuests?.map((quest: any, index: number) => (
+
+
+            // <Link href={`/user/quest/${questId}`} key={questId}>
+            <div
+              onClick={ ( e ) =>
+              {
+                e.preventDefault();
+                window.location.href = `/user/quest/${quest._id}`
+              }}
+            >
+
               <div className=" bg-[#121212] border   dark:border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="bg-blue-100 h-40 flex items-center justify-center">
                   <span className="text-6xl text-blue-500">🏆</span>
                 </div>
                 <div className="p-4">
                   <h3 className="text-xl font-semibold text-neutral-300 mb-2">
-                    Quest #{questId}
+                    {quest.title}
                   </h3>
                   <p className="text-neutral-300">Click to view quest details</p>
                 </div>
               </div>
-            </Link>
+            </div>
+            // </Link>
           ))}
         </div>
       </div>

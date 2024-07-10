@@ -82,6 +82,7 @@ export const createCommunity = createAsyncThunk(
   }
 );
 
+// fetch  all communitites by user/kols id
 export const fetchCommunitiesByIds = createAsyncThunk(
   'community/fetchCommunitiesByIds',
   async (communityIds: string[], thunkAPI) => {
@@ -100,6 +101,29 @@ export const fetchCommunitiesByIds = createAsyncThunk(
     }
   }
 );
+
+// join the community
+export const joinCommunity = createAsyncThunk(
+  'community/joinCommunity',
+  async ( { memberId, id }:{ memberId: string|undefined; id: string }, thunkAPI ) =>
+  {
+    try
+    {
+      const response = await axios.post(
+        `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/joinCommunity/${id}`
+        , { memberId }
+      );
+      console.log(response)
+      return response.data.community;
+    }
+    catch ( err )
+    {
+      return thunkAPI.rejectWithValue( 'Failed to join community' );
+    }
+  }
+);
+  
+
 
 const communitySlice = createSlice({
   name: 'community',

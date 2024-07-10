@@ -14,14 +14,21 @@ export interface Quest {
   rewards: Reward[];
 }
  
-interface QuestState {
-  quests: Quest[];
+interface QuestState
+{
+  allQuests: Quest[];
+  quests: [];
+  currentQuests: [];
   loading: boolean;
   error: string | null;
 }
  
 const initialState: QuestState = {
-  quests: [],
+  // all quests
+  allQuests: [],
+  // current quests from community 
+  currentQuests: [],
+  quests:[],
   loading: false,
   error: null,
 };
@@ -69,24 +76,80 @@ export const createQuest1 = createAsyncThunk(
   }
 );
 
+// fetch all quests by ids
+export const fetchQuests = createAsyncThunk(
+  'quests/fetchQuests',
+  async ( questIds: string[], { rejectWithValue } ) =>
+  {
+    console.log(questIds)
+    try
+    {
+       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/quest/getByIds`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questIds }),
+       } );
+       const data = await response.json();
+       console.log(response)
+      return data.quests;
+    } catch ( err )
+    {
+      console.log("error in gettng quest details :", err)
+      return rejectWithValue( 'Failed to fetch quests' );
+    }
+  }
+);
+
+// fetch quest by id
+export const fetchQuestById = createAsyncThunk(
+  'quests/fetchQuestById',
+  async (id: string, { rejectWithValue }) : Promise<any> => {
+    try {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/quest/${id}`);
+      console.log(response)
+      return response.data;
+    } catch (err) {
+      return rejectWithValue('Failed to fetch quest data');
+    }
+  }
+); 
+  
+
 const questSlice = createSlice({
   name: 'quests',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createQuest1.pending, (state) => {
+      .addCase( createQuest1.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(createQuest1.fulfilled, (state, action) => {
+      } )
+      .addCase( createQuest1.fulfilled, ( state, action ) =>
+      {
         state.loading = false;
-        state.quests.push(action.payload);
-      })
-      .addCase(createQuest1.rejected, (state, action) => {
+        state.allQuests.push( action.payload );
+      } )
+      .addCase( createQuest1.rejected, ( state, action ) =>
+      {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      } )
+      .addCase( fetchQuests.fulfilled, ( state, action ) =>
+      { 
+        state.loading = false;
+        state.currentQuests = action.payload;
+      } )
+      
+      .addCase( fetchQuestById.fulfilled, ( state, action ) =>
+      {
+        console.log(action.payload)
+        state.loading = false;
+        state.quests = action.payload.quest;
+        } )
   },
 });
 

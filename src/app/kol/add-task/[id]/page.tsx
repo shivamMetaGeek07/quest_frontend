@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
-import { fetchUserData } from "@/redux/reducer/auth";
+import { fetchUserData } from "@/redux/reducer/authSlice";
 import { useProtectedRoute } from "@/utils/privateRoute";
 
 
@@ -118,7 +118,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     newOptions[ index ].text = value;
     setQuizOptions( newOptions );
   };
-  console.log(selectedTask?.name)
+  
 
   const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   {

@@ -32,18 +32,19 @@ const CreateCommunity = () =>
 
     // const [ canProceed, setCanProceed ] = useState<boolean>( false );
     const dispatch = useDispatch<AppDispatch>();
-    const communityData = useSelector( ( state: RootState ) => state.adminCommunity );
+  const communityData = useSelector( ( state: RootState ) => state.adminCommunity );
+  const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
     // console.log( communityData );
 
 
     const getUploadUrl = async (fileName: string) => {
-      console.log("getUploadUrl called",fileName);
+      // console.log("getUploadUrl called",fileName);
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/aws/generate-upload-url`, {
           folder: 'CommunityLogo',
           fileName,
         });
-        console.log('Upload URL:', response.data.url);
+        // console.log('Upload URL:', response.data.url);
         return response.data.url; 
       } catch (error) {
         console.error('Error getting upload URL:', error);
@@ -57,7 +58,7 @@ const CreateCommunity = () =>
       
       try{
         const uploadUrl = await getUploadUrl(file.name);  // presigned url from server
-        console.log('Upload URL:', uploadUrl);
+        // console.log('Upload URL:', uploadUrl);
 
         if(!uploadUrl) return false;
 
@@ -105,8 +106,8 @@ const CreateCommunity = () =>
         //path for image on aws
         const path=`https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.amazonaws.com/CommunityLogo/${file.name}`;
         
-        const newCommunity = { title, description, logo:path, category: categories, ecosystem: ecosystems };
-        console.log("newCommunity",newCommunity);
+        const newCommunity = { title, description, logo:path, category: categories, ecosystem: ecosystems, creator:KolId };
+        // console.log("newCommunity",newCommunity);
 
         const resultAction =await dispatch( createCommunity(newCommunity) );
         if ( createCommunity.fulfilled.match( resultAction ) )

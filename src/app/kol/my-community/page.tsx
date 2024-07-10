@@ -1,23 +1,12 @@
 
 "use client";
-import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
+import { fetchUserData } from "@/redux/reducer/authSlice";
+import { fetchAllCommunities, fetchCommunitiesByIds } from "@/redux/reducer/communitySlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-
-interface CardData
-{
-  image: string;
-  name: string;
-  description: string;
-  stats: {
-    user: string;
-    bolt: string;
-    twitter: string;
-  };
-}
 
 
 const MyCommunities: React.FC = () =>
@@ -25,12 +14,28 @@ const MyCommunities: React.FC = () =>
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   // const { data: community, loading, error } = useSelector( ( state: RootState ) => state.community );
-  const temp = useSelector( ( state: RootState ) => console.log( state.community.allCommunities ) );
   const cardData = useSelector( ( state: RootState ) => state.community.allCommunities );
+
+  const userCommunities = useSelector( ( state: RootState ) => state.community?.userCommunities );
+  const userCommunityIds = useSelector( ( state: RootState ) => state.login.user?.community );
+
+console.log(userCommunities)
+  console.log( userCommunities )
+
   useEffect( () =>
   {
+    dispatch( fetchUserData() );
     dispatch( fetchAllCommunities() );
   }, [ dispatch ] );
+
+  useEffect( () =>
+  {
+    if ( userCommunityIds && userCommunityIds.length > 0 )
+    {
+      dispatch( fetchCommunitiesByIds( userCommunityIds ) );
+    }
+  }, [ dispatch, userCommunityIds ] );
+
   return (
     <div className="bg-black text-white min-h-screen ">
       <div className="mx-4 lg:mx-20">
@@ -46,17 +51,17 @@ const MyCommunities: React.FC = () =>
       </div>
       <div className="grid gap-4 sm:gap-8 mx-4 lg:mx-20 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10">
 
-        { cardData?.map( ( card, index ) => (
+        { userCommunities?.map( ( card:any, index:number ) => (
 
           <div
             key={ index }
-            onClick={ () => router.push( `/kol/community-project/${ card._id }` ) }
+            onClick={ () => router.push( `/kol/community-project/${ card?._id }` ) }
             className="bg-white/5 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10"
           >
             <div className="flex gap-3 items-center">
               <div>
                 <img
-                  src={ card.logo }
+                  src={ card?.logo }
                   alt=""
                   className="w-10 h-10 object-cover rounded-xl"
                 />
