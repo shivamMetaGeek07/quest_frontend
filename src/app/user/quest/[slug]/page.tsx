@@ -2,6 +2,7 @@
 import { fetchQuestById } from "@/redux/reducer/questSlice";
 import { completeTask, fetchTaskById } from "@/redux/reducer/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,9 +36,9 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
   const questId: string = params.slug;
   const [ selectedCard, setSelectedCard ] = useState<CardData | null>( null );
   const [ submission, setSubmission ] = useState( "" );
+  const [referral ,setReferral]=useState<string>('Please Generate Referral')
   const user = useSelector( ( state: RootState ) => state.login.user );
   const tasks = useSelector( ( state: any ) => state.task.currentTask );
-
   useEffect( () =>
   {
     console.log("this is useeffect console")
@@ -66,7 +67,6 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
         userName: string | undefined;
         submission: string;
       } = { taskId, submission, userId:user?._id, userName: user?.displayName };
-console.log(data)
       dispatch( completeTask( data ) )
       
     } catch (error) {
@@ -75,6 +75,24 @@ console.log(data)
     handleClosePopup();
   };
 
+  const handleClick=async()=>{
+    try {
+      const formData={
+        userId:user?._id,
+        questId,
+        taskId:selectedCard?._id,
+        expireDate:5
+      }
+      const response =await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/task/get/referral`,formData, {
+        withCredentials: true, // Ensure credentials are included in the request  
+      });
+      const data = response.data;  
+       setReferral(data);
+    } catch (error) {
+      
+    }
+
+  }
 
   const isTaskCompleted = ( task: CardData ) =>
   {
@@ -223,21 +241,14 @@ console.log(data)
                   </div>
                 ) }
                 { selectedCard.type === "Invites" && (
-                  <div>
-                    <p>Share this invite link:</p>
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded-lg mt-2 bg-[#282828]"
-                      value={ selectedCard.inviteLink }
-                      readOnly
-                    />
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded-lg mt-2 bg-[#282828]"
-                      placeholder="Enter invited user's username"
-                      value={ submission }
-                      onChange={ ( e ) => setSubmission( e.target.value ) }
-                    />
+                  <div className="flex flex-col">
+                    <p>Referral Code:</p>
+                    <div className="flex justify-center text-xl font-bold items-center ">
+                    {referral}
+                    </div>      
+                  <button className="p-2 rounded-2xl bg-orange-500 px-4 m-3" onClick={handleClick}>
+                    Generate Referral
+                  </button>
                   </div>
                 ) }
                 { selectedCard.type === "File upload" && (

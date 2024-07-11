@@ -16,6 +16,7 @@ interface TaskOption
   icon: string;
   description: string;
   category: string;
+  referral:string;
   visitLink?: string;
   question?: string;
   options?: string[];
@@ -184,6 +185,9 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
         break;
       case 'invites':
         taskData = { ...baseTask, inviteLink: selectedTask.inviteLink };
+        break;
+      case 'referral':
+        taskData = { ...baseTask, referral: selectedTask.referral };
         break;
       case 'file upload':
         taskData = { ...baseTask, uploadLink: selectedTask.uploadLink };
