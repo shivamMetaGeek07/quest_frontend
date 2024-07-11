@@ -20,5 +20,30 @@ body {
   overflow: hidden;
 }
 
-  
+.clip-trapezium-bottom-left {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
+  bottom: -1px;
+  left: -1px;
+}
+
+.clip-trapezium-bottom-right {
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+  bottom: -1px;
+  right: -1px;
+}
+
+
+.clip-trapezium-top-left {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
+  top: 0px;
+  left: -1px;
+}
+
+.clip-trapezium-top-right {
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+  top: 0px;
+  right: -1px;
+}
+
+
 
