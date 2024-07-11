@@ -52,6 +52,8 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   const questId: string = params.slug;
   const [ selectedCard, setSelectedCard ] = useState<CardData | null>( null );
   const [ submissions, setSubmissions ] = useState<{ [ key: string ]: string | File; }>( {} );
+  const [ referral, setReferral ] = useState<string>( 'Please Generate Referral' )
+  
   const user = useSelector( ( state: RootState ) => state.login.user );
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
 
@@ -98,7 +100,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
         userName: user?.displayName,
         submission: JSON.stringify( submission ),
       };
-      // await dispatch( completeTask( data ) );
+      await dispatch( completeTask( data ) );
       window.location.reload();
     } catch ( error )
     {
@@ -110,6 +112,25 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   {
     setSubmissions( prev => ( { ...prev, [ taskId ]: file } ) );
   }, [] );
+
+  const handleClick=async()=>{
+    try {
+      const formData={
+        userId:user?._id,
+        questId,
+        taskId:selectedCard?._id,
+        expireDate:5
+      }
+      const response =await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/task/get/referral`,formData, {
+        withCredentials: true, // Ensure credentials are included in the request  
+      });
+      const data = response.data;  
+       setReferral(data);
+    } catch (error) {
+      
+    }
+
+  }
 
   const getUploadUrl = useCallback( async ( fileName: string ) =>
   {
@@ -185,6 +206,22 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
     </div>
   );
 };
+
+
+
+// {
+//   selectedCard.type === "Invites" && (
+//     <div className="flex flex-col">
+//       <p>Referral Code:</p>
+//       <div className="flex justify-center text-xl font-bold items-center ">
+//         { referral }
+//       </div>
+//       <button className="p-2 rounded-2xl bg-orange-500 px-4 m-3" onClick={ handleClick }>
+//         Generate Referral
+//       </button>
+//     </div>
+//   );
+// }
 
 const Header: React.FC = () => (
   <>
@@ -376,7 +413,23 @@ const Popup: React.FC<{
                 onChange={ ( e ) => onInputChange( selectedCard._id, e.target.value ) }
               />
             </div>
-          ) }
+                ) }
+                
+                 {
+                  selectedCard.type === "Invites" && (
+                 <div className="flex flex-col">
+                   <p>Referral Code:</p>
+                  <div className="flex justify-center text-xl font-bold items-center ">
+                         {/* { referral } */}
+                       </div>
+                      <button className="p-2 rounded-2xl bg-orange-500 px-4 m-3"
+                        // onClick={ handleClick }
+                      >
+                         Generate Referral
+                       </button>
+                     </div>
+                   )
+                 }
 
           { selectedCard.type === "File upload" && (
             <div>

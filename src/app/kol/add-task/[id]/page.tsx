@@ -27,6 +27,7 @@ interface TaskOption
   icon: string;
   description: string;
   category: string;
+  referral:string;
   visitLink?: string;
   quizzes?: IQuiz[];
   polls?: IPoll[];
@@ -139,6 +140,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       case 'invites':
         taskData = { ...baseTask, inviteLink: selectedTask.inviteLink };
         break;
+      
       case 'poll':
         taskData = {
           ...baseTask,
@@ -147,7 +149,11 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
             options: poll.options.map( option => option.text ),
           } ) ),
         };
+
+      case 'referral':
+        taskData = { ...baseTask, referral: selectedTask.referral };
         break;
+   
       case 'quiz':
         taskData = {
           ...baseTask,

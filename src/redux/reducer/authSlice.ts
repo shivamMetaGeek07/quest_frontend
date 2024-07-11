@@ -62,13 +62,11 @@ export const fetchUserData = createAsyncThunk(
   'login/fetchUserData',
   async ( _, { rejectWithValue } ) =>
   {
-    console.log("this is user")
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
         withCredentials: true, // Ensure credentials are included in the request
       });
       const data = response.data;
-      console.log(data)
       return data;
     } catch ( err )
     {
