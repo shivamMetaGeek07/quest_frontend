@@ -40,7 +40,6 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
   const router = useRouter();
   const questId: string | any = params.slug;
   const [ selectedCard, setSelectedCard ] = useState<CardData | null>( null );
-  const [ isCreatorView, setIsCreatorView ] = useState( true ); // Set this based on user role
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
   // useSelector((state:any)=>console.log(state.task))
   // console.log(tasks)
@@ -49,15 +48,10 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
     dispatch( fetchTaskById( questId ) );
   }, [] );
 
-  const [progress, setProgress] = useState(0);
 
   const handleCardClick = (card: CardData) => {
     setSelectedCard(card);
-    const increment = Math.ceil(100 / tasks.length);
-    setProgress((prevProgress) => {
-      const newProgress = prevProgress + increment;
-      return newProgress > 100 ? 100 : newProgress;
-    });
+    
   };
 
   const handleClosePopup = () =>
@@ -77,21 +71,7 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
       <div className="mx-4 lg:mx-20 py-10">
         <h1 className="text-2xl font-bold mb-4">Quest Monitoring</h1>
 
-         <div className="banner mt-5">
-          <h1 className="text-2xl">Getting started</h1>
-
-          <div className="flex justify-between mb-1">
-            <span className="text-sm font-medium text-blue-700 dark:text-white">
-              {progress}%
-            </span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-            <div
-              className="bg-green-500 h-2.5 rounded-full"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-        </div>
+       
         { tasks && tasks?.length > 0 && (
 
           <div className="flex flex-col md:flex-row md:justify-between">

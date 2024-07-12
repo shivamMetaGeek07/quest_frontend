@@ -122,11 +122,12 @@ const QuizPollCarousel: React.FC<QuizPollCarouselProps> = ( { selectedCard, hand
         } else if ( selectedCard.type === "Quiz" && selectedCard.quizzes )
         {
             const quiz = selectedCard.quizzes[ currentIndex ];
+            
             return (
                 <div className="bg-[#1E1E1E] p-4 rounded-lg border border-gray-700">
                     <p className="font-semibold mb-3 text-lg">Quiz Question { currentIndex + 1 }</p>
-                    <p className="mb-2">{ quiz.question }</p>
-                    { quiz.options.map( ( option, optionIndex ) => (
+                    <p className="mb-2">{ quiz?.question }</p>
+                    { quiz?.options?.map( ( option, optionIndex ) => (
                         <div key={ optionIndex } className="mb-2 flex items-center">
                             <input
                                 type="radio"
