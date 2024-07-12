@@ -44,7 +44,7 @@ const Navbar = () =>
 console.log("data",data)
   if (!isClient) return null;
   return (
-    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md sticky top-0 shadow">
+    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md sticky top-0 shadow " style={{ zIndex: 1000 }}>
       <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo */ }
         <div>

@@ -6,7 +6,7 @@ const testing=()=>{
 
     return(
         <div className="min-h-screen ">
-            <NavBartest/>
+            {/* <NavBartest/> */}
             <div className="flex flex-col justify-center items-center min-h-screen">
                 <div className="relative w-72 h-48 bg-cover bg-center" style={{ backgroundImage: "url('https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630')" }}>
                     <div className="absolute w-1/3 h-1/4 bg-black clip-trapezium-bottom-left"></div>
