@@ -19,7 +19,7 @@ const MainLayout = ({
   return (
     <div>
       <NextUIProvider>
-      {isAdminRoute ? (<AdminNavbar />): <Navbar />}
+      {/* {isAdminRoute ? (<AdminNavbar />): <Navbar />} */}
       <main className='min-h-screen'>{children}</main>
       <Footer />
       </NextUIProvider>
