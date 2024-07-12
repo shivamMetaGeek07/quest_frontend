@@ -56,9 +56,10 @@ const CommunityDataPage = (props: Props) => {
   }, [])
 
   return (
-    <div className="py-10 bg-gray-950 mx-auto w-[60%] rounded-lg">
+    <div className="bg-slate-100 text-black h-screen p-8">
+      <div className="py-10 mx-auto w-[60%] rounded-lg bg-white">
       <div className="flex justify-center mb-6 p-4 py-6">
-        < h2 className="text-4xl font-bold text-white">Edit Community MetaData</h2>
+        < h2 className="text-4xl font-bold ">Edit Community MetaData</h2>
       </div>
       {/* <div className="flex justify-center items-start text-white p-4 gap-4">
         <div className="w-1/2 border justify-center items-center p-4 rounded-md bg-gray-800">
@@ -233,6 +234,8 @@ const CommunityDataPage = (props: Props) => {
         
       </form>
     </div>
+    </div>
+    
   );
 };
 
