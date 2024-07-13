@@ -45,5 +45,124 @@ body {
   right: -1px;
 }
 
+/* card botton div */
+.clip{
+  clip-path: polygon(34% 28%, 68% 28%, 79% 0, 100% 0, 100% 100%, 0 100%, 0 1%, 24% 0);
+}
 
 
+.bg_Div_Container{
+  clip-path: polygon(32% 0, 100% 0, 100% 100%, 0 100%, 0 77%);
+}
+.bg_Div_Down{
+  clip-path: polygon(36% 35%, 66% 35%, 74% 0, 100% 0, 100% 100%, 0 100%, 0 0, 28% 0);}
+
+  .bg_Div_Down-h{
+    clip-path: polygon(36% 35%, 66% 35%, 74% 0, 100% 0, 100% 100%, 0 100%, 0 0, 28% 0);}
+
+.image-container {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 70% 86%, 65% 100%, 35% 100%, 30% 86%, 0 86%);
+}
+.bg_eco_div{
+  clip-path: polygon(3% 0, 93% 0, 100% 24%, 100% 100%, 0 100%, 3% 85%);  
+}
+.eco_box{
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+.styled-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: inherit; /* Ensures the image fits within the hexagon shape */
+}
+
+
+
+
+/* hover effect on ecosystem components start*/
+.outer-div:hover .bg_Div_Down {
+  background-color: #735dcf;  
+}
+
+.outer-div:hover .bg_eco_div {
+  background-color: #8068e8;  
+  border-color: #111111;      
+}
+
+.outer-div:hover .eco_box {
+  background-color: #735dcf;  
+}
+
+.outer-div:hover .descdata{
+  color: #111111;
+}
+.outer-div:hover .descText{
+  color: #735dcf;
+}
+
+/* hover effect on ecosystem components end */
+
+
+
+.outer-home:hover {
+  background-color: #8C71FF;
+  color: #111111;
+  
+}
+
+.outer-home:hover .home-inner-bg {
+  background-color: #735dcf;  
+}
+
+.outer-home:hover .bg_Div_Down-h{
+  background-color: #735dcf;
+}
+
+.home-g:hover {
+  background-color: #8C71FF;
+  color: #111111;
+}
+
+/* EcoSystem Icon Shape */
+.icon-clip{
+  clip-path: polygon(0 0, 77% 0, 76% 79%, 0% 100%);
+}
+
+/* Education clip */
+
+.education-clip{
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 88% 89%, 79% 100%, 21% 100%, 14% 90%, 0 90%);
+  /* clip-path: inherit; */
+  border: 1px solid red;
+}
+
+/* .education{
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 88% 89%, 79% 100%, 21% 100%, 14% 90%, 0 90%);
+  background-color: red;
+  
+} */
+
+
+/* Grants */
+
+.grant-clip{
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 81% 90%, 72% 100%, 27% 100%, 19% 90%, 0 90%);
+}
+
+
+
+.box1{
+  padding: 1px;
+  width: 100%;
+  height: 100%;
+  margin: -4px;
+  background-color: red;
+
+}
+.box2{
+background-color: rgb(0, 0, 0);
+width: 100%;
+height: 100%;
+padding: 20px;
+}
