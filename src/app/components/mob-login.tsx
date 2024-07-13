@@ -86,15 +86,14 @@ const LoginPage: React.FC = () =>
             // Add your login logic here
         }
     };
-
     return (
-        <div className="min-h-screen bg-gradient-to-r from-[#000000] to-[#010b23] flex items-center justify-center p-4">
-            <div className="bg-black rounded-lg shadow-xl w-[492px] h-[291px] border overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="rounded-lg shadow-xl w-full max-w-[492px] h-auto sm:h-[291px] border overflow-hidden">
                 <div className="h-full flex flex-col p-4 sm:p-6">
                     <h1 className="text-xl sm:text-2xl font-bold text-center text-white mb-4 font-[Qanelas-SemiBold, Helvetica]">LOGIN</h1>
                     <form onSubmit={ handleLogin } className="flex-grow flex flex-col justify-between">
-                        <div className="flex flex-row space-x-4">
-                            <div className="w-1/3">
+                        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                            <div className="w-full sm:w-1/3 flex justify-center sm:block">
                                 <div
                                     className="bg-black border border-gray-600 h-24 w-24 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden"
                                     onClick={ handleLogoClick }
@@ -118,7 +117,7 @@ const LoginPage: React.FC = () =>
                                     className="hidden"
                                 />
                             </div>
-                            <div className="w-2/3 space-y-3">
+                            <div className="w-full sm:w-2/3 space-y-3">
                                 <div>
                                     <div className="flex justify-between items-center">
                                         <label htmlFor="name" className="text-sm font-medium text-gray-300 font-[Helvetica]">NAME *</label>
