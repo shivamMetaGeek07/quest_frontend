@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { FaEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 const ModalForm = () => {
@@ -41,14 +42,17 @@ const router=useRouter()
 
   return (
     <div>
-      <div className="flex justify-center sm:justify-center">
-        <button
-          onClick={toggleModal}
-          className="block text-white bg-gray-700 hover:bg-gray-800   focus:outline-none focus:ring-blue-300 font-medium rounded-2xl text-sm px-3 m-3 py-3 text-center "
-          type="button"
-        >
-          update profile
-        </button>
+      <div>
+        <FaEdit 
+        onClick={toggleModal}
+        className="text-blue-500 h-7 w-14"
+          
+        />
+          
+          
+        
+          
+        
       </div>
       {isModalVisible && (
         <div
