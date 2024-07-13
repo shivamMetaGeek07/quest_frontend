@@ -1,5 +1,20 @@
 import React from "react";
 
+type Friend = {
+  id: number;
+  name: string;
+  role: string;
+  team: string;
+  status: string;
+  age: string;
+  avatar: string;
+  level: number;
+  fampoints: number;
+  xps: number;
+  stars: number;
+  email: string;
+};
+
 const columns = [
   { name: "SNO.", uid: "sno" },
   { name: "NAME", uid: "name" },
@@ -109,4 +124,6 @@ const friends = [
   }
 ];
 
+
+export type { Friend};
 export { columns, friends };
