@@ -5,6 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { Providers } from "./provider";
 import MainLayout from "./components/MainLayout/mainLayout";
+import Sidebar from "./components/sidebar";
 
 const inter = Inter( { subsets: [ "latin" ] } );
 
@@ -24,6 +25,7 @@ export default function RootLayout ( {
       <body>
         <Providers>
         <MainLayout>
+        <Sidebar/>
         { children }
         </MainLayout>
         </Providers>

@@ -13,7 +13,11 @@ export interface ITwitterInfo {
   oauthToken?: string;
   oauthTokenSecret?: string;
 }
-
+export interface ITeleInfo {
+  telegramId?: string;
+  teleName?: string;
+  teleusername?: string; 
+}
 export interface IDiscordInfo {
   discordId?: string;
   username?: string;
@@ -40,6 +44,7 @@ export interface IUser
   quest: Quest[];
   twitterInfo?: ITwitterInfo;
   discordInfo?: IDiscordInfo;
+  teleInfo?:ITeleInfo;
   community?: [];
 }
 

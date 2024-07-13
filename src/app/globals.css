@@ -20,6 +20,11 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.clip-trapezium-bottom-left {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
+  bottom: -1px;
+  left: -1px;
+}
 
   
 /* for div dacorate acc to figma */
@@ -65,3 +70,78 @@ body {
   clip-path: inherit;
 }
 
+.clip-trapezium-bottom-right {
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+  bottom: -1px;
+  right: -1px;
+}
+
+
+.clip-trapezium-top-left {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
+  top: 0px;
+  left: -1px;
+}
+
+.clip-trapezium-top-right {
+  clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
+  top: 0px;
+  right: -1px;
+}
+
+/* ecosystem components  css start*/
+.bg_Div_half{
+clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
+}
+.bg_Div_Container{
+  clip-path: polygon(32% 0, 100% 0, 100% 100%, 0 100%, 0 77%);
+}
+.bg_Div_Down{
+  clip-path: polygon(36% 35%, 66% 35%, 74% 0, 100% 0, 100% 100%, 0 100%, 0 0, 28% 0);}
+.image-container {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 70% 86%, 65% 100%, 35% 100%, 30% 86%, 0 86%);
+}
+.bg_eco_div{
+  clip-path: polygon(3% 0, 93% 0, 100% 24%, 100% 100%, 0 100%, 3% 85%);  
+}
+.eco_box{
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+.styled-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: inherit;  
+}
+/* ecosystem component css end */
+
+/* hover effect on ecosystem components start*/
+.outer-div:hover .bg_Div_Down {
+  background-color: #735dcf;  
+}
+
+.outer-div:hover .bg_eco_div {
+  background-color: #8068e8;  
+  border-color: #111111;      
+}
+
+.outer-div:hover .eco_box {
+  background-color: #735dcf;  
+}
+
+.outer-div:hover .descdata{
+  color: #111111;
+}
+.outer-div:hover .descText{
+  color: #735dcf;
+}
+
+/* hover effect on ecosystem components end */
+
+/* Glass effect css start */
+.glass_effect{
+  backdrop-filter: blur( 45px );
+  -webkit-backdrop-filter: blur( 45px );
+}
+/* Glass effect css end*/
