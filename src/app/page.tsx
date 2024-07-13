@@ -169,6 +169,10 @@ export default function Home() {
     {
       window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter `;
     };
+    const signupTelegram = async () =>
+      {
+        window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL}/auth/telegram `;
+      };
 
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
@@ -227,14 +231,17 @@ export default function Home() {
             >
               <Image src={images.instagram} alt="instagram" />
             </div>
-            <div className="border w-72 cursor-pointer sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center"
+            {data?.teleInfo?(<div className="border w-72 sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center bg-black">
+                <p className="text-center font-semibold text-cyan-600  ">Already logged in to Telegram</p>
+              </div>):(<div onClick={signupTelegram} className="border w-72 cursor-pointer sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center"
              style={{
               background:
                 'linear-gradient(to bottom, #0F0C29 0%, #302B63 93.33%)',
             }}
             >
               <Image src={images.telegram} alt="telegram" />
-            </div>
+            </div>)}
+            
             {data?.discordInfo ? (
                <div className="border w-72 sm:w-full md:w-1/3 lg:w-72 h-36 rounded-lg border-gray-500 flex justify-center items-center bg-violet-800">
                 <p className="text-center font-semibold text-white  ">Already logged in to Discord</p>
