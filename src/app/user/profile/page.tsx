@@ -93,7 +93,6 @@ const Profile: React.FC = () => {
     }
   };
   const user=useSelector((state:RootState)=>state.login.user)
-  useSelector( ( state: RootState ) => console.log( state) )
   
   const handleEarnRewardsClick = () => {
     router.push("/");
@@ -170,7 +169,7 @@ delete
   useEffect(() => {
     setIsClient(true); // Set the client flag to true on the client side
 
-    dispatch(fetchUserData())
+    // dispatch(fetchUserData())
     }, [dispatch]);
 
   if (!isClient) return (

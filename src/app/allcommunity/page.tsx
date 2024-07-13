@@ -9,6 +9,9 @@ import { fetchUserData } from "@/redux/reducer/authSlice";
 import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import axios from 'axios'
+import ReferralForm from "../components/referalPopUp";
+
+
 
 const MyCommunities = () =>
 { 
@@ -36,7 +39,7 @@ const MyCommunities = () =>
     {
       const res = await dispatch( joinCommunity( { memberId, id: e._id } ) ).unwrap();
       console.log( res );
-      await dispatch( fetchAllCommunities() );
+      await dispatch(fetchAllCommunities());
     } catch ( error )
     {
       console.log( "error in adding the community", error );
@@ -226,7 +229,7 @@ const MyCommunities = () =>
                 </div>
 
               ) : (
-                <div className="flex justify-end items-center mt-5">
+                <div className="flex flex-col gap-3  mt-5">
                   <button
                     className={ `w-full h-8 bg-white/10 hover:bg-white/25 text-white text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${ loadingCommunityId === card._id ? "cursor-wait" : "" }` }
                     onClick={ ( e ) =>
@@ -238,8 +241,11 @@ const MyCommunities = () =>
                   >
                     { loadingCommunityId === card._id ? "Joining..." : "Join The Community" }
                   </button>
-                </div>
-               
+                  <ReferralForm memberId={memberId} id={card._id} />
+                  
+                  
+                  </div>
+
               ) }
             </div>
           ) ) }

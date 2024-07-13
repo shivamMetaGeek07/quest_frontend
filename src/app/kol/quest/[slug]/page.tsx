@@ -40,7 +40,6 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
   const router = useRouter();
   const questId: string | any = params.slug;
   const [ selectedCard, setSelectedCard ] = useState<CardData | null>( null );
-  const [ isCreatorView, setIsCreatorView ] = useState( true ); // Set this based on user role
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
   // useSelector((state:any)=>console.log(state.task))
   // console.log(tasks)
@@ -49,15 +48,10 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
     dispatch( fetchTaskById( questId ) );
   }, [] );
 
-  const [progress, setProgress] = useState(0);
 
   const handleCardClick = (card: CardData) => {
     setSelectedCard(card);
-    const increment = Math.ceil(100 / tasks.length);
-    setProgress((prevProgress) => {
-      const newProgress = prevProgress + increment;
-      return newProgress > 100 ? 100 : newProgress;
-    });
+    
   };
 
   const handleClosePopup = () =>
