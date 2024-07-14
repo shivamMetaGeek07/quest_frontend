@@ -57,11 +57,11 @@ const page = () =>
 {
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
-    if(!data) return (
-    <div className="h-screen flex justify-center items-center">
-      <Spinner/>
-    </div>
-    );
+    // if(!data) return (
+    // <div className="h-screen flex justify-center items-center">
+    //   <Spinner/>
+    // </div>
+    // );
 
     return (
         <div>
