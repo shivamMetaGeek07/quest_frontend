@@ -1,3 +1,4 @@
+"use client";
 import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import UserCard from './components/HomeCard/UserCard';
@@ -54,16 +55,9 @@ const communityCardsData: CommunityCardData[] = [
 
 const page = () =>
 {
-    const [isClient, setIsClient] = useState(false);
-    const dispatch = useDispatch<AppDispatch>();
     const data=  useSelector( ( state: RootState ) =>state.login.user);
      
-    useEffect(() => {
-      dispatch(fetchUserData());
-      setIsClient(true); // Set the client flag to true on the client side
-    }, [dispatch]);
-
-    if(!isClient) return (
+    if(!data) return (
     <div className="h-screen flex justify-center items-center">
       <Spinner/>
     </div>
@@ -71,14 +65,8 @@ const page = () =>
 
     return (
         <div>
-            <div>
-                <UserCard />
-            </div>
-
-
-            <div>
-                <EcoCate />
-            </div>
+            <UserCard />
+            <EcoCate />
             <div>
                 <div className="flex items-center gap-1 ml-16 mt-10">
                     <svg
@@ -91,10 +79,10 @@ const page = () =>
                         <path
                             d="M1 1H6.48652L15 10"
                             stroke="#FA00FF"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                         />
-                        <path d="M6 5L11 10" stroke="#FA00FF" stroke-linecap="round" />
+                        <path d="M6 5L11 10" stroke="#FA00FF" strokeLinecap="round" />
                     </svg>
                     <div>
                         <p>Communities</p>

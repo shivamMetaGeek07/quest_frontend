@@ -47,8 +47,8 @@ const GlobalLeaderboard = () => {
         {/* <div className="my-4 flex items-center gap-2 justify-center">
               <div className="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
-  <path d="M0.5 1H5.98652L14.5 10" stroke="#FA00FF" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M5.5 5L10.5 10" stroke="#FA00FF" stroke-linecap="round"/>
+  <path d="M0.5 1H5.98652L14.5 10" stroke="#FA00FF" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M5.5 5L10.5 10" stroke="#FA00FF" strokeLinecap="round"/>
 </svg>
               </div>
               <div className="listOfFriends">List of Friends</div>
