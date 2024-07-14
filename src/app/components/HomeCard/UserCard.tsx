@@ -51,61 +51,75 @@ export const users: User[] = [
 
 const UserCard: React.FC = () => {
   return (
-    <div className="lg:mx-10 mx-10">
+    <div>
+      <div className="lg:mx-16 mx-10 mt-10 flex items-center gap-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="11"
+          viewBox="0 0 16 11"
+          fill="none"
+        >
+          <path
+            d="M1 1H6.48652L15 10"
+            stroke="#FA00FF"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path d="M6 5L11 10" stroke="#FA00FF" stroke-linecap="round" />
+        </svg>
+        <div>
+          <p>User Profile</p>
+        </div>
+      </div>
+
+
       <div className="grid gap-6 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-8">
         {users.map((user) => (
           <div
             key={user.id}
-            className="main border border-gray-700 bg-black p-4 sm:p-6 rounded shadow-lg group "
+            className="main outer-home  border border-gray-700 bg-black p-4 sm:p-6 rounded shadow-lg group"
           >
             <div className="rounded-md flex">
               <div className="flex-col justify-center ">
-                <div
-                  className="relative w-20 h-20 bg-cover bg-center"
-                  style={{
-                    backgroundImage:
-                      "url('https://s3-alpha-sig.figma.com/img/3819/a7cb/c20c4848e655e9cfcdff376ab06beb97?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=i2LYBODSDWCYiV4CAcf1a-e4zcSAh-ycxu1v6Nj5LCak7-DkzD65XXjoCy2po5d-4FmnAEFMR697ufNw3moNBxTK3rxmwj29w2afmuiNpLhN-QdLwzUZiPErcep9DHhYTYsKIBuimcxMXxSQ1Aw200kMG2PeG78Cm8mEFJCDT6pLCu7-kygKuUbWrbuNc6443CEdcgj3ebsyrswAP0bCYz4j8i6zGaktUleZGmV-mV4fgggy0fDxOpNxPNqhFOtewiE65XTUEvGla5j3uYt2plN0MiDJOOwDyg9BWnZUX6ngmk22wk9IBnmF2jMVz-mGoWPTdfC-9gQPEjcIv1OOtQ__')",
-                  }}
-                >
-                  <div className="absolute w-[30px] h-[15px]  bg-black clip-trapezium-bottom-left"></div>
-                  <div className="absolute w-[30px] h-[15px] bg-black clip-trapezium-bottom-right"></div>
-                </div>
 
-                <div className="bg-[#4e1c4f] relative w-20 h-10 mt-1">
-                  <div className="h-1/4 bg-black">
-                    <div className="absolute w-[30px] h-[10px] bg-[#4e1c4f] clip-trapezium-top-left"></div>
-                    <div className="absolute w-[30px] h-[10px] bg-[#4e1c4f] clip-trapezium-top-right"></div>
-                  </div>
-                  <div className="h-3/4  "></div>
-                </div>
+              <div className="image-container h-20 w-20 items-center flex">
+              <img
+                src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+                alt=""
+                className="styled-image"
+              />
+            </div>
+
+            <div className="bg_Div_Down-h h-[2rem] mt-2  bg-[#281a28]" />
               </div>
 
               <div className="flex-1 ml-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div
-                      className="text-white font-bold"
+                      className=" font-bold"
                       style={{ letterSpacing: "5px" }}
                     >
                       {user.firstName.toUpperCase()}
                     </div>
                     <div
-                      className="text-white font-bold tracking-widest ml-4"
+                      className=" font-bold tracking-widest ml-4"
                       style={{ letterSpacing: "5px" }}
                     >
                       {user.lastName.toUpperCase()}
                     </div>
                   </div>
-                  <div className="text-purple-500 font-bold text-lg">
+                  <div className="text-purple-500  home-rank font-bold text-lg">
                     #{user.rank}
                   </div>
                 </div>
                 <hr className="border-gray-700 my-2 mt-5" />
-                <div className="flex items-center space-x-3 mt-6">
+                <div className="z-10 flex items-center space-x-3 mt-6">
                   {user.icons.map((icon, index) => (
                     <div
                       key={index}
-                      className="bg-[#8C71FF] clip-trapezium-top-right px-4"
+                      className="bg-[#8C71FF] home-inner-bg clip-trapezium-top-right px-4"
                     >
                       <span role="img" aria-label="Icon">
                         {icon}

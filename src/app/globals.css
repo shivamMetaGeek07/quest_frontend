@@ -16,6 +16,7 @@ body {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -31,15 +32,7 @@ clip-path: polygon(60% 100%, 75% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 90%, 25% 90%,
   bottom:0px;
 }
 
-.box1{
-    padding: 1px;
-    background-color: white;
-}
-.box2{
-  background-color: black;
-  width: 100%;
-  height: 100%;
-}
+
 .right-trapezium {
   clip-path: polygon(81.3% 100%, 100% 68.74%, 100% 27.04%, 81.3% 0%, 0% 0%, 0% 26.8%, 0% 67.74%, 0% 100%); 
 }
@@ -52,6 +45,56 @@ clip-path: polygon(60% 100%, 75% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 90%, 25% 90%,
  clip-path: polygon(100% 100%, 81.05% 68.74%, 81.05% 27.04%, 100% 0%, 0% 0%, 18.45% 27.04%, 18.45% 68.74%, 0% 100%);
 
 }
+  
+/* for div dacorate acc to figma */
+
+.h_bg_Div_Down {
+  clip-path: polygon(36% 35%, 66% 35%, 74% 0, 100% 0, 100% 100%, 0 100%, 0 0, 28% 0);
+}
+.h_image-container {
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 70% 86%, 65% 100%, 35% 100%, 30% 86%, 0 86%);
+}
+.h_bg_eco_div {
+  clip-path: polygon(3% 0, 93% 0, 100% 24%, 100% 100%, 0 100%, 3% 85%);  
+}
+.h_eco_box {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.h_icon_container {
+  clip-path: polygon(0% 0%, 0% 100%, 80% 100%, 80% 80%, 100% 62.5%, 100% 37.5%, 80% 25%,  80% 0% );
+  background-color: white;  
+  padding: 1px;
+}
+
+.h_icon_container_2 {
+  clip-path: polygon(0% 0%, 0% 25%, 25% 37.5%, 25% 62.5%, 0 75%, 0 100%, 100% 100%, 100% 74%, 75% 62.5%, 75% 37.5%, 100% 25%, 100% 0% );
+  background-color: white;
+  padding: 1px;
+}
+
+.h_icon_container_3 {
+  clip-path: polygon(25% 0%, 25% 25%, 0% 37.5%, 0% 62.5%,25% 75%, 25% 100%, 100% 100%, 100% 0%);
+  background-color: white;
+  padding: 1px;
+}
+
+.h_icon {
+  clip-path: inherit;
+   
+}
+.h_styled-image {
+  object-fit: cover;
+  clip-path: inherit;
+}
+
+.clip-trapezium-bottom-left {
+  clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
+  bottom: -1px;
+  left: -1px;
+}
+
 .clip-trapezium-bottom-right {
   clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
   bottom: -1px;
@@ -75,11 +118,21 @@ clip-path: polygon(60% 100%, 75% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 90%, 25% 90%,
 .bg_Div_half{
 clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 }
+/* card botton div */
+.clip{
+  clip-path: polygon(34% 28%, 68% 28%, 79% 0, 100% 0, 100% 100%, 0 100%, 0 1%, 24% 0);
+}
+
+
 .bg_Div_Container{
   clip-path: polygon(32% 0, 100% 0, 100% 100%, 0 100%, 0 77%);
 }
 .bg_Div_Down{
   clip-path: polygon(36% 35%, 66% 35%, 74% 0, 100% 0, 100% 100%, 0 100%, 0 0, 28% 0);}
+
+  .bg_Div_Down-h{
+    clip-path: polygon(36% 35%, 66% 35%, 74% 0, 100% 0, 100% 100%, 0 100%, 0 0, 28% 0);}
+
 .image-container {
   position: relative;
   clip-path: polygon(0 0, 100% 0, 100% 86%, 70% 86%, 65% 100%, 35% 100%, 30% 86%, 0 86%);
@@ -94,9 +147,11 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
   width: 100%;
   height: 100%;
   object-fit: cover;
-  clip-path: inherit;  
+  clip-path: inherit; /* Ensures the image fits within the hexagon shape */
 }
-/* ecosystem component css end */
+
+
+
 
 /* hover effect on ecosystem components start*/
 .outer-div:hover .bg_Div_Down {
@@ -203,4 +258,73 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 
 .innerbox{
   background-image: linear-gradient(291deg, #000000d4, #000000f7);
+}
+.outer-home:hover {
+  background-color: #8C71FF;
+  color: #111111;
+  
+}
+
+.outer-home:hover .home-inner-bg {
+  background-color: #735dcf;  
+}
+
+.outer-home:hover .bg_Div_Down-h{
+  background-color: #735dcf;
+}
+
+.home-g:hover {
+  background-color: #8C71FF;
+  color: #111111;
+}
+
+/* EcoSystem Icon Shape */
+.icon-clip{
+  clip-path: polygon(0 0, 77% 0, 76% 79%, 0% 100%);
+}
+
+/* Education clip */
+
+.education-clip{
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 88% 89%, 79% 100%, 21% 100%, 14% 90%, 0 90%);
+  /* clip-path: inherit; */
+  border: 1px solid red;
+}
+
+/* .education{
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 88% 89%, 79% 100%, 21% 100%, 14% 90%, 0 90%);
+  background-color: red;
+  
+} */
+
+
+/* Grants */
+
+.grant-clip{
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 81% 90%, 72% 100%, 27% 100%, 19% 90%, 0 90%);
+}
+
+.box1{
+  padding: 1px;
+  width: 100%;
+  height: 100%;
+  margin: -4px;
+  background-color: red;
+
+}
+.box2{
+background-color: rgb(0, 0, 0);
+width: 100%;
+height: 100%;
+padding: 20px;
+}
+
+.box1{
+    padding: 1px;
+    background-color: white;
+}
+.box2{
+  background-color: black;
+  width: 100%;
+  height: 100%;
 }

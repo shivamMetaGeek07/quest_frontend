@@ -11,8 +11,6 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@n
 import axios from 'axios'
 import ReferralForm from "../components/referalPopUp";
 
-
-
 const MyCommunities = () =>
 { 
 
