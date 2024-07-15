@@ -6,6 +6,7 @@ import { createQuest1, Reward } from '../../../../redux/reducer/questSlice';
 import { RootState, AppDispatch } from '../../../../redux/store';
 import { useParams, useRouter } from 'next/navigation';
 import { useProtectedRoute } from '@/utils/privateRoute';
+import { notify } from '@/utils/notify';
 
 function CreateQuest ()
 {
@@ -42,13 +43,13 @@ function CreateQuest ()
 
       if ( createQuest1.fulfilled.match( resultAction ) )
       {
-        alert( 'Quest created successfully' );
+        notify( "success",'Quest created successfully' );
         setTitle( '' );
         setDescription( '' );
         router.push( `/kol/quest/${ resultAction.payload.newQuest._id }` );
       } else
       {
-        alert( 'Failed to create quest' );
+        notify( "error",'Failed to create quest' );
       }
     } catch ( err )
     {

@@ -6,6 +6,7 @@ import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
+import { notify } from "@/utils/notify";
 
 interface IQuiz
 {
@@ -121,12 +122,12 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     try
     {
       const response = await dispatch( createTask( taskData ) );
-      alert( response?.payload?.msg || "Task created successfully" );
+      notify( "success",response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
     } catch ( error )
     {
       console.error( "Error creating task:", error );
-      alert( "Error creating task" );
+      notify( "error","Error creating task" );
     }
   };
 

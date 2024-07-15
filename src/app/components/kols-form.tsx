@@ -1,4 +1,5 @@
 "use client";
+import { notify } from "@/utils/notify";
 import { useState } from "react";
 
 interface KolsData {
@@ -77,7 +78,7 @@ const KolsForm = () => {
   
       if (response.ok) {
         setError("");
-        alert("Kols data created successfully!");
+        notify("success","Kols data created successfully!");
         // Clear the form
         setFormData({
           name: "",

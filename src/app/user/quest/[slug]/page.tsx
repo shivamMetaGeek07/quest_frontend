@@ -2,6 +2,7 @@
 import QuizPollCarousel from "@/app/components/QuizPollCarousel";
 import { fetchTaskById, completeTask } from "@/redux/reducer/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import { notify } from "@/utils/notify";
 import { Progress } from "@nextui-org/react";
 import axios from "axios";
 import { warning } from "framer-motion/dom";
@@ -100,7 +101,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       if ( !validateSubmission( selectedCard?.type, submission ) )
       {
         console.log(submission)
-        alert( "Invalid submission. Please check your input." );
+        notify( "warn","Invalid submission. Please check your input." );
         return;
       }
 
@@ -111,7 +112,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
         if ( !uploadSuccess )
         {
           console.error( "File upload failed" );
-          alert( "File upload failed" );
+          notify( "error","File upload failed" );
           return;
         }
 
@@ -130,7 +131,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
     } catch ( error )
     {
       console.log( "Error in completing the task:", error );
-      alert( "An error occurred while submitting the task. Please try again." );
+      notify( "error","An error occurred while submitting the task. Please try again." );
     }
   }, [ dispatch, selectedCard, submissions, user ] );
 
@@ -431,7 +432,7 @@ const Popup: React.FC<{
         onSubmit( selectedCard._id );
       } else
       {
-        alert( "Invalid input.Please check your submission." );
+        notify( "warn","Invalid input.Please check your submission." );
         console.log(
           "Submission is invalid. Please check the submission and try again."
         );
@@ -518,7 +519,7 @@ const Popup: React.FC<{
                             onClick={ () =>
                             {
                               navigator.clipboard.writeText( referral );
-                              alert( 'Referral code copied to clipboard!' );
+                              notify( "default",'Referral code copied to clipboard!' );
                             } }
                             className="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors duration-300"
                           >

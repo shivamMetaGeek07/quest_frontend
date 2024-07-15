@@ -1,3 +1,4 @@
+import { notify } from '@/utils/notify';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -128,12 +129,12 @@ export const completeTask = createAsyncThunk(
          { taskId, userId, submission, userName }
       );
       console.log( response )
-      alert(response.data.message)
+      notify("success",response.data.message)
       return response.data;
     }
     catch ( error:any )
     {
-      alert(error?.response?.data?.message)
+      notify("error",error?.response?.data?.message);
       return rejectWithValue( 'Failed to complete task' );
     }
   }
