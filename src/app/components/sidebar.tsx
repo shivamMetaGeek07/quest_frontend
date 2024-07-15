@@ -19,21 +19,20 @@ const Sidebar = () =>
   {
     setNav( !nav );
   };
-
-
+  
   useEffect(() =>
   {
-    if ( window.location.pathname == "/login" )
+    if (typeof window !=='undefined' && window.location.pathname == "/login" )
     {
       setNav( false );
       router.push('/')
     }
     console.log("useeffect called")
   }, [ window.location.pathname ] );
-  console.log(window.location.pathname)
+  // console.log(window.location.pathname)
 
   return ( <>
-    <div className='w-[4rem] md:flex border-r-gray-600/45 md:border-r bg-[#15151557] z-50 fixed md:h-screen glass_effect'>
+    <div className='w-[4rem] md:flex border-r-gray-600/45 md:border-r bg-[#15151557] z-50 fixed md:h-screen glass_effect top-0'>
       <button className=" justify-center   border-none text-white text-2xl cursor-pointer" onClick={ handleNav }>  { nav ? (
         <>
           <div className='px-2 items-center justify-center m-auto'>
@@ -54,7 +53,7 @@ const Sidebar = () =>
         </>
       ) }</button>
     </div>
-    <div className={ `flex flex-col w-screen md:w-full bg-[#5638ce40] z-40 h-screen glass_effect fixed ${ nav ? 'transform -translate-x-full' : '' } transition-transform duration-500 ease-in-out` }>
+    <div className={ `top-0 flex flex-col w-screen md:w-full bg-[#5638ce40] z-40 h-screen glass_effect fixed ${ nav ? 'transform -translate-x-full' : '' } transition-transform duration-500 ease-in-out` }>
       <button className=" block md:hidden  border-none text-white text-2xl cursor-pointer" onClick={ handleNav }>  { nav ? (
         <>
           <div className='px-2  m-auto'>

@@ -172,7 +172,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
-    <div className="min-h-screen mb-8">
+    <div className="w-[80%] mx-auto min-h-screen mb-8">
       <div className="w-[85%] mx-auto">
         {/* user info */}
         <section className="mt-20">
@@ -245,8 +245,8 @@ const Profile: React.FC = () => {
                 </div> 
               </div>
               <div className="flex row gap-3">
-                <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">123 following</button>
-                <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">24 followers</button>
+                <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{user?.following?.length} following</button>
+                <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{user?.followers?.length} followers</button>
               </div>
             
             <div className="flex col gap-5 justify-center items-center">
