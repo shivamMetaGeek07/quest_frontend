@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import PhoneInput from 'react-phone-number-input/input';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import 'react-phone-input-2/lib/style.css'
 
 const LoginPage: React.FC = () =>
 {
