@@ -111,24 +111,25 @@ export default function CommunityProject ( { params }: { params: { slug: string;
   }
 
   return (
-    <div className="bg-[#181818]  min-h-screen ">
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-[#121212] rounded-lg shadow-lg overflow-hidden">
-          <div className="relative h-64 bg-blue-600">
+    <div className="  min-h-screen">
+      <div className="w-[80%] container mx-auto px-4 py-8">
+        <div className="bg-slate-900 rounded-lg shadow-lg overflow-hidden ">
+          <div className="h-64 bg-blue-600">
             <img
-              src={ `https://dummyimage.com/1200x400/000/fff&text=${ community.title[ 0 ] }` }
+              src={community.logo}
               alt={ community.title }
-              className="w-full h-full object-cover opacity-50"
+              className="w-full h-full object-cover  "
             />
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
+            <div className="flex justify-end items-center px-4">
               {/* <h1 className="text-3xl font-bold text-white mb-2">{ community.title }</h1> */ }
               <p className="text-xl text-gray-200">
                 { community.members?.length || 0 } Members
               </p>
             </div>
           </div>
-
-          <div className="p-6">
+          <div className="p-4">
+          <div className="font-bold text-blue-600 text-3xl p-6 ">{community.title}</div>
+          <div className="px-6">
             <p className="text-lg text-white  mb-6">
               { community.description }
             </p>
@@ -174,8 +175,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
               </div>
             </div>
           </div>
-        </div>
-
+           <div>
         <h2 className="text-3xl font-semibold mt-12 mb-6">
           Active Quests
         </h2>
@@ -194,7 +194,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
 
               <div className=" bg-[#121212] border   dark:border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="bg-blue-100 h-40 flex items-center justify-center">
-                  <span className="text-6xl text-blue-500">🏆</span>
+                  <img className="w-full h-full bg-cover" src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV8zMF9hbl9hYnN0cmFjdF92aXN1YWxpemF0aW9uX29mX2FfYmxvY2tjaGFpbl9uZV80ZWIwODVmNC0yODFlLTRkYTMtYjdlMS00MmY1ZTFkMDkyM2VfMS5qcGc.jpg" alt="img" />
                 </div>
                 <div className="p-4">
                   <h3 className="text-xl font-semibold text-neutral-300 mb-2">
@@ -206,7 +206,12 @@ export default function CommunityProject ( { params }: { params: { slug: string;
             </div>
             // </Link>
           ) ) }
+          </div>
         </div>
+        </div>
+        </div>
+
+       
       </div>
     </div>
   );

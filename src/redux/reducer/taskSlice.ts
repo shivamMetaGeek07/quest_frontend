@@ -16,13 +16,23 @@ interface ITaskBase extends Document
   }>;
 } 
 
+interface IQuiz {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+}
+
+interface IPoll {
+  question: string;
+  options: string[];
+}
 
 // Combined type for all task types
 export type TaskOrPoll = ITaskBase & {
   visitLink?: string;
   visitor?: string[];
-  question?: string;
-  options?: string[];
+ quizzes?: IQuiz[];
+  polls?: IPoll[];
   correctAnswer?: string;
   inviteLink?: string;
   invitee?: string[];

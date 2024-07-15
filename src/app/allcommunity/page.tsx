@@ -1,28 +1,34 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AiOutlineDisconnect } from "react-icons/ai";
 import { FaUser, FaTwitter, FaBolt } from "react-icons/fa";
 import { fetchAllCommunities, joinCommunity } from "@/redux/reducer/communitySlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "@/redux/reducer/authSlice";
+import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+import axios from 'axios'
 import ReferralForm from "../components/referalPopUp";
 
-
-
 const MyCommunities = () =>
-{
-  const dispatch = useDispatch<AppDispatch>();
-  const cardData:any = useSelector( ( state: RootState ) => state.community.allCommunities );
-  const memberId = useSelector( ( state: RootState ) => state.login.user?._id );
-  const [ loadingCommunityId, setLoadingCommunityId ] = useState<string | null>( null );
+{ 
 
-  useEffect( () =>
-  {
-    dispatch( fetchAllCommunities() );
-    dispatch( fetchUserData() );
-  }, [ dispatch ] );
+    const router=useRouter();
+    const dispatch = useDispatch<AppDispatch>();
+    // const cardData:any = useSelector( ( state: RootState ) => state.community.allCommunities );
+    const memberId = useSelector( ( state: RootState ) => state.login.user?._id );
+    const [ loadingCommunityId, setLoadingCommunityId ] = useState<string | null>( null );
+    const [search, setSearch] = useState<string>('');
+    const [ecosystem, setEcosystem] = useState<string>('');
+    const [category, setCategory] = useState<string>('');
+    const [communities, setCommunities] = useState<any[]>([]); 
+    const [selectedEcosystem, setSelectedEcosystem] = useState<string[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const data = useSelector((state: RootState) => state.community.forall );
+  const categories = data?.category || [];
+  const ecosystems = data?.ecosystem || [];
 
   const joinningCommunity = async ( e: any ) =>
   {
@@ -41,6 +47,35 @@ const MyCommunities = () =>
     }
   };
 
+   const fetchCommunities = async (search: string, ecosystem: string, category: string) => {
+    try {
+      // Construct the request body
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/community/get`, {
+        search,
+        ecosystem: selectedEcosystem,
+        category: selectedCategories,
+        });
+
+      // Update the state with the response data
+      setCommunities(response.data);
+
+      // Log the response for debugging
+    } catch (error) {
+      console.error('Failed to fetch communities:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCommunities('', '', ''); 
+      // dispatch( fetchAllCommunities() );
+    dispatch(fetchCategoryEcosystem());
+    dispatch( fetchUserData() );
+  }, [1]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetchCommunities(search, ecosystem, category);   
+  };
   return (
     <div className="bg-black text-white min-h-screen">
       <div className="mx-4 lg:mx-20">
@@ -54,7 +89,9 @@ const MyCommunities = () =>
           </p>
         </div>
 
-        <div className="flex md:order-2 lg:order-1 mr-32 mt-10">
+        <div>
+           <form onSubmit={handleSubmit}>
+       <div className='flex flex-row justify-between items-center p-4'>  
           <div className="relative md:block">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
@@ -77,14 +114,72 @@ const MyCommunities = () =>
             <input
               type="text"
               id="search-navbar"
-              className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
+              className="block w-full p-2 ps-10  text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
               placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+        <div className='flex flex-row justify-center items-center'>
+        <div className='text-white bg-slate-800 rounded-xl mx-4 '>
+          <Dropdown className='bg-slate-800'>
+            <DropdownTrigger>
+              <Button 
+                variant="bordered" 
+                className="capitalize text-white"
+              >
+                {selectedCategories.length > 0 ? selectedCategories.join(', ') : 'Select Categories'}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu 
+              aria-label="Select Categories"
+              disallowEmptySelection
+              selectionMode="multiple"
+              selectedKeys={selectedCategories}
+              onSelectionChange={(keys) => setSelectedCategories(Array.from(keys) as string[])}
+            >
+              {categories.map((cat) => (
+                <DropdownItem key={cat}>{cat}</DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        <div className='text-black bg-slate-800 rounded-xl mx-4 '>
+          <Dropdown className='bg-slate-800'>
+            <DropdownTrigger>
+              <Button 
+                variant="bordered" 
+                className="capitalize text-white"
+              >
+              {selectedEcosystem.length > 0 ? selectedEcosystem.join(', ') : 'Select Ecosystem'}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu 
+              aria-label="Select Ecosystem"
+              disallowEmptySelection
+              selectionMode='multiple'
+              onSelectionChange={(keys) => setSelectedEcosystem(Array.from(keys) as string[])}
+              selectedKeys={selectedEcosystem}
+            >
+              {ecosystems.map((eco) => (
+                <DropdownItem key={eco}>{eco}</DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        <Button type='submit' color="primary" variant="solid">
+          Apply
+        </Button>  
+        </div>
+       </div>
+        
+      </form>
         </div>
 
+        
+
         <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-8">
-          { cardData?.map( ( card:any , index:number ) => (
+          { communities?.map( ( card:any , index:number ) => (
             <div
               key={ index }
               className="bg-white/5 p-4 sm:p-6 rounded-xl shadow-lg group hover:scale-105 hover:bg-white/10"

@@ -82,7 +82,7 @@ export const createCommunity = createAsyncThunk(
     description: string;
     logo: string;
     category: string[];
-    ecosystem: string[];
+    ecosystem: string;
   }, { rejectWithValue } ) =>
   {
     try {

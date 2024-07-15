@@ -1,14 +1,24 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { useProtectedRoute } from "@/utils/privateRoute";
 import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/authSlice";
+import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
 
+interface IQuiz
+{
+  question: string;
+  options: string[];
+  correctAnswer: string;
+}
 
+interface IPoll
+{
+  question: string;
+  options: string[];
+}
 
 interface TaskOption
 {
@@ -16,145 +26,61 @@ interface TaskOption
   icon: string;
   description: string;
   category: string;
-  referral:string;
+  referral: string;
   visitLink?: string;
-  question?: string;
-  options?: string[];
-  correctAnswer?: string;
+  quizzes?: IQuiz[];
+  polls?: IPoll[];
   inviteLink?: string;
   uploadLink?: string;
   response?: string | number;
 }
 
-interface PollOption
-{
-  text: string;
-}
-
 const AddTask = ( { params }: { params: { id: string; }; } ) =>
 {
-    useProtectedRoute('kol')
-  const dispatch = useDispatch<AppDispatch>();
+  useProtectedRoute( "kol" );
+  const dispatch: AppDispatch = useDispatch();
   const [ isOpen, setIsOpen ] = useState( true );
   const [ selectedTask, setSelectedTask ] = useState<TaskOption | null>( null );
-  const [ pollQuestion, setPollQuestion ] = useState( "" );
-  const [ pollOptions, setPollOptions ] = useState<PollOption[]>( [
-    { text: "" },
-    { text: "" },
+  const [ quizzes, setQuizzes ] = useState<Array<IQuiz>>( [
+    { question: "", options: [ "", "", "", "" ], correctAnswer: "" },
   ] );
-
-
-  const [ quizQuestion, setQuizQuestion ] = useState( "" );
-  const [ quizOptions, setQuizOptions ] = useState<{ text: string; }[]>( [
-    { text: "" },
-    { text: "" },
-    { text: "" },
-    { text: "" },
+  const [ polls, setPolls ] = useState<Array<IPoll>>( [
+    { question: "", options: [ "", "" ] },
   ] );
-
+  const [ taskName, setTaskName ] = useState( "" );
+  const [ taskDescription, setTaskDescription ] = useState( "" );
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
 
-  // useSelector( ( state: any ) => console.log( state ) );
-
   useEffect( () =>
   {
-    dispatch(fetchUserData() );
-    dispatch(getTaskOptionsSuccess() );
+    dispatch( fetchUserData() );
+    dispatch( getTaskOptionsSuccess() );
   }, [ dispatch ] );
-
-  const toggleModal = () => setIsOpen( !isOpen );
 
   const openTaskModal = ( task: TaskOption ) =>
   {
     setSelectedTask( task );
     if ( task.name === "Poll" )
     {
-      setPollQuestion( "" );
-      setPollOptions( [ { text: "" }, { text: "" } ] );
-    }
-  };
-
-  const closeTaskModal = () =>
-  {
-    setSelectedTask( null );
-    setPollQuestion( "" );
-    setPollOptions( [ { text: "" }, { text: "" } ] );
-  };
-
-  const handlePollQuestionChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
-  {
-    setPollQuestion( e.target.value );
-  };
-
-  const handlePollOptionChange = ( index: number, value: string ) =>
-  {
-    const newOptions = [ ...pollOptions ];
-    newOptions[ index ].text = value;
-    setPollOptions( newOptions );
-  };
-
-  const addPollOption = () =>
-  {
-    setPollOptions( [ ...pollOptions, { text: "" } ] );
-  };
-
-  const removePollOption = ( index: number ) =>
-  {
-    if ( pollOptions.length > 2 )
+      setPolls( [ { question: "", options: [ "", "" ] } ] );
+    } else if ( task.name === "Quiz" )
     {
-      const newOptions = pollOptions.filter( ( _, i ) => i !== index );
-      setPollOptions( newOptions );
+      setQuizzes( [ { question: "", options: [ "", "", "", "" ], correctAnswer: "" } ] );
     }
   };
-
-  const handleQuizQuestionChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
-  {
-    setQuizQuestion( e.target.value );
-  };
-
-  const handleQuizOptionChange = ( index: number, value: string ) =>
-  {
-    const newOptions = [ ...quizOptions ];
-    newOptions[ index ].text = value;
-    setQuizOptions( newOptions );
-  };
-  
+  const closeTaskModal = () => setSelectedTask( null );
 
   const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   {
     if ( !selectedTask ) return;
-
     const value = e.target.value;
-    let updatedField = {};
-    switch ( selectedTask.name.toLowerCase() )
-    {
-      case 'visit link':
-        updatedField = { visitLink: value };
-        break;
-      case 'invites':
-        updatedField = { inviteLink: value };
-        break;
-      case 'file upload':
-        updatedField = { uploadLink: value };
-        break;
-      case 'quiz':
-        updatedField = { correctAnswer: value };
-        break;
-      case 'text':
-        updatedField = { response: value };
-        break;
-      case 'number':
-        updatedField = { response: value };
-        break;
-      case 'url':
-        updatedField = { response: value };
-        break;
-      default:
-        updatedField = { [ selectedTask.name.toLowerCase() ]: value };
-    }
-
+    const updatedField = {
+      "Visit Link": { visitLink: value },
+      "Invites": { inviteLink: value },
+      "Quiz": { correctAnswer: value },
+    }[ selectedTask.name ] || {};
     setSelectedTask( { ...selectedTask, ...updatedField } );
   };
 
@@ -167,114 +93,123 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       category: selectedTask.category,
       questId: params.id,
       creator: KolId,
+      taskName,
+      taskDescription,
     };
 
-    let taskData;
-    switch ( selectedTask.name.toLowerCase() )
-    {
-      case 'poll':
-        taskData = {
-          ...baseTask,
-          question: pollQuestion,
-          options: pollOptions.map( option => option.text ),
-          correctAnswer: ""
-        };
-        break;
-      case 'visit link':
-        taskData = { ...baseTask, visitLink: selectedTask.visitLink };
-        break;
-      case 'invites':
-        taskData = { ...baseTask, inviteLink: selectedTask.inviteLink };
-        break;
-      case 'referral':
-        taskData = { ...baseTask, referral: selectedTask.referral };
-        break;
-      case 'file upload':
-        taskData = { ...baseTask, uploadLink: selectedTask.uploadLink };
-        break;
-      case 'quiz':
-        taskData = { ...baseTask, correctAnswer: selectedTask.correctAnswer };
-        break;
-      case 'text':
-        taskData = { ...baseTask, response: selectedTask.response };
-        break;
-      case 'number':
-        taskData = { ...baseTask, response: selectedTask.response };
-        break;
-      case 'url':
-        taskData = { ...baseTask, response: selectedTask.response };
-        break;
-      default:
-        break;
-    }
+    const taskDataMap = {
+      "Visit Link": { ...baseTask, visitLink: selectedTask.visitLink },
+      "Poll": {
+        ...baseTask,
+        polls: polls.map( poll => ( {
+          question: poll.question,
+          options: poll.options,
+        } ) ),
+      },
+      "Quiz": {
+        ...baseTask,
+        quizzes: quizzes.map( quiz => ( {
+          question: quiz.question,
+          options: quiz.options,
+          correctAnswer: quiz.correctAnswer,
+        } ) ),
+      },
+    };
 
-    console.log( "Adding task:", taskData );
+    const taskData = taskDataMap[ selectedTask.name ] || baseTask;
 
     try
     {
-      const response = await dispatch(createTask(taskData) );
-      console.log( "Task created successfully:", response?.payload?.new_task );
+      const response = await dispatch( createTask( taskData ) );
       alert( response?.payload?.msg || "Task created successfully" );
-
       closeTaskModal();
-      // toggleModal();
     } catch ( error )
     {
       console.error( "Error creating task:", error );
       alert( "Error creating task" );
-      // Handle the error (e.g., show an error message to the user)
     }
-    // closeTaskModal();
-    // toggleModal();
+  };
+
+  const addNewQuiz = () =>
+  {
+    setQuizzes( [ ...quizzes, { question: "", options: [ "", "", "", "" ], correctAnswer: "" } ] );
+  };
+
+  const addNewPoll = () =>
+  {
+    setPolls( [ ...polls, { question: "", options: [ "", "" ] } ] );
+  };
+
+  const handleQuizQuestionChange = ( quizIndex: number, value: string ) =>
+  {
+    const newQuizzes = [ ...quizzes ];
+    newQuizzes[ quizIndex ].question = value;
+    setQuizzes( newQuizzes );
+  };
+
+  const handleQuizOptionChange = ( quizIndex: number, optionIndex: number, value: string ) =>
+  {
+    const newQuizzes = [ ...quizzes ];
+    newQuizzes[ quizIndex ].options[ optionIndex ] = value;
+    setQuizzes( newQuizzes );
+  };
+
+  const handleQuizCorrectAnswerChange = ( quizIndex: number, value: string ) =>
+  {
+    const newQuizzes = [ ...quizzes ];
+    newQuizzes[ quizIndex ].correctAnswer = value;
+    setQuizzes( newQuizzes );
+  };
+
+  const handlePollQuestionChange = ( pollIndex: number, value: string ) =>
+  {
+    const newPolls = [ ...polls ];
+    newPolls[ pollIndex ].question = value;
+    setPolls( newPolls );
+  };
+
+  const handlePollOptionChange = ( pollIndex: number, optionIndex: number, value: string ) =>
+  {
+    const newPolls = [ ...polls ];
+    newPolls[ pollIndex ].options[ optionIndex ] = value;
+    setPolls( newPolls );
+  };
+
+  const addPollOption = ( pollIndex: number ) =>
+  {
+    const newPolls = [ ...polls ];
+    newPolls[ pollIndex ].options.push( "" );
+    setPolls( newPolls );
+  };
+
+  const removePollOption = ( pollIndex: number, optionIndex: number ) =>
+  {
+    const newPolls = [ ...polls ];
+    if ( newPolls[ pollIndex ].options.length > 2 )
+    {
+      newPolls[ pollIndex ].options.splice( optionIndex, 1 );
+      setPolls( newPolls );
+    }
   };
 
   return (
     <>
-      {/* provide me button at center of screen with */ }
-      { !isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-25 flex justify-center items-center z-
-                    50"
-        >
-          <button
-            onClick={ toggleModal }
-            className="text-white justify-center bg-gray-900 hover:bg-gray-600 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 bg-center w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 mx-4 my-4 sm:my-8"
-          >
-            Add Task
-          </button>
-        </div>
-      ) }
+
 
       { isOpen && (
         <div className=" inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center">
-          <div className="relative p-4 lg:w-3/4 w-full sm:h-full">
-            <div className="relative bg-[#121212] rounded-3xl shadow-lg">
-              <div className="flex items-center justify-between p-4 md:p-5 border-b border-gray-700 bg-[#282828] rounded-xl">
-                <h3 className="text-lg font-semibold text-gray-300">
-                  Find a task type
-                </h3>
+          <div className="relative p-4 w-full max-w-4xl">
+            <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl shadow-2xl">
+              <div className="flex items-center justify-between p-5 border-b border-gray-700 bg-gray-800 rounded-t-3xl">
+                <h3 className="text-2xl font-bold text-white">Find a task type</h3>
                 <button
-                  onClick={ toggleModal }
-                  className="text-white bg-gray-700 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  onClick={ ()=> window.history.back() }
+                  className="text-gray-400 bg-transparent hover:bg-gray-700 hover:text-white rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                 </button>
               </div>
+
 
               <div className="flex flex-col md:flex-row">
                 <div
@@ -328,6 +263,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                       <div className="mx-4">
                         <h4 className="text-xl font-medium mb-2 text-gray-400 ">{ category }</h4>
                       </div>
+
                       <div className="space-y-2 mb-7 grid gap-4 sm:grid-cols-1">
                         { taskOptions
                           .filter( ( task: any ) => task.category === category )
@@ -361,184 +297,182 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                     </div>
                   )
                   ) }
-                </div>               
+                </div>
               </div>
-
             </div>
           </div>
         </div>
       ) }
 
       { selectedTask && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="relative p-4 w-full max-w-md">
-            <div className="relative bg-gray-600 rounded-lg shadow text-white">
-              <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-               
-                <div className="flex items-center ">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center">
+          <div className="relative p-4 w-full max-w-md max-h-[90vh] flex">
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl text-white w-full flex flex-col">
+              <div className="flex items-center justify-between p-5 border-b border-gray-700">
+                <div className="flex items-center">
                   <img
                     src={ selectedTask.icon }
                     alt=""
-                    className="h-10 w-10 object-cover rounded-full"
+                    className="h-12 w-12 object-cover rounded-full mr-4"
                   />
-                  <div className="mx-2">
-                    <h3 className="text-lg font-semibold dark:text-white">
-                      { selectedTask.name }
-                    </h3>
-                  </div>
+                  <h3 className="text-2xl font-bold">{ selectedTask.name }</h3>
                 </div>
                 <button
                   onClick={ closeTaskModal }
-                  className="text-gray-100 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  className="text-gray-400 bg-transparent hover:bg-gray-700 hover:text-white rounded-lg text-sm p-1.5"
                 >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
-                  </svg>
-                  <span className="sr-only">Close modal</span>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                 </button>
-
               </div>
 
-              <div className="p-4 md:p-5">
-                <p className="text-sm text-gray-100 mb-4">
-                  { selectedTask.description }
-                </p>
+              <div className="p-6 space-y-6 overflow-y-auto flex-grow">
+                <p className="text-gray-300">{ selectedTask.description }</p>
 
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                    placeholder="Task Name"
+                    onChange={ ( e ) => setTaskName( e.target.value ) }
+                  />
+                  <textarea
+                    className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                    placeholder="Task Description"
+                    onChange={ ( e ) => setTaskDescription( e.target.value ) }
+                    rows={ 4 }
+                  />
+                </div>
+
+                {/* Task-specific inputs */ }
                 { selectedTask.name === "Visit Link" && (
-                  <div >
-                    <input
-                      type="url"
-                      className="w-full p-2 border rounded-lg  mb-2 bg-[#282828]"
-                      placeholder="https:/"
-                  onChange={handleInputChange}
-                    />
+                  <input
+                    type="url"
+                    className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                    placeholder="https://"
+                    onChange={ handleInputChange }
+                  />
+                ) }
+
+                { selectedTask.name === "Poll" && (
+                  <div className="space-y-4">
+                    { polls.map( ( poll, pollIndex ) => (
+                      <div key={ pollIndex } className="bg-gray-800 p-4 rounded-lg space-y-3">
+                        <h3 className="text-lg font-bold">Question { pollIndex+1}</h3>
+                        <input
+                          type="text"
+                          className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                          placeholder="Enter poll question"
+                          value={ poll.question }
+                          onChange={ ( e ) => handlePollQuestionChange( pollIndex, e.target.value ) }
+                        />
+                        { poll.options.map( ( option, optionIndex ) => (
+                          <div key={ optionIndex } className="flex items-center space-x-2">
+                            <input
+                              type="text"
+                              className="flex-grow p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                              placeholder={ `Option ${ optionIndex + 1 }` }
+                              value={ option }
+                              onChange={ ( e ) => handlePollOptionChange( pollIndex, optionIndex, e.target.value ) }
+                            />
+                            { optionIndex > 1 && (
+                              <button
+                                onClick={ () => removePollOption( pollIndex, optionIndex ) }
+                                className="p-2 bg-red-600 rounded-lg hover:bg-red-700 transition duration-300"
+                              >
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                              </button>
+                            ) }
+                          </div>
+                        ) ) }
+                        <button
+                          onClick={ () => addPollOption( pollIndex ) }
+                          className="mt-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition duration-300"
+                        >
+                          Add Option
+                        </button>
+                      </div>
+                    ) ) }
                     <button
-                      className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
-                      onClick={ handleAddTask }
+                      onClick={ addNewPoll }
+                      className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300"
                     >
-                      Add Visit Link
+                      Add Poll Question
                     </button>
                   </div>
                 ) }
 
-                { selectedTask.name === "Poll" && (
-                  <div>
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                      placeholder="Enter poll question"
-                      value={ pollQuestion }
-                      onChange={ handlePollQuestionChange }
-
-                    />
-                    { pollOptions.map( ( option, index ) => (
-                      <div key={ index } className="flex items-center mb-2">
-                        <input
-                          type="text"
-                          className="w-full p-2 border rounded-lg bg-[#282828] "
-                          placeholder={ `Option ${ index + 1 }` }
-                          value={ option.text }
-                          onChange={ ( e ) =>
-                            handlePollOptionChange( index, e.target.value )
-                          }
-                        />
-                        { index > 1 && (
-                          <button
-                            onClick={ () => removePollOption( index ) }
-                            className="ml-2 text-red-500"
-                          >
-                            Remove
-                          </button>
-                        ) }
-                      </div>
-                    ) ) }
-                    <div className="flex justify-around">
-                      <button
-                        onClick={ addPollOption }
-                        className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
-                      >
-                        Add Option
-                      </button>
-                      <button
-                        className="mt-4 bg-[#231b1b] text-white px-4 py-2 rounded hover:bg-[#484848]"
-                        onClick={ handleAddTask }
-                      >
-                        Add Poll Task
-                      </button>
-                    </div>
-                  </div>
-                ) }
-
                 { selectedTask.name === "Quiz" && (
-                  <div>
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
-                      placeholder="Enter quiz question"
-                      value={ quizQuestion }
-                      onChange={ handleQuizQuestionChange }
-                    />
-                    { quizOptions.map( ( option, index ) => (
-                      <div key={ index } className="flex items-center mb-2">
+                  <div className="space-y-6">
+                    { quizzes.map( ( quiz, quizIndex ) => (
+                      <div key={ quizIndex } className="bg-gray-800 p-4 rounded-lg space-y-3">
+                        <h3 className="text-lg font-bold">Question { quizIndex+1}</h3>
                         <input
                           type="text"
-                          className="w-full p-2 border rounded-lg bg-[#282828]"
-                          placeholder={ `Choice ${ index + 1 }` }
-                          value={ option.text }
-                          onChange={ ( e ) =>
-                            handleQuizOptionChange( index, e.target.value )
-                          }
+                          className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                          placeholder="Enter quiz question"
+                          value={ quiz.question }
+                          onChange={ ( e ) => handleQuizQuestionChange( quizIndex, e.target.value ) }
+                        />
+                        { quiz.options.map( ( option, optionIndex ) => (
+                          <input
+                            key={ optionIndex }
+                            type="text"
+                            className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                            placeholder={ `Choice ${ optionIndex + 1 }` }
+                            value={ option }
+                            onChange={ ( e ) => handleQuizOptionChange( quizIndex, optionIndex, e.target.value ) }
+                          />
+                        ) ) }
+                        <input
+                          type="text"
+                          className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                          placeholder="Correct answer"
+                          value={ quiz.correctAnswer }
+                          onChange={ ( e ) => handleQuizCorrectAnswerChange( quizIndex, e.target.value ) }
                         />
                       </div>
                     ) ) }
-                    <div className="flex justify-center">
-                      <button
-                        className="mt-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] "
-                        onClick={ handleAddTask }
-                      >
-                        Add Quiz Task
-                      </button>
-                    </div>
+                    <button
+                      onClick={ addNewQuiz }
+                      className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300"
+                    >
+                      Add Quiz Question
+                    </button>
                   </div>
                 ) }
 
-                { selectedTask.name !== "Poll" && selectedTask.name !== "Quiz" && selectedTask.name != "Visit Link" && (
-                  <>
-                  <input
-                    type="text"
-                      className="w-full p-2 border rounded-lg  mb-2 bg-[#282828]"
-                    placeholder={ `Enter ${ selectedTask.name.toLowerCase() } details...` }
-                    onChange={ handleInputChange }
-                  
-                  />
-               
-                <button
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                  onClick={ handleAddTask }
-                >
-                  Add Task
-                </button>
-                  </>
+                { ( selectedTask.name === "Text" || selectedTask.name === "Number" || selectedTask.name === "URL" ) && (
+                  <p className="text-center text-lg">
+                    In this task, the user will respond with a { selectedTask.name.toLowerCase() }.
+                  </p>
                 ) }
+
+                <div className="flex justify-end space-x-4 mt-6">
+                  <button
+                    className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300"
+                    onClick={ closeTaskModal }
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300"
+                    onClick={ handleAddTask }
+                  >
+                    Add Task
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
       ) }
     </>
   );
 };
 
+
 export default AddTask;
+
+
+

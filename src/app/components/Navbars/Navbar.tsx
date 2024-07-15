@@ -7,6 +7,7 @@ import { AppDispatch, persistor, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/redux/reducer/authSlice";
 import { useRouter } from "next/navigation";
+import {Dropdown,Avatar, DropdownItem,DropdownMenu, DropdownTrigger,Input,Badge,Button} from "@nextui-org/react"
 
 interface NavbarProps
 {
@@ -40,10 +41,11 @@ const Navbar = () =>
     setIsClient(true); // Set the client flag to true on the client side
   }, []);
 
+console.log("data",data)
   if (!isClient) return null;
   return (
-    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md shadow">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md sticky top-0 shadow " style={{ zIndex: 1000 }}>
+      <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo */ }
         <div>
           <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -54,32 +56,23 @@ const Navbar = () =>
               width={ 32 }
               height={ 32 }
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-white">
-              Cluster Protocol
+            <span className="self-center text-2xl font-semibold whitespace-nowrap">
+              Fam Protocol
             </span>
         </Link>
         </div>
         {/* Notifications */}
         <div>
-          <button
-            type="button"
-            className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-          >
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 20 16"
+          <Badge content="99+" shape="circle" color="danger">
+            <Button
+              radius="full"
+              isIconOnly
+              aria-label="more than 99 notifications"
+              variant="light"
             >
-              <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
-              <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
-            </svg>
-            <span className="sr-only">Notifications</span>
-            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-              2
-            </div>
-          </button>
+              <i className="bi bi-bell-fill text-white text-2xl"></i>
+            </Button>
+          </Badge>
         </div>
 
         {/* Navigation menu */ }
@@ -87,50 +80,52 @@ const Navbar = () =>
           className="items-center justify-between w-full md:flex md:w-auto md:order-1 hidden">
         {/* Search section*/ }
           <div className="flex relative "  >
-              <input
-                type="text"
-                id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-cyan-500 focus:border-cyan-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500"
-                placeholder="Search..."
+              <Input
+              classNames={{
+              base: "max-w-full sm:max-w-[20rem] h-10",
+              mainWrapper: "h-full",
+              input: "text-small",
+              inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+              }}
+              placeholder="Type to search..."
+              size="sm"
+              startContent={<i className="bi bi-search text-lg"></i>}
+              type="search"
               />
-              {/* search icon */}
-              <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </div>
           </div>
-          <ul className="flex text-white lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-900 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li className="mb-2 md:mb-2 md:inline-block">
+          <ul className="flex items-center lg:ml-48 flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
+            <li className="text-center md:inline-block">
               <Link
                 href="/feed"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-cyan-700 md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#338ef7] md:p-0 dark:text-white md:dark:hover:text-cyan-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Daily Feed
               </Link>
             </li>
             {data ? (
         <li className="text-center md:text-left">
-          <Link
-            href="#"
-            onClick={logoutClient}
-            className="block cursor-pointer py-2 px-3 text-white bg-cyan-700 rounded md:bg-transparent md:text-cyan-700 md:p-0 md:dark:text-cyan-500"
-            aria-current="page"
-          >
-            Logout
-          </Link>
+            <Dropdown placement="bottom-end" className="bg-slate-800">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color="secondary"
+              name="Jason Hughes"
+              size="sm"
+              src={data?.image ? data.image : 'https://png.pngtree.com/thumb_back/fh260/background/20230612/pngtree-man-wearing-glasses-is-wearing-colorful-background-image_2905240.jpg'}
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2 font-bold">
+              <p className="font-semibold">Signed in as</p>
+              <p className="font-semibold">{data.email}</p>
+            </DropdownItem>
+            <DropdownItem key="logout" color="danger" onClick={logoutClient} className="bg-[#f31260] text-white" >
+              <div className="font-bold text-white text-center">Logout</div>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         </li>
       ) : (
         <li className="text-center md:text-left">
@@ -143,41 +138,28 @@ const Navbar = () =>
           </Link>
         </li>
       )}
+         
     
           </ul>
         </div>
 
         {/* Menu toggle button */ }
-        <div className="md:order-3">
+        <div className="order-5">
           <button
             onClick={ () => setDrop( ( prev ) => !prev ) }
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 w-10 h-10 justify-center font-bold text-3xl text-white rounded-lg  hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-search"
             aria-expanded={ isMenuOpen }
           >
             <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
+            <i className="bi bi-box-arrow-left"></i>
           </button>
         </div>
 
         {/* Pop up */ }
         <div
           className={ `fixed top-0 right-0 h-full w-64 bg-gray-900 rounded-md text-white transform ${ drop ? "translate-x-0" : "translate-x-full"
-            } transition-transform duration-300 ease-in-out z-10` }
+            } transition-transform duration-300 ease-in-out z-100` }
         >
           {/* close button */}
           <div className="flex justify-end p-4">
@@ -216,9 +198,13 @@ const Navbar = () =>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/kol/create-community">create community</Link>
                 </li>
-                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button >Logout</button>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 ">
+                <Link href="/kol/my-community">My Community</Link>
                 </li>
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 ">
+                  <Link href="/All-community">All Communities</Link>
+                </li>
+                
               </>
               ):
               (
@@ -238,17 +224,15 @@ const Navbar = () =>
                 <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
                   <Link href="/user/rate-kols">Rank kols</Link>
                 </li>
-                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-                  <button  >Logout</button>
-                </li>
               </>
                 
               )
             ): (
               <>
-                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 md:hidden">
+                <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500 ">
                     <Link href="#">Login</Link>
                 </li>
+               
               </>
             )
       }

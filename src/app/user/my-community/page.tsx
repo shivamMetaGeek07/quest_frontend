@@ -8,6 +8,16 @@ import React, { useEffect } from "react";
 import { FaUser, FaBolt, FaTwitter, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
+interface Card{
+  _id:string,
+  title:string,
+  logo:string,
+  description:string,
+  members:[],
+  quests:[]
+
+
+}
 
 const MyCommunities: React.FC = () =>
 {
@@ -44,7 +54,7 @@ const MyCommunities: React.FC = () =>
           <h1>My Communities</h1>
           <button
             onClick={ handleJoinMore }
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center"
+            className="bg-blue-500 hover:bg-blue-600 text-white text-sm my-4 font-bold py-2 px-4 rounded-full flex items-center"
           >
             <FaPlus className="mr-2" /> Join More
           </button>
@@ -58,7 +68,7 @@ const MyCommunities: React.FC = () =>
       </div>
       <div className="grid gap-4 sm:gap-8 mx-4 lg:mx-20 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10">
 
-        { userCommunities?.map( ( card, index ) => (
+        { userCommunities?.map( ( card:Card, index ) => (
 
           <div
             key={ index }
