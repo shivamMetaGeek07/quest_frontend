@@ -1,6 +1,7 @@
 
 import { updateUserProfile } from "@/redux/reducer/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import { Chip } from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -41,18 +42,11 @@ const router=useRouter()
   };
 
   return (
-    <div>
-      <div>
-        <FaEdit 
-        onClick={toggleModal}
-        className="text-blue-500 h-7 w-14"
-          
-        />
-          
-          
-        
-          
-        
+    <div >
+      <div className="flex justify-start items-center cursor-pointer ">
+        <Chip onClick={toggleModal} variant="solid" className="text-white bg-[#d200e7]" color="secondary">
+          Edit profile
+        </Chip>
       </div>
       {isModalVisible && (
         <div

@@ -103,10 +103,10 @@ const EcoCate: React.FC = () => {
           <path
             d="M1 1H6.48652L15 10"
             stroke="#FA00FF"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <path d="M6 5L11 10" stroke="#FA00FF" stroke-linecap="round" />
+          <path d="M6 5L11 10" stroke="#FA00FF" strokeLinecap="round" />
         </svg>
         <div>
           <p>Ecosystems</p>
@@ -161,17 +161,17 @@ const EcoCate: React.FC = () => {
               fill="none"
             >
               <path
-                opacity="0.8"
-                d="M25 0.5H4C1.79086 0.5 0 2.29086 0 4.5V26.875C0 28.877 1.62297 30.5 3.625 30.5H4.59167H24.4083H25.375C27.377 30.5 29 28.877 29 26.875V4.5C29 2.29086 27.2091 0.5 25 0.5Z"
-                fill="#5538CE"
+                d="M1 1H6.48652L15 10"
+                stroke="white"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
-                d="M5.55329 26.5377L4 26.5377C1.79086 26.5377 -2.51477e-07 24.7469 -3.48042e-07 22.5377L-1.1365e-06 4.5C-1.23306e-06 2.29086 1.79086 0.500002 4 0.500002L25 0.500001C27.2091 0.500001 29 2.29086 29 4.5L29 22.5377C29 24.7469 27.2091 26.5377 25 26.5377L23.4467 26.5377C22.3623 26.5377 21.3244 26.978 20.5708 27.7576L19.0991 29.2801C18.3454 30.0597 17.3075 30.5 16.2231 30.5L12.7769 30.5C11.6925 30.5 10.6546 30.0597 9.90094 29.2801L8.42925 27.7576C7.67558 26.978 6.63767 26.5377 5.55329 26.5377Z"
-                fill="#5538CE"
-              />
-              <path
-                d="M18 15.0862V15.9138H14.9214V19H14.0786V15.9138H11V15.0862H14.0786V12H14.9214V15.0862H18Z"
-                fill="white"
+                d="M6 5L11 10"
+                stroke="white"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
               />
             </svg>
           </div>

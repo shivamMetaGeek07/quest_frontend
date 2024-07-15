@@ -56,7 +56,7 @@ console.log(userCommunities)
           <div
             key={ index }
             onClick={ () => router.push( `/kol/community-project/${ card?._id }` ) }
-            className="bg-white/5 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10"
+            className="bg-white/5 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 cursor-pointer"
           >
             <div className="flex gap-3 items-center">
               <div>

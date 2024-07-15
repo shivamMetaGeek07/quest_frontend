@@ -68,10 +68,10 @@ function GrantsCard() {
           <path
             d="M1 1H6.48652L15 10"
             stroke="#FA00FF"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <path d="M6 5L11 10" stroke="#FA00FF" stroke-linecap="round" />
+          <path d="M6 5L11 10" stroke="#FA00FF" strokeLinecap="round" />
         </svg>
         <div>
           <h1>Grants</h1>

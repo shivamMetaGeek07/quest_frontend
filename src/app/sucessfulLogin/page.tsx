@@ -15,14 +15,16 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(fetchUserData());
+  }, [dispatch]);
 
-    // Ensure we navigate only on the client side
+  useEffect(() => {
     if (data?.role === 'kol') {
       router.push('/kol/kols-profile');
     } else if (data) {
       router.push('/user/profile');
     }
-  }, [data, dispatch, router]); // Added 'data' as a dependency
+  }, [data, router]);
+
 
   return (
     <div className='bg-gray-500 items-center flex justify-center opacity-35 h-screen'> <Spinner color="success"/></div>

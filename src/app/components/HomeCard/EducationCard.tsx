@@ -107,15 +107,15 @@ const EducationCardList: React.FC = () => {
               <path
                 d="M1 0.5H6.48652L15 9.5"
                 stroke="white"
-                stroke-opacity="0.3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M6 4.5L11 9.5"
                 stroke="white"
-                stroke-opacity="0.3"
-                stroke-linecap="round"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
               />
             </svg>
             <div>
@@ -180,8 +180,8 @@ const EducationCardList: React.FC = () => {
             {educationData.map((data, index) => (
               <div key={index} className="">
                 <div>
-                  <div className="box1 education-clip ">
-                    <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center">
+                  <div className="box1 education-clip bg-red-700 ">
+                    <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
                         <img
                           src={data.imageUrl}
@@ -237,15 +237,15 @@ const EducationCardList: React.FC = () => {
               <path
                 d="M1 0.5H6.48652L15 9.5"
                 stroke="white"
-                stroke-opacity="0.3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M6 4.5L11 9.5"
                 stroke="white"
-                stroke-opacity="0.3"
-                stroke-linecap="round"
+                strokeOpacity="0.3"
+                strokeLinecap="round"
               />
             </svg>
             <div>
@@ -297,8 +297,8 @@ const EducationCardList: React.FC = () => {
             {KolData.map((data, index) => (
               <div key={index} className="">
                 <div>
-                  <div className="box1 education-clip ">
-                    <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center">
+                  <div className="box1 education-clip bg-red-600">
+                    <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
                         <img
                           src={data.imageUrl}

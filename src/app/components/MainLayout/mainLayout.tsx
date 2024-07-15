@@ -5,7 +5,9 @@ import Navbar from '../Navbars/Navbar';
 import AdminNavbar from '../Navbars/AdminNavbar';
 import Footer from '../Footer';
 import {NextUIProvider} from "@nextui-org/react";
-
+import Sidebar from '../sidebar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MainLayout = ({
   children,
@@ -20,7 +22,9 @@ const MainLayout = ({
     <div>
       <NextUIProvider>
       {isAdminRoute ? (<AdminNavbar />): <Navbar />}
+      <Sidebar/>
       <main className='min-h-screen'>{children}</main>
+      <ToastContainer/>
       <Footer />
       </NextUIProvider>
     </div>
