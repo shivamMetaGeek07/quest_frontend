@@ -1,4 +1,3 @@
-
 import React from 'react'
 import UserCard from './components/HomeCard/UserCard';
 import CommunityCard from './components/HomeCard/CommunityCard';
@@ -95,6 +94,8 @@ const page = () => {
       <div>
         <GrantsCard/>
       </div>
+
+      
 
     </div>
   )

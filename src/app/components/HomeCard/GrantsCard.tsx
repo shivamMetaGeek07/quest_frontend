@@ -57,7 +57,7 @@ const grantsData: Grant[] = [
 function GrantsCard() {
   return (
     <div>
-      <div className="flex items-center gap-1 mt-8 ml-16">
+      <div className="flex items-center gap-1 mt-8 lg:ml-16 sm:mx-10 mx-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -77,52 +77,56 @@ function GrantsCard() {
           <h1>Grants</h1>
         </div>
       </div>
-      <div className="flex gap-8 ml-16 mt-5">
+
+      <div className="grid gap-8 ml-4 mt-5 sm:ml-16 sm:mt-5 sm:grid-cols-2  grid-cols-1 lg:grid-cols-4">
         {grantsData.map((grant, index) => (
-          <div key={index} className="border border-gray-700 w-full px-5 py-3 home-g">
-            <div>
-              <h1
-                className="text-md text-center"
-                style={{ letterSpacing: "4px" }}
-              >
-                {grant.title}
-              </h1>
-            </div>
-
-            <div className="text-center">
-              <h1 className="text-white/30" style={{ letterSpacing: "11px" }}>
-                . . . . . . . . .
-              </h1>
-            </div>
-
-            <div className="ml-8 mt-3">
-              <p
-                className="text-end"
-                style={{ fontSize: "0.6rem" }}
-              >
-                {grant.description}
-              </p>
-            </div>
-
-            <div>
-              <img
-                src={grant.imgUrl}
-                alt={grant.imgAlt}
-                className="h-6 w-6 rounded-full object-cover"
-              />
-              <p className="text-sm text-zinc-400">{grant.author}</p>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <div className="flex-1 text-center">
-                <h2 className="text-white">
-                  <span className="text-zinc-400 text-sm">PRIZE: </span>
-                  {grant.prize}
-                </h2>
+          <div className="relative">
+            <div
+              key={index}
+              className="border grant-clip border-gray-700 w-full px-5 py-3 home-g"
+            >
+              <div>
+                <h1
+                  className="text-md text-center"
+                  style={{ letterSpacing: "4px" }}
+                >
+                  {grant.title}
+                </h1>
               </div>
-              <div className="clip-trapezium-top-right px-5 py-1 bg-[#5538CE]">
-                <FaArrowRightLong />
+
+              <div className="text-center">
+                <h1 className="text-white/30" style={{ letterSpacing: "11px" }}>
+                  . . . . . . . . .
+                </h1>
               </div>
+
+              <div className="ml-8 mt-3">
+                <p className="text-end" style={{ fontSize: "0.6rem" }}>
+                  {grant.description}
+                </p>
+              </div>
+
+              <div>
+                <img
+                  src={grant.imgUrl}
+                  alt={grant.imgAlt}
+                  className="h-6 w-6 rounded-full object-cover"
+                />
+                <p className="text-sm text-zinc-400">{grant.author}</p>
+              </div>
+
+              <div className="flex justify-center items-center">
+                <div className="flex-1 text-center">
+                  <h2 className="text-white">
+                    <span className="text-zinc-400 text-sm">PRIZE: </span>
+                    {grant.prize}
+                  </h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="clip-trapezium-bottom-right  px-5 py-1 bg-[#5538CE] h-6 w-16 absolute ">
+              <FaArrowRightLong />
             </div>
           </div>
         ))}
