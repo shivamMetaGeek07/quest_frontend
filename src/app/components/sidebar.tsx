@@ -13,7 +13,7 @@ const Sidebar = () => {
   };
 
   return (<>
-    <div className='w-[4rem] md:flex border-r-gray-600/45 border-r bg-[#15151557] z-50 absolute md:h-screen glass_effect'>
+    <div className='w-[4rem] fixed md:flex  border-r-gray-600/45 border-r bg-[#15151557] z-50  md:h-screen glass_effect'>
     <button className=" justify-center   border-none text-white text-2xl cursor-pointer" onClick={handleNav}>  {nav ? (
                 <>
                 <div className='px-2 items-center justify-center m-auto'>
@@ -34,7 +34,7 @@ const Sidebar = () => {
                 </>
               )}</button>
     </div>
-    <div className={`flex flex-col w-full bg-violet-600/15 z-40 h-screen glass_effect absolute ${nav ? 'transform -translate-x-full' : ''} transition-transform duration-500 ease-in-out`}>
+    <div className={`flex flex-col w-full fixed bg-violet-600/15 z-40 h-screen glass_effect  ${nav ? 'transform -translate-x-full' : ''} transition-transform duration-500 ease-in-out`}>
         <button className=" block md:hidden  border-none text-white text-2xl cursor-pointer" onClick={handleNav}>  {nav ? (
                     <>
                     <div className='px-2  m-auto'>

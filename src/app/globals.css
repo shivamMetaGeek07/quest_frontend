@@ -100,3 +100,47 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
   -webkit-backdrop-filter: blur( 45px );
 }
 /* Glass effect css end*/
+
+/* Points palor css start */
+.points_main_div_right_svg{
+  clip-path: polygon(78% 0, 78% 26%, 100% 40%, 100% 60%, 78% 74%, 78% 100%, 0 100%, 0 0);
+}
+.points_main_div{
+  clip-path: polygon(0 29%, 0 0, 100% 0, 100% 100%, 0 100%, 0 75%, 5% 64%, 5% 37%);
+}
+.progress_bar_shadow{
+  /* -webkit-glo: above 1px linear-gradient(transparent,) ;  */
+  background-color: #cb03cf;
+  filter: blur(5px);
+}
+
+.bg-img{
+  background-image: linear-gradient(to  right, gray,rgba(128, 128, 128, 0.642),rgba(128, 128, 128, 0.523), rgba(255, 255, 0, 0));
+}
+
+.points_progress_bar{
+  box-shadow: 0px 0px 5px 0px rgba(150, 137, 137, 0.75);
+-webkit-box-shadow: 10px 10px 5px 0px rgba(158, 145, 145, 0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(216, 207, 207, 0.75);
+}
+
+.points_div{
+  clip-path: polygon(0 0, 100% 0, 100% 83%, 82% 83%, 71% 100%, 29% 100%, 18% 83%, 0 83%);
+}
+.left_side__trapezium{
+  clip-path: polygon(0 0, 65% 0%, 100% 100%, 0% 100%);
+  bottom: 0px;
+  left: 0px;
+}
+.right_side__trapezium{
+  clip-path: polygon(35% 0, 100% 0, 100% 100%, 0% 100%);
+  bottom: 0px;
+  right:0px; 
+}
+.btn_div{
+  clip-path: polygon(100% 0, 100% 12%, 88% 100%, 12% 100%, 0 12%, 0 0);
+}
+
+.inner_btn_div{
+  clip-path: polygon(100% 0, 100% 12%, 88% 100%, 12% 100%, 0 12%, 0 0);
+}
