@@ -93,90 +93,123 @@ const KolData: KolData[] = [
 
 const EducationCardList: React.FC = () => {
   return (
-    <div className="lg:mx-16 sm:mx-16 gap-1 mt-16">
+    <div className="lg:mx-20 sm:mx-16 gap-1 mt-12">
+      <div className="mb-8">
+        <svg
+        className="w-full"
+          xmlns="http://www.w3.org/2000/svg"
+         
+          height="2"
+          viewBox="0 0 1082 2"
+          fill="none"
+        >
+          <path
+            opacity="0.8"
+            d="M1 1L1081 1.00009"
+            stroke="url(#paint0_linear_63_791)"
+            stroke-linecap="round"
+            stroke-dasharray="13 13"
+          />
+          <defs>
+            <linearGradient
+              id="paint0_linear_63_791"
+              x1="1"
+              y1="1.5"
+              x2="1081"
+              y2="1.50009"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#8C71FF" stop-opacity="0" />
+              <stop offset="1" stop-color="#FA00FF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
       <div className="main flex flex-col lg:flex-row gap-16 ">
         <div>
-          <div className="flex ml-8 items-center gap-1 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="10"
-              viewBox="0 0 16 10"
-              fill="none"
-            >
-              <path
-                d="M1 0.5H6.48652L15 9.5"
-                stroke="white"
-                strokeOpacity="0.3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M6 4.5L11 9.5"
-                stroke="white"
-                strokeOpacity="0.3"
-                strokeLinecap="round"
-              />
-            </svg>
-            <div>
-              <h1 className="text-gray-400 font-thin">Educational quests</h1>
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="hidden lg:block">
+          <div className="relative lg:mx-0 sm:mx-10 mx-10">
+            <div className="flex ml-8 items-center gap-1 absolute bottom-6 left-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="160"
-                height="59"
-                viewBox="0 0 160 59"
+                width="16"
+                height="10"
+                viewBox="0 0 16 10"
                 fill="none"
               >
                 <path
-                  d="M1 0.5L46 45.5H137L149.5 58H160"
-                  stroke="url(#paint0_linear_69_326)"
-                  stroke-opacity="0.5"
+                  d="M1 0.5H6.48652L15 9.5"
+                  stroke="white"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_69_326"
-                    x1="0.99999"
-                    y1="1.00001"
-                    x2="160"
-                    y2="58"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop offset="0.74102" stop-color="white" />
-                    <stop offset="1" stop-color="#999999" stop-opacity="0" />
-                  </linearGradient>
-                </defs>
+                <path
+                  d="M6 4.5L11 9.5"
+                  stroke="white"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
+                />
               </svg>
+              <div>
+                <h1 className="text-gray-400 font-thin">Educational quests</h1>
+              </div>
             </div>
-            <div className="absolute top-0 left-0 hidden lg:block">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="6"
-                height="6"
-                viewBox="0 0 4 4"
-                fill="none"
-              >
-                <path d="M0 3.5L3.5 3.5L3.5 4.17371e-08" stroke="#FA00FF" />
-              </svg>
-            </div>
-            <div className="absolute bottom-0 left-40 hidden lg:block">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="7"
-                height="6"
-                viewBox="0 0 5 4"
-                fill="none"
-              >
-                <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
-              </svg>
+
+            <div className="relative">
+              <div className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="160"
+                  height="59"
+                  viewBox="0 0 160 59"
+                  fill="none"
+                >
+                  <path
+                    d="M1 0.5L46 45.5H137L149.5 58H160"
+                    stroke="url(#paint0_linear_69_326)"
+                    stroke-opacity="0.5"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_69_326"
+                      x1="0.99999"
+                      y1="1.00001"
+                      x2="160"
+                      y2="58"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset="0.74102" stop-color="white" />
+                      <stop offset="1" stop-color="#999999" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div className="absolute top-0 left-0 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="6"
+                  height="6"
+                  viewBox="0 0 4 4"
+                  fill="none"
+                >
+                  <path d="M0 3.5L3.5 3.5L3.5 4.17371e-08" stroke="#FA00FF" />
+                </svg>
+              </div>
+              <div className="absolute bottom-0 left-40 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="7"
+                  height="6"
+                  viewBox="0 0 5 4"
+                  fill="none"
+                >
+                  <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
+                </svg>
+              </div>
             </div>
           </div>
 
-          <div className=" edu mt-5 grid lg:gap-10 sm:gap-10 gap-4  mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  lg:basis-[50%]">
+          <div className="p-2 edu neo mt-5 grid lg:gap-10 sm:gap-10 gap-4  mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  lg:basis-[50%]">
             {educationData.map((data, index) => (
               <div key={index} className="">
                 <div>
@@ -226,74 +259,76 @@ const EducationCardList: React.FC = () => {
         {/* pending */}
 
         <div>
-          <div className="flex ml-8 items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="10"
-              viewBox="0 0 16 10"
-              fill="none"
-            >
-              <path
-                d="M1 0.5H6.48652L15 9.5"
-                stroke="white"
-                strokeOpacity="0.3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M6 4.5L11 9.5"
-                stroke="white"
-                strokeOpacity="0.3"
-                strokeLinecap="round"
-              />
-            </svg>
-            <div>
-              <h1 className="text-gray-400 font-thin">KOL quests</h1>
-            </div>
-          </div>
-
-          <div className="relative hidden lg:block">
-            <div>
+          <div className="relative lg:mx-0  sm:mx-10 mx-10">
+            <div className="flex ml- items-center gap-1 absolute bottom-6 left-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="160"
-                height="59"
-                viewBox="0 0 160 59"
+                width="16"
+                height="10"
+                viewBox="0 0 16 10"
                 fill="none"
               >
                 <path
-                  d="M159 0.5L114 45.5H23L10.5 58H0"
+                  d="M1 0.5H6.48652L15 9.5"
                   stroke="white"
-                  stroke-opacity="0.4"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M6 4.5L11 9.5"
+                  stroke="white"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
                 />
               </svg>
+              <div>
+                <h1 className="text-gray-400 font-thin">KOL quests</h1>
+              </div>
             </div>
-            <div className="absolute bottom-0 left-0 hidden lg:block">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="7"
-                height="6"
-                viewBox="0 0 4 5"
-                fill="none"
-              >
-                <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF" />
-              </svg>
-            </div>
-            <div className="absolute top-0 left-40 hidden lg:block">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="7"
-                height="5"
-                viewBox="0 0 5 4"
-                fill="none"
-              >
-                <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
-              </svg>
+
+            <div className="relative ">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="160"
+                  height="59"
+                  viewBox="0 0 160 59"
+                  fill="none"
+                >
+                  <path
+                    d="M159 0.5L114 45.5H23L10.5 58H0"
+                    stroke="white"
+                    stroke-opacity="0.4"
+                  />
+                </svg>
+              </div>
+              <div className="absolute bottom-0 left-0 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="7"
+                  height="6"
+                  viewBox="0 0 4 5"
+                  fill="none"
+                >
+                  <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF" />
+                </svg>
+              </div>
+              <div className="absolute top-0 left-40 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="7"
+                  height="5"
+                  viewBox="0 0 5 4"
+                  fill="none"
+                >
+                  <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
+                </svg>
+              </div>
             </div>
           </div>
 
-          <div className=" mt-5 grid lg:gap-10 sm:gap-10 gap-4  mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  lg:basis-[50%]">
+          <div className=" mt-5 neo p-2 grid lg:gap-10 sm:gap-10 gap-4  mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  lg:basis-[50%]">
             {KolData.map((data, index) => (
               <div key={index} className="">
                 <div>
