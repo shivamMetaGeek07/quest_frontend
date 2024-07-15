@@ -101,6 +101,14 @@ clip-path: polygon(60% 100%, 75% 90%, 100% 90%, 100% 0%, 0% 0%, 0% 90%, 25% 90%,
 }
 
 
+/* grant trapezium */
+
+.grant-trapezium{
+  clip-path: polygon(31% 60%, 99% 60%, 100% 100%, 0% 100%);
+  bottom: -1px;
+  right: -1px;
+}
+
 .clip-trapezium-top-left {
   clip-path: polygon(0 0, 75% 0, 100% 100%, 0% 100%);
   top: 0px;
@@ -348,7 +356,7 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 /* Grants */
 
 .grant-clip{
-  clip-path: polygon(0 0, 100% 0, 100% 90%, 81% 90%, 72% 100%, 27% 100%, 19% 90%, 0 90%);
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 87% 89%, 78% 100%, 21% 100%, 15% 89%, 0 89%);
 }
 
 .box1{
@@ -458,4 +466,9 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 .bg_side_bar{
   background-image: linear-gradient(to right,#5538cecc
   rgba(23, 23, 23, 0.8));
+}
+.neo{
+  border-radius: 6px;
+  background: #111;
+  box-shadow:  15px 15px 30px #111,-15px 15px 30px #111;
 }
