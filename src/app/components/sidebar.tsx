@@ -19,7 +19,7 @@ const Sidebar = () =>
   };
 
   return ( <>
-    <div className='w-[4rem] md:flex border-r-gray-600/45 border-r bg-[#15151557] z-50 absolute md:h-screen glass_effect'>
+    <div className='w-[4rem] md:flex border-r-gray-600/45 md:border-r bg-[#15151557] z-50 fixed md:h-screen glass_effect'>
       <button className=" justify-center   border-none text-white text-2xl cursor-pointer" onClick={ handleNav }>  { nav ? (
         <>
           <div className='px-2 items-center justify-center m-auto'>
@@ -40,7 +40,7 @@ const Sidebar = () =>
         </>
       ) }</button>
     </div>
-    <div className={ `flex flex-col w-full bg-violet-600/15 z-40 h-screen glass_effect absolute ${ nav ? 'transform -translate-x-full' : '' } transition-transform duration-500 ease-in-out` }>
+    <div className={ `flex flex-col w-screen md:w-full bg-[#5638ce40] z-40 h-screen glass_effect fixed ${ nav ? 'transform -translate-x-full' : '' } transition-transform duration-500 ease-in-out` }>
       <button className=" block md:hidden  border-none text-white text-2xl cursor-pointer" onClick={ handleNav }>  { nav ? (
         <>
           <div className='px-2  m-auto'>
@@ -62,23 +62,33 @@ const Sidebar = () =>
       ) }</button>
 
       { user ? (
-      <div className="flex-col border-none md:pl-[4rem] gap-8 justify-between md:flex-row items-center  flex m-auto w-full text-center text-white">
-        <div className=" border-l md:w-full w-[12rem] p-3 border-r border-l-white md:border-l-transparent border-r-white hover:border-b-4  hover:border-b-violet-700">
+      <div className="flex-col border-none   justify-between md:flex-row items-center  flex m-auto md:ml-5 w-screen text-center text-white">
+        <div className='justify-center items-center m-auto border-l border-r  flex h-12 md:h-40 md:border-r  w-[12rem] md:w-full  border-r-white'>
+        <div className=" border-l md:w-full hover:bg-opacity-15 hover:bg-[#5638ce48]  border-t w-full p-3 md:border-l-transparent border-b border-b-white hover:border-b-4  hover:border-b-violet-700">
           <Link href={ '/user/profile' }>PROFILE </Link>
         </div>
-        <div className=" md:w-full w-[12rem] border-l-white border-l md:border-l-transparent  border-r  p-3  border-r-white hover:border-b-4  hover:border-b-violet-700">
+        </div>
+        <div className='justify-center items-center m-auto border-l  flex h-12 md:h-40 border-r  w-[12rem] md:w-full border-r-white'>
+        <div className="md:w-full  border-t w-full hover:bg-opacity-15 hover:bg-[#5638ce40]    border-b     p-3   hover:border-b-4  hover:border-b-violet-700">
           <Link href={ '/kol/create-community' }>Create A COMMUNITY</Link>
         </div>
-        <div className="md:w-full w-[12rem] border-l-white border-l md:border-l-transparent border-r  p-3 border-r-white hover:border-b-4  hover:border-b-violet-700">
+        </div>
+          <div className='justify-center items-center m-auto border-l   flex h-12 md:h-40 border-r  w-[12rem] md:w-full border-r-white'>
+        <div className="md:w-full  border-t w-full hover:bg-opacity-15 hover:bg-[#5638ce40]  border-b    p-3  hover:border-b-4  hover:border-b-violet-700">
           <Link href={ '/' }>LEADERBOARD</Link>
         </div>
-        <div className="md:w-full w-[12rem] border-l-white border-l md:border-l-transparent border-r  p-3 border-r-white hover:border-b-4  hover:border-b-violet-700">
+        </div>
+          <div className='justify-center items-center m-auto border-l border-r  flex h-12 md:h-40 md:border-r  w-[12rem] md:w-full border-r-white'>
+        <div className="md:w-full  border-t w-full hover:bg-opacity-15 hover:bg-[#5638ce40]   border-b     p-3  hover:border-b-4  hover:border-b-violet-700">
           <Link href={ '/' }>REWARDS</Link>
         </div>
-        <div className="md:w-full w-[12rem] border-l border-white md:border-l-transparent  md:border-r-transparent  border-r hover:border-b-4  hover:border-b-violet-700 p-3 ">
+        </div>
+          <div className='justify-center items-center m-auto border-l border-r  flex h-12 md:h-40 md:border-r  w-[12rem] md:w-full border-r-white'>
+        <div className="md:w-full  border-t w-full hover:bg-opacity-15 hover:bg-[#5638ce40]  border-white border-b  md:border-r-transparent  md:border-r hover:border-b-4  hover:border-b-violet-700 p-3 ">
           <Link href={ '/' }>RANK KOLS</Link>
         </div>
-      </div>
+        </div>
+        </div>
         
       ):(
         <LoginPage />
