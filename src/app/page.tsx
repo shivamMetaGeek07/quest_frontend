@@ -65,7 +65,7 @@ const page = () => {
   // );
 
   return (
-    <div>
+    <div className="w-[90%] mx-auto">
       <UserCard />
       <EcoCate />
       <div>

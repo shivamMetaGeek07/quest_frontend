@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createQuest, createQuest1, Reward } from '../../../redux/reducer/questSlice';
 import { RootState, AppDispatch } from '../../../redux/store';
 import { useProtectedRoute } from '@/utils/privateRoute';
+import { notify } from '@/utils/notify';
 
 function CreateQuest ()
 {
@@ -44,14 +45,14 @@ function CreateQuest ()
       const resultAction = await dispatch( createQuest1( newQuest ) );
       if ( createQuest1.fulfilled.match( resultAction ) )
       {
-        alert( 'Quest created successfully' );
+        notify( "success",'Quest created successfully' );
         // Clear form
         setTitle( '' );
         setDescription( '' );
         setRewards( [ { type: '', value: 0 } ] );
       } else
       {
-        alert( 'Failed to create quest' );
+        notify( "error",'Failed to create quest' );
       }
     } catch ( err )
     {

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { BallTriangle } from "react-loader-spinner";
 // import {Button} from "@nextui-org/react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { notify } from '@/utils/notify';
 
 
 interface Feed {
@@ -167,13 +168,13 @@ const AddFeedPage = () =>
     if ( !file )
     {
       setLoader( false );
-      return alert( "Please upload a community logo" );
+      return notify( "warn","Please upload a community logo" );
     }
 
     if ( file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp' && file.type !== 'image/gif' && file.type !== 'image/svg' )
     {
       setLoader( false );
-      return alert( "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
+      return notify( "warn","Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
     }
     const token = localStorage.getItem( 'token' );
     if ( token )
@@ -207,7 +208,7 @@ const AddFeedPage = () =>
           initailFormData();
           setLoader( false );
           getFeeds();
-          alert( 'Blog feed created successfully' );
+          notify( "success",'Blog feed created successfully' );
         }
         // router.push('/dashboard');
       } catch ( error )
@@ -247,7 +248,7 @@ const AddFeedPage = () =>
       else{
         if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp' && file.type !== 'image/gif' && file.type !== 'image/svg') {
           setLoader(false);
-          return alert('Only JPEG, PNG, WEBP, GIF, SVG images are allowed');
+          return notify("warn",'Only JPEG, PNG, WEBP, GIF, SVG images are allowed');
         }
 
         const res = await handleUpload();
@@ -271,7 +272,7 @@ const AddFeedPage = () =>
           initailFormData();
           setLoader(false);
           getFeeds();
-          alert('Blog feed updated successfully');  
+          notify("success",'Blog feed updated successfully');  
         }
     }
     catch (error) {
@@ -298,7 +299,7 @@ const AddFeedPage = () =>
       if(response.status===200){
         initailFormData();
         setLoader(false);
-        alert('Blog feed deleted successfully');  
+        notify("success",'Blog feed deleted successfully');  
         getFeeds();
       }
     }
