@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { RiMenu2Fill } from 'react-icons/ri';
 import { GiCrossMark } from 'react-icons/gi';
@@ -7,16 +7,30 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import LoginPage from './mob-login';
+import { useRouter } from 'next/navigation';
 
 const Sidebar = () =>
 {
   const [ nav, setNav ] = useState( true );
+  const router = useRouter()
   const user = useSelector( ( state: RootState ) => state.login?.user );
   console.log( user );
   const handleNav = () =>
   {
     setNav( !nav );
   };
+
+
+  useEffect(() =>
+  {
+    if ( window.location.pathname == "/login" )
+    {
+      setNav( false );
+      router.push('/')
+    }
+    console.log("useeffect called")
+  }, [ window.location.pathname ] );
+  console.log(window.location.pathname)
 
   return ( <>
     <div className='w-[4rem] md:flex border-r-gray-600/45 border-r bg-[#15151557] z-50 absolute md:h-screen glass_effect'>
@@ -62,27 +76,27 @@ const Sidebar = () =>
       ) }</button>
 
       { user ? (
-      <div className="flex-col border-none md:pl-[4rem] gap-8 justify-between md:flex-row items-center  flex m-auto w-full text-center text-white">
-        <div className=" border-l md:w-full w-[12rem] p-3 border-r border-l-white md:border-l-transparent border-r-white hover:border-b-4  hover:border-b-violet-700">
-          <Link href={ '/user/profile' }>PROFILE </Link>
+        <div className="flex-col border-none md:pl-[4rem] gap-8 justify-between md:flex-row items-center  flex m-auto w-full text-center text-white">
+          <div className=" border-l md:w-full w-[12rem] p-3 border-r border-l-white md:border-l-transparent border-r-white hover:border-b-4  hover:border-b-violet-700">
+            <Link href={ '/user/profile' }>PROFILE </Link>
+          </div>
+          <div className=" md:w-full w-[12rem] border-l-white border-l md:border-l-transparent  border-r  p-3  border-r-white hover:border-b-4  hover:border-b-violet-700">
+            <Link href={ '/kol/create-community' }>Create A COMMUNITY</Link>
+          </div>
+          <div className="md:w-full w-[12rem] border-l-white border-l md:border-l-transparent border-r  p-3 border-r-white hover:border-b-4  hover:border-b-violet-700">
+            <Link href={ '/' }>LEADERBOARD</Link>
+          </div>
+          <div className="md:w-full w-[12rem] border-l-white border-l md:border-l-transparent border-r  p-3 border-r-white hover:border-b-4  hover:border-b-violet-700">
+            <Link href={ '/' }>REWARDS</Link>
+          </div>
+          <div className="md:w-full w-[12rem] border-l border-white md:border-l-transparent  md:border-r-transparent  border-r hover:border-b-4  hover:border-b-violet-700 p-3 ">
+            <Link href={ '/' }>RANK KOLS</Link>
+          </div>
         </div>
-        <div className=" md:w-full w-[12rem] border-l-white border-l md:border-l-transparent  border-r  p-3  border-r-white hover:border-b-4  hover:border-b-violet-700">
-          <Link href={ '/kol/create-community' }>Create A COMMUNITY</Link>
-        </div>
-        <div className="md:w-full w-[12rem] border-l-white border-l md:border-l-transparent border-r  p-3 border-r-white hover:border-b-4  hover:border-b-violet-700">
-          <Link href={ '/' }>LEADERBOARD</Link>
-        </div>
-        <div className="md:w-full w-[12rem] border-l-white border-l md:border-l-transparent border-r  p-3 border-r-white hover:border-b-4  hover:border-b-violet-700">
-          <Link href={ '/' }>REWARDS</Link>
-        </div>
-        <div className="md:w-full w-[12rem] border-l border-white md:border-l-transparent  md:border-r-transparent  border-r hover:border-b-4  hover:border-b-violet-700 p-3 ">
-          <Link href={ '/' }>RANK KOLS</Link>
-        </div>
-      </div>
-        
-      ):(
+
+      ) : (
         <LoginPage />
-      )}
+      ) }
 
     </div>
   </> );

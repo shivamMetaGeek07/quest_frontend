@@ -1,7 +1,7 @@
 // layout/MainLayout.
 "use client";
 import { usePathname } from 'next/navigation';
-import Navbar from '../Navbars/Navbar';
+import Navbar from '../Navbar';
 import AdminNavbar from '../Navbars/AdminNavbar';
 import Footer from '../Footer';
 import {NextUIProvider} from "@nextui-org/react";

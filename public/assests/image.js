@@ -12,10 +12,11 @@ import image13 from "./image 13.png"
 import image14 from "./image 14.png"
 import image15 from "./image 15.png"
 import image16 from "./image 16.png"
+import logo from "./logo.png"
 
-export const images ={
+export const images = {
 	instagram,
-    headerImage,
+	headerImage,
 	telegram,
 	fourthicon,
 	vector,
@@ -27,5 +28,6 @@ export const images ={
 	image13,
 	image14,
 	image15,
-	image16
+	image16,
+	logo
 }
