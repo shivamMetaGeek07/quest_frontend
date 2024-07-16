@@ -28,7 +28,7 @@ const Sidebar = () =>
       router.push('/')
     }
     console.log("useeffect called")
-  }, [ window.location.pathname ] );
+  }, [  ] );
   // console.log(window.location.pathname)
 
   return ( <>

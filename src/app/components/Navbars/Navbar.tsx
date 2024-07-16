@@ -37,12 +37,15 @@ const Navbar = () =>
   {
     setDrop( false );
   };
+
+  if (!isClient) return null;
+  console.log("data",data)
+  
   useEffect(() => {
     setIsClient(true); // Set the client flag to true on the client side
   }, []);
 
-console.log("data",data)
-  if (!isClient) return null;
+  
   return (
     <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md sticky top-0 shadow " style={{ zIndex: 1000 }}>
       <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
