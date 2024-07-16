@@ -65,8 +65,6 @@ const page = () => {
   // </div>
   // );
 
-
-
   const signUpdiscord=()=>{
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`
   }
