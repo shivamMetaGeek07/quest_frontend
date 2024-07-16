@@ -50,7 +50,7 @@ const isValidToken = () => {
 
 type Props = {}
 
-const adminDashboardPage = (props: Props) => {
+const AdminDashboardPage = (props: Props) => {
   const router = useRouter();
   const handleLogout = async () => {
     try {
@@ -93,7 +93,7 @@ const adminDashboardPage = (props: Props) => {
   )
 }
 
-export default adminDashboardPage
+export default AdminDashboardPage
 
 
 

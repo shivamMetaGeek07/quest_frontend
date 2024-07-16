@@ -55,7 +55,7 @@ const communityCardsData: CommunityCardData[] = [
   },
 ];
 
-const page = () => {
+const Homepage = () => {
   const data = useSelector((state: RootState) => state.login.user);
 
   // if(!data) return (
@@ -147,4 +147,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Homepage;

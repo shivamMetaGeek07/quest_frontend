@@ -80,7 +80,7 @@ function GrantsCard() {
 
       <div className="grid gap-5 ml-4 mt-5 sm:mt-5 sm:grid-cols-2  grid-cols-1 lg:grid-cols-4">
         {grantsData.map((grant, index) => (
-          <div className="relative">
+          <div key={index} className="relative">
             <div className="relative grant-clip bg-gray-500 box1 w-12 ">
               <div
                 key={index}
