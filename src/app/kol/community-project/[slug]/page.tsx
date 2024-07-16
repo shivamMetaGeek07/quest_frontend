@@ -185,6 +185,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
 
             // <Link href={`/user/quest/${questId}`} key={questId}>
             <div
+            key={index}
               onClick={ ( e ) =>
               {
                 e.preventDefault();

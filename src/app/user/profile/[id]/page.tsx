@@ -56,7 +56,7 @@ const BadgesData: BadgesData[] = [
   },
 ];
 
-const userProfile = ({ params }: { params: { id: string } }) => {
+const UserProfile = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [isFollowed, setIsFollowed] = useState<Boolean>(false);
@@ -420,4 +420,4 @@ const userProfile = ({ params }: { params: { id: string } }) => {
     </>
   );
 };
-export default userProfile;
+export default UserProfile;

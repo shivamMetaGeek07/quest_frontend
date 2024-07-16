@@ -55,8 +55,7 @@ const communityCardsData: CommunityCardData[] = [
   },
 ];
 
-const page = () => {
-  const [isClient, setIsClient] = useState(false);
+const Homepage = () => {
   const data = useSelector((state: RootState) => state.login.user);
 
   // if(!data) return (
@@ -71,7 +70,6 @@ const page = () => {
 
   return (
     <div className="w-[90%] mx-auto">
-    {/* <Button onClick={signUpdiscord}>discord</Button> */}
       <UserCard />
       <EcoCate />
       <div>
@@ -146,4 +144,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Homepage;

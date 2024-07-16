@@ -3,7 +3,7 @@ import React ,{useState} from "react";
 
 type Props = {};
 
-const kolsProfileSlug = (props: Props) => {
+const KolsProfileSlug = (props: Props) => {
 
   const [ votes, setvotes ] = useState( 0 );
  
@@ -238,4 +238,4 @@ const kolsProfileSlug = (props: Props) => {
   );
 };
 
-export default kolsProfileSlug;
+export default KolsProfileSlug;

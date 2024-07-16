@@ -66,8 +66,8 @@ const RateKols = (props: Props) => {
       :
       (
       <div className="grid gap-6 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ">
-          {kols?.map((kol) => (
-            <div  className="bg-white shadow rounded-lg p-6">
+          {kols?.map((kol,index) => (
+            <div key={index} className="bg-white shadow rounded-lg p-6">
               <div className="flex flex-col items-center">
                 <img
                   src={kol.image}
