@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { notify } from '@/utils/notify';
 
 interface ReferralFormProps {
     memberId: any;
@@ -17,7 +18,7 @@ interface ReferralFormProps {
   const  user = useSelector((state: RootState) => state.login.user);
 
   const [formData, setFormData] = useState({
-    referral:'YkkumuSF6N',
+    referral:'',
     userId:user?._id,
     memberId,
   });
@@ -27,14 +28,17 @@ interface ReferralFormProps {
     setFormData({ ...formData, [name]: value });
   };
 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData)
     const response = await axios.post(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/get/joinCommunities/${id}`
         , formData 
       );
       await dispatch(fetchAllCommunities());
-      console.log(response)
+      notify("success",response.data);
+      notify("error",response.data);
 
     };
   
@@ -54,13 +58,13 @@ interface ReferralFormProps {
       <div className="mb-4">
         <label htmlFor="nickname" className="block text-sm  text-gray-700">Referral</label>
         <input
-          type="text"
-          id="nickname"
-          name="nickname"
-          value={formData.referral}
-          onChange={handleChange}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
+        type="text"
+        id="referral"
+        name="referral"
+        value={formData.referral}
+        onChange={handleChange}
+        className="mt-1 block w-full px-3 py-2 border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      />
       </div>
       <button
         type="submit"

@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { images } from '../../../../public/assests/image';
 import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, Badge, Button } from "@nextui-org/react";
 import axios from 'axios';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Navbar: React.FC = () =>
 {
@@ -46,6 +48,21 @@ const Navbar: React.FC = () =>
             console.error( 'Error logging out:', error );
         }
     };
+    const handleClose = () =>
+    {
+        setDrop( false );
+    };
+    console.log( "data", data );
+
+    useEffect( () =>
+    {
+        setIsClient( true ); // Set the client flag to true on the client side
+    }, [] );
+
+
+    if ( !isClient ) return null;
+
+
 
     const signup = () =>
     {
@@ -82,9 +99,38 @@ const Navbar: React.FC = () =>
     return (
         <nav className="bg-black text-white flex items-center space-x-16 justify-between p-4">
             {/* logo */ }
-            <div className="flex items-center space-x-4" onClick={ () => router.push( "/" ) } >
-                <img src={ `${ images.logo }` } alt="logo" className="w-16 h-16" />
+            <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
+                {/* Logo */ }
+                <div>
+                    <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                        <Image
+                            src="https://flowbite.com/docs/images/logo.svg"
+                            className="h-8 "
+                            alt="Flowbite Logo"
+                            width={ 32 }
+                            height={ 32 }
+                        />
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap">
+                            Fam Protocol
+                        </span>
+                    </Link>
+                </div>
+
+                {/* Notifications */ }
+                <div>
+                    <Badge content="99+" shape="circle" color="danger">
+                        <Button
+                            radius="full"
+                            isIconOnly
+                            aria-label="more than 99 notifications"
+                            variant="light"
+                        >
+                            <i className="bi bi-bell-fill text-white text-2xl"></i>
+                        </Button>
+                    </Badge>
+                </div>
             </div>
+
             <div className="hidden md:flex items-center space-x-5 w-2/6">
                 <input
                     type="text"
@@ -99,12 +145,12 @@ const Navbar: React.FC = () =>
             </div>
             {/* style={ { background: 'linear-gradient(90deg, #FA00FF, #FF7B7B, #5538CE)' } } */ }
             <div className="flex items-center space-x-20 w-4/6">
-                
+
                 <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-2 overflow-hidden relative w-2/3 rounded-sm px-5">
                     <span className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-purple-600 to-purple-600 px-4 flex items-center font-bold z-10 border-r-2">
                         NEWS
                     </span>
-                    <div className="ticker-wrap ml-2 px-5"> 
+                    <div className="ticker-wrap ml-2 px-5">
                         <div className="ticker">
                             { feedItems?.map( ( item: any, index: number ) => (
                                 <div key={ index } className="ticker__item">{ item?.title }</div>

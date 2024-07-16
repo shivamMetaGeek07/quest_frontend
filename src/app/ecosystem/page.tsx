@@ -101,7 +101,7 @@ import Sidebar from '../components/sidebar'
             <div className='p-1'>
              <div className='image-container h-[5rem] w-[5rem] items-center flex'>
                 <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
-             </div>
+              </div>
              <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
             </div>
          <div className='flex flex-col'>

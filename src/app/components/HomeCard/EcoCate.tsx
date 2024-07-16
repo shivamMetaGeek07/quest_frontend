@@ -191,15 +191,15 @@ const EcoCate: React.FC = () => {
                 <path
                   d="M1 1H6.48652L15 10"
                   stroke="white"
-                  stroke-opacity="0.3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M6 5L11 10"
                   stroke="white"
-                  stroke-opacity="0.3"
-                  stroke-linecap="round"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
                 />
               </svg>
               <div>
@@ -242,7 +242,7 @@ const EcoCate: React.FC = () => {
                   <path
                     d="M159 0.5L114 45.5H23L10.5 58H0"
                     stroke="white"
-                    stroke-opacity="0.4"
+                    strokeOpacity="0.4"
                   />
                 </svg>
               </div>

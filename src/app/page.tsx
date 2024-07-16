@@ -56,6 +56,7 @@ const communityCardsData: CommunityCardData[] = [
 ];
 
 const page = () => {
+  const [isClient, setIsClient] = useState(false);
   const data = useSelector((state: RootState) => state.login.user);
 
   // if(!data) return (
@@ -63,7 +64,12 @@ const page = () => {
   //   <Spinner/>
   // </div>
   // );
-
+  // if (!isClient) return null;
+  // console.log("data",data)
+  
+  // useEffect(() => {
+  //   setIsClient(true); // Set the client flag to true on the client side
+  // }, []);
   return (
     <div className="w-[90%] mx-auto">
       
@@ -102,8 +108,8 @@ const page = () => {
                 opacity="0.8"
                 d="M951 1L0.999969 1"
                 stroke="url(#paint0_linear_53_3430)"
-                stroke-linecap="round"
-                stroke-dasharray="13 13"
+                strokeLinecap="round"
+                strokeDasharray="13 13"
               />
               <defs>
                 <linearGradient
@@ -114,8 +120,8 @@ const page = () => {
                   y2="0.5"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#8C71FF" stop-opacity="0" />
-                  <stop offset="1" stop-color="#FA00FF" />
+                  <stop stopColor="#8C71FF" stopOpacity="0" />
+                  <stop offset="1" stopColor="#FA00FF" />
                 </linearGradient>
               </defs>
             </svg>
