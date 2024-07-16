@@ -46,6 +46,8 @@ export interface IUser
   discordInfo?: IDiscordInfo;
   teleInfo?:ITeleInfo;
   community?: [];
+  following?: string[];
+  followers?: string[];
 }
 
 // Define the initial state interface

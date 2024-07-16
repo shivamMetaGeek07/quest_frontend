@@ -52,7 +52,7 @@ export const users: User[] = [
 const UserCard: React.FC = () => {
   return (
     <div>
-      <div className="lg:mx-16 mx-10 mt-10 flex items-center gap-1">
+      <div className="lg:mx-20 sm:mx-20 mx-10 mt-10 flex items-center gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -74,7 +74,7 @@ const UserCard: React.FC = () => {
       </div>
 
 
-      <div className="grid gap-6 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-8">
+      <div className="grid sm:mx-10 lg:mx-0 mx-5 gap-6 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-8">
         {users.map((user) => (
           <div
             key={user.id}

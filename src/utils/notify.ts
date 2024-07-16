@@ -8,7 +8,18 @@ type NotifyMessage = string;
 export const notify = (type: NotifyType, message: NotifyMessage) => {
   switch (type) {
     case "default":
-      toast(message);
+      toast(message,
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
       break;
     case "success":
       toast.success(message, {
@@ -30,12 +41,28 @@ export const notify = (type: NotifyType, message: NotifyMessage) => {
       break;
     case "warn":
       toast.warn(message, {
-        position: "bottom-left"
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
       });
       break;
     case "info":
       toast.info(message, {
-        position: "bottom-center"
+        position: "top-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
       });
       break;
     case "custom":

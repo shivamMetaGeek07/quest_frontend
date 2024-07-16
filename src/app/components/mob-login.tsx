@@ -89,7 +89,7 @@ const LoginPage: React.FC = () =>
     };
 
     const signup = async () =>{
-         window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/kol`;
+         window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/user`;
     };
 
     return (
@@ -192,7 +192,9 @@ const LoginPage: React.FC = () =>
                         </div>
                     </form>
                 </div>
+                     
             </div>
+           
         </div>
     );
 };

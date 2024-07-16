@@ -13,15 +13,15 @@ export default function userLayout ( {
 }> )
 
 {
-    const { isLoading, hasAccess } = useProtectedRoute("user");
-    if (isLoading) {
+    // const { isLoading, hasAccess } = useProtectedRoute("user");
+    // if (isLoading) {
 
-        <div className="flex justify-center h-screen items-center">
-        <BallTriangle/>
-        </div>
-        }
-        if (hasAccess) {
+    //     <div className="flex justify-center h-screen items-center">
+    //     <BallTriangle/>
+    //     </div>
+    //     }
+    //     if (hasAccess) {
             // Render children if the role matches
             return <>{children}</>;
-        }
+        // }
 }

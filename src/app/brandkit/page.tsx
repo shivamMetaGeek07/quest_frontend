@@ -2,7 +2,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='bg-[#111111] pt-[5rem] md:pl-[5rem] h-screen font-[ProFontWindows]'>
+    <div className='bg-[#111111] pt-[5rem] md:pl-[5rem] h-full pb-5 font-[ProFontWindows]'>
         <div className='text-slate-600  '>HomePage/Brandkit</div>
         <div className='my-4 text-white'>
             Logos

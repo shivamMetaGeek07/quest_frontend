@@ -10,6 +10,7 @@ import { useDropzone } from 'react-dropzone';
 import { BallTriangle } from "react-loader-spinner";
 import axios from "axios";
 import { Select, SelectItem } from "@nextui-org/react";
+import { notify } from "@/utils/notify";
 
 const CreateCommunity = () =>
 {
@@ -102,13 +103,13 @@ const CreateCommunity = () =>
     if ( !file )
     {
       setLoader( false );
-      return alert( "Please upload a community logo" );
+      return notify("warn","Please upload a community logo" );
     }
 
     if ( file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp' && file.type !== 'image/gif' && file.type !== 'image/svg' )
     {
       setLoader( false );
-      return alert( "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
+      return notify( "warn","Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
     }
 
     try
@@ -125,7 +126,7 @@ const CreateCommunity = () =>
       const resultAction = await dispatch( createCommunity( newCommunity ) );
       if ( createCommunity.fulfilled.match( resultAction ) )
       {
-        alert( 'Community created successfully' );
+        notify( "success",'Community created successfully' );
 
         // Clear form
         setTitle( "" );
@@ -138,7 +139,7 @@ const CreateCommunity = () =>
         router.push( '/kol/my-community' );
       } else
       {
-        alert( 'Failed to create community' );
+        notify( "error",'Failed to create community' );
       }
     }
     catch ( err )

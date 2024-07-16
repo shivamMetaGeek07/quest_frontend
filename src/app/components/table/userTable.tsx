@@ -78,8 +78,8 @@ const UserTable = <T extends object>({ data, columns,rowsPerPage }: UserTablePro
         )
       case "fampoints":
         return (
-          <div className="capitalize flex items-center justify-center ">
-            <span className="user-leaderboard-text">Fampoints: </span><span>{cellValue as number}</span>
+          <div className="capitalize flex justify-center items-center gap-1">
+            <span className="user-leaderboard-text">Fampoints: </span><span className="flex justify-center items-center">{cellValue as number}</span>
           </div>
         );
       case "actions":
