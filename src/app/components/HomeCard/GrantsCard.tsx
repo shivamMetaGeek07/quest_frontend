@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -111,7 +112,7 @@ function GrantsCard() {
                 </div>
 
                 <div>
-                  <img
+                  <Image
                     src={grant.imgUrl}
                     alt={grant.imgAlt}
                     className="h-6 w-6 rounded-full object-cover"

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface EducationData {
@@ -217,7 +218,7 @@ const EducationCardList: React.FC = () => {
                   <div className="box1 education-clip bg-red-700 ">
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
-                        <img
+                        <Image
                           src={data.imageUrl}
                           alt=""
                           className="h-16 w-36 object-cover"
@@ -228,7 +229,7 @@ const EducationCardList: React.FC = () => {
 
                   <div className="mt-2 flex gap-3">
                     <div>
-                      <img
+                      <Image
                         src={data.smallImageUrl}
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"
@@ -336,7 +337,7 @@ const EducationCardList: React.FC = () => {
                   <div className="box1 education-clip bg-red-600">
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
-                        <img
+                        <Image
                           src={data.imageUrl}
                           alt=""
                           className="h-16 w-36 object-cover"
@@ -347,7 +348,7 @@ const EducationCardList: React.FC = () => {
 
                   <div className="mt-2 flex gap-3">
                     <div>
-                      <img
+                      <Image
                         src={data.smallImageUrl}
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"

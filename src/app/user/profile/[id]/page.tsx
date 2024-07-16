@@ -11,6 +11,7 @@ import type { Friend } from "../data";
 import UserTable from "@/app/components/table/userTable";
 import axios from "axios";
 import { notify } from "@/utils/notify";
+import Image from "next/image";
 
 type BadgesData = {
   id: number;
@@ -197,14 +198,14 @@ const UserProfile = ({ params }: { params: { id: string } }) => {
                   <div className="lg:w-2/5 flex flex-col justify-center items-center">
                     <div className="w-[8rem] h-[8rem] flex justify-center items-center">
                       {userData ? (
-                        <img
+                        <Image
                           src={userData.image}
                           alt="avatar photo"
                         
                           className="bottom-trapezium mt-8"
                         />
                       ) : (
-                        <img
+                        <Image
                           src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
                           alt="avatar photo"
                        
@@ -365,7 +366,7 @@ const UserProfile = ({ params }: { params: { id: string } }) => {
                           className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
                         >
                           <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                            <img
+                            <Image
                               src={data.imageUrl}
                               alt="badge photo"
                               className="w-full h-full bg-cover object-cover"

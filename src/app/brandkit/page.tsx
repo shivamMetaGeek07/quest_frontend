@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react'
 
 const page = () => {
@@ -11,7 +12,7 @@ const page = () => {
         <div className='flex gap-2 flex-row w-[23rem] '>
         <div
             className='image-container h-[5rem] w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          <div className='h-[5rem] border-gray-600 border p-2 flex flex-col'>
             <div>Main</div>
@@ -22,7 +23,7 @@ const page = () => {
         <div className='flex gap-2 flex-row w-[23rem] '>
         <div
             className='image-container h-[5rem] w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          <div className='h-[5rem] border-gray-600 border p-2 flex flex-col'>
             <div>Main</div>
@@ -33,7 +34,7 @@ const page = () => {
         <div className='flex gap-2 flex-row w-[23rem] '>
         <div
             className='image-container h-[5rem] w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          <div className='h-[5rem] border-gray-600 border p-2 flex flex-col'>
             <div>Main</div>
@@ -44,7 +45,7 @@ const page = () => {
         <div className='flex gap-2 flex-row w-[23rem] '>
         <div
             className='image-container h-[5rem] w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          <div className='h-[5rem] border-gray-600 border p-2 flex flex-col'>
             <div>Main</div>
@@ -55,7 +56,7 @@ const page = () => {
         <div className='flex gap-2 flex-row w-[23rem] '>
         <div
             className='image-container h-[5rem] w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          <div className='h-[5rem] border-gray-600 border p-2 flex flex-col'>
             <div>Main</div>
@@ -66,7 +67,7 @@ const page = () => {
         <div className='flex gap-2 flex-row w-[23rem] '>
         <div
             className='image-container h-[5rem] w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          <div className='h-[5rem] border-gray-600 border p-2 flex flex-col'>
             <div>Main</div>

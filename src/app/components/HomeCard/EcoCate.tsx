@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 interface Data {
@@ -123,7 +124,7 @@ const EcoCate: React.FC = () => {
                     style={{ backgroundImage: `url(${item.backgroundImage})` }}
                   ></div>
                   <div className="relative flex items-center justify-center w-full h-full">
-                    <img
+                    <Image
                       src={item.image}
                       alt="Profile"
                       className="w-16 h-16 object-cover rounded-full"
@@ -257,7 +258,7 @@ const EcoCate: React.FC = () => {
               >
                 <div className="text-center">
                   <div className="image-container h-[6rem] w-[6rem]">
-                    <img
+                    <Image
                       src={card.imageUrl}
                       alt={card.title}
                       className="styled-image"

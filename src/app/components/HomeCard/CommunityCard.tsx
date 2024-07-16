@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 // Define the TypeScript type for the card data
@@ -110,7 +111,7 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
         <div className="flex flex-row text-xl items-center justify-around m-auto">
           <div className="p-1">
             <div className="image-container h-[5rem] w-[5rem] items-center flex">
-              <img
+              <Image
                 src={data.imageUrl}
                 alt=""
                 className="styled-image"

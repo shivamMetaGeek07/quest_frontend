@@ -7,7 +7,7 @@ const Footer = () => {
     <div className="flex flex-wrap">
       <div className="mt-10 w-full md:w-full lg:w-1/2 pr-4">
         <div className="mb-4">
-          <img
+          <Image
             src='https://s3-alpha-sig.figma.com/img/4512/b4ae/e762c2983c04d88202e359621154bb15?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OiPWhLmECDGKHGbJf5PRRFaKXBpklLIRggKSIooahgqBpMPLhfvkfdieq4tWITNiASO70HIpVcMhWUHWaHwxufDuV-CgL4Qmc7HERzB9GU5M02pvnZCrJocx3oQ3UhnZfqwos6DhhuTBWlA2OrOm8qzjpELwnfxA7z7FCTT39XM4OyklyewONudq7zwPd6Tk6tXAEIJxJTsSeYboDA5Am74xmCc2an2a7kbTXfCEzdS553PjwVyX1-hhESunB8WDuCB8bpWu5JaET-rD76hJ-BNh6LPvSBFrpSJLQ8fUY6earwCf4b-dkE5s78cC9yXpgEkLGAmlMh3iqUndUo8xSA__'
             alt='Flowbite Logo'
             className='h-12 w-32'

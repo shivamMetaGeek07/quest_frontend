@@ -6,6 +6,7 @@ import { fetchCommunity } from "../../../../redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "../../../../redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
+import Image from "next/image";
 
 export default function CommunityProject ( { params }: { params: { slug: string; }; } )
 {
@@ -115,7 +116,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
       <div className="w-[80%] container mx-auto px-4 py-8">
         <div className="bg-slate-900 rounded-lg shadow-lg overflow-hidden ">
           <div className="h-64 bg-blue-600">
-            <img
+            <Image
               src={community.logo}
               alt={ community.title }
               className="w-full h-full object-cover  "
@@ -195,7 +196,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
 
               <div className=" bg-[#121212] border   dark:border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="bg-blue-100 h-40 flex items-center justify-center">
-                  <img className="w-full h-full bg-cover" src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV8zMF9hbl9hYnN0cmFjdF92aXN1YWxpemF0aW9uX29mX2FfYmxvY2tjaGFpbl9uZV80ZWIwODVmNC0yODFlLTRkYTMtYjdlMS00MmY1ZTFkMDkyM2VfMS5qcGc.jpg" alt="img" />
+                  <Image className="w-full h-full bg-cover" src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV8zMF9hbl9hYnN0cmFjdF92aXN1YWxpemF0aW9uX29mX2FfYmxvY2tjaGFpbl9uZV80ZWIwODVmNC0yODFlLTRkYTMtYjdlMS00MmY1ZTFkMDkyM2VfMS5qcGc.jpg" alt="img" />
                 </div>
                 <div className="p-4">
                   <h3 className="text-xl font-semibold text-neutral-300 mb-2">

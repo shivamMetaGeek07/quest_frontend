@@ -7,6 +7,7 @@ import { fetchUserData } from "@/redux/reducer/authSlice";
 import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
 import { notify } from "@/utils/notify";
+import Image from "next/image";
 
 interface IQuiz
 {
@@ -263,7 +264,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                             >
 
                               <div className="flex items-center justify-center  mr-3">
-                                <img
+                                <Image
                                   src={ task.icon }
                                   alt={ task.name }
                                   // width={40}
@@ -307,7 +308,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                             >
 
                               <div className="flex items-center justify-center  mr-3">
-                                <img
+                                <Image
                                   src={ task.icon }
                                   alt={ task.name }
                                   // width={40}
@@ -342,7 +343,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl text-white w-full flex flex-col">
               <div className="flex items-center justify-between p-5 border-b border-gray-700">
                 <div className="flex items-center">
-                  <img
+                  <Image
                     src={ selectedTask.icon }
                     alt=""
                     className="h-12 w-12 object-cover rounded-full mr-4"

@@ -3,6 +3,7 @@
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import { fetchAllCommunities, fetchCommunitiesByIds } from "@/redux/reducer/communitySlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FaUser, FaBolt, FaTwitter, FaPlus } from "react-icons/fa";
@@ -81,7 +82,7 @@ const MyCommunities: React.FC = () =>
              <div className="flex flex-row text-xl items-center justify-around m-auto">
                 <div className="p-1">
                   <div className="image-container h-[5rem] w-[5rem] items-center flex">
-                    <img src={card.logo} alt="" className="styled-image" />
+                    <Image src={card.logo} alt="" className="styled-image" />
                   </div>
                   <div className="bg_Div_Down h-[2rem]  bg-gray-800" />
                 </div>
