@@ -11,6 +11,7 @@ const App: React.FC = () => {
     script.setAttribute('data-onauth', 'onTelegramAuth(user)');
     script.setAttribute('data-request-access', 'write');
     document.getElementById('telegram-login')?.appendChild(script);
+    (window as any).onTelegramAuth = onTelegramAuth;
   }, []);
 
   const onTelegramAuth = (user: any) => {
@@ -30,7 +31,7 @@ const App: React.FC = () => {
     });
   };
   
-  (window as any).onTelegramAuth = onTelegramAuth;
+  
   
   return (
     <div className="App flex justify-center w-full m-auto items-center">
