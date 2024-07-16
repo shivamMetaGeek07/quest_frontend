@@ -1,6 +1,6 @@
 import Image from "next/image";
-import React from "react";
-
+import React, { useEffect,useState } from "react";
+import axios from 'axios'
 export interface User {
   id: number;
   firstName: string;
@@ -18,28 +18,28 @@ export const users: User[] = [
     profileImage:
       "https://s3-alpha-sig.figma.com/img/2db9/1474/b28b9e0de47ba66f512284e8c268d3b3?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZVonAq~Tg7xQlI2YfflYr3hbywarktCkvt6~5tUduM2El03o8Q5TliszORUN3sL9WUIW8O1wA8qkl0z3Y26FCw9inQow80yGVBe~ksxIedATrq2jQlGg1DhgL2sKVN8S75epr2uiBlzotN4Kzydtqu-28aOzqadAXpVjz84yRhHhXOvSyGG5gay2EwHgj3rh~IHd9Q7Q2otvQMJG1Z9eKFS5uh1YGlnm75d6-natBpx8D7b4t-NBbmAQ~EltefGoB9SNdzGrmzMhr6tS9ZFyOdi6AJp38eHnx7OHbveGtTqNGC2XUdKBhnhRv0YlY8nFOkFQQfnOXkpTFGY0wumb7Q__",
     rank: 2,
-    icons: ["🍎", "⭐", "⭐"],
+    icons: ["🍎", "⭐"],
   },
   {
-    id: 1,
-    firstName: "Sepehr",
-    lastName: "Babaei",
+    id: 2,
+    firstName: "John",
+    lastName: "Doe",
     profileImage:
       "https://s3-alpha-sig.figma.com/img/2db9/1474/b28b9e0de47ba66f512284e8c268d3b3?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZVonAq~Tg7xQlI2YfflYr3hbywarktCkvt6~5tUduM2El03o8Q5TliszORUN3sL9WUIW8O1wA8qkl0z3Y26FCw9inQow80yGVBe~ksxIedATrq2jQlGg1DhgL2sKVN8S75epr2uiBlzotN4Kzydtqu-28aOzqadAXpVjz84yRhHhXOvSyGG5gay2EwHgj3rh~IHd9Q7Q2otvQMJG1Z9eKFS5uh1YGlnm75d6-natBpx8D7b4t-NBbmAQ~EltefGoB9SNdzGrmzMhr6tS9ZFyOdi6AJp38eHnx7OHbveGtTqNGC2XUdKBhnhRv0YlY8nFOkFQQfnOXkpTFGY0wumb7Q__",
     rank: 2,
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 1,
-    firstName: "Sepehr",
-    lastName: "Babaei",
+    id: 3,
+    firstName: "Jane",
+    lastName: "Smith",
     profileImage:
       "https://s3-alpha-sig.figma.com/img/2db9/1474/b28b9e0de47ba66f512284e8c268d3b3?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZVonAq~Tg7xQlI2YfflYr3hbywarktCkvt6~5tUduM2El03o8Q5TliszORUN3sL9WUIW8O1wA8qkl0z3Y26FCw9inQow80yGVBe~ksxIedATrq2jQlGg1DhgL2sKVN8S75epr2uiBlzotN4Kzydtqu-28aOzqadAXpVjz84yRhHhXOvSyGG5gay2EwHgj3rh~IHd9Q7Q2otvQMJG1Z9eKFS5uh1YGlnm75d6-natBpx8D7b4t-NBbmAQ~EltefGoB9SNdzGrmzMhr6tS9ZFyOdi6AJp38eHnx7OHbveGtTqNGC2XUdKBhnhRv0YlY8nFOkFQQfnOXkpTFGY0wumb7Q__",
     rank: 2,
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 1,
+    id: 4,
     firstName: "Sepehr",
     lastName: "Babaei",
     profileImage:
@@ -49,7 +49,29 @@ export const users: User[] = [
   },
 ];
 
-const UserCard: React.FC = () => {
+const UserCard = () => {
+//  const [data,setdata]=useState([]);
+//   const getLeaderBoard = async () => {
+//     try {
+//       const response = await axios.get(
+//         `${process.env.NEXT_PUBLIC_SERVER_URL}/user/getAllUser`,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//       const data =  response.data;
+//       setdata(data);
+//       console.log("all user d",data);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+//   useEffect(() => {
+//     getLeaderBoard();
+//   }, []);
+
   return (
     <div>
       <div className="lg:mx-20 sm:mx-20 mx-10 mt-10 flex items-center gap-1">

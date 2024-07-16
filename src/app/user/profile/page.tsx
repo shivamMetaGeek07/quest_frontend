@@ -6,11 +6,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "../../components/ModalForm";
 import { fetchUserData } from "@/redux/reducer/authSlice";
+import { Inter, Roboto_Mono } from 'next/font/google'
 import {Chip} from "@nextui-org/react";
 import {columns, friends} from "./data";
 import type {Friend} from './data';
 import UserTable from "@/app/components/table/userTable";
 
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
+ 
+const roboto_mono = Roboto_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-mono',
+})
 type BadgesData = {
   id: number;
   title: string;
@@ -24,37 +36,37 @@ interface StarDisplayProps {
 const BadgesData: BadgesData[] = [
     {
       id: 1,
-      title: "Badges earn",
+      title: "Badges",
       imageUrl:
         "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
     },
     {
       id: 2,
-      title: "Badges earn",
+      title: "Badges",
       imageUrl:
         "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
     },
     {
       id: 3,
-      title: "Badges earn",
+      title: "Badges",
       imageUrl:
         "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
     },
     {
       id: 4,
-      title: "Badges earn",
+      title: "Badges",
       imageUrl:
         "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
     },
     {
       id: 5,
-      title: "Badges earn",
+      title: "Badges",
       imageUrl:
         "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
     },
     {
       id: 6,
-      title: "Badges earn",
+      title: "Badges",
       imageUrl:
         "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
     },
@@ -172,10 +184,10 @@ const Profile: React.FC = () => {
 
   return (
     <>
-    <div className="w-[80%] mx-auto min-h-screen mb-8">
-      <div className="w-[85%] mx-auto">
+    <div className="min-h-screen mb-8">
+        <div className="text-white">
         {/* user info */}
-        <section className="mt-20">
+        <section className="w-[90%] lg:w-[80%] mx-auto mt-20">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between lg:mt-20 mx-4 lg:mx-10">
           {/* user info */}
           <div className="lg:w-1/2">
@@ -200,13 +212,13 @@ const Profile: React.FC = () => {
               <div className="lg:w-[16rem] flex lg:justify-start  mt-6 lg:mt-1">
                 <div className=" flex flex-col lg:items-start items-center gap-[0.75rem]"> 
                   <div className="flex justify-start gap-[1rem] row items-stretch">
-                    <span className="username">
+                    <div className={`${inter.variable} ${roboto_mono.variable} username`}>
                       {user?.displayName}
-                    </span>
-                    <span className="user-rank" >
+                    </div>
+                    <div className="user-rank" >
                         {/* Follow */}
-                        #{user?.rank}
-                    </span>
+                       #{user?.rank}
+                    </div>
                   </div>
                   <div className="flex row gap-1">
                     <div className="box1 right-trapezium w-[2rem] h-[2rem] bg-[#ffffff33]">
@@ -236,7 +248,7 @@ const Profile: React.FC = () => {
               </div>
             
             </div>
-            <div className="flex flex-col lg:flex-row items-center mt-4">
+            {/* <div className="flex flex-col lg:flex-row items-center mt-4">
             <div className="lg:w-2/5">
               <div className="">
               <div className="flex row  items-center justify-center">
@@ -258,7 +270,8 @@ const Profile: React.FC = () => {
             </div>
             </div>
             </div>
-            <div></div></div>
+            <div></div>
+            </div> */}
           </div>
           {/* badges */}
           <div className="lg:w-1/2 ">
@@ -282,8 +295,19 @@ const Profile: React.FC = () => {
                 View all
               </button>
               </div> */}
-              <div className="badgesBox">
-                  <div className="bg-black flex lg:flex-row flex-wrap lg:justify-start justify-center items-center p-4 ">
+              <div className="lg:w-[33rem] badgesBox mt-5 lg:mt-0">
+              <div className="w-full h-full innerbox2">
+              <svg className="top-0 left-0 svg1" style={{strokeWidth: "1px",stroke: "#FA00FF"}} xmlns="http://www.w3.org/2000/svg" width="5" height="4" viewBox="0 0 5 4" fill="none">
+<path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF"/>
+              </svg>
+              <svg className="top-0 left-0 svg2" style={{strokeWidth: "1px",stroke: "#FA00FF"}} xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5" fill="none">
+                  <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF"/>
+              </svg>              
+               {/* <svg className="top-0 left-0 svg" style={{strokeWidth: "1px",stroke: "rgba(255, 255, 255, 0.10)"}} xmlns="http://www.w3.org/2000/svg" width="127" height="27" viewBox="0 0 127 27" fill="none">
+<path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" stroke-opacity="0.1"/>
+</svg> */}
+
+                  <div className="flex flex-wrap lg:justify-start justify-center items-center p-2 ">
                 {BadgesData.map((data) => (
                   <div
                     key={data.id}
@@ -301,13 +325,14 @@ const Profile: React.FC = () => {
                 ))}
               </div>
               </div>
+              </div>
               
             </div>
           </div>
         </div>
         </section>
         {/* friends  */}
-         <section className="mt-32">
+         <section className="lg:w-[60%] mx-auto mt-32">
             <div className="my-4 flex items-center gap-2 justify-center">
               <div className="">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">

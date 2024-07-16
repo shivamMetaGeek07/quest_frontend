@@ -1,6 +1,6 @@
 import React from "react";
 
-type User = {
+export interface User {
   id: number;
   name: string;
   avatar: string;
@@ -8,14 +8,14 @@ type User = {
   level: number;
   fampoints: number;
   stars: number;
-};
+}
 
 // Sample users data with realistic avatar URLs
 const users: User[] = [
- {
+  {
     id: 1,
     name: 'John Doe',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    avatar: 'https://pics.craiyon.com/2023-11-12/iRznbtVdTBGaKNpMe9ZGFg.webp',
     xps: 5000,
     level: 5,
     fampoints: 250,
@@ -105,19 +105,17 @@ const users: User[] = [
 ];
 
 // Define Column type
-type Column = {
+export interface Column {
   name: string;
-  uid: keyof User;
-};
+  uid: keyof User ;
+}
 
 // Sample columns data
 const columns: Column[] = [
-  { name: 'ID', uid: 'id' },
   { name: 'Name', uid: 'name' },
   { name: 'Stars', uid: 'stars' },
   { name: 'Fampoints', uid: 'fampoints' },
   { name: 'XPS', uid: 'xps' },
 ];
 
-export {users, columns };
-export type {User,Column}
+export { users, columns };

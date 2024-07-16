@@ -1,16 +1,39 @@
 "use client";
 import UserTable from "@/app/components/table/userTable";
 import { users, columns } from "./data";
-import type { User, Column } from "./data";
-import Image from "next/image";
-import Ractangle4 from "../../../public/Asset/Rectangle4.png";
+import { User, Column } from "./data";
+import { useEffect,useState } from "react";
+import axios from "axios";
+
 const GlobalLeaderboard = () => {
+  const [data,setdata]=useState<User[]>([])
+  const getLeaderBoard = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/user/leaderboard/usersBycoins`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data =  response.data;
+      setdata(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getLeaderBoard();
+  }, []);
+
   return (
     <div className="w-[80%] mx-auto">
       <div>leaderboard</div>
 
       {/* top3 */}
-      <section>
+      <section className="w-full">
         <div className="my-4 flex items-center gap-8 justify-center">
           <div className="flex flex-col sm:flex-row gap-2 m-auto w-full justify-center  sm:justify-between">
           <div className=" p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
@@ -20,7 +43,7 @@ const GlobalLeaderboard = () => {
                       <img
                         className=" w-full h-full "
                         // style={{ padding: "2.5rem 0rem 0rem 0.5rem" }}
-                        src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+                        src="https://pics.craiyon.com/2023-11-12/iRznbtVdTBGaKNpMe9ZGFg.webp"
                         alt="rank2 image"
                       />
                   </div>
@@ -43,7 +66,7 @@ const GlobalLeaderboard = () => {
                       <img
                         className=" w-full h-full "
                         // style={{ padding: "2.5rem 0rem 0rem 0.5rem" }}
-                        src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+                        src="https://play-lh.googleusercontent.com/Sb5od0gQvJyuevITuUZ5Ko46WqFEBjPZlT7xIMfGWfbyaGCqF0nCXPJTa-poWuwSu-8=w540-h302-rw"
                         alt="rank2 image"
                       />
                   </div>
@@ -66,7 +89,7 @@ const GlobalLeaderboard = () => {
                       <img
                         className=" w-full h-full "
                         // style={{ padding: "2.5rem 0rem 0rem 0.5rem" }}
-                        src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+                        src="https://cdn.openart.ai/uploads/image_M4XWz-9Q_1686943712284_512.webp"
                         alt="rank2 image"
                       />
                   </div>
@@ -86,7 +109,7 @@ const GlobalLeaderboard = () => {
         </div>
       </section>
       {/* leaderboard table */}
-      <section>
+      <section className="w-full flex flex-col justify-center items-center">
 
       <div className="flex flex-row justify-center my-2 gap-3 text-pink-950 text-5xl">
         - - - - - - - - - - -  
@@ -101,7 +124,7 @@ const GlobalLeaderboard = () => {
               </div>
               <div className="listOfFriends">List of Friends</div>
             </div> */}
-        <div className="userTable">
+        <div className="w-[90%] lg:w-[60%] flex userTable justify-center items-center bg-[#040404] ">
           <UserTable<User> data={users} columns={columns} rowsPerPage={5} />
         </div>
       </section>
