@@ -252,7 +252,7 @@ const Profile: React.FC = () => {
             <div className="flex col gap-5 justify-center items-center">
               <Chip onClick={handleEarnRewardsClicks} color="warning" variant="bordered" className="cursor-pointer px-4 py-2 mt-3">200 pts</Chip>
               
-               <Chip onClick={handleEarnRewardsClick} variant="solid" className="cursor-pointer px-4 py-2 mt-3" color="warning">
+               <Chip onClick={()=>router.push('/user/my-community')} variant="solid" className="cursor-pointer px-4 py-2 mt-3" color="warning">
                   Earn rewards
                 </Chip>
             </div>

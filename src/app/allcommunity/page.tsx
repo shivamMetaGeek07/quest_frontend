@@ -10,6 +10,7 @@ import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import axios from 'axios'
 import ReferralForm from "../components/referalPopUp";
+import { notify } from "@/utils/notify";
 
 const MyCommunities = () =>
 { 
@@ -43,6 +44,7 @@ const MyCommunities = () =>
       console.log( "error in adding the community", error );
     } finally
     {
+      fetchCommunities( search, ecosystem, category );
       setLoadingCommunityId( null );
     }
   };
@@ -182,6 +184,17 @@ const MyCommunities = () =>
           { communities?.map( ( card:any , index:number ) => (
             <div
               key={ index }
+              onClick={ () =>
+              {
+                if ( card.members.includes( memberId ) )
+                {
+                  router.push(`/user/community-project/${card._id}`)
+                } else
+                {
+                  notify( "warn", 'Please join the community' );
+
+                }
+              }}
               className="bg-white/5 p-4 sm:p-6 rounded-xl shadow-lg group hover:scale-105 hover:bg-white/10"
             >
               <div className="flex gap-3 items-center">

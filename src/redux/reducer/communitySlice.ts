@@ -50,6 +50,7 @@ export const fetchAllCommunities = createAsyncThunk(
     }
   }
 );
+
 export const fetchCategoryEcosystem = createAsyncThunk(
   'community/CategoryEcosystem',
   async (_, { rejectWithValue }) => {

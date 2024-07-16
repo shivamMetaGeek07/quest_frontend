@@ -150,7 +150,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       case "Number":
         return !isNaN( Number( submission ) ) && submission !== '';
       case "URL":
-        const urlPattern = /^(https)/;
+        const urlPattern = /^(http)/;
         return urlPattern.test( submission );
       case "File upload":
         return submission instanceof File && submission.size > 0;

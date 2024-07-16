@@ -405,7 +405,7 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 .ticker {
     display: inline-block;
     white-space: nowrap;
-    /* padding-right: 70%; */
+    /* padding-right: 15px; */
     box-sizing: content-box;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;

@@ -17,7 +17,7 @@ export default function CommunityProject({ params }: { params: { slug: string } 
   } = useSelector((state: RootState) => state.community);
   const currentQuests =  useSelector( ( state: any ) => state.quest.currentQuests );
   const questIds = community?.quests 
-  // console.log(community?.quests)
+  console.log(community)
   useEffect(() => {
     dispatch( fetchCommunity( id ) );
   }, [ dispatch, id ] );

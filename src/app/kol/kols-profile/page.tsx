@@ -6,9 +6,10 @@ import { useSelector } from "react-redux";
 import ModalForm from "../../components/ModalForm";
 import axios from "axios";
 import { FaBolt, FaTwitter, FaUser } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface Community {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   logo: string;
@@ -20,8 +21,9 @@ interface Community {
 type Props = {};
 
 const KolsProfile = (props: Props) => {
+  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  const [communities, setCommunities] = useState<Community[]>([]);
+  const [ communities, setCommunities ] = useState<Community[]>( [] );
 
   const fetchCommunities = async (ids: string[]) => {
     try {
@@ -106,7 +108,8 @@ const KolsProfile = (props: Props) => {
                   {communities.map((community, index) => (
                     <div
                       key={index}
-                      className="bg-white/5 p-4 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 transition-transform"
+                      className="bg-white/5 p-4 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 transition-transform cursor-pointer"
+                      onClick={()=>router.push(`/kol/community-project/${community?._id}`)}
                     >
                       <div className="flex gap-3 items-center">
                         <img
