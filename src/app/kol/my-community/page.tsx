@@ -49,44 +49,76 @@ console.log(userCommunities)
           </p>
         </div>
       </div>
-      <div className="grid gap-4 sm:gap-8 mx-4 lg:mx-20 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10">
+      <div className="grid gap-4 sm:gap-8 mx-4 sm:ml-20 lg:mx-20 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-10">
 
         { userCommunities?.map( ( card:any, index:number ) => (
 
           <div
             key={ index }
             onClick={ () => router.push( `/kol/community-project/${ card?._id }` ) }
-            className="bg-white/5 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 cursor-pointer"
+            className="outer-div bg-white/5 relative flex lg:gap-6 sm:gap-4 gap-4 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-2 flex-col m-auto justify-center w-full sm:w-full"
           >
-            <div className="flex gap-3 items-center">
+        
+
+<div className="flex flex-row text-xl items-center justify-around m-auto">
+                <div className="p-1">
+                  <div className="image-container h-[5rem] w-[5rem] items-center flex">
+                    <img src={card.logo} alt="" className="styled-image" />
+                  </div>
+                  <div className="bg_Div_Down h-[2rem]  bg-gray-800" />
+                </div>
+                
+
+                <div className="flex flex-col">
+                  <div className="flex  m-1 flex-col items-center">
+                    <div className="flex bg_eco_div border-b-4 border-[#8c71ff] pt-4 bg-[#28223d] flex-row items-center justify-between lg:w-[18rem] sm:w-full w-full m-auto">
+                      <div className="text-lg lg:ml-3 sm:ml-3 ml-3">
+                        <h1>{card.title}</h1>
+                      </div>
+                      <div className="text-xs flex flex-row rounded-lg lg:pl-6">
+                        <div className="flex m-2 items-center flex-col">
+                          <span className="text-md">{card.quests.length}</span>
+                          <span className="text-neutral-300 descdata ">QUESTS</span>
+                        </div>
+                        <div className="flex m-2 items-center flex-col">
+                          <span className="text-md">{card.members.length}</span>
+                          <span className="text-neutral-300 descdata ">FOLLOWERS</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-row justify-end gap-x-1">
+                    <div className="flex bg-white/10 rounded-lg py-1 px-2 items-center">
+                      <FaUser className="w-4 h-4" />
+                      <div className="pl-1">{card.members.length}</div>
+                    </div>
+                    <div className="flex bg-white/10 rounded-lg py-1 px-2 items-center">
+                      <FaBolt className="w-4 h-4" />
+                      <div className="pl-1">{card.quests.length}</div>
+                    </div>
+                    <div className="flex bg-white/10 rounded-lg py-1 px-2 items-center">
+                      <FaTwitter className="w-4 h-4" />
+                      <div className="pl-1"></div>
+                    </div>
+                    {/* <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
+                      <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
+                       <div className="eco_box w-5 h-5 bg-[#8c71ff]" /> */}
+                  </div>
+                </div>
+              </div>
+
+
               <div>
-                <img
-                  src={ card?.logo }
-                  alt=""
-                  className="w-10 h-10 object-cover rounded-xl"
-                />
-              </div>
-              <div className="text-xl font-bold">
-                <h1>{ card.title }</h1>
-              </div>
-            </div>
-            <div className="text-gray-400 items-center pt-5">
-              <p>{ card.description.slice( 0, 20 ) }</p>
-            </div>
-            <div className="flex gap-10 pt-3 text-gray-400 h-12 w-24">
-              <div className="flex bg-white/10 rounded-lg items-center p-2">
-                <FaUser className="w-6 h-6" />
-                <div>{ card.members.length }</div>
-              </div>
-              <div className="flex bg-white/10 rounded-lg p-2">
-                <FaBolt className="w-6 h-6" />
-                <div>{ card.quests.length }</div>
-              </div>
-              <div className="flex bg-white/10 rounded-lg p-2">
-                <FaTwitter className="w-6 h-6" />
-                <div>0</div>
-              </div>
-            </div>
+          <div className="flex flex-row text-sm m-1 gap-2 ">
+            <span className="flex descText">Desc:</span>
+            <span className="text-gray-600 descdata text-wrap">
+            {card.description.slice(0, 20)}
+            </span>
+          </div>
+        </div>
+
+
+            
           </div>
         ) ) }
       </div>

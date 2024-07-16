@@ -66,6 +66,7 @@ const KolData: KolData[] = [
     description2: "BEASTOKYO",
     description3: "BEAST",
     description4: "ALPHA M...",
+    // show the dynamic bg colur
   },
   {
     imageUrl:
