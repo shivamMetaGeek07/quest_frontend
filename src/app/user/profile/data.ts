@@ -16,7 +16,7 @@ type Friend = {
 };
 
 const columns = [
-  { name: "SNO.", uid: "sno" },
+  // { name: "SNO.", uid: "sno" },
   { name: "NAME", uid: "name" },
   { name: "STARS", uid: "stars" },
   { name: "FAMPOINTS", uid: "fampoints" },

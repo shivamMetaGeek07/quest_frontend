@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import Link from "next/link";
-import { Spinner } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
 
 type CommunityCardData = {
   imageUrl: string;
@@ -64,15 +64,16 @@ const page = () => {
   //   <Spinner/>
   // </div>
   // );
-  // if (!isClient) return null;
-  // console.log("data",data)
-  
-  // useEffect(() => {
-  //   setIsClient(true); // Set the client flag to true on the client side
-  // }, []);
+
+
+
+  const signUpdiscord=()=>{
+    window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`
+  }
+
   return (
     <div className="w-[90%] mx-auto">
-      
+    {/* <Button onClick={signUpdiscord}>discord</Button> */}
       <UserCard />
       <EcoCate />
       <div>
