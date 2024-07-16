@@ -17,24 +17,23 @@ const Navbar: React.FC = () =>
     const [ drop, setDrop ] = useState( false );
     const [ isClient, setIsClient ] = useState( false );
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
-    const [ feedItems, setFeedItems ] = useState<string[]>( [] );
+    const [ feedItems, setFeedItems ] = useState<string[]>( [
+
+    ] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
 
-    const newsItems = [
-        "Penumbra airdrop claim extended for 7 more days...",
-        "New crypto regulations announced by SEC...",
-        "Bitcoin reaches new all-time high of $100,000..."
-    ];
+    console.log( feedItems );
 
     useEffect( () =>
     {
         const interval = setInterval( () =>
         {
-            setCurrentNewsIndex( ( prevIndex ) => ( prevIndex + 1 ) % newsItems.length );
+            setCurrentNewsIndex( ( prevIndex ) => ( prevIndex + 1 ) % feedItems.length );
         }, 5000 ); // Change news every 5 seconds
 
         return () => clearInterval( interval );
     }, [] );
+
     const logoutClient = async () =>
     {
         try
@@ -48,21 +47,6 @@ const Navbar: React.FC = () =>
             console.error( 'Error logging out:', error );
         }
     };
-    const handleClose = () =>
-    {
-        setDrop( false );
-    };
-    console.log( "data", data );
-
-    useEffect( () =>
-    {
-        setIsClient( true ); // Set the client flag to true on the client side
-    }, [] );
-
-
-    if ( !isClient ) return null;
-
-
 
     const signup = () =>
     {
@@ -91,15 +75,14 @@ const Navbar: React.FC = () =>
         } catch ( error )
         {
             console.log( 'error in getting feed :-', error );
-            setFeedItems( newsItems );
+            // setFeedItems( newsItems );
         }
     };
 
 
     return (
         <nav className="bg-black text-white flex items-center space-x-16 justify-between p-4">
-            {/* logo */ }
-            <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
+            <div className="w-96 flex flex-wrap items-center justify-between mx-auto p-4">
                 {/* Logo */ }
                 <div>
                     <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -130,7 +113,6 @@ const Navbar: React.FC = () =>
                     </Badge>
                 </div>
             </div>
-
             <div className="hidden md:flex items-center space-x-5 w-2/6">
                 <input
                     type="text"
