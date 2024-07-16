@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type UserData = {
   id: number;
@@ -137,7 +138,7 @@ const Ecosystem: React.FC = () => {
               key={data.id}
               className="group shadow-lg p-5 flex flex-col items-center justify-center hover:bg-slate-400 duration-1000 rounded-md  cursor-pointer"
             >
-              <img
+              <Image
                 src={data.imageUrl}
                 className="mx-auto rounded-full w-24 h-24 object-cover"
                 alt={data.title}
@@ -159,7 +160,7 @@ const Ecosystem: React.FC = () => {
                 className="mx-auto shadow-lg rounded flex flex-col items-center justify-center md:w-96"
               >
                 <div className="overflow-hidden w-full h-56 rounded-t flex items-center justify-center">
-                  <img
+                  <Image
                     src={data.imageUrl}
                     alt={data.title}
                     className="hover:scale-125 duration-1000 w-full h-full object-cover"

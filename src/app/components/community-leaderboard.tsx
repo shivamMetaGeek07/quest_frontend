@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface User
@@ -29,7 +30,7 @@ const Leaderboard: React.FC = () =>
                         { index + 1 }
                     </div>
                     <div className="flex-shrink-0 w-16 h-16 mr-4">
-                        <img src={ user.image } alt={ user.username } className="w-full h-full object-cover rounded-full border-2 border-teal-500" />
+                        <Image src={ user.image } alt={ user.username } className="w-full h-full object-cover rounded-full border-2 border-teal-500" />
                     </div>
                     <div className="flex-grow min-w-0">
                         <h3 className="font-bold text-lg text-gray-800">{ user.username }</h3>

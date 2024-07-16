@@ -10,6 +10,7 @@ import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import axios from 'axios'
 import ReferralForm from "../components/referalPopUp";
+import Image from "next/image"
 
 const MyCommunities = () =>
 { 
@@ -186,7 +187,7 @@ const MyCommunities = () =>
             >
               <div className="flex gap-3 items-center">
                 <div className="flex-shrink-0">
-                  <img
+                  <Image
                     src={ card.logo }
                     alt=""
                     className="w-16 h-16 object-cover rounded-xl sm:w-10 sm:h-10"

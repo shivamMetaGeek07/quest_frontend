@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 type UserData = {
@@ -79,7 +80,7 @@ const Badges: React.FC = () => {
               key={data.id}
               className="group shadow-lg p-5 flex flex-col items-center justify-center hover:bg-slate-400 bg-slate-800 duration-1000 rounded-md cursor-pointer"
             >
-              <img
+              <Image
                 src={data.imageUrl}
                 className="mx-auto rounded-full w-24 h-24 object-cover"
                 alt={data.title}

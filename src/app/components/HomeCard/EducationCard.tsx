@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 interface EducationData {
   imageUrl: string;
   smallImageUrl: string;
@@ -216,7 +216,7 @@ const EducationCardList: React.FC = () => {
                   <div className="box1 education-clip bg-red-700 ">
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
-                        <img
+                        <Image
                           src={data.imageUrl}
                           alt=""
                           className="h-16 w-36 object-cover"

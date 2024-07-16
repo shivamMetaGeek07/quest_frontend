@@ -104,7 +104,7 @@ const LoginPage: React.FC = () =>
                                     onClick={ handleLogoClick }
                                 >
                                     { logo ? (
-                                        <img src={ logo } alt="Uploaded logo" className="w-full h-full object-cover" />
+                                        <Image src={ logo } alt="Uploaded logo" className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="text-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">

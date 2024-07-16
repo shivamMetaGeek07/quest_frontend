@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { images } from '../../../public/assests/image';
 import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, Badge, Button } from "@nextui-org/react";
 import axios from 'axios';
+import Image from 'next/image';
 
 const Navbar: React.FC = () =>
 {
@@ -15,7 +16,7 @@ const Navbar: React.FC = () =>
     const [ drop, setDrop ] = useState( false );
     const [ isClient, setIsClient ] = useState( false );
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
-    const [ feedItems, setFeedItems ] = useState( [] );
+    const [ feedItems, setFeedItems ] = useState<string[]>( [] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
 
     const newsItems = [
@@ -84,7 +85,7 @@ const Navbar: React.FC = () =>
         <nav className="bg-black text-white flex items-center space-x-16 justify-between p-4">
             {/* logo */ }
             <div className="flex items-center space-x-4" onClick={ () => router.push( "/" ) } >
-                <img src={ `${ images.logo }` } alt="logo" className="w-16 h-16" />
+                <Image src={ `${ images.logo }` } alt="logo" className="w-16 h-16" />
 
             </div>
             <div className="hidden md:flex items-center space-x-5 w-2/6 rounded-2xl">
@@ -107,7 +108,7 @@ const Navbar: React.FC = () =>
                     </span>
                     <div className="ticker-wrap ml-20"> {/* Add left margin to make space for "NEWS" */ }
                         <div className="ticker">
-                            { feedItems?.map( ( item, index ) => (
+                            { feedItems?.map( ( item:any, index ) => (
                                 <div key={ index } className="ticker__item">{ item?.title }</div>
                             ) ) }
                         </div>
