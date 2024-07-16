@@ -30,7 +30,7 @@ export const users: User[] = [
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 1,
+    id: 3,
     firstName: "Sepehr",
     lastName: "Babaei",
     profileImage:
@@ -39,7 +39,7 @@ export const users: User[] = [
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 3,
+    id: 4,
     firstName: "Jane",
     lastName: "Smith",
     profileImage:
@@ -48,7 +48,7 @@ export const users: User[] = [
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 4,
+    id: 5,
     firstName: "Sepehr",
     lastName: "Babaei",
     profileImage:

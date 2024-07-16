@@ -250,9 +250,9 @@ const EcoCate: React.FC = () => {
           </div>
 
           <div className="  grid items-center  lg:grid-cols-5 sm:grid-cols-5 sm:mx-10 lg:gap-8 grid-cols-3  mt-16  shadow-2xl rounded-md mx-10 lg:mx-auto  basis-[50%]">
-            {EcoData.map((card) => (
+            {EcoData.map((card,index) => (
               <div
-                key={card.id}
+                key={index}
                 className="cate flex items-center mb-4 lg:mb-0"
               >
                 <div className="text-center">
