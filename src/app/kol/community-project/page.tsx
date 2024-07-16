@@ -5,6 +5,7 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 
 type TopRankData = {
   id: number;
@@ -50,7 +51,7 @@ const Community : React.FC = () => {
 
         <div className="logo&n max-w-[1320px] py-5 flex flex-col md:flex-row mx-auto">
           <div className="basis-[40%] flex flex-col items-center md:items-start">
-            <img
+            <Image
               src="https://shiftart.com/wp-content/uploads/2017/04/RC-Profile-Square.jpg"
               alt=""
               className="rounded-full w-64 h-64 object-cover"
@@ -96,7 +97,7 @@ const Community : React.FC = () => {
                 key={data.id}
                 className="shadow-lg flex flex-col items-center h-40  justify-center hover:bg-slate-400 duration-1000 rounded-md hover:animate-pulse cursor-pointer"
               >
-                 <img src={data.imageUrl} className="mx-auto rounded-full w-24 h-24 object-cover" alt={data.name}/>
+                 <Image src={data.imageUrl} className="mx-auto rounded-full w-24 h-24 object-cover" alt={data.name}/>
                 <p className="text-center text py-1 font-semibold text-zinc-600">{data.name}</p>
               </div>
             ))}

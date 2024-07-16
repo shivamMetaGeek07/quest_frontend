@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import Image from "next/image";
 interface Data {
@@ -21,25 +22,25 @@ const EcoData: EcoData[] = [
     title: "NFT",
   },
   {
-    id: 1,
+    id: 2,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
   },
   {
-    id: 1,
+    id: 3,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
   },
   {
-    id: 1,
+    id: 4,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
   },
   {
-    id: 1,
+    id: 5,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
@@ -50,13 +51,21 @@ const data: Data[] = [
   {
     id: 1,
     image:
-      "https://s3-alpha-sig.figma.com/img/8b59/9b0c/17269b22e70aacecf94bcf52eb04b833?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKui5g889ScrxyvP7gpvS5IdnsFHxwsxblD4lhcqmObHfsIRyZmXIIrPQDVSezRc1f9PzCTFdWtbLqM~eBb1qMcIyfGyDKTh8nqGfaKUCXHTAnyVL31Fo2RwL28eO8ySifv0yfbcivcRSQpR0bCZw1sCMN9X1vykZ~D4za69th-RkE67tYIjfjOseGNHzM6NUaIeXSnRvRr0Ls~CeJd7FU0UtZoCHyZAhx3org1Sulk4IxDbUpKSjtjmKPeUQzJApVSCqU6~v7U17ZmlxkqeAUIKZ~VvnfrgoVaCiEK95U3fMYTbHUQiSioXu2VZRIUzva0iw1EArUlD9dwiyJqSnA__",
+      "https://s3-alpha-sig.figma.com/img/f552/4d41/04db94e08ab24469fae629b971461e47?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bBlrSkLYS0a4wAJqyWmXHHtJDpeF6wYVskmtfpDUYSjY8qi7pTx9UY3l40frqVJNChtx0sBAAcgX46kdPF8B2yaOsbWHUQQB8DSqTnJz0WFeB038L2R7WETv03~uBGYEE7hfyYmNqNmzHPN-5-9OPrxV0BwzEP9MKDesSvkLunAMdTzauw7GSDo9UbEdPQTpHYLz4jGhlCZ8wm1Vmhs2Qh2gib97pI7BkPu7q5NrGxxAlapx5ILaMEDKAlAMuXVlZ8t4Bd3oUm9v26lNwQYKqoFX9adp29Vg-qgizYxVGbVBWS18vGXJDsYtPKSG9HPalWVys661nDXsHLsG-sWEww__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
     icons: ["⭐", "🍎", "⬆️"],
   },
   {
-    id: 1,
+    id: 2,
+    image:
+      "https://s3-alpha-sig.figma.com/img/949b/b0b5/8fe4beaa42c3a2dac01371ab43658b6b?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=O4h3Eh9wTTgTpIBcTBoOf8LkwbA28S4IDOoyDUuULs5HtV~IwRIdFjZmyFQXk8xbClv~4vw1ArZNwwB19GSeWyMHKUO9yNJ5AyeUfA0YqUW5Mqq-sM95AUAhHkDYa-n61lLhVnz-9LDDkfFUuRjqjgto3xc~lHyyQJBIQTx297eQ16ghTH4HZ3GsOt4lzNW~29UUbEB02K-JIjbb9jiWNVtFHFqlfA2JaEQTWSvIDJv6ptwko3t7iBmVzDSOOxRlVExsVwZKVZXI0-09rojhEqxEcrGUaHLr995pfPfTY0wrU4EhMdZPN0IbZGt0gQERQlv6VV522TIa2P-mJVbiNw__",
+    backgroundImage:
+      "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
+    icons: ["⭐", "🍎", "⬆️"],
+  },
+  {
+    id: 3,
     image:
       "https://s3-alpha-sig.figma.com/img/8b59/9b0c/17269b22e70aacecf94bcf52eb04b833?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKui5g889ScrxyvP7gpvS5IdnsFHxwsxblD4lhcqmObHfsIRyZmXIIrPQDVSezRc1f9PzCTFdWtbLqM~eBb1qMcIyfGyDKTh8nqGfaKUCXHTAnyVL31Fo2RwL28eO8ySifv0yfbcivcRSQpR0bCZw1sCMN9X1vykZ~D4za69th-RkE67tYIjfjOseGNHzM6NUaIeXSnRvRr0Ls~CeJd7FU0UtZoCHyZAhx3org1Sulk4IxDbUpKSjtjmKPeUQzJApVSCqU6~v7U17ZmlxkqeAUIKZ~VvnfrgoVaCiEK95U3fMYTbHUQiSioXu2VZRIUzva0iw1EArUlD9dwiyJqSnA__",
     backgroundImage:
@@ -64,25 +73,17 @@ const data: Data[] = [
     icons: ["⭐", "🍎", "⬆️"],
   },
   {
-    id: 1,
+    id: 4,
     image:
-      "https://s3-alpha-sig.figma.com/img/8b59/9b0c/17269b22e70aacecf94bcf52eb04b833?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKui5g889ScrxyvP7gpvS5IdnsFHxwsxblD4lhcqmObHfsIRyZmXIIrPQDVSezRc1f9PzCTFdWtbLqM~eBb1qMcIyfGyDKTh8nqGfaKUCXHTAnyVL31Fo2RwL28eO8ySifv0yfbcivcRSQpR0bCZw1sCMN9X1vykZ~D4za69th-RkE67tYIjfjOseGNHzM6NUaIeXSnRvRr0Ls~CeJd7FU0UtZoCHyZAhx3org1Sulk4IxDbUpKSjtjmKPeUQzJApVSCqU6~v7U17ZmlxkqeAUIKZ~VvnfrgoVaCiEK95U3fMYTbHUQiSioXu2VZRIUzva0iw1EArUlD9dwiyJqSnA__",
+      "https://s3-alpha-sig.figma.com/img/82f5/550b/ce707281ecf1cfe66aa2cd9fbf7451a5?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=JQZNgbRxMsNkvwpimdUwcuvbR4VPphWfCuDv1fZBjZt-A7Prq-u1RVfpn5nP-WTPBMpnrzrvVUVw8sqZLcCiySFdB3etOY4fDkVOFQov9Z1vyUytO83TFruf1NwjQVSV97Uq7GYE5lpyuIxh-Xdqa4g2IrVKBBqh0rOBRPpUI2UjxUslk9ZZydleT0JRCKF20jXOebvTIjg3QrzFLkxhtumj4baKIlg3HxU~9L4r5RTApq7tEfIPs1SI~m0h7ZRB6HAZ4PsdYej1C-ifDFSe4tVoYfW4EpVD-DCVo0UyJiMWnYUryOR4FDuxiuRLJJ3xI-WNbU5eojKHMYXBeX1-bA__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
     icons: ["⭐", "🍎", "⬆️"],
   },
   {
-    id: 1,
+    id: 5,
     image:
-      "https://s3-alpha-sig.figma.com/img/8b59/9b0c/17269b22e70aacecf94bcf52eb04b833?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKui5g889ScrxyvP7gpvS5IdnsFHxwsxblD4lhcqmObHfsIRyZmXIIrPQDVSezRc1f9PzCTFdWtbLqM~eBb1qMcIyfGyDKTh8nqGfaKUCXHTAnyVL31Fo2RwL28eO8ySifv0yfbcivcRSQpR0bCZw1sCMN9X1vykZ~D4za69th-RkE67tYIjfjOseGNHzM6NUaIeXSnRvRr0Ls~CeJd7FU0UtZoCHyZAhx3org1Sulk4IxDbUpKSjtjmKPeUQzJApVSCqU6~v7U17ZmlxkqeAUIKZ~VvnfrgoVaCiEK95U3fMYTbHUQiSioXu2VZRIUzva0iw1EArUlD9dwiyJqSnA__",
-    backgroundImage:
-      "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
-    icons: ["⭐", "🍎", "⬆️"],
-  },
-  {
-    id: 1,
-    image:
-      "https://s3-alpha-sig.figma.com/img/8b59/9b0c/17269b22e70aacecf94bcf52eb04b833?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKui5g889ScrxyvP7gpvS5IdnsFHxwsxblD4lhcqmObHfsIRyZmXIIrPQDVSezRc1f9PzCTFdWtbLqM~eBb1qMcIyfGyDKTh8nqGfaKUCXHTAnyVL31Fo2RwL28eO8ySifv0yfbcivcRSQpR0bCZw1sCMN9X1vykZ~D4za69th-RkE67tYIjfjOseGNHzM6NUaIeXSnRvRr0Ls~CeJd7FU0UtZoCHyZAhx3org1Sulk4IxDbUpKSjtjmKPeUQzJApVSCqU6~v7U17ZmlxkqeAUIKZ~VvnfrgoVaCiEK95U3fMYTbHUQiSioXu2VZRIUzva0iw1EArUlD9dwiyJqSnA__",
+      "https://s3-alpha-sig.figma.com/img/944e/15fa/50022b01798505039b52ab7f7614a9a0?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H6S4ICjFwlAYTbIftaJIbpXQuwNSrUv6PzLDugk0nxfwrsiDjO46lzcUyyJdIRhYwLUJ9h3SYCBM33YGbPs4PtMF~pt240SXAOPaJa7bGI59aqaDlwVK6jJDDYo0oJX9WUfbc~3PBWKaOiQ15SvMp7XFGv6WONaGO0i~8VFced7zDS5DrxQnffYGMJxMfIulzruncqrX4VxJ8vlbgH6h9O4WTL4EtNPT8cHGftPRwMhRcKTxi28FGDrYd4RHZGVOWvHV4TCOh5lLPJISB3QdgTOwQzS4If9SmmM9rCp7sHd7TnEctfI9cfX207CwRffT1g-iTjGRODY6FG1PYk~1YQ__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
     icons: ["⭐", "🍎", "⬆️"],
@@ -126,7 +127,7 @@ const EcoCate: React.FC = () => {
                     <Image
                       src={item.image}
                       alt="Profile"
-                      className="w-20 h-20 object-cover rounded-full"
+                      className="w-16 h-16 object-cover rounded-full"
                     />
                   </div>
                 </div>
@@ -191,15 +192,15 @@ const EcoCate: React.FC = () => {
                 <path
                   d="M1 1H6.48652L15 10"
                   stroke="white"
-                  stroke-opacity="0.3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M6 5L11 10"
                   stroke="white"
-                  stroke-opacity="0.3"
-                  stroke-linecap="round"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
                 />
               </svg>
               <div>
@@ -242,7 +243,7 @@ const EcoCate: React.FC = () => {
                   <path
                     d="M159 0.5L114 45.5H23L10.5 58H0"
                     stroke="white"
-                    stroke-opacity="0.4"
+                    strokeOpacity="0.4"
                   />
                 </svg>
               </div>

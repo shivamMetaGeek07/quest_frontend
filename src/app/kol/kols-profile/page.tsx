@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 import ModalForm from "../../components/ModalForm";
 import axios from "axios";
 import { FaBolt, FaTwitter, FaUser } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Community {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   logo: string;
@@ -20,8 +22,9 @@ interface Community {
 type Props = {};
 
 const KolsProfile = (props: Props) => {
+  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  const [communities, setCommunities] = useState<Community[]>([]);
+  const [ communities, setCommunities ] = useState<Community[]>( [] );
 
   const fetchCommunities = async (ids: string[]) => {
     try {
@@ -68,10 +71,11 @@ const KolsProfile = (props: Props) => {
             <div className="flex flex-col sm:flex-row  lg:flex-row gap-6">
               <div className="lg:basis-[30%] sm:basis-[40%] flex flex-col items-center ">
                 <div className="flex">
-                <img
+                <Image
                   src={user.image}
                   width={150}
-                  height={150}
+                    height={ 150 }
+                    alt={user.nickname}
                   className="rounded-full object-cover"
                 />
                 </div>
@@ -106,10 +110,11 @@ const KolsProfile = (props: Props) => {
                   {communities.map((community, index) => (
                     <div
                       key={index}
-                      className="bg-white/5 p-4 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 transition-transform"
+                      className="bg-white/5 p-4 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 transition-transform cursor-pointer"
+                      onClick={()=>router.push(`/kol/community-project/${community?._id}`)}
                     >
                       <div className="flex gap-3 items-center">
-                        <img
+                        <Image
                           src={community.logo}
                           alt=""
                           className="w-10 h-10 object-cover rounded-xl"

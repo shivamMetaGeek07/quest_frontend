@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import Image from "next/image";
 interface EducationData {
@@ -66,6 +67,7 @@ const KolData: KolData[] = [
     description2: "BEASTOKYO",
     description3: "BEAST",
     description4: "ALPHA M...",
+    // show the dynamic bg colur
   },
   {
     imageUrl:
@@ -107,8 +109,8 @@ const EducationCardList: React.FC = () => {
             opacity="0.8"
             d="M1 1L1081 1.00009"
             stroke="url(#paint0_linear_63_791)"
-            stroke-linecap="round"
-            stroke-dasharray="13 13"
+            strokeLinecap="round"
+            strokeDasharray="13 13"
           />
           <defs>
             <linearGradient
@@ -119,8 +121,8 @@ const EducationCardList: React.FC = () => {
               y2="1.50009"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#8C71FF" stop-opacity="0" />
-              <stop offset="1" stop-color="#FA00FF" />
+              <stop stopColor="#8C71FF" stopOpacity="0" />
+              <stop offset="1" stopColor="#FA00FF" />
             </linearGradient>
           </defs>
         </svg>
@@ -167,7 +169,7 @@ const EducationCardList: React.FC = () => {
                   <path
                     d="M1 0.5L46 45.5H137L149.5 58H160"
                     stroke="url(#paint0_linear_69_326)"
-                    stroke-opacity="0.5"
+                    strokeOpacity="0.5"
                   />
                   <defs>
                     <linearGradient
@@ -178,8 +180,8 @@ const EducationCardList: React.FC = () => {
                       y2="58"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop offset="0.74102" stop-color="white" />
-                      <stop offset="1" stop-color="#999999" stop-opacity="0" />
+                      <stop offset="0.74102" stopColor="white" />
+                      <stop offset="1" stopColor="#999999" stopOpacity="0" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -227,7 +229,7 @@ const EducationCardList: React.FC = () => {
 
                   <div className="mt-2 flex gap-3">
                     <div>
-                      <img
+                      <Image
                         src={data.smallImageUrl}
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"
@@ -299,7 +301,7 @@ const EducationCardList: React.FC = () => {
                   <path
                     d="M159 0.5L114 45.5H23L10.5 58H0"
                     stroke="white"
-                    stroke-opacity="0.4"
+                    strokeOpacity="0.4"
                   />
                 </svg>
               </div>
@@ -335,7 +337,7 @@ const EducationCardList: React.FC = () => {
                   <div className="box1 education-clip bg-red-600">
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
-                        <img
+                        <Image
                           src={data.imageUrl}
                           alt=""
                           className="h-16 w-36 object-cover"
@@ -346,7 +348,7 @@ const EducationCardList: React.FC = () => {
 
                   <div className="mt-2 flex gap-3">
                     <div>
-                      <img
+                      <Image
                         src={data.smallImageUrl}
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"

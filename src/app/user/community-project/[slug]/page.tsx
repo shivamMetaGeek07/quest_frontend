@@ -6,6 +6,7 @@ import {  fetchCommunity } from "../../../../redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "../../../../redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
+import Image from "next/image";
 
 export default function CommunityProject({ params }: { params: { slug: string } }) {
   const id = params.slug;
@@ -17,7 +18,7 @@ export default function CommunityProject({ params }: { params: { slug: string } 
   } = useSelector((state: RootState) => state.community);
   const currentQuests =  useSelector( ( state: any ) => state.quest.currentQuests );
   const questIds = community?.quests 
-  // console.log(community?.quests)
+  console.log(community)
   useEffect(() => {
     dispatch( fetchCommunity( id ) );
   }, [ dispatch, id ] );
@@ -110,7 +111,7 @@ export default function CommunityProject({ params }: { params: { slug: string } 
       <div className="container mx-auto px-4 py-8">
         <div className="bg-[#121212] rounded-lg shadow-lg overflow-hidden">
           <div className="relative h-64 bg-blue-600">
-            <img
+            <Image
               src={`https://dummyimage.com/1200x400/000/fff&text=${community.title[0]}`}
               alt={community.title}
               className="w-full h-full object-cover opacity-50"

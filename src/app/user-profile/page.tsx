@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { BallTriangle } from "react-loader-spinner";
+import Image from "next/image";
 
 const UserProfile: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -30,13 +31,13 @@ const UserProfile: React.FC = () => {
           <div className="bg-slate-400 rounded-xl px-20 py-10 flex flex-col items-center mx-4 hover:bg-slate-300 duration-1000 cursor-pointer">
              {user?(
               <> 
-              <img onClick={handleuserdetails}
+              <Image onClick={handleuserdetails}
                 src={user.image}     
               alt="user image"
               className="h-32 w-32 rounded-full mt-4 object-cover"
             /></>
                 ):( 
-             <> <img onClick={handleuserdetails}
+             <> <Image onClick={handleuserdetails}
               src="https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg"
               alt="user image"
               className="h-32 w-32 rounded-full mt-4 object-cover"

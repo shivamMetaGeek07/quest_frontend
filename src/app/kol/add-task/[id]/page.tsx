@@ -7,6 +7,7 @@ import { fetchUserData } from "@/redux/reducer/authSlice";
 import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
 import { notify } from "@/utils/notify";
+import Image from "next/image";
 
 interface IQuiz
 {
@@ -76,14 +77,45 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   {
     if ( !selectedTask ) return;
+
+    const value = e.target.value;
+
+  //   // Regular expression to validate URL format
+  //   const urlPattern = new RegExp(
+  //     '^(http)'  // protocol
+  //     // '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
+  //     // '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+  //     // '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+  //     // '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+  //     // '(\\#[-a-z\\d_]*)?$', 'i' // fragment locator
+  //   );
+
+  //   if ( urlPattern.test( value ) ) 
+  //   {
+  //     const updatedField = {
+  //       "Visit Link": { visitLink: value },
+  //     }[ selectedTask.name ] || {};
+
+  //     setSelectedTask( { ...selectedTask, ...updatedField } );
+  //   } else
+  //   {
+  //     // Handle invalid URL, e.g., show an error message
+  //     notify('error', "Please enter a valid url")
+  //     console.error( 'Invalid URL' );
+  //     return
+  //   }
+  // };
+
+  const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
+  {
+    if ( !selectedTask ) return;
     const value = e.target.value;
     const updatedField = {
       "Visit Link": { visitLink: value },
-      "Invites": { inviteLink: value },
-      "Quiz": { correctAnswer: value },
     }[ selectedTask.name ] || {};
     setSelectedTask( { ...selectedTask, ...updatedField } );
   };
+
 
   const handleAddTask = async () =>
   {
@@ -122,12 +154,12 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     try
     {
       const response = await dispatch( createTask( taskData ) );
-      notify( "success",response?.payload?.msg || "Task created successfully" );
+      notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
     } catch ( error )
     {
       console.error( "Error creating task:", error );
-      notify( "error","Error creating task" );
+      notify( "error", "Error creating task" );
     }
   };
 
@@ -204,7 +236,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
               <div className="flex items-center justify-between p-5 border-b border-gray-700 bg-gray-800 rounded-t-3xl">
                 <h3 className="text-2xl font-bold text-white">Find a task type</h3>
                 <button
-                  onClick={ ()=> window.history.back() }
+                  onClick={ () => window.history.back() }
                   className="text-gray-400 bg-transparent hover:bg-gray-700 hover:text-white rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
@@ -232,7 +264,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                             >
 
                               <div className="flex items-center justify-center  mr-3">
-                                <img
+                                <Image
                                   src={ task.icon }
                                   alt={ task.name }
                                   // width={40}
@@ -276,7 +308,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                             >
 
                               <div className="flex items-center justify-center  mr-3">
-                                <img
+                                <Image
                                   src={ task.icon }
                                   alt={ task.name }
                                   // width={40}
@@ -311,7 +343,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-2xl text-white w-full flex flex-col">
               <div className="flex items-center justify-between p-5 border-b border-gray-700">
                 <div className="flex items-center">
-                  <img
+                  <Image
                     src={ selectedTask.icon }
                     alt=""
                     className="h-12 w-12 object-cover rounded-full mr-4"
@@ -358,7 +390,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                   <div className="space-y-4">
                     { polls.map( ( poll, pollIndex ) => (
                       <div key={ pollIndex } className="bg-gray-800 p-4 rounded-lg space-y-3">
-                        <h3 className="text-lg font-bold">Question { pollIndex+1}</h3>
+                        <h3 className="text-lg font-bold">Question { pollIndex + 1 }</h3>
                         <input
                           type="text"
                           className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
@@ -406,7 +438,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                   <div className="space-y-6">
                     { quizzes.map( ( quiz, quizIndex ) => (
                       <div key={ quizIndex } className="bg-gray-800 p-4 rounded-lg space-y-3">
-                        <h3 className="text-lg font-bold">Question { quizIndex+1}</h3>
+                        <h3 className="text-lg font-bold">Question { quizIndex + 1 }</h3>
                         <input
                           type="text"
                           className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"

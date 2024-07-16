@@ -1,5 +1,6 @@
-import React from "react";
 import Image from "next/image";
+import React from "react";
+
 // Define the TypeScript type for the card data
 type CommunityCardData = {
   imageUrl: string;
@@ -111,7 +112,7 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
           <div className="p-1">
             <div className="image-container h-[5rem] w-[5rem] items-center flex">
               <Image
-                src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+                src={data.imageUrl}
                 alt=""
                 className="styled-image"
               />
@@ -141,6 +142,8 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
             </div>
           </div>
         </div>
+
+
         <div className="absolute -top-1 -right-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -152,6 +155,7 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
             <path d="M0.5 0V3.5H4" stroke="white" />
           </svg>
         </div>
+
         <div>
           <div className="flex flex-row text-sm m-1 justify-between ">
             <span className="flex descText">Desc:</span>
@@ -160,6 +164,8 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
             </span>
           </div>
         </div>
+
+        
       </div>
     </div>
   );

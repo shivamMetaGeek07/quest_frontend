@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import { notify } from '@/utils/notify';
 
 interface ReferralFormProps {
     memberId: any;
@@ -17,7 +18,7 @@ interface ReferralFormProps {
   const  user = useSelector((state: RootState) => state.login.user);
 
   const [formData, setFormData] = useState({
-    referral:'YkkumuSF6N',
+    referral:'',
     userId:user?._id,
     memberId,
   });
@@ -27,21 +28,24 @@ interface ReferralFormProps {
     setFormData({ ...formData, [name]: value });
   };
 
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData)
     const response = await axios.post(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/get/joinCommunities/${id}`
         , formData 
       );
       await dispatch(fetchAllCommunities());
-      console.log(response)
+      notify("success",response.data);
+      notify("error",response.data);
 
     };
   
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   return (<>
     <Button
-      className={ `w-full h-8 bg-white/10 hover:bg-white/25 text-white text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ` }
+      className={ `w-full h-8 bg-white/10 hover:bg-white/25 text-neutral-400 descdata text-center text-medium rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ` }
         onPress={onOpen}>Join with referral</Button>
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -52,15 +56,15 @@ interface ReferralFormProps {
             <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white shadow-md rounded">
       
       <div className="mb-4">
-        <label htmlFor="nickname" className="block text-sm font-medium text-gray-700">Referral</label>
+        <label htmlFor="nickname" className="block text-sm  text-gray-700">Referral</label>
         <input
-          type="text"
-          id="nickname"
-          name="nickname"
-          value={formData.referral}
-          onChange={handleChange}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
+        type="text"
+        id="referral"
+        name="referral"
+        value={formData.referral}
+        onChange={handleChange}
+        className="mt-1 block w-full px-3 py-2 border text-black border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+      />
       </div>
       <button
         type="submit"
