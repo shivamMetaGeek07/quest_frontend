@@ -26,7 +26,7 @@ function FeedCard({ _id, title, description, imageUrl }: data) {
   return (
     <div className='h-30 md:h-60 bg-white/15 hover:bg-white/25 hover:scale-x-105 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-1000 ease-in-out flex flex-col md:flex-row'>
       <div className='md:w-1/3 h-48 md:h-auto overflow-hidden'>
-        <Image
+        <img
           className='w-full h-full object-cover'
           src={imageUrl}   
           alt={`image ${_id}`}

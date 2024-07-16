@@ -48,7 +48,7 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
     <div className="bg-[#121212]">
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div>
-          <Image
+          <img
             src={item.imageUrl}
             alt={`image ${item.id}`}
             className="w-full h-64 object-cover mb-4 rounded-lg"

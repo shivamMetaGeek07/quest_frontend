@@ -11,7 +11,7 @@ const PointsParlor = () =>
           <div className=' p-3 '>
             <div
               className='points_main_div_right_svg h-[5rem] sm:h-[7rem] w-[6rem]  sm:w-32 items-center flex'>
-              <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image ' />
+              <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image ' />
             </div>
           </div>
           <div className='flex w-full h-full pl-[5%]  points_main_div   flex-col  '>
@@ -112,7 +112,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' alt='' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -140,7 +140,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__" alt=''
+                  <div className='flex flex-row gap-1'><img src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__" alt=''
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -168,7 +168,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -196,7 +196,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -224,7 +224,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -252,7 +252,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -280,7 +280,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>
@@ -308,7 +308,7 @@ const PointsParlor = () =>
             <div className=' box1 bg-[#282828]  points_div'>
               <div className='   p-1 pb-0 box2 points_div  bg-[#111111] flex text-gray-600    flex-col'>
                 <div className='flex w-full flex-row    p-2 py-1 items-center justify-between m-auto'>
-                  <div className='flex flex-row gap-1'><Image alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
+                  <div className='flex flex-row gap-1'><img alt='' src="https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__"
                     className='h-6 w-6 rounded-full object-cover' /><p className='text-sm text-zinc-400'>Tabi</p></div>
                   <div className='flex flex-row w-1/2 '>
                     <div className='text-xs px-3 w-1/2 text-center'>Available Points</div>

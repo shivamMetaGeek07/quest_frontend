@@ -115,7 +115,7 @@ const UserCard = () => {
               <div className="flex-col justify-center ">
 
               <div className="image-container h-20 w-20 items-center flex">
-              <Image
+              <img
                 src={user.profileImage}
                 alt=""
                 className="styled-image"

@@ -70,7 +70,7 @@ const RateKols = (props: Props) => {
           {kols?.map((kol,index) => (
             <div key={index} className="bg-white shadow rounded-lg p-6">
               <div className="flex flex-col items-center">
-                <Image
+                <img
                   src={kol.image}
                   className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                   alt={kol.displayName}

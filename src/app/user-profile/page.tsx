@@ -31,13 +31,13 @@ const UserProfile: React.FC = () => {
           <div className="bg-slate-400 rounded-xl px-20 py-10 flex flex-col items-center mx-4 hover:bg-slate-300 duration-1000 cursor-pointer">
              {user?(
               <> 
-              <Image onClick={handleuserdetails}
+              <img onClick={handleuserdetails}
                 src={user.image}     
               alt="user image"
               className="h-32 w-32 rounded-full mt-4 object-cover"
             /></>
                 ):( 
-             <> <Image onClick={handleuserdetails}
+             <> <img onClick={handleuserdetails}
               src="https://t3.ftcdn.net/jpg/04/60/91/88/360_F_460918802_XVCymFr7MoziFpnInbTDvrlblYhvAOi2.jpg"
               alt="user image"
               className="h-32 w-32 rounded-full mt-4 object-cover"

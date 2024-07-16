@@ -112,7 +112,7 @@ function GrantsCard() {
                 </div>
 
                 <div>
-                  <Image
+                  <img
                     src={grant.imgUrl}
                     alt={grant.imgAlt}
                     className="h-6 w-6 rounded-full object-cover"
