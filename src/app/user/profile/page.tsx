@@ -106,6 +106,71 @@ const Profile: React.FC = () => {
   const handleEarnRewardsClickss = () => {
     router.push("/user/leaderboard");
   };
+
+//   const renderCell = React.useCallback((user: Friend, columnKey: React.Key) => {
+//     const cellValue = user[columnKey as keyof Friend];
+
+//     switch (columnKey) {
+//       case "sno":
+//       return (
+//         <div className="capitalize w-[40%] mx-auto ">
+//           <span className="lvl text-end text-xl">#{user.id}</span>
+//         </div>
+//       )
+//       case "name":
+//         return (
+//           <div className="capitalize w-[40%] mx-auto">
+//           <User
+//             avatarProps={{radius: "md", src: user.avatar}}
+//             name={cellValue}
+//           >
+//           </User>
+//         </div>
+//         );
+//       case "stars":
+//         return (
+//           <StarDisplay
+//             cellValue={cellValue as number}
+//           />
+//         );
+//       case "xps":
+//         return (
+//           <div className="capitalize flex gap-2 items-center justify-center">
+//             <div><span className="user-leaderboard-text">Xps: </span><span>{ cellValue}</span></div>
+//             <div><span className="lvl"> - LVL: {user.level}</span></div>
+//           </div>
+//         )
+//       case "fampoints":
+//         return (
+//           <div className="capitalize flex items-center justify-center ">
+//             <span className="user-leaderboard-text">Fampoints: </span><span>{ cellValue}</span>
+//           </div>
+//         );
+//       case "actions":
+//         return (
+//           <div className="relative flex items-center gap-2">
+//             <Tooltip content="Details">
+//               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+//                eye
+//               </span>
+//             </Tooltip>
+//             <Tooltip content="Edit user">
+//               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+//                 edit
+//               </span>
+//             </Tooltip>
+//             <Tooltip color="danger" content="Delete user">
+//               <span className="text-lg text-danger cursor-pointer active:opacity-50">
+// delete
+//               </span>
+//             </Tooltip>
+//           </div>
+//         );
+//       default:
+//         return cellValue;
+//     }
+//   }, []);
+
   useEffect(() => {
     setIsClient(true); // Set the client flag to true on the client side
 
@@ -231,7 +296,7 @@ const Profile: React.FC = () => {
                 View all
               </button>
               </div> */}
-              <div className=" badgesBox mt-5 lg:mt-0">
+              <div className="lg:w-[33rem] badgesBox mt-5 lg:mt-0">
               <div className="w-full h-full innerbox2">
               <svg className="top-0 left-0 svg1" style={{strokeWidth: "1px",stroke: "#FA00FF"}} xmlns="http://www.w3.org/2000/svg" width="5" height="4" viewBox="0 0 5 4" fill="none">
 <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF"/>

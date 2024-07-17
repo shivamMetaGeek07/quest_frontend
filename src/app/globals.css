@@ -450,7 +450,6 @@ text-transform: uppercase;
 .ticker {
     display: inline-block;
     white-space: nowrap;
-    /* padding-right: 15px; */
     box-sizing: content-box;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
@@ -550,8 +549,6 @@ right:0px;
 border-left: 1px solid #ffffff00;
 }
 
-
-
 .card-title{
   color: #FFF;
 font-family: sans-serif;
@@ -560,4 +557,42 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
 text-transform: uppercase;
+
+}
+/* slider */
+/* slick-custom.css */
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+.slick-prev {
+  left: -25px;
+}
+
+.slick-next {
+  right: -25px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #FA00FF;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  color: #FA00FF;
+}
+
+@media (max-width: 640px) {
+  .slick-prev {
+    left: 10px;
+  }
+
+  .slick-next {
+    right: 10px;
+  }
 }

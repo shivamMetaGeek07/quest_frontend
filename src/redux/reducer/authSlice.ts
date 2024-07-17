@@ -1,9 +1,9 @@
 // userSlice.ts
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { Quest } from './questSlice';
 import { persistor } from '../store';
+import axios from 'axios';
 
 // Define interfaces for Twitter and Discord info
 export interface ITwitterInfo {
@@ -69,6 +69,7 @@ export const fetchUserData = createAsyncThunk(
   'login/fetchUserData',
   async ( _, { rejectWithValue } ) =>
   {
+    console.log("login called")
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
         withCredentials: true, // Ensure credentials are included in the request
