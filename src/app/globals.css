@@ -158,10 +158,46 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
   clip-path: inherit; /* Ensures the image fits within the hexagon shape */
 }
 
+.card-white-text{
+  color: #FFF;
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.card-gray-text{
+  color: #3F3D49;
+font-family: sans-serif;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: uppercase;
+}
 
-
+.descText{
+  color: #FFF;
+  font-family: sans-serif;
+  font-size: 0.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.descdata{
+  color: #FFF;
+  font-family: sans-serif;
+  font-size: 0.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  opacity: 0.3;
+}
 
 /* hover effect on ecosystem components start*/
+
+
 .outer-div:hover .bg_Div_Down {
   background-color: #735dcf;  
 }
@@ -512,4 +548,16 @@ right:0px;
 
 .glassborder-left{
 border-left: 1px solid #ffffff00;
+}
+
+
+
+.card-title{
+  color: #FFF;
+font-family: sans-serif;
+
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: uppercase;
 }
