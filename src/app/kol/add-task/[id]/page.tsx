@@ -130,7 +130,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       taskDescription,
     };
 
-    const taskDataMap = {
+    const taskDataMap:any = {
       "Visit Link": { ...baseTask, visitLink: selectedTask.visitLink },
       "Poll": {
         ...baseTask,
@@ -503,7 +503,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     </>
   );
 };
-
+};
 
 export default AddTask;
 

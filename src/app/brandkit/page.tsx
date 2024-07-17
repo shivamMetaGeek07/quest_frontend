@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React from 'react'
-import Image from 'next/image'
 const page = () => {
   return (
     <div className='bg-[#111111] pt-[5rem] md:pl-[5rem] h-full pb-5 font-[ProFontWindows]'>
