@@ -24,7 +24,7 @@ const Page = () => {
       router.push('/user/profile');
     }
   }, [data, router]);
-
+console.log(data)
 
   return (
     <div className='bg-gray-500 items-center flex justify-center opacity-35 h-screen'> <Spinner color="success"/></div>

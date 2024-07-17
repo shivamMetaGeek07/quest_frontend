@@ -45,7 +45,7 @@ interface ReferralFormProps {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   return (<>
     <Button
-      className={ `w-full h-8 bg-white/10 hover:bg-white/25 text-neutral-400 descdata text-center text-medium rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ` }
+      className={ `px-2 py-1 text-xs bg-white/10 hover:bg-white/25 text-neutral-400 descdata text-center text-medium rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ` }
         onPress={onOpen}>Join with referral</Button>
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>

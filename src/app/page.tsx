@@ -12,6 +12,9 @@ import { fetchUserData } from "@/redux/reducer/authSlice";
 import Link from "next/link";
 import { Button, Spinner } from "@nextui-org/react";
 
+
+
+
 type CommunityCardData = {
   imageUrl: string;
   alphaHub: string;
@@ -63,11 +66,6 @@ const Homepage = () => {
   //   <Spinner/>
   // </div>
   // );
-
-  const signUpdiscord=()=>{
-    window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`
-  }
-
   return (
     <div className="w-[90%] mx-auto">
       <UserCard />
@@ -133,15 +131,16 @@ const Homepage = () => {
         </div>
       </div>
 
-      <div>
+     
         <EducationCardList />
-      </div>
+     
 
-      <div>
+     
         <GrantsCard />
-      </div>
+     
     </div>
   );
 };
 
 export default Homepage;
+

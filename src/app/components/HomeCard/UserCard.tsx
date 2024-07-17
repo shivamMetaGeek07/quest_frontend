@@ -1,14 +1,9 @@
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import React, { useEffect,useState } from "react";
-import axios from 'axios'
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  profileImage: string;
-  rank: number;
-  icons: string[];
-}
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const users: User[] = [
   {
@@ -58,32 +53,101 @@ export const users: User[] = [
   },
 ];
 
-const UserCard = () => {
-//  const [data,setdata]=useState([]);
-//   const getLeaderBoard = async () => {
-//     try {
-//       const response = await axios.get(
-//         `${process.env.NEXT_PUBLIC_SERVER_URL}/user/getAllUser`,
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       const data =  response.data;
-//       setdata(data);
-//       console.log("all user d",data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-//   useEffect(() => {
-//     getLeaderBoard();
-//   }, []);
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  profileImage: string;
+  rank: number;
+  icons: string[];
+} 
+
+const UserCard = () =>
+{
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
+  const renderUserCard = ( user:User ) => (
+    <div
+      key={ user.id }
+      className="main outer-home border border-gray-700 bg-black p-4 rounded shadow-lg group mx-2"
+    >
+      <div className="rounded-md flex">
+        <div className="flex-col justify-center">
+          <div className="image-container h-20 w-20 items-center flex">
+            <img src={ user.profileImage } alt="" className="styled-image" />
+          </div>
+          <div className="bg_Div_Down-h h-[2rem] mt-2 bg-[#281a28]" />
+        </div>
+
+        <div className="flex-1 ml-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="font-bold" style={ { letterSpacing: "5px" } }>
+                { user.firstName.toUpperCase() }
+              </div>
+              <div
+                className="font-bold tracking-widest ml-4"
+                style={ { letterSpacing: "5px" } }
+              >
+                { user.lastName.toUpperCase() }
+              </div>
+            </div>
+            <div className="text-purple-500 home-rank font-bold text-lg">
+              #{ user.rank }
+            </div>
+          </div>
+          <hr className="border-gray-700 my-2 mt-5" />
+          <div className="z-10 flex items-center space-x-3 mt-6">
+            { user.icons.map( ( icon, index ) => (
+              <div
+                key={ index }
+                className="bg-[#8C71FF] home-inner-bg clip-trapezium-top-right px-4"
+              >
+                <span role="img" aria-label="Icon">
+                  { icon }
+                </span>
+              </div>
+            ) ) }
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center">
+        <h1 className="text-white/30" style={ { letterSpacing: "11px" } }>
+          { " " }
+          . . . . . . . . . . . . .{ " " }
+        </h1>
+      </div>
+    </div>
+  );
 
   return (
-    <div>
-      <div className="lg:mx-20 sm:mx-20 mx-10 mt-10 flex items-center gap-1">
+    <div className="container mx-auto px-4">
+      <div className="flex items-center gap-1 mt-10 mb-8">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -104,72 +168,11 @@ const UserCard = () => {
         </div>
       </div>
 
-
-      <div className="grid sm:mx-10 lg:mx-0 mx-5 gap-6 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-8">
-        {users.map((user) => (
-          <div
-            key={user.id}
-            className="main outer-home  border border-gray-700 bg-black p-4 sm:p-6 rounded shadow-lg group"
-          >
-            <div className="rounded-md flex">
-              <div className="flex-col justify-center ">
-
-              <div className="image-container h-20 w-20 items-center flex">
-              <img
-                src={user.profileImage}
-                alt=""
-                className="styled-image"
-              />
-            </div>
-
-            <div className="bg_Div_Down-h h-[2rem] mt-2  bg-[#281a28]" />
-              </div>
-
-              <div className="flex-1 ml-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div
-                      className=" font-bold"
-                      style={{ letterSpacing: "5px" }}
-                    >
-                      {user.firstName.toUpperCase()}
-                    </div>
-                    <div
-                      className=" font-bold tracking-widest ml-4"
-                      style={{ letterSpacing: "5px" }}
-                    >
-                      {user.lastName.toUpperCase()}
-                    </div>
-                  </div>
-                  <div className="text-purple-500  home-rank font-bold text-lg">
-                    #{user.rank}
-                  </div>
-                </div>
-                <hr className="border-gray-700 my-2 mt-5" />
-                <div className="z-10 flex items-center space-x-3 mt-6">
-                  {user.icons.map((icon, index) => (
-                    <div
-                      key={index}
-                      className="bg-[#8C71FF] home-inner-bg clip-trapezium-top-right px-4"
-                    >
-                      <span role="img" aria-label="Icon">
-                        {icon}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center ">
-              <h1 className="text-white/30" style={{ letterSpacing: "11px" }}>
-                {" "}
-                . . . . . . . . .{" "}
-              </h1>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Slider { ...settings }>
+        { users.map( ( user ) => (
+          <div key={ user.id }>{ renderUserCard( user ) }</div>
+        ) ) }
+      </Slider>
     </div>
   );
 };

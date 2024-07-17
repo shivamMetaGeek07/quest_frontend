@@ -1,159 +1,247 @@
-
-import { updateUserProfile } from "@/redux/reducer/authSlice";
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { Chip } from "@nextui-org/react";
+import { updateUserProfile } from "@/redux/reducer/authSlice";
+import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { Chip } from "@nextui-org/react";
 
-const ModalForm = () => {
-const router=useRouter()
-
+const ModalForm = () =>
+{
   const dispatch = useDispatch<AppDispatch>();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const router = useRouter();
+  const [ isModalVisible, setIsModalVisible ] = useState( false );
+  const [ loader, setLoader ] = useState( false );
+  const fileInputRef = useRef<HTMLInputElement>( null );
 
-  const user = useSelector((state: RootState) => state.login.user);
-  const [formData, setFormData] = useState({
+  const user = useSelector( ( state: RootState ) => state.login.user );
+  const [ formData, setFormData ] = useState( {
     bgImage: user?.bgImage || "",
     bio: user?.bio || "",
     nickname: user?.nickname || "",
     image: user?.image || "",
-  });
+  } );
+  const [ file, setFile ] = useState<File | null>( null );
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  ) =>
+  {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData( { ...formData, [ name ]: value } );
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const resultAction = await dispatch(updateUserProfile(formData));
-    if (updateUserProfile.fulfilled.match(resultAction)) {
-      router.refresh(); // Reload the current page
-      setIsModalVisible(false)
+  const handleFileChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
+  {
+    if ( e.target.files && e.target.files[ 0 ] )
+    {
+      setFile( e.target.files[ 0 ] );
     }
   };
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
+
+  const getUploadUrl = async ( fileName: string ) =>
+  {
+    try
+    {
+      const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
+        folder: 'ProfileImages',
+        fileName,
+      } );
+      return response.data.url;
+    } catch ( error )
+    {
+      console.error( 'Error getting upload URL:', error );
+      throw error;
+    }
+  };
+
+  const handleUpload = async () =>
+  {
+    if ( !file ) return false;
+
+    try
+    {
+      const uploadUrl = await getUploadUrl( file.name );
+      if ( !uploadUrl ) return false;
+
+      const res = await axios.put( uploadUrl, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+      } );
+
+      if ( res.status === 200 )
+      {
+        console.log( 'File uploaded successfully', res );
+        return true;
+      } else
+      {
+        console.log( 'File upload failed', res );
+        return false;
+      }
+    } catch ( error )
+    {
+      console.log( 'Error uploading file:', error );
+      return false;
+    }
+  };
+
+  const handleSubmit = async ( e: React.FormEvent ) =>
+  {
+    e.preventDefault();
+    setLoader( true );
+
+    try
+    {
+      let newImageUrl = formData.image;
+      if ( file )
+      {
+        const uploadSuccess = await handleUpload();
+        if ( uploadSuccess )
+        {
+          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/ProfileImages/${ file.name }`;
+        } else
+        {
+          setLoader( false );
+          // You might want to add a notification here about the upload failure
+          return;
+        }
+      }
+
+      const updatedFormData = { ...formData, image: newImageUrl };
+      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
+
+      if ( updateUserProfile.fulfilled.match( resultAction ) )
+      {
+        // You might want to add a success notification here
+        router.refresh();
+        setIsModalVisible( false );
+      } else
+      {
+        // You might want to add an error notification here
+      }
+    } catch ( err )
+    {
+      console.log( "err", err );
+      // You might want to add an error notification here
+    } finally
+    {
+      setLoader( false );
+    }
+  };
+
+  const toggleModal = () =>
+  {
+    setIsModalVisible( !isModalVisible );
   };
 
   return (
     <div >
       <div className="flex justify-start items-center cursor-pointer ">
-        <Chip onClick={toggleModal} variant="solid" className="text-white bg-[#d200e7]" color="secondary">
+        <Chip onClick={ toggleModal } variant="solid" className="text-white bg-[#d200e7]" color="secondary">
           Edit profile
         </Chip>
       </div>
-      {isModalVisible && (
+      { isModalVisible && (
         <div
           id="static-modal"
-          tabIndex={-1}
+          tabIndex={ -1 }
           aria-hidden="true"
           className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center"
         >
-          <div className="relative  p-2 w-full max-w-md ">
-            <button
-              type="button"
-              onClick={toggleModal}
-              className="absolute top-2 right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              <svg
-                className="w-3 h-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 14 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                />
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
-            <form
-              onSubmit={handleSubmit}
-              className="max-w-lg mx-auto p-8 bg-[#282828] shadow-md rounded-lg"
-            >
-              <div className="mb-4">
-                <label
-                  htmlFor="bgImage"
-                  className="block text-sm font-medium text-white"
-                >
-                  Background Image URL
-                </label>
-                <input
-                  type="text"
-                  id="bgImage"
-                  name="bgImage"
-                  value={formData.bgImage}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-[#282828] rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label
-                  htmlFor="bio"
-                  className="block text-sm font-medium text-white"
-                >
-                  Bio
-                </label>
-                <textarea
-                  id="bio"
-                  name="bio"
-                  value={formData.bio}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border bg-[#282828] border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label
-                  htmlFor="nickname"
-                  className="block text-sm font-medium text-white"
-                >
-                  Nickname
-                </label>
-                <input
-                  type="text"
-                  id="nickname"
-                  name="nickname"
-                  value={formData.nickname}
-                  onChange={handleChange}
-                  className="mt-1 block w-full px-3 py-2 border bg-[#282828] border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
-
-              {/* <div className="mb-4">
-                 <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image URL</label>
-                 <input
-                   type="text"
-                 id="image"
-                 name="image"
-                   value={formData.image}
-                  onChange={handleChange}
-                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-               </div> */}
-
+          <div className="relative p-4 w-full max-w-md">
+            <div className="bg-[#282828] rounded-lg shadow-xl">
               <button
-                type="submit"
-                className="w-full py-2 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                type="button"
+                onClick={ toggleModal }
+                className="absolute top-3 right-3 text-gray-400 bg-transparent hover:bg-gray-700 hover:text-white rounded-lg text-sm p-1.5 inline-flex items-center"
               >
-                Update Profile
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
+                </svg>
               </button>
-            </form>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-white mb-4">Edit Profile</h3>
+                <form onSubmit={ handleSubmit } className="space-y-4">
+                  <div className="flex flex-col items-center mb-4">
+                    <div
+                      className="bg-gray-700 border-2 border-gray-600 h-28 w-28 rounded-full flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-300 hover:border-blue-500 relative group mb-2"
+                      onClick={ () => fileInputRef.current?.click() }
+                    >
+                      { formData.image || file ? (
+                        <>
+                          <img
+                            src={ file ? URL.createObjectURL( file ) : formData.image }
+                            alt="Profile"
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <FaEdit className="text-white text-2xl" />
+                          </div>
+                        </>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      ) }
+                    </div>
+                    <label htmlFor="image" className="text-sm font-medium text-gray-300 cursor-pointer">
+                      Change Profile Picture
+                    </label>
+                    <input
+                      type="file"
+                      id="image"
+                      name="image"
+                      onChange={ handleFileChange }
+                      ref={ fileInputRef }
+                      className="hidden"
+                      accept="image/*"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="nickname" className="block text-sm font-medium text-gray-300 mb-1">
+                      Nickname
+                    </label>
+                    <input
+                      type="text"
+                      id="nickname"
+                      name="nickname"
+                      value={ formData.nickname }
+                      onChange={ handleChange }
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Your nickname"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="bio" className="block text-sm font-medium text-gray-300 mb-1">
+                      Bio
+                    </label>
+                    <textarea
+                      id="bio"
+                      name="bio"
+                      value={ formData.bio }
+                      onChange={ handleChange }
+                      rows={ 4 }
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Tell us about yourself"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+                  >
+                    Update Profile
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      ) }
     </div>
   );
 };

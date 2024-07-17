@@ -14,6 +14,83 @@ interface KolsData {
   upVotes: number;
   downVotes: number;
 }
+interface ProfileProps
+{
+    displayName: string;
+    // quests: number;
+    // followers: number;
+    bio: string;
+    image: string;
+    // quest: any;
+}
+
+const Profile: React.FC<ProfileProps> = ( { displayName, bio, image } ) =>
+{
+
+    return (
+        <div className='group flex flex-col sm:flex-row border-[#333333] border p-4 w-full max-w-md bg-[#111111] text-white m-auto my-5 rounded-lg shadow-xl hover:bg-[#8c71ff] hover:text-[#000000]'>
+            <div className='w-full sm:w-1/3 flex flex-col items-center mb-4 sm:mb-0 justify-between '>
+                <div className='h_image-container  w-28 h-28 overflow-hidden rounded-lg'>
+                    <img src={image} alt={displayName} className='h_styled-image object-cover' />
+                </div>
+                <div className='h_bg_Div_Down bg-gray-800 group-hover:bg-[#735dcf] ' />
+                <div className="p-4">
+                    <div className="flex justify-center space-x-2 sm:space-x-2 sm:mt-4 group-hover:bg-[#735dcf]">
+                        <div className="h_icon_container w-8 h-8 sm:w-10 sm:h-10">
+                            <button className="h_icon w-full h-full bg-[#111111] group-hover:bg-[#735dcf] flex items-center justify-center">
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="h_icon_container_2 w-8 h-8 sm:w-10 sm:h-10">
+                            <button className="h_icon w-full h-full bg-[#111111] group-hover:bg-[#735dcf] flex items-center justify-center">
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19.54 0c1.356 0 2.46 1.104 2.46 2.472v21.528l-2.58-2.28-1.452-1.344-1.536-1.428.636 2.22h-13.608c-1.356 0-2.46-1.104-2.46-2.472v-16.224c0-1.368 1.104-2.472 2.46-2.472h16.08zm-4.632 15.672c2.652-.084 3.672-1.824 3.672-1.824 0-3.864-1.728-6.996-1.728-6.996-1.728-1.296-3.372-1.26-3.372-1.26l-.168.192c2.04.624 2.988 1.524 2.988 1.524-1.248-.684-2.472-1.02-3.612-1.152-.864-.096-1.692-.072-2.424.024l-.204.024c-.42.036-1.44.192-2.724.756-.444.204-.708.348-.708.348s.996-.948 3.156-1.572l-.12-.144s-1.644-.036-3.372 1.26c0 0-1.728 3.132-1.728 6.996 0 0 1.008 1.74 3.66 1.824 0 0 .444-.54.804-.996-1.524-.456-2.1-1.416-2.1-1.416l.336.204.048.036.047.027.014.006.047.027c.3.168.6.3.876.408.492.192 1.08.384 1.764.516.9.168 1.956.228 3.108.012.564-.096 1.14-.264 1.74-.516.42-.156.888-.384 1.38-.708 0 0-.6.984-2.172 1.428.36.456.792.972.792.972zm-5.58-5.604c-.684 0-1.224.6-1.224 1.332 0 .732.552 1.332 1.224 1.332.684 0 1.224-.6 1.224-1.332.012-.732-.54-1.332-1.224-1.332zm4.38 0c-.684 0-1.224.6-1.224 1.332 0 .732.552 1.332 1.224 1.332.684 0 1.224-.6 1.224-1.332 0-.732-.54-1.332-1.224-1.332z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="h_icon_container_3 w-8 h-8 sm:w-10 sm:h-10">
+                            <button className="h_icon w-full h-full bg-[#111111] group-hover:bg-[#735dcf] flex items-center justify-center">
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='w-full sm:w-2/3 flex flex-col sm:pl-4'>
+                <div className='flex items-center justify-evenly sm:justify-end mb-4'>
+                    <h2 className='text-sm font-bold mb-2 text-start mr-7 mt-3 sm:text-left'>{ displayName }</h2>
+                    <div className='text-center sm:text-right mr-3 text-sm'>
+                        {/* <span className='block '>{ quest.length }</span> */}
+                        <span className='opacity-40' >QUESTS</span>
+                    </div>
+                    <div className='text-start sm:text-right text-sm'>
+                        {/* <span className='block'>{ followers }</span> */}
+                        <span className='opacity-40 text-sm'>FOLLOWERS</span>
+                    </div>
+                </div>
+                <p className='text-xs p-2 mb-4 text-center sm:text-left group-hover:bg-[#735dcf]'>
+                    <span >BIO: </span>
+                    <span className='opacity-40 font-semibold justify-center'>
+                        { bio }
+                    </span>
+                </p>
+                <div className="mb-4">
+                    <span className="text-xs text-gray-400 group-hover:text-black">VOTES</span>
+                    <div className="mt-1 flex space-x-1">
+                        { [ ...Array( 6 ) ].map( ( _, i ) => (
+                            <div key={ i } className={ `h-1 w-full ${ i < 3 ? 'bg-purple-500' : 'bg-gray-700' }` }></div>
+                        ) ) }
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const RateKols = (props: Props) => {
 
@@ -51,12 +128,10 @@ const RateKols = (props: Props) => {
     console.log(kols); // Log kols whenever it changes
   }, [kols]);
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-[90%] mx-auto">
 
-    <div className=" w-full bg-slate-900 h-screen">
-      <div className="flex justify-center items-center h-32 w-full bg-slate-800">
-        <div className="text-3xl text-center font-bold text-white">Rate Kols</div>
-      </div>
+    <div className=" w-full bg-black min-h-screen">
+     
       <div className="container  mx-auto mt-8">
       <div className="text-2xl  font-bold h-20 text-start text-white"
       >All the kols:</div>
@@ -66,154 +141,64 @@ const RateKols = (props: Props) => {
       </div>
       :
       (
-      <div className="grid gap-6 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ">
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 p-2">
           {kols?.map((kol,index) => (
-            <div key={index} className="bg-white shadow rounded-lg p-6">
-              <div className="flex flex-col items-center">
-                <img
-                  src={kol.image}
-                  className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
-                  alt={kol.displayName}
-                />
-                <h1 className="text-xl font-bold text-gray-700">{kol.displayName}</h1>
-                <p className="text-gray-700">{kol.userName}</p>
-              </div>
+            // <div key={index} className="bg-white shadow rounded-lg p-6">
+            //   <div className="flex flex-col items-center">
+            //     <img
+            //       src={kol.image}
+            //       className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
+            //       alt={kol.displayName}
+            //     />
+            //     <h1 className="text-xl font-bold text-gray-700">{kol.displayName}</h1>
+            //     <p className="text-gray-700">{kol.userName}</p>
+            //   </div>
   
-              <div className="flex flex-col mt-4">
-                <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
-                  Bio
-                </span>
-                <p className="text-gray-700 mb-4 text-sm">{kol.bio}</p>
-              </div>
-              <div className="flex items-center justify-center space-x-4">
-                <span className="text-2xl font-bold text-black">{kol.upVotes}</span>
-                <button className="p-2 border rounded-full bg-green-400">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </button>
-                <span className="text-2xl font-bold text-black">{kol.downVotes}</span>
-                <button className="p-2 border rounded-full bg-red-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-              </div>
-              {/* <div className="mt-4">
-                <h3 className="font-semibold text-start text-black">
-                  Follow me on
-                </h3>
-                <div className="flex justify-start items-center gap-6 my-4">
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit LinkedIn"
-                    href={kol?.socialLinks?.linkedin}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit YouTube"
-                    href={kol?.socialLinks?.youtube}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 576 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit Facebook"
-                    href={kol?.socialLinks?.facebook}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 320 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="m279.14 288 14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit Instagram"
-                    href={kol?.socialLinks?.instagram}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit Twitter"
-                    href={kol?.socialLinks?.twitter}
-                    target="_blank"
-                  >
-                    <svg
-                      className="h-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div> */}
-            </div>
+            //   <div className="flex flex-col mt-4">
+            //     <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
+            //       Bio
+            //     </span>
+            //     <p className="text-gray-700 mb-4 text-sm">{kol.bio}</p>
+            //   </div>
+            //   <div className="flex items-center justify-center space-x-4">
+            //     <span className="text-2xl font-bold text-black">{kol.upVotes}</span>
+            //     <button className="p-2 border rounded-full bg-green-400">
+            //       <svg
+            //         xmlns="http://www.w3.org/2000/svg"
+            //         className="h-6 w-6 text-black"
+            //         fill="none"
+            //         viewBox="0 0 24 24"
+            //         stroke="currentColor"
+            //       >
+            //         <path
+            //           strokeLinecap="round"
+            //           strokeLinejoin="round"
+            //           strokeWidth="2"
+            //           d="M5 15l7-7 7 7"
+            //         />
+            //       </svg>
+            //     </button>
+            //     <span className="text-2xl font-bold text-black">{kol.downVotes}</span>
+            //     <button className="p-2 border rounded-full bg-red-300">
+            //       <svg
+            //         xmlns="http://www.w3.org/2000/svg"
+            //         className="h-6 w-6 text-black"
+            //         fill="none"
+            //         viewBox="0 0 24 24"
+            //         stroke="currentColor"
+            //       >
+            //         <path
+            //           strokeLinecap="round"
+            //           strokeLinejoin="round"
+            //           strokeWidth="2"
+            //           d="M19 9l-7 7-7-7"
+            //         />
+            //       </svg>
+            //     </button>
+            //   </div>
+            
+            // </div>
+            <Profile key={ index } { ...kol } />
           ))}
       </div>
       )

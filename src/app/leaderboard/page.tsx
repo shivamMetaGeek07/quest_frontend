@@ -30,13 +30,13 @@ const GlobalLeaderboard = () => {
   }, []);
 
   return (
-    <div className="w-[80%] mx-auto">
+    <div className=" w-[90%] mx-auto">
       <div>leaderboard</div>
 
       {/* top3 */}
       <section className="w-full">
-        <div className="my-4 flex items-center gap-8 justify-center">
-          <div className="flex flex-col sm:flex-row gap-2 m-auto w-full justify-center  sm:justify-between">
+        <div className="lg:my-4 my-8 flex items-center gap-8 justify-center">
+          <div className="flex flex-col sm:flex-row lg:gap-6 gap-2 m-auto w-full justify-center items-between">
           <div className=" p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
               <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
@@ -60,7 +60,7 @@ const GlobalLeaderboard = () => {
                 </div>
               </div>
               </div>
-              <div className="my-16 p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
+              <div className="lg:my-16 p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
               <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                     <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
@@ -112,7 +112,7 @@ const GlobalLeaderboard = () => {
       {/* leaderboard table */}
       <section className="w-full flex flex-col justify-center items-center">
 
-      <div className="flex flex-row justify-center my-2 gap-3 text-pink-950 text-5xl">
+      <div className="flex flex-row justify-center my-2 gap-3 text-pink-950 lg:text-5xl">
         - - - - - - - - - - -  
       </div>
 
@@ -125,7 +125,7 @@ const GlobalLeaderboard = () => {
               </div>
               <div className="listOfFriends">List of Friends</div>
             </div> */}
-        <div className="w-[90%] lg:w-[60%] flex userTable justify-center items-center bg-[#040404] ">
+        <div className="w-[90%] lg:w-[80%] flex userTable justify-center items-center bg-[#040404] ">
           <UserTable<User> data={users} columns={columns} rowsPerPage={5} />
         </div>
       </section>
