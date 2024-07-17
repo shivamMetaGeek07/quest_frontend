@@ -77,18 +77,11 @@ const Navbar: React.FC = () =>
 
 
     return (
-        <nav className="bg-black text-white p-4 ml-16 sm:ml-0">
+        <nav className="bg-black text-white p-4 ml-16 sm:ml-0 md:mx-[4rem]">
             <div className="container mx-auto flex flex-wrap items-center justify-between">
                 {/* Logo */ }
                 <div className="flex items-center">
                     <Link href="/" className="flex items-center rtl:space-x-reverse">
-                        <img
-                            src="https://flowbite.com/docs/images/logo.svg"
-                            className="h-8"
-                            alt="Flowbite Logo" 
-                            width={ 32 }
-                            height={ 32 }
-                        />
                         <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap">
                             Fam Protocol
                         </span>
