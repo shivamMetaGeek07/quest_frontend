@@ -382,7 +382,7 @@ const TaskCards: React.FC<{
           </div>
           <div className="basis-[25%]">
             <div className="relative flex justify-center">
-              <Image
+              <img
                 src={ task.image || "https://zealy.io/nstatic/xp-reward.webp" }
                 alt="Task Image"
                 className="w-full h-auto rounded-lg"

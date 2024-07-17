@@ -10,7 +10,7 @@ import Image from 'next/image';
        <div className=' p-3 '> 
         <div
             className='image-container h-[10rem] w-36 items-center flex'>
-            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          </div>
          <div className='flex w-[21rem]   m-1 flex-col  items-center'>
@@ -31,7 +31,7 @@ import Image from 'next/image';
         <div className='flex flex-row text-gray-500 text-xl w-[36rem] justify-between h-32 bg-[#111111] shadow-lg shadow-[#0d0d0d]  items-center  m-auto'>
         <div
             className='bg_Div_half h-[8rem] w-[16rem] items-center flex'>
-            <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
+            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
         
             <div className='flex   flex-col w-2/4  gap-3 p-2 justify-start   '>
@@ -63,7 +63,7 @@ import Image from 'next/image';
          <div className='flex flex-row text-xl items-center justify-around m-auto'>
             <div className='p-1'>
              <div className='image-container h-[5rem] w-[5rem] items-center flex'>
-                <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
+                <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
              </div>
              <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
             </div>
@@ -101,7 +101,7 @@ import Image from 'next/image';
          <div className='flex flex-row text-xl items-center justify-around m-auto'>
             <div className='p-1'>
              <div className='image-container h-[5rem] w-[5rem] items-center flex'>
-                <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
+                <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
               </div>
              <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
             </div>
@@ -139,7 +139,7 @@ import Image from 'next/image';
          <div className='flex flex-row text-xl items-center justify-around m-auto'>
             <div className='p-1'>
              <div className='image-container h-[5rem] w-[5rem] items-center flex'>
-                <Image src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
+                <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
              </div>
              <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
             </div>

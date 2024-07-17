@@ -195,12 +195,12 @@ const Profile: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center ">
             
               <div className="w-[8rem] h-[8rem] flex justify-center items-center">
-                    { user ? ( <Image
+                    { user ? ( <img
                 src={user.image}
                 alt="avatar photo"
               
                 className="bottom-trapezium"
-                    /> ) : ( <Image
+                    /> ) : ( <img
                 src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
                 alt="avatar photo"
               
@@ -315,7 +315,7 @@ const Profile: React.FC = () => {
                     className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
                   >
                   <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                    <Image
+                    <img
                   src={data.imageUrl}
                   alt="badge photo"
                   className="w-full h-full bg-cover object-cover"

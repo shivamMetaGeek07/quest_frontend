@@ -18,7 +18,7 @@ const KolsProfileSlug = (props: Props) => {
             <div className="col-span-4 sm:col-span-3">
               <div className="bg-white shadow rounded-lg p-6">
                 <div className="flex flex-col items-center">
-                  <Image
+                  <img
                     src={ users.image }
                     alt={users?.name}
                     className="w-32 h-32  rounded-full mb-4 shrink-0"

@@ -94,7 +94,7 @@ const Leaderboard: React.FC = () => {
                 key={item.id}
                 className="w-full md:w-[250px] h-[350px] bg-slate-100 hover:bg-slate-300 duration-1000 rounded-md shadow-lg flex flex-col items-center justify-center"
               >
-                <Image
+                <img
                   src={item.image}
                   alt={item.name}
                   className="h-32 w-32 rounded-full object-cover mb-4"
@@ -118,7 +118,7 @@ const Leaderboard: React.FC = () => {
             >
               <div className="item flex justify-evenly items-center w-full md:w-auto">
                 <p className="px-2 font-bold text-slate-600">{item.id}.</p>
-                <Image
+                <img
                   src={item.image}
                   alt="image"
                   className="h-16 w-16 rounded-full"

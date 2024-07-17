@@ -22,7 +22,7 @@ const Registrartion = () =>
 		<div className="flex justify-center items-center min-h-screen py-16 bg-white">
 		  <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
 			<div className="hidden lg:block lg:w-1/2 bg-cover">
-			  <Image
+			  <img
 				className='w-full'
 				src="https://cdni.iconscout.com/illustration/premium/thumb/login-10299071-8333958.png?f=webp"
 				alt="Login Illustration"

@@ -41,7 +41,7 @@ const GlobalLeaderboard = () => {
               <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                     <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
-                      <Image
+                      <img
                         className=" w-full h-full "
                         // style={{ padding: "2.5rem 0rem 0rem 0.5rem" }}
                         src="https://pics.craiyon.com/2023-11-12/iRznbtVdTBGaKNpMe9ZGFg.webp"
@@ -64,7 +64,7 @@ const GlobalLeaderboard = () => {
               <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                     <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
-                      <Image
+                      <img
                         className=" w-full h-full "
                         // style={{ padding: "2.5rem 0rem 0rem 0.5rem" }}
                         src="https://play-lh.googleusercontent.com/Sb5od0gQvJyuevITuUZ5Ko46WqFEBjPZlT7xIMfGWfbyaGCqF0nCXPJTa-poWuwSu-8=w540-h302-rw"
@@ -87,7 +87,7 @@ const GlobalLeaderboard = () => {
               <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                     <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
-                      <Image
+                      <img
                         className=" w-full h-full "
                         // style={{ padding: "2.5rem 0rem 0rem 0.5rem" }}
                         src="https://cdn.openart.ai/uploads/image_M4XWz-9Q_1686943712284_512.webp"

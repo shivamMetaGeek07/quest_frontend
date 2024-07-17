@@ -222,7 +222,7 @@ const MyCommunities = () => {
               <div className="flex flex-row text-xl items-center justify-around m-auto">
                 <div className="p-1">
                   <div className="image-container h-[5rem] w-[5rem] items-center flex">
-                    <Image src={card.logo} alt="" className="styled-image" />
+                    <img src={card.logo} alt="style image" className="styled-image" />
                   </div>
                   <div className="bg_Div_Down h-[2rem]  bg-gray-800" />
                 </div>

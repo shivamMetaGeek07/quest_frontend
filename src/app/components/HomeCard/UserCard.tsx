@@ -30,7 +30,7 @@ export const users: User[] = [
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 1,
+    id: 3,
     firstName: "Sepehr",
     lastName: "Babaei",
     profileImage:
@@ -39,7 +39,7 @@ export const users: User[] = [
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 3,
+    id: 4,
     firstName: "Jane",
     lastName: "Smith",
     profileImage:
@@ -48,7 +48,7 @@ export const users: User[] = [
     icons: ["🍎", "⭐", "⭐"],
   },
   {
-    id: 4,
+    id: 5,
     firstName: "Sepehr",
     lastName: "Babaei",
     profileImage:
@@ -115,7 +115,7 @@ const UserCard = () => {
               <div className="flex-col justify-center ">
 
               <div className="image-container h-20 w-20 items-center flex">
-              <Image
+              <img
                 src={user.profileImage}
                 alt=""
                 className="styled-image"
