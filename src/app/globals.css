@@ -414,7 +414,6 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 .ticker {
     display: inline-block;
     white-space: nowrap;
-    /* padding-right: 15px; */
     box-sizing: content-box;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
@@ -512,4 +511,43 @@ right:0px;
 
 .glassborder-left{
 border-left: 1px solid #ffffff00;
+}
+
+
+/* slider */
+/* slick-custom.css */
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+.slick-prev {
+  left: -25px;
+}
+
+.slick-next {
+  right: -25px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #FA00FF;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  color: #FA00FF;
+}
+
+@media (max-width: 640px) {
+  .slick-prev {
+    left: 10px;
+  }
+
+  .slick-next {
+    right: 10px;
+  }
 }
