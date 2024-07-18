@@ -600,3 +600,7 @@ text-transform: uppercase;
     right: 10px;
   }
 }
+
+.community-clip{
+  clip-path: polygon(0 24%, 0 0, 100% 0, 100% 100%, 0 100%, 0 78%, 2% 71%, 2% 30%);
+}
