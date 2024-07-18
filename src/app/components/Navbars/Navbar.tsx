@@ -4,7 +4,6 @@ import { AppDispatch, persistor, RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { images } from '../../../../public/Asset/image';
 import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, Badge, Button } from "@nextui-org/react";
 import axios from 'axios';
 import Link from 'next/link';
@@ -17,8 +16,6 @@ const Navbar: React.FC = () =>
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
     const [ feedItems, setFeedItems ] = useState<string[]>( [] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
-
-    // console.log( feedItems );
 
     useEffect( () =>
     {
@@ -67,7 +64,7 @@ const Navbar: React.FC = () =>
             } );
             setFeedItems( response.data.feeds );
 
-            console.log( 'feed items :-', response.data );
+            // console.log( 'feed items :-', response.data );
         } catch ( error )
         {
             console.log( 'error in getting feed :-', error );
