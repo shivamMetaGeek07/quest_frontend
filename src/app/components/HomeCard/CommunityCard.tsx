@@ -106,8 +106,9 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
     //     </h1>
     //   </div>
     // </div>
+
     <div className="">
-      <div className="outer-div relative flex gap-8 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center w-[22rem] sm:w-full">
+      <div className="outer-div relative flex gap-8 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center">
         <div className="flex flex-row text-xl items-center justify-around m-auto">
           <div className="p-1">
             <div className="image-container h-[5rem] w-[5rem] items-center flex">

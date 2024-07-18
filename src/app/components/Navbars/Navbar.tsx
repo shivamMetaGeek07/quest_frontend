@@ -17,8 +17,6 @@ const Navbar: React.FC = () =>
     const [ feedItems, setFeedItems ] = useState<string[]>( [] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
 
-    // console.log( feedItems );
-
     useEffect( () =>
     {
         const interval = setInterval( () =>
@@ -66,7 +64,7 @@ const Navbar: React.FC = () =>
             } );
             setFeedItems( response.data.feeds );
 
-            console.log( 'feed items :-', response.data );
+            // console.log( 'feed items :-', response.data );
         } catch ( error )
         {
             console.log( 'error in getting feed :-', error );

@@ -48,6 +48,7 @@ export interface IUser
   community?: [];
   following?: string[];
   followers?: string[];
+  rewards?: any;
 }
 
 // Define the initial state interface

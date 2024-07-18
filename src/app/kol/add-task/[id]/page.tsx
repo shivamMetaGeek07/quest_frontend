@@ -54,7 +54,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
-
+console.log(KolId,taskOptions)
   useEffect( () =>
   {
     dispatch( fetchUserData() );
@@ -74,11 +74,11 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   };
   const closeTaskModal = () => setSelectedTask( null );
 
-  const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
-  {
-    if ( !selectedTask ) return;
+  // const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
+  // {
+  //   if ( !selectedTask ) return;
 
-    const value = e.target.value;
+  //   const value = e.target.value;
 
   //   // Regular expression to validate URL format
   //   const urlPattern = new RegExp(
@@ -503,7 +503,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     </>
   );
 };
-};
+
 
 export default AddTask;
 
