@@ -4,7 +4,6 @@ import { AppDispatch, persistor, RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { images } from '../../../../public/Asset/image';
 import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, Badge, Button } from "@nextui-org/react";
 import axios from 'axios';
 import Link from 'next/link';
