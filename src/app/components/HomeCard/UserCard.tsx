@@ -210,8 +210,8 @@ const UserCard = () =>
       </div>
 
       <Slider { ...settings }>
-        { data?.map( ( user: any ) => (
-          <div key={ user.id }>{ renderUserCard( user ) }</div>
+        { data?.map( ( user: any ,index: number) => (
+          <div key={ index }>{ renderUserCard( user ) }</div>
         ) ) }
       </Slider>
     </div>
