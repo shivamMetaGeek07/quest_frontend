@@ -5,10 +5,10 @@ import { BallTriangle } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "../../components/ModalForm";
-import { fetchUserData } from "@/redux/reducer/authSlice";
+import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Inter, Roboto_Mono } from 'next/font/google';
 import { Chip } from "@nextui-org/react";
-import { columns, friends } from "./data";
+import { columns } from "./data";
 import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
 import Image from "next/image";
@@ -91,8 +91,60 @@ const Profile: React.FC = () =>
   const router = useRouter();
   const [ isClient, setIsClient ] = useState( false );
   const [ earned, setEarned ] = useState<number | null>( null );
+  const [ allFriends, setAllFriends ] = useState<any>( [] );
 
   const dispatch = useDispatch<AppDispatch>();
+  const user: any = useSelector( ( state: RootState ) => state.login.user );
+  // console.log(user)
+
+  const getFriendIds = ( user: any ) =>
+  {
+    // Combine followers and following into a single array
+    const allConnections = [ ...( user?.followers || [] ), ...( user?.following || [] ) ];
+
+    // Create a Set to remove duplicates
+    const uniqueConnectionsSet = new Set( allConnections );
+
+    // Convert the Set back to an array
+    const uniqueFriendIds = Array.from( uniqueConnectionsSet );
+
+    return uniqueFriendIds;
+  };
+
+  // Usage
+  const friendsIds = getFriendIds( user );
+
+  // console.log( friendsIds )
+
+
+  const getFriends = async () =>
+  {
+    try
+    {
+      const response = await fetch( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/friends`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify( { friendsIds } ),
+      } );
+      const data = await response.json();
+      // console.log(data)
+      setAllFriends( data.friends );
+    } catch ( error )
+    {
+      console.error( error );
+    }
+  };
+
+
+  useEffect( () =>
+  {
+    getFriends();
+  }, [] );
+
+  // console.log("ALl friends:",allFriends)
+
   const handleEarnRewardsClicks = () =>
   {
     if ( earned === null )
@@ -104,8 +156,7 @@ const Profile: React.FC = () =>
       setEarned( null );
     }
   };
-  const user = useSelector( ( state: RootState ) => state.login.user );
-  console.log( "user", user );
+  // console.log( "user", user );
   const handleEarnRewardsClick = () =>
   {
     router.push( "/" );
@@ -182,9 +233,8 @@ const Profile: React.FC = () =>
 
   useEffect( () =>
   {
-    setIsClient( true ); // Set the client flag to true on the client side
-
-    // dispatch(fetchUserData())
+    setIsClient( true );
+    dispatch( fetchUserData() );
   }, [ dispatch ] );
 
   if ( !isClient ) return (
@@ -193,7 +243,7 @@ const Profile: React.FC = () =>
     </div>
   );
 
- return (
+  return (
     <>
       <div className="min-h-screen mb-8">
         <div className="text-white">
@@ -223,7 +273,7 @@ const Profile: React.FC = () =>
                   <div className="lg:w-[16rem] flex lg:justify-start  mt-6 lg:mt-1">
                     <div className=" flex flex-col lg:items-start items-center gap-[0.75rem]">
                       <div className="flex justify-start gap-[1rem] row items-stretch">
-                        <div className={`${ inter.variable } ${ roboto_mono.variable } username `}>
+                        <div className={ `${ inter.variable } ${ roboto_mono.variable } username ` }>
                           { user?.displayName }
                         </div>
                         <div className="user-rank" >
@@ -273,7 +323,7 @@ const Profile: React.FC = () =>
                       </div>
 
                       <div className="flex col gap-5 justify-center items-center">
-                        <Chip onClick={ handleEarnRewardsClicks } color="warning" variant="bordered" className="cursor-pointer px-4 py-2 mt-3">200 pts</Chip>
+                        <Chip onClick={ handleEarnRewardsClicks } color="warning" variant="bordered" className="cursor-pointer px-4 py-2 mt-3">{ user?.rewards?.xp } pts</Chip>
 
                         <Chip onClick={ () => router.push( '/user/my-community' ) } variant="solid" className="cursor-pointer px-4 py-2 mt-3" color="warning">
                           Earn rewards
@@ -355,7 +405,7 @@ const Profile: React.FC = () =>
               <div className="listOfFriends">List of Friends</div>
             </div>
             <div className="friendTable">
-              <UserTable<Friend> data={ friends } columns={ columns } rowsPerPage={ 5 } />
+              <UserTable<Friend> data={ allFriends } columns={ columns } rowsPerPage={ 5 } />
             </div>
 
           </section>
