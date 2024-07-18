@@ -116,69 +116,6 @@ const Profile: React.FC = () =>
     router.push( "/user/leaderboard" );
   };
 
-  //   const renderCell = React.useCallback((user: Friend, columnKey: React.Key) => {
-  //     const cellValue = user[columnKey as keyof Friend];
-
-  //     switch (columnKey) {
-  //       case "sno":
-  //       return (
-  //         <div className="capitalize w-[40%] mx-auto ">
-  //           <span className="lvl text-end text-xl">#{user.id}</span>
-  //         </div>
-  //       )
-  //       case "name":
-  //         return (
-  //           <div className="capitalize w-[40%] mx-auto">
-  //           <User
-  //             avatarProps={{radius: "md", src: user.avatar}}
-  //             name={cellValue}
-  //           >
-  //           </User>
-  //         </div>
-  //         );
-  //       case "stars":
-  //         return (
-  //           <StarDisplay
-  //             cellValue={cellValue as number}
-  //           />
-  //         );
-  //       case "xps":
-  //         return (
-  //           <div className="capitalize flex gap-2 items-center justify-center">
-  //             <div><span className="user-leaderboard-text">Xps: </span><span>{ cellValue}</span></div>
-  //             <div><span className="lvl"> - LVL: {user.level}</span></div>
-  //           </div>
-  //         )
-  //       case "fampoints":
-  //         return (
-  //           <div className="capitalize flex items-center justify-center ">
-  //             <span className="user-leaderboard-text">Fampoints: </span><span>{ cellValue}</span>
-  //           </div>
-  //         );
-  //       case "actions":
-  //         return (
-  //           <div className="relative flex items-center gap-2">
-  //             <Tooltip content="Details">
-  //               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-  //                eye
-  //               </span>
-  //             </Tooltip>
-  //             <Tooltip content="Edit user">
-  //               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-  //                 edit
-  //               </span>
-  //             </Tooltip>
-  //             <Tooltip color="danger" content="Delete user">
-  //               <span className="text-lg text-danger cursor-pointer active:opacity-50">
-  // delete
-  //               </span>
-  //             </Tooltip>
-  //           </div>
-  //         );
-  //       default:
-  //         return cellValue;
-  //     }
-  //   }, []);
 
   useEffect( () =>
   {
@@ -199,10 +136,10 @@ const Profile: React.FC = () =>
         <div className="text-white">
           {/* user info */ }
           <section className="w-[90%] lg:w-[80%] mx-auto mt-20">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between lg:mt-20 mx-4 lg:mx-10">
+            <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-start justify-between lg:mt-20 mx-4 lg:mx-10">
               {/* user info */ }
               <div className="lg:w-1/2">
-                <div className="flex flex-col lg:flex-row items-center ">
+                <div className="flex flex-col lg:flex-row items-center gap-4">
 
                   <div className="w-[8rem] h-[8rem] flex justify-center items-center">
                     { user ? ( <img

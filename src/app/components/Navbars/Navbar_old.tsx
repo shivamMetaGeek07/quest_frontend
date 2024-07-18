@@ -46,21 +46,8 @@ console.log("data",data)
   return (
     <nav className="bg-gray-900 border-gray-200 w-full overflow-hidden rounded-md sticky top-0 shadow " style={{ zIndex: 1000 }}>
       <div className="w-[95%] flex flex-wrap items-center justify-between mx-auto p-4">
-        {/* Logo */ }
-        <div>
-          <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8 "
-              alt="Flowbite Logo"
-              width={ 32 }
-              height={ 32 }
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap">
-              Fam Protocol
-            </span>
-        </Link>
-        </div>
+      
+      
         {/* Notifications */}
         <div>
           <Badge content="99+" shape="circle" color="danger">

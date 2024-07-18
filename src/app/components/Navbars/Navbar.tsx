@@ -4,7 +4,7 @@ import { AppDispatch, persistor, RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { images } from '../../../../public/assests/image';
+import { images } from '../../../../public/Asset/image';
 import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, Badge, Button } from "@nextui-org/react";
 import axios from 'axios';
 import Link from 'next/link';
@@ -18,7 +18,7 @@ const Navbar: React.FC = () =>
     const [ feedItems, setFeedItems ] = useState<string[]>( [] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
 
-    console.log( feedItems );
+    // console.log( feedItems );
 
     useEffect( () =>
     {
@@ -37,7 +37,7 @@ const Navbar: React.FC = () =>
             await dispatch( logoutUser() );
             await persistor.flush();
             localStorage.clear();
-            router.push( '/login' );
+            router.push( '/' );
         } catch ( error )
         {
             console.error( 'Error logging out:', error );
@@ -77,49 +77,35 @@ const Navbar: React.FC = () =>
 
 
     return (
-        <nav className="bg-black text-white p-4 ml-16 sm:ml-0 md:mx-[4rem]">
-            <div className="container mx-auto flex flex-wrap items-center justify-between">
-                {/* Logo */ }
-                <div className="flex items-center">
-                    <Link href="/" className="flex items-center rtl:space-x-reverse">
-                        <span className="self-center text-xl md:text-2xl font-semibold whitespace-nowrap">
-                            Fam Protocol
-                        </span>
-                    </Link>
-                </div>
-
+        <nav className="bg-black text-white py-2 md:py-4  ml-[8rem] mr-[4rem] ">
+            <div className="container mx-auto ">
                 {/* Desktop menu */ }
-                <div className="hidden lg:flex items-center space-x-4">
-                    <div className="relative">
+                <div className="hidden lg:flex items-center justify-between space-x-4">
+                    {/* searchBar */}
+                    <div className=" flex flex-row justify-start items-center">
                         <input
                             type="text"
                             placeholder="SEARCH"
                             className="bg-gray-800 text-white px-3 py-2.5 w-48 xl:w-64"
                         />
-                        <button className="search absolute right-0 top-0 bottom-0 bg-gray-700 text-white px-3 rounded-r">
+                        <button className="search  bg-gray-700 text-white px-3 rounded-r">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                             </svg>
                         </button>
                     </div>
+                   
 
-                    <div className="relative px-2">
-                        <Badge content="99+" shape="circle" color="danger">
-                            <Button
-                                radius="full"
-                                isIconOnly
-                                aria-label="more than 99 notifications"
-                                variant="light"
-                            >
-                                <i className="bi bi-bell-fill text-white text-xl"></i>
-                            </Button>
-                        </Badge>
-                    </div>
-
-                    <div className="flex-1 max-w-lg min-w-[200px] xl:min-w-[300px]">
-                        <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-1 px-4 rounded overflow-hidden relative w-full h-[40px]">
-                            <span className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-purple-600 to-purple-600 px-2 flex items-center font-bold z-10 border-r-2">
+                    {/* news */}
+                    <div className='bg-gradient-to-r from-[#FA00FF] via-[#FF7B7B] to-[#5538CE] text-white h-[40px]'>
+                    <div className=" flex flex-row max-w-lg min-w-[200px] xl:min-w-[300px] justify-center items-center">
+                     {/* linear-gradient(90deg, #FA00FF 0.03%, #FF7B7B 23.93%, #5538CE 118.3%); */}
+                        
+                        <div className="py-1 px-4 rounded overflow-hidden relative w-full ">
+                            <span className="absolute left-0 top-0 bottom-0 bg-transparent px-2 flex items-center font-bold p-2 z-10 news-text" >
+                                <div className='border-r-1 pr-2'>
                                 NEWS
+                                </div>
                             </span>
                             <div className="inline-block ticker-wrap ml-16">
                                 <div className="ticker">
@@ -133,8 +119,17 @@ const Navbar: React.FC = () =>
                                 </div>
                             </div>
                         </div>
+                        <div className='w-7 mr-1'>
+                          <div className='news-clip h-[36px] pl-1 pr-1 bg-gray-900 flex justify-center items-center'>
+                               <svg className="" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+  <path d="M4.45496 9.96001L7.71496 6.70001C8.09996 6.31501 8.09996 5.68501 7.71496 5.30001L4.45496 2.04001" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+</svg> </div>
+                            </div>
+                       
                     </div>
-
+                    </div>
+                    {/* profile */}
+                    <div className=" flex justify-evenly items-center">
                     { data ? (
                         <Dropdown placement="bottom-end" className="bg-slate-800">
                             <DropdownTrigger>
@@ -165,11 +160,25 @@ const Navbar: React.FC = () =>
                             </div>
                         </button>
                     ) }
+                     {/* notification */}
+                    <div className="relative px-2">
+                        <Badge content="99+" shape="circle" color="danger">
+                            <Button
+                                radius="full"
+                                isIconOnly
+                                aria-label="more than 99 notifications"
+                                variant="light"
+                            >
+                                <i className="bi bi-bell-fill text-white text-xl"></i>
+                            </Button>
+                        </Badge>
+                    </div>
+                    </div>
                 </div>
             </div>
 
             {/* Mobile and Tablet menu */ }
-            <div className="lg:hidden mt-4 ml-0">
+            <div className="lg:hidden md:mt-4 ml-0">
                 <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-2 px-4 rounded overflow-hidden relative h-[40px]">
                     <span className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-purple-600 to-purple-600 px-1 flex items-center z-10 border-r-2">
                         NEWS

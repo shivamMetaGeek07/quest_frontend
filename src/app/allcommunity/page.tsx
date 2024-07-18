@@ -235,16 +235,16 @@ const MyCommunities = () => {
                   <div className="flex w-full flex-col items-start ">
                     <div className="flex w-full md:h-[5rem] bg_eco_div border-b-4 border-[#8c71ff] gap-2 md:gap-2  p-2 bg-[#28223d] flex-col lg:flex-row items-center md:items-end lg:items-end justify-between ">
                       
-                        <div className="md:w-4/5 truncate text-[12px] md:text-[8px] lg:text-[8px] md:ml-3 md:text-start text-center card-title">{card.title}</div>
+                        <div className="md:w-4/5 truncate text-[12px] md:text-[10px] lg:text-[10px] md:ml-3 md:text-start text-center card-title">{card.title}</div>
                       
                       <div className="md:1/5 flex flex-row rounded-lg justify-center md:justify-end">
                         <div className="flex gap-1 mr-2 items-center flex-col">
-                          <span className="card-white-text text-[0.5rem] md:text-[0.7rem]">{card.quests.length}</span>
-                          <span className=" card-gray-text descdata">QUESTS</span>
+                          <span className="card-white-text ">{card.quests.length}</span>
+                          <span className=" card-gray-text ">QUESTS</span>
                         </div>
                         <div className="flex gap-1 items-center flex-col">
                           <span className="card-white-text text-[0.5rem] md:text-[0.7rem]">{card.members.length}</span>
-                          <span className=" card-gray-text descdata">FOLLOWERS</span>
+                          <span className=" card-gray-text ">FOLLOWERS</span>
                         </div>
                       </div>
                     </div>
@@ -268,7 +268,7 @@ const MyCommunities = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row text-sm m-1 gap-2 justify-start  ">
+              <div className="flex flex-row text-xs m-1 gap-2 justify-start  ">
                 <span className=" descText">Bio: </span>
                 <span className="descdata text-wrap ">
                 {card.description.slice(0, 20)}
