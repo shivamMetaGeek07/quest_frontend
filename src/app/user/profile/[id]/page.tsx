@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { BallTriangle } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -64,177 +64,100 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
   const [ isClient, setIsClient ] = useState( false );
   const [ isFollowed, setIsFollowed ] = useState<Boolean>( false );
   const [ earned, setEarned ] = useState<number | null>( null );
-  const [ userData, setUser ] = useState<any>( null );
+  const [ userData, setUserData ] = useState<any>( null );
   const [ allFriends, setAllFriends ] = useState<any>( [] );
 
+
   const user = useSelector( ( state: RootState ) => state.login.user );
-  console.log( "userData", userData );
-  const handleEarnRewardsClicks = () =>
-  {
-    if ( earned === null )
-    {
-      const earnedAmount: number = 5000;
-      setEarned( earnedAmount );
-    } else
-    {
-      setEarned( null );
-    }
-  };
+  const { id: userId } = useParams();
 
-  const checkFollow = () =>
+  const handleEarnRewardsClicks = useCallback( () =>
   {
-    if ( !user || !user.following || !params.id )
+    setEarned( prev => prev === null ? 5000 : null );
+  }, [] );
+
+  const checkFollow = useCallback( () =>
+  {
+    if ( user?.following && userId )
     {
-      return false; // If user, following array or params.id is not available, return false
+      setIsFollowed( user.following.includes( userId as string ) );
     }
-    const isFollowing = user.following.includes( params.id );
-    setIsFollowed( isFollowing );
-  };
-  const getUserProfile = async () =>
+  }, [ user, userId ] );
+
+  const getUserProfile = useCallback( async () =>
   {
+    if ( !userId ) return;
     try
     {
-      const id = params.id;
-      const response = await axios.get(
-        `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/${ id }`
-      );
-      console.log( response.data );
-      const data = response.data;
-      setUser( data );
+      const { data } = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/${ userId }` );
+      setUserData( data );
     } catch ( error )
     {
-      console.log( error );
+      console.error( "Error fetching user profile:", error );
     }
-  };
-  const initailize = async () =>
-  {
-    try
-    {
-      getUserProfile();
-      checkFollow();
-    } catch ( error )
-    {
-      console.log( error );
-    }
-  };
+  }, [ userId ] );
 
-  const getFriendIds = ( user: any ) =>
+  const getFriendIds = useCallback( ( user: any ) =>
   {
-    // Combine followers and following into a single array
     const allConnections = [ ...( user?.followers || [] ), ...( user?.following || [] ) ];
+    return Array.from( new Set( allConnections ) );
+  }, [] );
 
-    // Create a Set to remove duplicates
-    const uniqueConnectionsSet = new Set( allConnections );
-
-    // Convert the Set back to an array
-    const uniqueFriendIds = Array.from( uniqueConnectionsSet );
-
-    return uniqueFriendIds;
-  };
-
-  // Usage
-  const friendsIds = getFriendIds( userData );
-
-  console.log( friendsIds );
-
-
-  const getFriends = async () =>
+  const getFriends = useCallback( async () =>
   {
+    if ( !userData ) return;
+    const friendsIds = getFriendIds( userData );
     try
     {
-      const response = await fetch( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/friends`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify( { friendsIds } ),
-      } );
-      const data = await response.json();
-      console.log( data );
+      const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/friends`, { friendsIds } );
       setAllFriends( data.friends );
     } catch ( error )
     {
-      console.error( error );
+      console.error( "Error fetching friends:", error );
     }
-  };
+  }, [ userData, getFriendIds ] );
 
-
-  useEffect( () =>
+  const handleFollowToggle = useCallback( async () =>
   {
-    getFriends();
-    initailize();
-  }, [] );
-
-  const handleFollow = async () =>
-  {
-    console.log( "Follow clicked" );
-    if ( !user?._id || !params.id )
-    {
-      console.log( "User ID or Follow ID is missing" );
-      return;
-    }
-    console.log( params.id, user._id );
-
+    if ( !user?._id || !userId ) return;
+    const endpoint = isFollowed ? 'unfollow' : 'follow';
+    const payload = isFollowed ? { unfollowId: userId, userId: user._id } : { followId: userId, userId: user._id };
     try
     {
-      const response = await axios.post(
-        `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/follow`,
-        {
-          followId: params.id,
-          userId: user._id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log( response.data ); // Log the data from the response
-      setIsFollowed( true );
+      await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/${ endpoint }`, payload, {
+        headers: { "Content-Type": "application/json" },
+      } );
+      setIsFollowed( !isFollowed );
       getUserProfile();
     } catch ( error )
     {
-      console.error( "Error following the user:", error );
+      console.error( `Error ${ isFollowed ? 'unfollowing' : 'following' } the user:`, error );
     }
-  };
-  const handleUnFollow = async () =>
-  {
-    console.log( "UnFollow clicked" );
-    if ( !user?._id || !params.id )
-    {
-      console.log( "User ID or Follow ID is missing" );
-      return;
-    }
-    console.log( params.id, user._id );
-
-    try
-    {
-      const response = await axios.post(
-        `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/unfollow`,
-        {
-          unfollowId: params.id,
-          userId: user._id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log( response ); // Log the data from the response
-      setIsFollowed( false );
-      getUserProfile();
-    } catch ( error )
-    {
-      console.error( "Error following the user:", error );
-    }
-  };
+  }, [ user, userId, isFollowed, getUserProfile ] );
 
   useEffect( () =>
   {
-    setIsClient( true ); // Set the client flag to true on the client side
+    setIsClient( true );
     dispatch( fetchUserData() );
   }, [ dispatch ] );
+
+  useEffect( () =>
+  {
+    if ( userId )
+    {
+      getUserProfile();
+      checkFollow();
+    }
+  }, [ userId, getUserProfile, checkFollow ] );
+
+  useEffect( () =>
+  {
+    if ( userData )
+    {
+      getFriends();
+    }
+  }, [ userData, getFriends ] );
+
 
   if ( !isClient )
     return (
@@ -284,14 +207,14 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                         <span>
                           { isFollowed ? (
                             <button
-                              onClick={ handleUnFollow }
+                              onClick={ handleFollowToggle }
                               className="px-4 py-2 bg-[#FA00FF] rounded-full active:bg-[#711673]"
                             >
                               Unfollow
                             </button>
                           ) : (
                             <button
-                              onClick={ handleFollow }
+                                onClick={ handleFollowToggle }
                               className="px-4 py-2 bg-[#FA00FF] rounded-full active:bg-[#711673]"
                             >
                               Follow
@@ -377,7 +300,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                           variant="bordered"
                           className="cursor-pointer px-4 py-2 mt-3"
                         >
-                          { user.rewards.xp } pts
+                          { user?.rewards?.xp } pts
                         </Chip>
 
                         {/* <Chip
