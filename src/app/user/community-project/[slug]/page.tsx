@@ -173,13 +173,13 @@ export default function CommunityProject({
               </div>
             </div>
           </div>
-          <div className="flex items-center space-x-2 sm:space-x-2  group-hover:bg-[#735dcf]">
+          
             <div className=" flex lg:flex-row sm:flex-row flex-col gap-4 lg:mt-4 sm:mt-0 mt-4">
               <div className="flex items-center   group-hover:bg-[#735dcf]">
                 <div className="flex row gap-1">
-                  <div className="box1 right-trapezium w-[2rem] h-[2rem]  bg-[#ffffff33]">
+                  <div className="box1 right-trapezium w-[2rem] h-[2rem]  bg-[#ffffff33] ">
                     <svg
-                      className="box2 right-trapezium lg:p-2 lg:w-10 lg:h-10 sm:w-6 sm:h-6 h-2 w-2  sm:p-1  "
+                      className="box2 right-trapezium lg:p-2 lg:w-10 lg:h-10 sm:w-6 sm:h-6 h-2 w-2  sm:p-1 "
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 17 17"
                       fill="none"
@@ -238,7 +238,7 @@ export default function CommunityProject({
                 </p>
               </div>
             </div>
-          </div>
+          
 
           {/* <div className="p-6">
             <p className="text-lg text-white  mb-6">{community.description}</p>
@@ -282,14 +282,14 @@ export default function CommunityProject({
           </div> */}
         </div>
 
-        <div className="mai div flex  lg:flex-row sm:flex-col mt-16 gap-24 justify-end ">
+        <div className="mai div flex  lg:flex-row sm:flex-col flex-col mt-16 gap-24 justify-end ">
           {/* <div className=" border">
             left side
           </div> */}
 
           <div className="basis-[50%]">
             <div className="border border-neutral-600  p-5">
-              <div className="px-6 py-2  flex justify-between items-center">
+              <div className="lg:px-6 sm:px-6 px-2 py-2  flex justify-between items-center">
                 <div>
                   <p className="text-neutral-500 lg:text-lg sm:text-lg text-sm">
                     Count down
@@ -325,9 +325,9 @@ export default function CommunityProject({
               </div>
             </div>
 
-            <div className="mt-10 border border-neutral-600 p-8 ">
+            <div className="mt-10 border border-neutral-600 lg:p-8 sm:p-8 p-5 ">
               <div className="flex gap-10">
-                <div className="h-36 w-48 bg-[#121212]"></div>
+                <div className="lg:h-36 lg:w-48 sm:h-36 sm:w-48  h-24 w-40 bg-[#121212]"></div>
 
                 <div className="flex flex-col gap-5 w-full">
                   <div className="flex items-center gap-2">
@@ -353,7 +353,7 @@ export default function CommunityProject({
                     </div>
                   </div>
 
-                  <button className="bg-[#6e00fa] text-white py-3 px-4 rounded-md mt-2">
+                  <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2">
                     Sign in / up
                   </button>
                 </div>
