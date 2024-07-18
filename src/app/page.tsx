@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import Link from "next/link";
-import { Spinner } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
+
+
+
 
 type CommunityCardData = {
   imageUrl: string;
@@ -55,7 +58,7 @@ const communityCardsData: CommunityCardData[] = [
   },
 ];
 
-const page = () => {
+const Homepage = () => {
   const data = useSelector((state: RootState) => state.login.user);
 
   // if(!data) return (
@@ -63,10 +66,8 @@ const page = () => {
   //   <Spinner/>
   // </div>
   // );
-
   return (
     <div className="w-[90%] mx-auto">
-      
       <UserCard />
       <EcoCate />
       <div>
@@ -102,8 +103,8 @@ const page = () => {
                 opacity="0.8"
                 d="M951 1L0.999969 1"
                 stroke="url(#paint0_linear_53_3430)"
-                stroke-linecap="round"
-                stroke-dasharray="13 13"
+                strokeLinecap="round"
+                strokeDasharray="13 13"
               />
               <defs>
                 <linearGradient
@@ -114,8 +115,8 @@ const page = () => {
                   y2="0.5"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#8C71FF" stop-opacity="0" />
-                  <stop offset="1" stop-color="#FA00FF" />
+                  <stop stopColor="#8C71FF" stopOpacity="0" />
+                  <stop offset="1" stopColor="#FA00FF" />
                 </linearGradient>
               </defs>
             </svg>
@@ -130,15 +131,16 @@ const page = () => {
         </div>
       </div>
 
-      <div>
+     
         <EducationCardList />
-      </div>
+     
 
-      <div>
+     
         <GrantsCard />
-      </div>
+     
     </div>
   );
 };
 
-export default page;
+export default Homepage;
+

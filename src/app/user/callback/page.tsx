@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 
-const page = () => {
+const CallBackpage = () => {
   const getUser = async () => {
     try {
       const response = await fetch( `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login/success`, {
@@ -19,4 +19,4 @@ const page = () => {
   return <div>page</div>;
 };
 
-export default page;
+export default CallBackpage;

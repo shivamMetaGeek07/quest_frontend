@@ -6,45 +6,56 @@ import { useSelector } from "react-redux";
 import ModalForm from "../../components/ModalForm";
 import axios from "axios";
 import { FaBolt, FaTwitter, FaUser } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-interface Community {
-  id: string;
+interface Community
+{
+  _id: string;
   title: string;
   description: string;
   logo: string;
   members: any[];
   quests: any[];
-  
+
 }
 
 type Props = {};
 
-const KolsProfile = (props: Props) => {
-  const [isClient, setIsClient] = useState(false);
-  const [communities, setCommunities] = useState<Community[]>([]);
+const KolsProfile = ( props: Props ) =>
+{
+  const router = useRouter();
+  const [ isClient, setIsClient ] = useState( false );
+  const [ communities, setCommunities ] = useState<Community[]>( [] );
 
-  const fetchCommunities = async (ids: string[]) => {
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/community/getByIds`, {
+  const fetchCommunities = async ( ids: string[] ) =>
+  {
+    try
+    {
+      const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/getByIds`, {
         communityIds: ids,
-      });
-      setCommunities(response.data.communities);
-      console.log("community data", response.data);
-    } catch (error) {
-      console.error('Failed to fetch communities:', error);
+      } );
+      setCommunities( response.data.communities );
+      console.log( "community data", response.data );
+    } catch ( error )
+    {
+      console.error( 'Failed to fetch communities:', error );
     }
   };
 
-  const user = useSelector((state: RootState) => state.login.user);
+  const user = useSelector( ( state: RootState ) => state.login.user );
 
-  useEffect(() => {
-    setIsClient(true);
-    if (user && user.community) {
-      fetchCommunities(user.community);
+  useEffect( () =>
+  {
+    setIsClient( true );
+    if ( user && user.community )
+    {
+      fetchCommunities( user.community );
     }
-  }, [user]);
+  }, [ user ] );
 
-  if (!user) {
+  if ( !user )
+  {
     return (
       <div className="min-h-screen flex justify-center items-center">
         <BallTriangle />
@@ -52,7 +63,8 @@ const KolsProfile = (props: Props) => {
     );
   }
 
-  if (!isClient) {
+  if ( !isClient )
+  {
     return (
       <div className="flex justify-center h-screen items-center">
         <BallTriangle />
@@ -62,25 +74,26 @@ const KolsProfile = (props: Props) => {
 
   return (
     <>
-      {user && user.discordInfo && (
+      { user && user.discordInfo && (
         <div className="min-h-screen bg-[#121212]">
           <div className="lg:mx-10 mx-4 py-10">
             <div className="flex flex-col sm:flex-row  lg:flex-row gap-6">
               <div className="lg:basis-[30%] sm:basis-[40%] flex flex-col items-center ">
                 <div className="flex">
-                <img
-                  src={user.image}
-                  width={150}
-                  height={150}
-                  className="rounded-full object-cover"
-                />
+                  <img
+                    src={ user.image }
+                    width={ 150 }
+                    height={ 150 }
+                    alt={ user.nickname }
+                    className="rounded-full object-cover"
+                  />
                 </div>
                 <div className="mt-2">
                   <ModalForm />
                 </div>
                 <div className="flex flex-col lg:flex-row justify-center mt-6 gap-6">
                   <div>
-                    <p className="font-semibold lg:text-lg text-2xl">{user.displayName}</p>
+                    <p className="font-semibold lg:text-lg text-2xl">{ user.displayName }</p>
                     <p className="hover:text-sky-600 mt-4 font-semibold">123 following</p>
                   </div>
                   <div className="flex flex-col items-center">
@@ -91,58 +104,95 @@ const KolsProfile = (props: Props) => {
                   </div>
                 </div>
                 <div>
-                <button className="bg-blue-500 rounded-2xl px-6 py-1 mt-6">
-                  follow
-                </button>
+                  <button className="bg-blue-500 rounded-2xl px-6 py-1 mt-6">
+                    follow
+                  </button>
                 </div>
               </div>
               <div className="lg:basis-[70%] sm:basis-[60%]">
                 <div className="bg-[#1e1e1e] shadow rounded-lg p-6">
                   <h2 className="text-xl font-bold mb-4">About Me</h2>
-                  <p className="text-gray-300">{user.bio}</p>
+                  <p className="text-gray-300">{ user.bio }</p>
                 </div>
                 <h2 className="text-xl font-bold mt-6 mb-4">My Communities</h2>
                 <div className="grid gap-4 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 pt-5">
-                  {communities.map((community, index) => (
-                    <div
-                      key={index}
-                      className="bg-white/5 p-4 sm:p-6 rounded-xl h-56 w-full shadow-lg group hover:scale-105 hover:bg-white/10 transition-transform"
+                  { communities.map( ( community, index ) => (
+
+                    <div className="" key={ index }
+                      onClick={ () => router.push( `/kol/community-project/${ community?._id }` ) }
                     >
-                      <div className="flex gap-3 items-center">
-                        <img
-                          src={community.logo}
-                          alt=""
-                          className="w-10 h-10 object-cover rounded-xl"
-                        />
-                        <div className="text-xl font-bold">
-                          <h1>{community.title}</h1>
+                      <div className="outer-div relative flex gap-8 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center w-[22rem] sm:w-full">
+                        <div className="flex flex-row text-xl items-center justify-around m-auto">
+                          <div className="p-1">
+                            <div className="image-container h-[5rem] w-[5rem] items-center flex">
+                              <img
+                                src={ community.logo }
+                                alt=""
+                                className="styled-image"
+
+                              />
+                            </div>
+                            <div className="bg_Div_Down h-[2rem] mt-2 bg-gray-800" />
+                          </div>
+                          <div className="flex flex-col">
+                            <div className="flex  m-1 flex-col items-center">
+                              <div className="flex bg_eco_div border-b-4 border-[#8c71ff] pt-6 bg-[#1d1a28] flex-row items-center justify-between w-full m-auto">
+                                <div className="text-lg ml-3">
+                                  { community.title }
+                                </div>
+                                <div className="text-xs flex flex-row rounded-lg pl-6">
+                                  <div className="flex m-2 items-center flex-col">
+                                    <span>{ community.quests.length }</span>
+                                    <span>Quests</span>
+                                  </div>
+                                  <div className="flex m-2 items-center flex-col">
+                                    <span>{ community.members.length }</span>
+                                    <span>Followers</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex flex-row justify-end gap-x-1">
+                              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
+                              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
+                              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-gray-400 pt-5">
-                        <p>{community.description.slice(0, 30)}</p>
-                      </div>
-                      <div className="flex gap-3 pt-3 text-gray-400">
-                        <div className="flex bg-white/10 rounded-lg items-center p-2">
-                          <FaUser className="w-6 h-6" />
-                          <div>{community.members.length}</div>
+
+
+                        <div className="absolute -top-1 -right-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="6"
+                            height="6"
+                            viewBox="0 0 4 4"
+                            fill="none"
+                          >
+                            <path d="M0.5 0V3.5H4" stroke="white" />
+                          </svg>
                         </div>
-                        <div className="flex bg-white/10 rounded-lg items-center p-2">
-                          <FaBolt className="w-6 h-6" />
-                          <div>{community.quests.length}</div>
+
+                        <div>
+                          <div className="flex flex-row text-sm m-1 justify-between ">
+                            <span className="flex descText">Desc:</span>
+                            <span className="text-gray-600 descdata text-wrap">
+                              { community.description }
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex bg-white/10 rounded-lg items-center p-2">
-                          <FaTwitter className="w-6 h-6" />
-                          <div>0</div>
-                        </div>
+
                       </div>
                     </div>
-                  ))}
+
+                  ) ) }
+
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      ) }
     </>
   );
 };

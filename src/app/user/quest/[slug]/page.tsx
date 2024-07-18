@@ -6,6 +6,7 @@ import { notify } from "@/utils/notify";
 import { Progress } from "@nextui-org/react";
 import axios from "axios";
 import { warning } from "framer-motion/dom";
+import Image from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -150,7 +151,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       case "Number":
         return !isNaN( Number( submission ) ) && submission !== '';
       case "URL":
-        const urlPattern = /^(https)/;
+        const urlPattern = /^(http)/;
         return urlPattern.test( submission );
       case "File upload":
         return submission instanceof File && submission.size > 0;

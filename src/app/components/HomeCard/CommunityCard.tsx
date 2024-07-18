@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 // Define the TypeScript type for the card data

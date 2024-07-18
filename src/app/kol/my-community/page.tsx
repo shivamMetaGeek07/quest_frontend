@@ -3,6 +3,7 @@
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import { fetchAllCommunities, fetchCommunitiesByIds } from "@/redux/reducer/communitySlice";
 import { AppDispatch, RootState } from "@/redux/store";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { FaUser, FaBolt, FaTwitter } from "react-icons/fa";

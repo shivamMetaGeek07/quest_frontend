@@ -19,6 +19,8 @@ import {
 } from "@nextui-org/react";
 import axios from "axios";
 import ReferralForm from "../components/referalPopUp";
+import { notify } from "@/utils/notify";
+import Image from "next/image";
 
 const MyCommunities = () => {
   const router = useRouter();
@@ -47,10 +49,13 @@ const MyCommunities = () => {
       ).unwrap();
       console.log(res);
       await dispatch(fetchAllCommunities());
-    } catch (error) {
-      console.log("error in adding the community", error);
-    } finally {
-      setLoadingCommunityId(null);
+    } catch ( error )
+    {
+      console.log( "error in adding the community", error );
+    } finally
+    {
+      fetchCommunities( search, ecosystem, category );
+      setLoadingCommunityId( null );
     }
   };
 
@@ -93,7 +98,7 @@ const MyCommunities = () => {
   return (
     <div className="bg-black text-white min-h-screen">
       <div className="mx-4 lg:mx-20 sm:ml-20">
-        <div className="text-2xl pt-10 font-bold">
+        <div className="text-2xl pt-10 font-bold text-center lg:text-start ">
           <h1>All Communities</h1>
         </div>
         <div className="max-w-[600px] pt-4 text-gray-400">
@@ -105,7 +110,7 @@ const MyCommunities = () => {
 
         <div>
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-row justify-between items-center p-4">
+            <div className="flex flex-col lg:flex-row lg:justify-between justify-center gap-2 lg:gap-0 p-4">
               <div className="relative md:block">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
@@ -134,7 +139,8 @@ const MyCommunities = () => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:grid-cols-3">
+              <div className="flex flex-col items-center justify-center gap-2 lg:flex-row">
+              <div className="grid grid-cols-2 ">
                 <div className="text-white lg:bg-slate-800 sm:bg-slate-800  rounded-xl mx-4 ">
                   <Dropdown className="bg-slate-800">
                     <DropdownTrigger>
@@ -189,59 +195,72 @@ const MyCommunities = () => {
                     </DropdownMenu>
                   </Dropdown>
                 </div>
+               
+              </div>
+               <div className="flex justify-center items-center ">
                 <Button className="lg:ml-0 ml-4" type="submit" color="primary" variant="solid">
                   Apply
                 </Button>
+                </div>
               </div>
             </div>
           </form>
         </div>
 
-        <div className="grid gap-4 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-8 ">
+        <div className="grid gap-4 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-8 ">
           {communities?.map((card: any, index: number) => (
             <div
-              key={index}
-              className=" bg-white/5 outer-div relative flex lg:gap-6 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-2 flex-col m-auto justify-center w-full sm:w-full"
-            >
-              <div className="flex flex-row text-xl items-center justify-around m-auto">
-                <div className="p-1">
-                  <div className="image-container h-[5rem] w-[5rem] items-center flex">
-                    <img src={card.logo} alt="" className="styled-image" />
-                  </div>
-                  <div className="bg_Div_Down h-[2rem]  bg-gray-800" />
-                </div>
-                
+              key={ index }
+              onClick={ () =>
+              {
+                if ( card.members.includes( memberId ) )
+                {
+                  router.push(`/user/community-project/${card._id}`)
+                } else
+                {
+                  notify( "warn", 'Please join the community' );
 
-                <div className="flex flex-col">
-                  <div className="flex  m-1 flex-col items-center">
-                    <div className="flex bg_eco_div border-b-4 border-[#8c71ff] pt-4 bg-[#28223d] flex-row items-center justify-between lg:w-[18rem] sm:w-full w-full m-auto ">
-                      <div className="text-lg lg:ml-3 sm:ml-3 ml-3">
-                        <h1>{card.title}</h1>
-                      </div>
-                      <div className="text-xs flex flex-row rounded-lg lg:pl-6">
-                        <div className="flex m-2 items-center flex-col">
-                          <span className="text-lg">{card.quests.length}</span>
-                          <span className="text-neutral-300 descdata">QUESTS</span>
+                }
+              }}
+              className=" bg-white/5 outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-4 flex-col justify-center w-full sm:w-full"
+            >
+               <div className="flex  flex-col md:flex-row lg:flex-row text-xl items-center justify-around ">
+                <div className="p-1">
+                  <div className="image-container h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem] items-center flex ">
+                    <img src={card.logo} alt="style image" className="styled-image" />
+                  </div>
+                  <div className="bg_Div_Down h-[1rem] md:h-[2rem] bg-gray-800"> </div>
+                  </div>
+                <div className="md:w-2/3 flex flex-col justify-start gap-2 ">
+                  <div className="flex w-full flex-col items-start ">
+                    <div className="flex w-full md:h-[5rem] bg_eco_div border-b-4 border-[#8c71ff] gap-2 md:gap-2  p-2 bg-[#28223d] flex-col lg:flex-row items-center md:items-end lg:items-end justify-between ">
+                      
+                        <div className="md:w-4/5 truncate text-[12px] md:text-[8px] lg:text-[8px] md:ml-3 md:text-start text-center card-title">{card.title}</div>
+                      
+                      <div className="md:1/5 flex flex-row rounded-lg justify-center md:justify-end">
+                        <div className="flex gap-1 mr-2 items-center flex-col">
+                          <span className="card-white-text text-[0.5rem] md:text-[0.7rem]">{card.quests.length}</span>
+                          <span className=" card-gray-text descdata">QUESTS</span>
                         </div>
-                        <div className="flex m-2 items-center flex-col">
-                          <span className="text-lg">{card.members.length}</span>
-                          <span className="text-neutral-300 descdata">FOLLOWERS</span>
+                        <div className="flex gap-1 items-center flex-col">
+                          <span className="card-white-text text-[0.5rem] md:text-[0.7rem]">{card.members.length}</span>
+                          <span className=" card-gray-text descdata">FOLLOWERS</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-row justify-end gap-x-1">
-                    <div className="flex bg-white/10 rounded-lg py-1 px-2 items-center">
-                      <FaUser className="w-4 h-4" />
-                      <div className="pl-1">{card.members.length}</div>
+                  <div className="flex w-full flex-row justify-end gap-2">
+                    <div className="flex bg-[#8C71FF] py-1 px-2 items-center">
+                      <FaUser className="md:w-4 w-2 h-2 md:h-4" />
+                      <div className="pl-1 text-sm">{card.members.length}</div>
                     </div>
-                    <div className="flex bg-white/10 rounded-lg py-1 px-2 items-center">
-                      <FaBolt className="w-4 h-4" />
-                      <div className="pl-1">{card.quests.length}</div>
+                    <div className="flex bg-[#8C71FF] py-1 px-2 items-center">
+                      <FaBolt className="md:w-4 w-2 h-2 md:h-4" />
+                      <div className="pl-1 text-sm">{card.quests.length}</div>
                     </div>
-                    <div className="flex bg-white/10 rounded-lg py-1 px-2 items-center">
-                      <FaTwitter className="w-4 h-4" />
-                      <div className="pl-1"></div>
+                    <div className="flex bg-[#8C71FF] py-1 px-2 items-center">
+                      <FaTwitter className="md:w-4 w-2 h-2 md:h-4" />
+                      <div className="pl-1 text-sm"></div>
                     </div>
                     {/* <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
               <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
@@ -249,54 +268,43 @@ const MyCommunities = () => {
                   </div>
                 </div>
               </div>
-
-
-           
-
-
-
-          <div>
-          <div className="flex flex-row text-sm m-1 gap-2 ">
-            <span className="flex descText">Desc:</span>
-            <span className="text-gray-300 descdata text-wrap ">
-            {card.description.slice(0, 20)}
-            </span>
-          </div>
-        </div>
-
-
-
-             
-              {card.members.includes(memberId) ? (
-                <div className="flex justify-end items-center">
-                  <button
-                    className="w-full h-8 bg-green-500/20 text-green-400 text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-default border border-green-500/50 hover:bg-green-500/30"
-                    disabled
-                  >
-                    Already in The Community
-                  </button>
-                </div>
-              ) : (
-                <div className="flex  gap-3  mt-1">
-                  <button
-                    className={`w-full h-8 bg-white/10 hover:bg-white/25  text-center text-neutral-400 descdata  rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${
-                      loadingCommunityId === card._id ? "cursor-wait" : ""
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (loadingCommunityId === null) joinningCommunity(card);
-                    }}
-                    disabled={loadingCommunityId !== null}
-                  >
-                    {loadingCommunityId === card._id
-                      ? "Joining..."
-                      : "Join Community"}
-                  </button>
-                  <ReferralForm memberId={memberId} id={card._id} />
-                </div>
-              )}
+              <div className="flex flex-row text-sm m-1 gap-2 justify-start  ">
+                <span className=" descText">Bio: </span>
+                <span className="descdata text-wrap ">
+                {card.description.slice(0, 20)}
+                </span>
+              </div>
+      
+          {card.members.includes(memberId) ? (
+            <div className="flex justify-center items-center">
+              <button
+                className="px-2 py-1 text-sm bg-green-500/20 text-green-400 text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-default border border-green-500/50 hover:bg-green-500/30"
+                disabled
+              >
+                joined
+              </button>
             </div>
-          ))}
+          ) : (
+            <div className="flex  gap-3  mt-1">
+              <button
+                className={`px-2 py-1 text-xs bg-white/10 hover:bg-white/25  text-center text-neutral-400 descdata  rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${
+                  loadingCommunityId === card._id ? "cursor-wait" : ""
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (loadingCommunityId === null) joinningCommunity(card);
+                }}
+                disabled={loadingCommunityId !== null}
+              >
+                {loadingCommunityId === card._id
+                  ? "Joining..."
+                  : "Join Community"}
+              </button>
+              <ReferralForm  memberId={memberId} id={card._id} />
+            </div>
+          )}
+        </div>
+      ))}
         </div>
       </div>
     </div>

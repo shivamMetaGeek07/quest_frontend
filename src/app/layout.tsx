@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Mono } from 'next/font/google'
 import "./globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Providers } from "./provider";
 import MainLayout from "./components/MainLayout/mainLayout";
 
+// laptop 1440x900
+// mobile 375x667
 
-const inter = Inter( { subsets: [ "latin" ] } );
 
 export const metadata: Metadata = {
   title: "Quest",
@@ -21,6 +22,10 @@ export default function RootLayout ( {
 {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      </head>
       <body>
         <Providers>
         <MainLayout>

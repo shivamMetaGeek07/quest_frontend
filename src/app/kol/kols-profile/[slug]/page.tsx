@@ -1,9 +1,10 @@
 "use client";
+import Image from "next/image";
 import React ,{useState} from "react";
 
 type Props = {};
 
-const kolsProfileSlug = (props: Props) => {
+const KolsProfileSlug = (props: Props) => {
 
   const [ votes, setvotes ] = useState( 0 );
  
@@ -18,9 +19,10 @@ const kolsProfileSlug = (props: Props) => {
               <div className="bg-white shadow rounded-lg p-6">
                 <div className="flex flex-col items-center">
                   <img
-                    src={users.image}
+                    src={ users.image }
+                    alt={users?.name}
                     className="w-32 h-32  rounded-full mb-4 shrink-0"
-                  ></img>
+                  />
                   <h1 className="text-xl font-bold text-gray-700">{ users?.displayName }</h1>
                   <p className="text-gray-700">Software Developer</p>
                 </div>
@@ -238,4 +240,4 @@ const kolsProfileSlug = (props: Props) => {
   );
 };
 
-export default kolsProfileSlug;
+export default KolsProfileSlug;

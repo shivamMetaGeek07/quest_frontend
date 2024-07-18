@@ -1,5 +1,5 @@
+import Image from "next/image";
 import React from "react";
-
 interface Data {
   id: number;
   image: string;
@@ -21,25 +21,25 @@ const EcoData: EcoData[] = [
     title: "NFT",
   },
   {
-    id: 1,
+    id: 2,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
   },
   {
-    id: 1,
+    id: 3,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
   },
   {
-    id: 1,
+    id: 4,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
   },
   {
-    id: 1,
+    id: 5,
     imageUrl:
       "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XU78~OIbIye1V8EM3Y1N5bMaxabGdhqvQqnEDM9m1ZSwFO~VekaCHXRUDDq8q6Aj8O7zc2WB~ICeLtw6j29aBO3fDgsujw2yHXay3jWSLZhULnzDB38cjzhnXgnd3bBqmSj9VYF~ID9qeyQiZFyHYYtjMVR-uBmrVWFTdUGnyGLPwuWmaSI6OjP0NIsWaG4HM23vqM-Q0xUUsPp4sNDZRmATP4LqYxsiFIeAyqVJ9~V9FvfkyxddiEOq2gcj4TXJhSu9XTv9jDr98XzCXfV-yv3j5~8To78KbLvGLHqq4sq0trCinwfTMqGuSDT-06dmk88QVwPldQRMabcf745Fyg__",
     title: "NFT",
@@ -191,15 +191,15 @@ const EcoCate: React.FC = () => {
                 <path
                   d="M1 1H6.48652L15 10"
                   stroke="white"
-                  stroke-opacity="0.3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M6 5L11 10"
                   stroke="white"
-                  stroke-opacity="0.3"
-                  stroke-linecap="round"
+                  strokeOpacity="0.3"
+                  strokeLinecap="round"
                 />
               </svg>
               <div>
@@ -242,17 +242,17 @@ const EcoCate: React.FC = () => {
                   <path
                     d="M159 0.5L114 45.5H23L10.5 58H0"
                     stroke="white"
-                    stroke-opacity="0.4"
+                    strokeOpacity="0.4"
                   />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="  grid items-center  lg:grid-cols-5 sm:grid-cols-5 sm:mx-10 lg:gap-8 sm:gap-10 gap-10 grid-cols-3  mt-16  shadow-2xl rounded-md mx-10 lg:mx-auto  basis-[50%]">
-            {EcoData.map((card) => (
+          <div className="  grid items-center  lg:grid-cols-5 sm:grid-cols-5 sm:mx-10 lg:gap-8 grid-cols-3  mt-16  shadow-2xl rounded-md mx-10 lg:mx-auto  basis-[50%]">
+            {EcoData.map((card,index) => (
               <div
-                key={card.id}
+                key={index}
                 className="cate flex items-center mb-4 lg:mb-0"
               >
                 <div className="text-center">

@@ -38,47 +38,52 @@ const UserTable = <T extends object>({ data, columns,rowsPerPage }: UserTablePro
     return data.slice(start, end);
   }, [page, data]);
 
-  const renderCell = useCallback((user:T, columnKey:keyof T): ReactNode => {
-    const cellValue = user[columnKey as keyof T];
+  const renderCell = useCallback((user:any, columnKey:keyof T): ReactNode => {
+     const cellValue = user[columnKey];
+
     switch (columnKey) {
       case "id":
       return (
-        <div className="capitalize w-[40%] mx-auto ">
-          <span className="lvl text-end text-xl">#{user.id}</span>
+        <div className="capitalize w-[40%]">
+          <span className="lvl text-end text-xl">#{"id" in user ? user.id : null}</span>
         </div>
       )
       case "sno":
       return (
-        <div className="capitalize w-[40%] mx-auto ">
-          <span className="lvl text-end text-xl">#{user.id}</span>
+        <div className="capitalize w-[40%]  ">
+          <span className="lvl text-end text-xl">#{ user.id}</span>
         </div>
       )
       case "name":
         return (
-          <div className="capitalize w-[40%] mx-auto">
+          <div className="capitalize  flex justify-start items-center">
+          <span className="lvl text-end text-xl mr-2">#{ user.id}</span>
           <User
-            avatarProps={{radius: "md", src: user.avatar}}
+            avatarProps={{radius: "none", src: user.avatar, size: "md"}}
             name={cellValue as string}
+            className="w-[6rem] "
           >
           </User>
         </div>
         );
       case "stars":
         return (
-          <StarDisplay
-            cellValue={cellValue as number}
-          />
+          <div className="flex justify-start items-center w-[40%]">
+            <StarDisplay
+              cellValue={cellValue as number}
+            />
+          </div>
         );
       case "xps":
         return (
-          <div className="capitalize flex gap-2 items-center justify-center">
+          <div className="capitalize flex gap-2 items-center justify-start">
             <div><span className="user-leaderboard-text">Xps: </span><span>{cellValue as number}</span></div>
             <div><span className="lvl"> - LVL: {user.level}</span></div>
           </div>
         )
       case "fampoints":
         return (
-          <div className="capitalize flex justify-center items-center gap-1">
+          <div className="capitalize flex justify-start items-center gap-1">
             <span className="user-leaderboard-text">Fampoints: </span><span className="flex justify-center items-center">{cellValue as number}</span>
           </div>
         );
@@ -108,25 +113,16 @@ const UserTable = <T extends object>({ data, columns,rowsPerPage }: UserTablePro
   }, []);
 
     return (
+      <div className="w-full h-full">
         <Table hideHeader aria-label="Example table with custom cells"
-        style={{boxShadow: 'inset 0px -40px 63px 5px rgb(24 24 24 / 62%)'}} 
-          
-        bottomContent={
-          <div className="flex w-full justify-center ">
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="secondary"
-              page={page}
-              total={pages}
-              onChange={(page) => setPage(page)}
-              
-            />
-          </div>
-        }
+       style={{
+  boxShadow: 'rgb(29 27 27 / 62%) -5px 0px 20px 2px, inset 0px -40px 63px 5px rgb(24 24 24 / 62%)',
+  //  borderTop: '1px solid #3d3d3d',
+  // borderBottom: '1px solid #3d3d3d',
+  
+}}
         classNames={{
-          wrapper: "min-h-[222px] bg-black text-white",
+          wrapper: "min-h-[222px] bg-black text-white ",
         }}
         >
           <TableHeader columns={columns}>
@@ -136,14 +132,29 @@ const UserTable = <T extends object>({ data, columns,rowsPerPage }: UserTablePro
               </TableColumn>
             )}
           </TableHeader>
-          <TableBody items={items}>
-            {(item: T) => (
+          <TableBody items={items} >
+            {(item: any) => (
               <TableRow key={item.id} className="cursor-pointer" >
                 {(columnKey) => <TableCell>{renderCell(item, columnKey as keyof T)}</TableCell>}
               </TableRow>
             )}
           </TableBody>
         </Table>
+        <div className="flex w-full justify-center ">
+            <Pagination
+              isCompact
+              showControls
+              showShadow
+              color="secondary"
+              page={page}
+              total={pages}
+              onChange={(page) => setPage(page)}
+              classNames={{
+                cursor:"bg-[#FA00FF] text-white font-bold",
+              }}
+            />
+          </div>
+      </div>
     )
 }
 

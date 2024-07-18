@@ -6,6 +6,7 @@ import {  fetchCommunity } from "../../../../redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "../../../../redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
+import Image from "next/image";
 
 export default function CommunityProject({ params }: { params: { slug: string } }) {
   const id = params.slug;
@@ -17,7 +18,7 @@ export default function CommunityProject({ params }: { params: { slug: string } 
   } = useSelector((state: RootState) => state.community);
   const currentQuests =  useSelector( ( state: any ) => state.quest.currentQuests );
   const questIds = community?.quests 
-  // console.log(community?.quests)
+  console.log(community)
   useEffect(() => {
     dispatch( fetchCommunity( id ) );
   }, [ dispatch, id ] );
@@ -186,6 +187,7 @@ export default function CommunityProject({ params }: { params: { slug: string } 
 
             // <Link href={`/user/quest/${questId}`} key={questId}>
             <div
+            key={index}
               onClick={ ( e ) =>
               {
                 e.preventDefault();

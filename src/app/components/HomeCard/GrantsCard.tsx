@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -80,7 +81,7 @@ function GrantsCard() {
 
       <div className="grid gap-5 ml-4 mt-5 sm:mt-5 sm:grid-cols-2  grid-cols-1 lg:grid-cols-4">
         {grantsData.map((grant, index) => (
-          <div className="relative">
+          <div className="relative" key={index}>
             <div className="relative grant-clip bg-gray-500 box1 w-12 ">
               <div
                 key={index}

@@ -11,6 +11,7 @@ import type { Friend } from "../data";
 import UserTable from "@/app/components/table/userTable";
 import axios from "axios";
 import { notify } from "@/utils/notify";
+import Image from "next/image";
 
 type BadgesData = {
   id: number;
@@ -56,7 +57,7 @@ const BadgesData: BadgesData[] = [
   },
 ];
 
-const userProfile = ({ params }: { params: { id: string } }) => {
+const UserProfile = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
   const [isFollowed, setIsFollowed] = useState<Boolean>(false);
@@ -420,4 +421,4 @@ const userProfile = ({ params }: { params: { id: string } }) => {
     </>
   );
 };
-export default userProfile;
+export default UserProfile;

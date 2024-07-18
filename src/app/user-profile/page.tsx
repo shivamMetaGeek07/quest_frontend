@@ -1,52 +1,14 @@
-// "use client";
-// import React from 'react'
-// import { useRouter } from "next/navigation";
-
-// const UserProfile:React.FC  = () => {
-//   const router = useRouter();
-
-//   const handliconeClick = () => {
-//     router.push("/profile");
-//   };
-
-//   return (
-//     <>
-//   <div className='flex justify-center items-center h-screen bg-zinc-100'>
-//   <div className='shadow-lg bg-slate-400  hover:bg-slate-300 duration-1000 rounded-md  cursor-pointer h-96 w-96 flex flex-col items-center justify-center'>
-//     <div className="flex justify-center">
-//       <img onClick={handliconeClick}
-//         src="https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"
-//         alt="user photo"
-//         className='h-32 w-32 rounded-full'
-//       />
-//     </div>
-//     <div className="mt-4 h-8 w-80 bg-slate-500 rounded-md flex items-center justify-center">
-//       <p className="text-center">Username.fam</p>
-//     </div>
-//     <div className=" mt-4 h-8 w-72 bg-slate-500 rounded-md flex items-center justify-center">
-//       <p className="text-center">Setup Password</p>
-//     </div>
-//     <div className=" mt-4 h-8 w-64 bg-slate-500 rounded-md flex items-center justify-center">
-//       <p className="text-center">Enter Invite code</p>
-//     </div>
-//   </div>
-// </div>
-
-//     </>
-//   )
-// }
-
-// export default UserProfile
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { BallTriangle } from "react-loader-spinner";
+import Image from "next/image";
 
 const UserProfile: React.FC = () => {
-  const [isClient, setIsClient] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
+  const user=useSelector((state:RootState)=>state.login.user)
   const router = useRouter();
 
   const handleClose = () => {
@@ -55,19 +17,10 @@ const UserProfile: React.FC = () => {
   };
 
   if (!isOpen) return null;
-    const user=useSelector((state:RootState)=>state.login.user)
   const handleuserdetails = () =>{
     router.push('/user/profile')
   }
-  useEffect(() => {
-    setIsClient(true); // Set the client flag to true on the client side
-
-    }, []);
-  if (!isClient) return (
-    <div className="flex justify-center h-screen items-center">
-    <BallTriangle/>
-    </div>
-  );
+  
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center" style={{zIndex:"10"}}>
