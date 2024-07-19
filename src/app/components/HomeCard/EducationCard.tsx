@@ -26,10 +26,10 @@ const educationData: EducationData[] = [
     smallImageUrl:
       "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
     title: "TOKYO BEAST",
-    description1: "TOKYO",
-    description2: "BEASTOKYO",
-    description3: "BEAST",
-    description4: "ALPHA M...",
+    description1: "Tokyo",
+    description2: "Beastokyo",
+    description3: "Beast",
+    description4: "Alpha M...",
   },
   {
     imageUrl:
@@ -37,10 +37,10 @@ const educationData: EducationData[] = [
     smallImageUrl:
       "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
     title: "TOKYO BEAST",
-    description1: "TOKYO",
-    description2: "BEASTOKYO",
-    description3: "BEAST",
-    description4: "ALPHA M...",
+    description1: "Tokyo",
+    description2: "Beastokyo",
+    description3: "Beast",
+    description4: "Alpha M...",
   },
   {
     imageUrl:
@@ -48,10 +48,10 @@ const educationData: EducationData[] = [
     smallImageUrl:
       "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
     title: "TOKYO BEAST",
-    description1: "TOKYO",
-    description2: "BEASTOKYO",
-    description3: "BEAST",
-    description4: "ALPHA M...",
+    description1: "Tokyo",
+    description2: "Beastokyo",
+    description3: "Beast",
+    description4: "Alpha M...",
   },
 ];
 
@@ -62,10 +62,10 @@ const KolData: KolData[] = [
     smallImageUrl:
       "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
     title: "TOKYO BEAST",
-    description1: "TOKYO",
-    description2: "BEASTOKYO",
-    description3: "BEAST",
-    description4: "ALPHA M...",
+    description1: "Tokyo",
+    description2: "Beastokyo",
+    description3: "Beast",
+    description4: "Alpha M...",
     // show the dynamic bg colur
   },
   {
@@ -74,10 +74,10 @@ const KolData: KolData[] = [
     smallImageUrl:
       "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
     title: "TOKYO BEAST",
-    description1: "TOKYO",
-    description2: "BEASTOKYO",
-    description3: "BEAST",
-    description4: "ALPHA M...",
+    description1: "Tokyo",
+    description2: "Beastokyo",
+    description3: "Beast",
+    description4: "Alpha M...",
   },
   {
     imageUrl:
@@ -85,16 +85,16 @@ const KolData: KolData[] = [
     smallImageUrl:
       "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
     title: "TOKYO BEAST",
-    description1: "TOKYO",
-    description2: "BEASTOKYO",
-    description3: "BEAST",
-    description4: "ALPHA M...",
+    description1: "Tokyo",
+    description2: "Beastokyo",
+    description3: "Beast",
+    description4: "Alpha M...",
   },
 ];
 
 const EducationCardList: React.FC = () => {
   return (
-    <div className="lg:mx-20 sm:mx-16 gap-1 mt-12">
+    <div className=" gap-1 mt-12">
       <div className="mb-8">
         <svg
         className="w-full"
@@ -128,7 +128,7 @@ const EducationCardList: React.FC = () => {
       </div>
       <div className="main flex flex-col lg:flex-row gap-16 ">
         <div>
-          <div className="relative lg:mx-0 sm:mx-10 mx-10">
+          <div className="relative">
             <div className="flex ml-8 items-center gap-1 absolute bottom-6 left-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -240,15 +240,15 @@ const EducationCardList: React.FC = () => {
                   </div>
 
                   <div>
-                    <div className="flex gap-4">
-                      <p>{data.description1}</p>
-                      <p>{data.description2}</p>
+                    <div className="flex md:gap-4 gap-2">
+                      <p className="md:text-medium text-sm">{data.description1}</p>
+                      <p className="md:text-medium text-sm">{data.description2}</p>
                     </div>
 
-                    <div className="flex gap-4">
-                      <p>{data.description3}</p>
-                      <p>|</p>
-                      <p>{data.description4}</p>
+                    <div className="flex md:gap-4 gap-2">
+                      <p className="md:text-medium text-sm">{data.description3}</p>
+                      <p className="md:text-medium text-sm">|</p>
+                      <p className="md:text-medium text-sm">{data.description4}</p>
                     </div>
                   </div>
                 </div>
@@ -359,15 +359,15 @@ const EducationCardList: React.FC = () => {
                   </div>
 
                   <div>
-                    <div className="flex gap-4">
-                      <p>{data.description1}</p>
-                      <p>{data.description2}</p>
+                    <div className="flex md:gap-4 gap-2">
+                      <p className="md:text-medium text-sm">{data.description1}</p>
+                      <p className="md:text-medium text-sm">{data.description2}</p>
                     </div>
 
-                    <div className="flex gap-4">
-                      <p>{data.description3}</p>
-                      <p>|</p>
-                      <p>{data.description4}</p>
+                    <div className="flex md:gap-4 gap-2">
+                      <p className="md:text-medium text-sm">{data.description3}</p>
+                      <p className="md:text-medium text-sm">|</p>
+                      <p className="md:text-medium text-sm">{data.description4}</p>
                     </div>
                   </div>
                 </div>

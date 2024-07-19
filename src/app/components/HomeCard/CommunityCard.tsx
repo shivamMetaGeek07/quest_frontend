@@ -10,47 +10,46 @@ type CommunityCardData = {
   members: [];
 };
 
-
 // CommunityCard component
 const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
   return (
     <div className="">
-      <div className="outer-div relative flex gap-8 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center">
-        <div className="flex flex-row text-xl items-center justify-around m-auto">
+      <div className="outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-5 sm:p-2 p-4 flex-col justify-center w-full sm:w-full ">
+        <div className="flex flex-row text-xl items-center justify-around ">
           <div className="p-1">
-            <div className="image-container h-[5rem] w-[5rem] items-center flex">
-              <img
-                src={data?.logo}
-                alt=""
-                className="styled-image"
-              />
+            <div className="image-container md:h-[5rem] md:w-[5rem] h-[4rem] w-[4rem] items-center flex">
+              <img src={data?.logo} alt="" className="styled-image" />
             </div>
             <div className="bg_Div_Down h-[2rem] mt-2 bg-gray-800" />
           </div>
-          <div className="flex flex-col">
-            <div className="flex  m-1 flex-col items-center">
-              <div className="flex bg_eco_div border-b-4 border-[#8c71ff] pt-6 bg-[#1d1a28] flex-row items-center justify-between w-full m-auto">
-                <div className="text-lg ml-3">{ data.title }</div>
-                <div className="text-xs flex flex-row rounded-lg pl-6">
-                  <div className="flex m-2 items-center flex-col">
-                    <span>{ data?.quests?.length}</span>
-                    <span>Quests</span>
+
+          <div className="md:w-2/3 w-2/3 flex flex-col justify-start gap-2 ">
+            <div className="flex w-full flex-col items-start ">
+              <div className="flex w-full md:h-[5rem] bg_eco_div border-b-4 border-[#8c71ff] gap-2 md:gap-2  p-2 bg-[#28223d] flex-col lg:flex-row items-center md:items-end lg:items-end justify-between ">
+                <div className="md:w-4/5  w-4/5 truncate text-[12px] md:text-[10px] lg:text-[10px] md:ml-3 md:text-start text-center card-title">
+                  {data.title}
+                </div>
+
+                <div className="md:1/5 flex flex-row rounded-lg justify-center md:justify-end">
+                  <div className="flex gap-1 mr-2 items-center flex-col">
+                    <span className="card-white-text text text-lg ">
+                      {data.quests.length}
+                    </span>
+                    <span className=" card-gray-text text-3xl">QUESTS</span>
                   </div>
-                  <div className="flex m-2 items-center flex-col">
-                    <span>{ data?.members?.length || 0 }</span>
-                    <span>Followers</span>
+                  <div className="flex gap-1 items-center flex-col">
+                    <span className="card-white-text text-lg">
+                      {data.members.length}
+                    </span>
+                    <span className=" card-gray-text text-lg">FOLLOWERS</span>
                   </div>
                 </div>
+                
               </div>
             </div>
-            <div className="flex flex-row justify-end gap-x-1">
-              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
-              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
-              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
-            </div>
           </div>
+          
         </div>
-
 
         <div className="absolute -top-1 -right-1">
           <svg
@@ -65,10 +64,10 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
         </div>
 
         <div>
-          <div className="flex flex-row text-sm m-1 justify-between ">
-            <span className="flex descText">Desc:</span>
-            <span className="text-gray-600 descdata text-wrap">
-              { data?.description }
+          <div className="flex flex-row text-xs m-1 gap-2 justify-start">
+            <span className="descText">Bio:</span>
+            <span className="descdata text-wrap break-words overflow-hidden line-clamp-2">
+              {data.description}
             </span>
           </div>
         </div>

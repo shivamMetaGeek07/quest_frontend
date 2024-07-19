@@ -49,13 +49,11 @@ const MyCommunities = () => {
       ).unwrap();
       console.log(res);
       await dispatch(fetchAllCommunities());
-    } catch ( error )
-    {
-      console.log( "error in adding the community", error );
-    } finally
-    {
-      fetchCommunities( search, ecosystem, category );
-      setLoadingCommunityId( null );
+    } catch (error) {
+      console.log("error in adding the community", error);
+    } finally {
+      fetchCommunities(search, ecosystem, category);
+      setLoadingCommunityId(null);
     }
   };
 
@@ -140,171 +138,170 @@ const MyCommunities = () => {
                 />
               </div>
               <div className="flex flex-col items-center justify-center gap-2 lg:flex-row">
-              <div className="grid grid-cols-2 ">
-                <div className="text-white lg:bg-slate-800 sm:bg-slate-800  rounded-xl mx-4 ">
-                  <Dropdown className="bg-slate-800">
-                    <DropdownTrigger>
-                      <Button
-                        variant="bordered"
-                        className="capitalize text-white"
+                <div className="grid grid-cols-2 ">
+                  <div className="text-white lg:bg-slate-800 sm:bg-slate-800  rounded-xl mx-4 ">
+                    <Dropdown className="bg-slate-800">
+                      <DropdownTrigger>
+                        <Button
+                          variant="bordered"
+                          className="capitalize text-white"
+                        >
+                          {selectedCategories.length > 0
+                            ? selectedCategories.join(", ")
+                            : "Select Categories"}
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Select Categories"
+                        disallowEmptySelection
+                        selectionMode="multiple"
+                        selectedKeys={selectedCategories}
+                        onSelectionChange={(keys) =>
+                          setSelectedCategories(Array.from(keys) as string[])
+                        }
                       >
-                        {selectedCategories.length > 0
-                          ? selectedCategories.join(", ")
-                          : "Select Categories"}
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Select Categories"
-                      disallowEmptySelection
-                      selectionMode="multiple"
-                      selectedKeys={selectedCategories}
-                      onSelectionChange={(keys) =>
-                        setSelectedCategories(Array.from(keys) as string[])
-                      }
-                    >
-                      {categories.map((cat) => (
-                        <DropdownItem key={cat}>{cat}</DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
-                <div className="text-black lg:bg-slate-800 sm:bg-slate-800  rounded-xl mx-4 ">
-                  <Dropdown className="bg-slate-800">
-                    <DropdownTrigger>
-                      <Button
-                        variant="bordered"
-                        className="capitalize text-white"
+                        {categories.map((cat) => (
+                          <DropdownItem key={cat}>{cat}</DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
+                  <div className="text-black lg:bg-slate-800 sm:bg-slate-800  rounded-xl mx-4 ">
+                    <Dropdown className="bg-slate-800">
+                      <DropdownTrigger>
+                        <Button
+                          variant="bordered"
+                          className="capitalize text-white"
+                        >
+                          {selectedEcosystem.length > 0
+                            ? selectedEcosystem.join(", ")
+                            : "Select Ecosystem"}
+                        </Button>
+                      </DropdownTrigger>
+                      <DropdownMenu
+                        aria-label="Select Ecosystem"
+                        disallowEmptySelection
+                        selectionMode="multiple"
+                        onSelectionChange={(keys) =>
+                          setSelectedEcosystem(Array.from(keys) as string[])
+                        }
+                        selectedKeys={selectedEcosystem}
                       >
-                        {selectedEcosystem.length > 0
-                          ? selectedEcosystem.join(", ")
-                          : "Select Ecosystem"}
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Select Ecosystem"
-                      disallowEmptySelection
-                      selectionMode="multiple"
-                      onSelectionChange={(keys) =>
-                        setSelectedEcosystem(Array.from(keys) as string[])
-                      }
-                      selectedKeys={selectedEcosystem}
-                    >
-                      {ecosystems.map((eco) => (
-                        <DropdownItem key={eco}>{eco}</DropdownItem>
-                      ))}
-                    </DropdownMenu>
-                  </Dropdown>
+                        {ecosystems.map((eco) => (
+                          <DropdownItem key={eco}>{eco}</DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                  </div>
                 </div>
-               
-              </div>
-               <div className="flex justify-center items-center ">
-                <Button className="lg:ml-0 ml-4" type="submit" color="primary" variant="solid">
-                  Apply
-                </Button>
+                <div className="flex justify-center items-center ">
+                  <Button
+                    className="lg:ml-0 ml-4"
+                    type="submit"
+                    color="primary"
+                    variant="solid"
+                  >
+                    Apply
+                  </Button>
                 </div>
               </div>
             </div>
           </form>
         </div>
 
-        <div className="grid gap-4 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-8 ">
+        <div className="grid gap-4 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-8 ">
           {communities?.map((card: any, index: number) => (
             <div
-              key={ index }
-              onClick={ () =>
-              {
-                if ( card.members.includes( memberId ) )
-                {
-                  router.push(`/user/community-project/${card._id}`)
-                } else
-                {
-                  notify( "warn", 'Please join the community' );
-
+              key={index}
+              onClick={() => {
+                if (card.members.includes(memberId)) {
+                  router.push(`/user/community-project/${card._id}`);
+                } else {
+                  notify("warn", "Please join the community");
                 }
               }}
               className=" bg-white/5 outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-4 flex-col justify-center w-full sm:w-full"
             >
-               <div className="flex  flex-col md:flex-row lg:flex-row text-xl items-center justify-around ">
+              <div className="flex  flex-row md:flex-row lg:flex-row text-xl items-center justify-around ">
                 <div className="p-1">
-                  <div className="image-container h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem] items-center flex ">
-                    <img src={card.logo} alt="style image" className="styled-image" />
+                  <div className="image-container h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] items-center flex ">
+                    <img
+                      src={card.logo}
+                      alt="style image"
+                      className="styled-image"
+                    />
                   </div>
-                  <div className="bg_Div_Down h-[1rem] md:h-[2rem] bg-gray-800"> </div>
+                  <div className="bg_Div_Down h-[1rem] md:h-[2rem] bg-gray-800">
+                    {" "}
                   </div>
-                <div className="md:w-2/3 flex flex-col justify-start gap-2 ">
+                </div>
+
+                <div className="md:w-2/3 w-2/3 flex flex-col justify-start gap-2 ">
                   <div className="flex w-full flex-col items-start ">
                     <div className="flex w-full md:h-[5rem] bg_eco_div border-b-4 border-[#8c71ff] gap-2 md:gap-2  p-2 bg-[#28223d] flex-col lg:flex-row items-center md:items-end lg:items-end justify-between ">
-                      
-                        <div className="md:w-4/5 truncate text-[12px] md:text-[10px] lg:text-[10px] md:ml-3 md:text-start text-center card-title">{card.title}</div>
-                      
+                      <div className="md:w-4/5  w-4/5 truncate text-[12px] md:text-[10px] lg:text-[10px] md:ml-3 md:text-start text-center card-title">
+                        {card.title}
+                      </div>
+
                       <div className="md:1/5 flex flex-row rounded-lg justify-center md:justify-end">
                         <div className="flex gap-1 mr-2 items-center flex-col">
-                          <span className="card-white-text ">{card.quests.length}</span>
-                          <span className=" card-gray-text ">QUESTS</span>
+                          <span className="card-white-text text text-lg ">
+                            {card.quests.length}
+                          </span>
+                          <span className=" card-gray-text text-3xl">
+                            QUESTS
+                          </span>
                         </div>
                         <div className="flex gap-1 items-center flex-col">
-                          <span className="card-white-text text-[0.5rem] md:text-[0.7rem]">{card.members.length}</span>
-                          <span className=" card-gray-text ">FOLLOWERS</span>
+                          <span className="card-white-text text-lg">
+                            {card.members.length}
+                          </span>
+                          <span className=" card-gray-text text-lg">
+                            FOLLOWERS
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex w-full flex-row justify-end gap-2">
-                    <div className="flex bg-[#8C71FF] py-1 px-2 items-center">
-                      <FaUser className="md:w-4 w-2 h-2 md:h-4" />
-                      <div className="pl-1 text-sm">{card.members.length}</div>
-                    </div>
-                    <div className="flex bg-[#8C71FF] py-1 px-2 items-center">
-                      <FaBolt className="md:w-4 w-2 h-2 md:h-4" />
-                      <div className="pl-1 text-sm">{card.quests.length}</div>
-                    </div>
-                    <div className="flex bg-[#8C71FF] py-1 px-2 items-center">
-                      <FaTwitter className="md:w-4 w-2 h-2 md:h-4" />
-                      <div className="pl-1 text-sm"></div>
-                    </div>
-                    {/* <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
-              <div className="eco_box w-5 h-5 bg-[#8c71ff]" />
-              <div className="eco_box w-5 h-5 bg-[#8c71ff]" /> */}
                   </div>
                 </div>
               </div>
               <div className="flex flex-row text-xs m-1 gap-2 justify-start  ">
                 <span className=" descText">Bio: </span>
                 <span className="descdata text-wrap ">
-                {card.description.slice(0, 20)}
+                  {card.description.slice(0, 20)}
                 </span>
               </div>
-      
-          {card.members.includes(memberId) ? (
-            <div className="flex justify-center items-center">
-              <button
-                className="px-2 py-1 text-sm bg-green-500/20 text-green-400 text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-default border border-green-500/50 hover:bg-green-500/30"
-                disabled
-              >
-                joined
-              </button>
+
+              {card.members.includes(memberId) ? (
+                <div className="flex justify-center items-center">
+                  <button
+                    className="px-2 py-1 text-sm bg-green-500/20 text-green-400 text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-default border border-green-500/50 hover:bg-green-500/30"
+                    disabled
+                  >
+                    joined
+                  </button>
+                </div>
+              ) : (
+                <div className="flex  gap-3  mt-1">
+                  <button
+                    className={`px-2 py-1 text-xs bg-white/10 hover:bg-white/25  text-center text-neutral-400 descdata  rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${
+                      loadingCommunityId === card._id ? "cursor-wait" : ""
+                    }`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (loadingCommunityId === null) joinningCommunity(card);
+                    }}
+                    disabled={loadingCommunityId !== null}
+                  >
+                    {loadingCommunityId === card._id
+                      ? "Joining..."
+                      : "Join Community"}
+                  </button>
+                  <ReferralForm memberId={memberId} id={card._id} />
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="flex  gap-3  mt-1">
-              <button
-                className={`px-2 py-1 text-xs bg-white/10 hover:bg-white/25  text-center text-neutral-400 descdata  rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${
-                  loadingCommunityId === card._id ? "cursor-wait" : ""
-                }`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (loadingCommunityId === null) joinningCommunity(card);
-                }}
-                disabled={loadingCommunityId !== null}
-              >
-                {loadingCommunityId === card._id
-                  ? "Joining..."
-                  : "Join Community"}
-              </button>
-              <ReferralForm  memberId={memberId} id={card._id} />
-            </div>
-          )}
-        </div>
-      ))}
+          ))}
         </div>
       </div>
     </div>
