@@ -38,7 +38,7 @@ const initialState: CommunityState = {
   forall:null
 };
 
-// fetch the community by id
+// fetch the community
 export const fetchAllCommunities = createAsyncThunk(
   'community/fetchAllCommunities',
   async (_, { rejectWithValue }) => {

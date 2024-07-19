@@ -9,57 +9,19 @@ import GrantsCard from "./components/HomeCard/GrantsCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
+// import { fetchAllCommunities} from "../"
 import Link from "next/link";
 import { Button, Spinner } from "@nextui-org/react";
 import Slider from "react-slick";
+import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
 
-type CommunityCardData = {
-  imageUrl: string;
-  alphaHub: string;
-  quest: number;
-  followers: number;
-  bio: string;
-};
-
-const communityCardsData: CommunityCardData[] = [
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/ad7a/3866/47b120f85109f9208eadfe0fad6d6256?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZglqPLfMEvHriSS9xnqW42oSvZlSgm~zVbXo7y90U~nEd2wV61UBCZoqhd9vIkX1UtfwlWkrx8w7d5sZaexWT4v~Sxu8ApaPLg0RYCheg~Vkvt9scoIOzXG~Pl5NAi9yuc5vhkTH0agm8b1KIxda5VwW8WPkuJ7mI1Z22vdMExbkVnZnJw1f3K1fbB2GuK2uGD-WQ46JfIACR1eINkmoV7Dxg-T-RaqNy3s~wjaXZwMYcJzXC-WU5bRCCeuAzZE8nTXh~7sfdIPokgHDD2SO4ffE3lO0Zq9A0jo684vOome5wPC9AzNoEXng0mY2ywZraZ7agmpWjZtZ4H3U-2gfDA__",
-    alphaHub: "ALPHA HUB",
-    quest: 216,
-    followers: 7701,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipi scing elit.",
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/e7a3/836a/438a569c2d6cd682b7589631ad6972fe?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=LXDZxdXBfwimEJRtInqiCpX1KICQ8PMnYjZpHhrigOEBrM1preV6smmc8ri7W5RsvHjjpJdfS5eN1meDMGJGSPBeO-ijqRJNhpjYtkxwmI3ZLTxl4lpX12-OBvk~9EpwG36QQTU2J7O70tq9gKbOne696yexEbhI~5axJmFFofixzVb7iwglbjjM5ZFJ0ddMor5XqrvokwNmDtLxqd~uqDRPCasZvE8VHkNWJyAz~gCAC4Eb9SfWy720R6hoF6sg~BIarLFaLfhJoPs1RSGHccpkHhnJfFXpfWpVclgcnO54LQ4qY-seR58gWwwYjNXYCbACTXgPN7yTgeCRB-GSfw__",
-    alphaHub: "BETA HUB",
-    quest: 123,
-    followers: 4567,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipi scing elit.",
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/42f5/13a3/4432e1deb16bde26b61e2dbe7c954241?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VokOknLrLdC7RKNmvjAaZ-dd8AHG7IUllQoyaAKQYhrQ6JkyH9vmGjWxZuVtzPelNqSwVFTbP1g8wRtwFejAodAjCQaGwyUm5DurxzgXtBr9YP-zVnGGcy3PxFYdC6VqznebbGmjUdccjrlfBJ5-0lRp91YaxklOI4D2XtcZpn~Xa316yCWM-JKMZ90QuNkIUBiatov4ycI9yCD8ig-74KZnL-orBsG2PPpYg4Z2KRQ25pBeUl3MPsf~m8gb2-Pn24snedqk3bYsK5WHZTUoM-DeFfwRSoHZg2hDWwfF3lgoh~x0rnU33iOHhlWdAb-WVCmc7gwVeiUvHRPKc3eBnA__",
-    alphaHub: "GAMMA HUB",
-    quest: 789,
-    followers: 2345,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipi scing elit.",
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/5d54/f014/9b41d91f4429edccbba71e3b0bdc6a42?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=h~ofkKvcaBW2nkSs83xsLLaE72LypBaerj1RS6jC--8rhPVK2Lg7tMC2AS~NyxTjlNa9qdMgrSwH5DXSFjJWV7~M5s9U7qhoC37hzQRCJL~s64gjqhevg32ecGOCYUa43zad1Spz~fwcw9usiOoqRlkbo7~8D5nxNT5EyFmcq2JoFplWnsw~8N8oLOlZWXcgElEyJPeqml6wn2WHxeonGbz7DcamdldCXO1bMFYcrVSmm129N4N6yjor5ax8BsqjfY5SCSZdFZOevspfFLRfgD~auYNpL268rZ2NHxC3qduhzgcBcZm~-Ni5bjMfeGhzKhulFdG5TNXCMB2Ix7WipQ__",
-    alphaHub: "GAMMA HUB",
-    quest: 789,
-    followers: 2345,
-    bio: "Lorem ipsum dolor sit amet, consectetur adipi scing elit.",
-  },
-];
 
 const Homepage = () =>
 {
+  const dispatch = useDispatch<AppDispatch>();
   const data = useSelector( ( state: RootState ) => state.login.user );
-
+  const communities = useSelector( ( state: any ) => state.community.allCommunities );
+  // console.log( Communities );
   const settings = {
     dots: true,
     infinite: true,
@@ -86,6 +48,11 @@ const Homepage = () =>
     ]
   };
 
+  useEffect( () =>
+  {
+    dispatch( fetchAllCommunities() );
+  }, [] );
+
   // if(!data) return (
   // <div className="h-screen flex justify-center items-center">
   //   <Spinner/>
@@ -94,10 +61,10 @@ const Homepage = () =>
   return (
     <div className="w-[90%] mx-auto">
       <UserCard />
-      
+
 
       <EcoCate />
-    
+
       <div>
         <div className="flex items-center gap-1 lg:ml-20 sm:mx-20 mx-5 mt-10">
           <svg
@@ -151,24 +118,18 @@ const Homepage = () =>
           </div>
         </div>
         <div className="">
-          {/* <div className="grid  lg:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-6"> */}
-            <Slider {...settings}>
+          {/* <div className="grid  lg:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-6"> */ }
+          <Slider { ...settings }>
 
-            { communityCardsData.map( ( data, index ) => (
+            { communities?.map( ( data: any, index: number ) => (
               <CommunityCard key={ index } data={ data } />
             ) ) }
-            </Slider>
-          {/* </div> */}
+          </Slider>
+          {/* </div> */ }
         </div>
       </div>
-
-
       <EducationCardList />
-
-
-
       <GrantsCard />
-
     </div>
   );
 };
