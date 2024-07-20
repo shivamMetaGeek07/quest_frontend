@@ -45,6 +45,11 @@ const KolsProfile = ( props: Props ) =>
 
   const user = useSelector( ( state: RootState ) => state.login.user );
 
+  const handleDiscord=()=>{
+    window.location.href=`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`
+  }
+
+ 
   useEffect( () =>
   {
     setIsClient( true );

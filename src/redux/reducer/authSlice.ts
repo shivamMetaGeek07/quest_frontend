@@ -3,6 +3,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Quest } from './questSlice';
 import { persistor } from '../store';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 // Define interfaces for Twitter and Discord info
@@ -30,6 +31,7 @@ export interface IDiscordInfo {
 // Define an interface for the User schema
 export interface IUser
 {
+  phone_number: string;
   _id?: string;
   googleId: string;
   displayName: string;
@@ -72,8 +74,12 @@ export const fetchUserData = createAsyncThunk(
   {
     console.log("login called")
     try {
+      const authToken = `Bearer ${Cookies.get('authToken')}`;
       const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
-        withCredentials: true, // Ensure credentials are included in the request
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken,
+        },
       });
       const data = response.data;
       return data;

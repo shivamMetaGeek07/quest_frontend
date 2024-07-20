@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react'
 const page = () => {
   return (
-    <div className='bg-[#111111] pt-[5rem] md:pl-[5rem] h-full pb-5 font-[ProFontWindows]'>
+    <div className='bg-[#111111] pt-[5rem] md:pl-[5rem] h-full p-5 md:p-5 pb-5 font-[ProFontWindows]'>
         <div className='text-slate-600  '>HomePage/Brandkit</div>
         <div className='my-4 text-white'>
             Logos
@@ -93,10 +93,10 @@ const page = () => {
             </div>
             <div>
             <div className='text-white text-lg py-8'>Guide Lines</div>
-            <div className=' flex flex-col md:flex-row '>
+            <div className=' flex flex-col justify-center items-center lg:flex-row '>
             <div className='flex flex-col '>
             <div>Colored  Logo:</div>
-            <div className='flex-col md:flex-row gap-2 flex'>
+            <div className='flex-col sm:flex-row gap-2 flex'>
             <div className=''>
             <div className='text-purple-800'>Primary Usuage</div>
             <div className='text-xs text-wrap w-[15rem] text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit.  deserunt.
@@ -116,7 +116,7 @@ const page = () => {
             </div> 
             <div className='flex flex-col '>
             <div>Colored  Logo:</div>
-            <div className='flex-col md:flex-row gap-2 flex'>
+            <div className='flex-col sm:flex-row gap-2 flex'>
             <div className=''>
             <div className='text-purple-800'>Primary Usuage</div>
             <div className='text-xs text-wrap w-[15rem] text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit.  deserunt.
@@ -136,17 +136,17 @@ const page = () => {
             </div>
              
             </div>  
-            <div className=' flex flex-col md:flex-row '>
+            <div className=' flex flex-col justify-center items-center lg:flex-row '>
             <div className='flex flex-col '>
             <div>Colored  Logo:</div>
-            <div className='flex-col md:flex-row gap-2 flex'>
+            <div className='flex-col sm:flex-row gap-2 flex'>
             <div className=''>
             <div className='text-purple-800'>Primary Usuage</div>
             <div className='text-xs text-wrap w-[15rem] text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit.  deserunt.
             Lorem ipsum dolor sit amet consectetur adipisicing elit.  deserunt.
             </div>
             </div>
-            <div>
+            <div >
             <div className=''>
             <div className='text-purple-800'>Primary Usuage</div>
             <div className='text-xs text-wrap w-[15rem] text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit.  deserunt.
@@ -159,7 +159,7 @@ const page = () => {
             </div> 
             <div className='flex flex-col '>
             <div>Colored  Logo:</div>
-            <div className='flex-col md:flex-row gap-2 flex'>
+            <div className='flex-col sm:flex-row gap-2 flex'>
             <div className=''>
             <div className='text-purple-800'>Primary Usuage</div>
             <div className='text-xs text-wrap w-[15rem] text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit.  deserunt.

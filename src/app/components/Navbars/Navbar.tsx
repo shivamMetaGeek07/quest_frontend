@@ -8,7 +8,8 @@ import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, B
 import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
-
+import Cookies from 'js-cookie'
+import { notify } from '@/utils/notify';
 const Navbar: React.FC = () =>
 {
     const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +17,7 @@ const Navbar: React.FC = () =>
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
     const [ feedItems, setFeedItems ] = useState<string[]>( [] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
-
+    
     useEffect( () =>
     {
         const interval = setInterval( () =>
@@ -31,10 +32,14 @@ const Navbar: React.FC = () =>
     {
         try
         {
-            await dispatch( logoutUser() );
+         const response= await dispatch( logoutUser());
+         if(response){
             await persistor.flush();
             localStorage.clear();
-            router.push( '/' );
+            Cookies.remove('authToken');
+            notify("success","Logout Successfully")
+            router.push('/');
+         }
         } catch ( error )
         {
             console.error( 'Error logging out:', error );
@@ -142,7 +147,8 @@ const Navbar: React.FC = () =>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
                                 <DropdownItem key="profile" className="h-14 gap-2 font-bold">
-                                    <p className="font-semibold">Signed in </p>
+                                <p className="font-semibold">welcome { data.displayName }</p>
+                                    <p className="font-semibold">Signed in</p>
                                     <p className='font-semibold'>{ data.email }</p>
                                 </DropdownItem>
                                 <DropdownItem key="logout" color="danger" onClick={ logoutClient } className="bg-[#f31260] text-white">
