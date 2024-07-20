@@ -28,6 +28,7 @@ interface CommunityState
   loading: boolean;
   error: string | null;
   forall:forAll|null
+  ecosystemCommunities?: []
 }
 
 const initialState: CommunityState = {
@@ -36,8 +37,11 @@ const initialState: CommunityState = {
   data: null,
   loading: false,
   error: null,
-  forall:null
+  forall:null,
+  ecosystemCommunities:[]
 };
+
+
 
 // fetch the community
 export const fetchAllCommunities = createAsyncThunk(
@@ -53,10 +57,10 @@ export const fetchAllCommunities = createAsyncThunk(
 );
 
 export const fetchCategoryEcosystem = createAsyncThunk(
-  'community/CategoryEcosystem',
-  async (_, { rejectWithValue }) => {
+  'community/fetchCategoryEcosystem ',
+  async (ecosystem:string, { rejectWithValue }) => {
     try {
-      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/getCommunityData` );
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/getCommunityData/${ecosystem}` );
       return response.data;
     } catch (err) {
       return rejectWithValue('Failed to fetch community data');
@@ -217,7 +221,12 @@ const communitySlice = createSlice({
       {
         state.loading = false;
         state.userCommunities = action.payload;
-      } );
+      } )
+
+      // .addCase(fetchCategoryEcosystem.fulfilled, (state,action)=>{
+      //   state.loading = false
+      //   state.ecosystemCommunities = action.payload;
+      // })
   },
 });
 
