@@ -296,7 +296,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                           variant="bordered"
                           className="cursor-pointer px-4 py-2 mt-3"
                         >
-                          { user?.rewards?.xp } pts
+                          { userData?.rewards?.xp } pts
                         </Chip>
 
                         {/* <Chip

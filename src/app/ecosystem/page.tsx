@@ -1,181 +1,69 @@
-import React from 'react'
-import Sidebar from '../components/sidebar'
-import Image from 'next/image';
-   const page = () => {
-  return (
-    <div className='bg-[#111111] pt-[5rem] h-screen font-[ProFontWindows]'>
-        <div className='flex-col  lg:flex-row items-center flex justify-between'>
-        <div className='flex flex-row text-xl    items-center justify-around m-auto'>
-       
-       <div className=' p-3 '> 
-        <div
-            className='image-container h-[4rem] w-[5rem] md:h-[7rem] md:w-28 items-center flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
-         </div>
-         </div>
-         <div className='flex w-[15rem] md:w-[21rem]   m-1 flex-col  items-center'>
-            <div className='flex  flex-row items-center justify-between  w-full m-auto'>
-            <div className='text-xl md:text-4xl'>LINEA</div>
-            <div className='text-xs bg_Div_Container  bg-[#1d1a28] p-2 rounded-lg pl-6'>392K Participants</div>
-            </div>
-            
-            <hr className="h-[1px] my-2  border-[0.5px] w-full border-dashed bg-black "/>
-            <div className='flex  flex-row text-sm gap-2 justify-between w-full m-auto'>
-            <div className=' flex'>Desc: </div>
-            <div className=' text-wrap  text-gray-500'>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsu  </div>
-            </div>
-         </div>
+"use client"
 
-         
-        </div>
-        <div className='flex flex-row text-gray-500 text-xl w-[21rem] md:w-[36rem] justify-between h-32 bg-[#111111] shadow-lg shadow-[#0d0d0d]  items-center  m-auto'>
-        <div
-            className='bg_Div_half hidden  sm:h-[8rem] sm:w-[16rem] items-center md:flex'>
-            <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
-         </div>
-        
-            <div className='flex   flex-col w-[55%]  gap-3 p-2 justify-start   '>
-            <div className='text-xs sm:text-sm flex flex-row justify-between '> 
-            <div className='text-white'>Noob :</div>
-            <div>+1 Quests</div>
-            </div>
-            <div className='text-xs sm:text-sm flex flex-row justify-between '> 
-            <div className='text-white'>Maxi :</div>
-            <div>+1 Quests</div>
-            </div>
-            <div className='text-xs sm:text-sm flex flex-row justify-between '> 
-            <div className='text-white'>Enthusiast :</div>
-            <div>+1 Quests</div>
-            </div>
-            </div>
-            <div className='flex   flex-row text-sm gap-0 md:gap-5 justify-end w-full m-auto'>
-            <div className=' text-right sm:w-52 w-40  '>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsu  </div>
-         </div>
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { getCommunitySuccess } from '@/redux/reducer/adminCommunitySlice';
 
-         
-        </div>
-        </div>
-   <hr className="h-[1px] my-2 items-center m-auto border-[0.5px] w-3/4 border-dashed bg-violet-800 "/>
-
-   {/* map the ecosytem */}
-   <div className='flex flex-col lg:flex-row gap-4 my-7 overflow-hidden'>
-       <div className='outer-div flex hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center w-[22rem]'>
-         <div className='flex flex-row text-xl items-center justify-around m-auto'>
-            <div className='p-1'>
-             <div className='image-container h-[5rem] w-[5rem] items-center flex'>
-                <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
-             </div>
-             <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
-            </div>
-         <div className='flex flex-col'>
-            <div className='flex w-[15rem] m-1 flex-col items-center'>
-                <div className='flex bg_eco_div border-b-4 border-[#8c71ff] pt-6 bg-[#1d1a28] flex-row items-center justify-between w-full m-auto'>
-                    <div className='text-lg ml-3'>Alpha Hub</div>
-                    <div className='text-xs flex flex-row rounded-lg pl-6'>
-                        <div className='flex m-2 items-center flex-col'>
-                            <span>214</span>
-                            <span>Quests</span>
-                        </div>
-                        <div className='flex m-2 items-center flex-col'>
-                            <span>7701</span>
-                            <span>Followers</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-row justify-end gap-x-1'>
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-            </div>
-        </div>
-         </div>
-      <div>
-        <div className='flex flex-row text-sm m-3 justify-between w-full'>
-            <span className='flex descText'>Desc:</span>
-            <span className='text-gray-600 descdata text-wrap'>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsum, dolor sit amet consectetur.</span>
-        </div>
-       </div>
-       </div>
-       <div className='outer-div flex hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center w-[22rem]'>
-         <div className='flex flex-row text-xl items-center justify-around m-auto'>
-            <div className='p-1'>
-             <div className='image-container h-[5rem] w-[5rem] items-center flex'>
-                <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
-              </div>
-             <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
-            </div>
-         <div className='flex flex-col'>
-            <div className='flex w-[15rem] m-1 flex-col items-center'>
-                <div className='flex bg_eco_div border-b-4 border-[#8c71ff] pt-6 bg-[#1d1a28] flex-row items-center justify-between w-full m-auto'>
-                    <div className='text-lg ml-3'>Alpha Hub</div>
-                    <div className='text-xs flex flex-row rounded-lg pl-6'>
-                        <div className='flex m-2 items-center flex-col'>
-                            <span>214</span>
-                            <span>Quests</span>
-                        </div>
-                        <div className='flex m-2 items-center flex-col'>
-                            <span>7701</span>
-                            <span>Followers</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-row justify-end gap-x-1'>
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-            </div>
-        </div>
-         </div>
-      <div>
-        <div className='flex flex-row text-sm m-3 justify-between w-full'>
-            <span className='flex descText'>Desc:</span>
-            <span className='text-gray-600 descdata text-wrap'>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsum, dolor sit amet consectetur.</span>
-        </div>
-       </div>
-       </div>
-       <div className='outer-div flex hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border p-1 flex-col m-auto justify-center w-[22rem]'>
-         <div className='flex flex-row text-xl items-center justify-around m-auto'>
-            <div className='p-1'>
-             <div className='image-container h-[5rem] w-[5rem] items-center flex'>
-                <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image' />
-             </div>
-             <div className='bg_Div_Down h-[2rem] mt-2 bg-gray-800' />
-            </div>
-         <div className='flex flex-col'>
-            <div className='flex w-[15rem] m-1 flex-col items-center'>
-                <div className='flex bg_eco_div border-b-4 border-[#8c71ff] pt-6 bg-[#1d1a28] flex-row items-center justify-between w-full m-auto'>
-                    <div className='text-lg ml-3'>Alpha Hub</div>
-                    <div className='text-xs flex flex-row rounded-lg pl-6'>
-                        <div className='flex m-2 items-center flex-col'>
-                            <span>214</span>
-                            <span>Quests</span>
-                        </div>
-                        <div className='flex m-2 items-center flex-col'>
-                            <span>7701</span>
-                            <span>Followers</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-row justify-end gap-x-1'>
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-                <div className='eco_box w-5 h-5 bg-[#8c71ff]' />
-            </div>
-        </div>
-         </div>
-      <div>
-        <div className='flex flex-row text-sm m-3 justify-between w-full'>
-            <span className='flex descText'>Desc:</span>
-            <span className='text-gray-600 descdata text-wrap'>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsum, dolor sit amet consectetur.</span>
-        </div>
-       </div>
-       </div>
-    </div>
-    </div>
-  )
+interface Data {
+  _id: string;
+  imageUrl: string;
+  name: string;
 }
 
-export default page
+const Page: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const ecosystems = useSelector( ( state: any ) => state.adminCommunity.ecosystems);
+  console.log(ecosystems)
+
+  useEffect(() => {
+    dispatch(getCommunitySuccess());
+  }, [dispatch]);
+
+  return (
+    <div className="lg:ml-16 sm:mx-8 mx-5">
+      <div className="flex items-center gap-1 mt-8 lg:mx-0 ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11" fill="none">
+          <path d="M1 1H6.48652L15 10" stroke="#FA00FF" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 5L11 10" stroke="#FA00FF" strokeLinecap="round" />
+        </svg>
+        <div>
+          <p>Ecosystems</p>
+        </div>
+      </div>
+
+      <div className="Main grid gap-4   grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 pt-6 ">
+        {ecosystems?.map((item: Data) => (
+          <div key={item._id} className="card p flex gap-1">
+            <div className="card bg-black w-36 h-36 border border-gray-700 flex items-center justify-center relative">
+              <div className="w-full h-full relative">
+                <div className="absolute inset-0 bg-cover bg-center opacity-10"
+                style={{ backgroundImage: 'url("https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Nn8tCydWYlztw5LeO6~MGdC~FDwI7x4fEcwjWM1fthGLhZveD1YLJlztwDRK0q3bU8oKzVSLF-LR0D9PEqDmMN008paLVgpYr-kQQ74~~w4lwkMAKF4VqfrZ3Lg87dKEA3ahwQ82g3Hq9FNwoGnedm0o7sYd1NBYTLG-vzORi-TxobqJ1mW22xowaVfKe1IAcepqR9fYaFW2MhChjkjznYAzBAWvdtB3~LPrDEHO3MzgEnco7PQvrA7OOUSpCPdVOarn2MiMksth33mBgRuoalUnC1eagivJ-eK-x4kzM5QTYIDVelFQ2PO5ZcWIm~CrK0n4IlXp0fSoN-Ge8kpohA__")'}}
+                 ></div>
+                <div className="relative flex items-center justify-center w-full h-full">
+                  <img src={item.imageUrl} alt="Profile" className="w-16 h-16 object-cover rounded-full" />
+                </div>
+              </div>
+              <div className="absolute -bottom-1 -right-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="5" height="5" viewBox="0 0 4 4" fill="none">
+                  <path d="M4 0.5L0.5 0.5L0.5 4" stroke="white" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="icon flex flex-col justify-start gap-2 bg-white/10 h-28 w-8 icon-clip">
+              { ["⭐", "🍎", "⬆️"].map((icon, index) => (
+                <span key={index} className="text">
+                  {icon}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      
+      </div>
+    </div>
+  );
+}
+
+export default Page;

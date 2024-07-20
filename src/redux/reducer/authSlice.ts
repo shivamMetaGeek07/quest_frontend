@@ -51,6 +51,9 @@ export interface IUser
   following?: string[];
   followers?: string[];
   rewards?: any;
+  createdCommunities: [];
+  createdQuests: [];
+  createdTasks: [];
 }
 
 // Define the initial state interface

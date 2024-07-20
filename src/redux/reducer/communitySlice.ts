@@ -1,3 +1,4 @@
+import { notify } from '@/utils/notify';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -27,6 +28,7 @@ interface CommunityState
   loading: boolean;
   error: string | null;
   forall:forAll|null
+  ecosystemCommunities?: []
 }
 
 const initialState: CommunityState = {
@@ -35,10 +37,13 @@ const initialState: CommunityState = {
   data: null,
   loading: false,
   error: null,
-  forall:null
+  forall:null,
+  ecosystemCommunities:[]
 };
 
-// fetch the community by id
+
+
+// fetch the community
 export const fetchAllCommunities = createAsyncThunk(
   'community/fetchAllCommunities',
   async (_, { rejectWithValue }) => {
@@ -52,10 +57,10 @@ export const fetchAllCommunities = createAsyncThunk(
 );
 
 export const fetchCategoryEcosystem = createAsyncThunk(
-  'community/CategoryEcosystem',
-  async (_, { rejectWithValue }) => {
+  'community/fetchCategoryEcosystem ',
+  async (ecosystem:string, { rejectWithValue }) => {
     try {
-      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/getCommunityData` );
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/getCommunityData/${ecosystem}` );
       return response.data;
     } catch (err) {
       return rejectWithValue('Failed to fetch community data');
@@ -130,11 +135,13 @@ export const joinCommunity = createAsyncThunk(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/joinCommunity/${id}`
         , { memberId }
       );
-      console.log(response)
+      // console.log( response.data.message )
       return response.data.community;
     }
-    catch ( err )
+    catch ( err:any )
     {
+      notify('warn',err.response.data.message)
+      console.log("error in joining :-", err)
       return thunkAPI.rejectWithValue( 'Failed to join community' );
     }
   }
@@ -214,7 +221,12 @@ const communitySlice = createSlice({
       {
         state.loading = false;
         state.userCommunities = action.payload;
-      } );
+      } )
+
+      // .addCase(fetchCategoryEcosystem.fulfilled, (state,action)=>{
+      //   state.loading = false
+      //   state.ecosystemCommunities = action.payload;
+      // })
   },
 });
 

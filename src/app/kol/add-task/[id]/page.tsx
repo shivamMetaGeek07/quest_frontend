@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
 import { notify } from "@/utils/notify";
 import Image from "next/image";
@@ -42,7 +41,6 @@ interface TaskOption
 
 const AddTask = ( { params }: { params: { id: string; }; } ) =>
 {
-  useProtectedRoute( "kol" );
   const dispatch: AppDispatch = useDispatch();
   const [ isOpen, setIsOpen ] = useState( true );
   const [ selectedTask, setSelectedTask ] = useState<TaskOption | null>( null );

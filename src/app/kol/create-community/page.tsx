@@ -2,64 +2,88 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { createCommunity } from "@/redux/reducer/communitySlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 import { useRouter } from "next/navigation";
 import { useDropzone } from 'react-dropzone';
 import { BallTriangle } from "react-loader-spinner";
 import axios from "axios";
 import { Select, SelectItem } from "@nextui-org/react";
+import Multiselect from 'multiselect-react-dropdown';
 import { notify } from "@/utils/notify";
 
-const CreateCommunity = () =>
+interface Category
 {
+  _id: string;
+  name: string;
+}
 
+interface Ecosystem
+{
+  _id: string;
+  name: string;
+}
+
+interface CommunityData
+{
+  categories: Category[];
+  ecosystems: Ecosystem[];
+}
+
+const CreateCommunity: React.FC = () =>
+{
   const router = useRouter();
   const [ title, setTitle ] = useState<string>( "" );
   const [ description, setDescription ] = useState<string>( "" );
-  const [ categories, setCategories ] = useState<string[]>( [] );
+  const [ categories, setCategories ] = useState<Category[]>( [] );
   const [ ecosystems, setEcosystems ] = useState<string>( "" );
-  const [ catisOpen, setCatisOpen ] = useState<boolean>( false );
   const [ file, setFile ] = useState<File | null>( null );
+  const [preview, setPreview] = useState<string|null>(null);
   const [ loader, setLoader ] = useState<boolean>( false );
-  const [ isClient, setIsClient ] = useState( false );
+  const [ isClient, setIsClient ] = useState<boolean>( false );
   const [ isBlockchainRelated, setIsBlockchainRelated ] = useState<boolean>( false );
   const [ isDisable, setIsDisable ] = useState<boolean>( true );
 
+  const dispatch = useDispatch<AppDispatch>();
+  const communityData = useSelector<RootState, CommunityData>( ( state:any ) => state.adminCommunity );
+  const UserId = useSelector<RootState, string | undefined>( ( state ) => state.login.user?._id );
+
   useEffect( () =>
   {
-    if ( title && description && categories && ecosystems && file )
-    {
-      setIsDisable( false );
-    }
-    
-  },[title,description,categories,ecosystems,file])
+    setIsClient( true );
+    dispatch( getCommunitySuccess() );
+  }, [ dispatch ] );
 
-  // Dropzone for file uploading
+  useEffect( () =>
+  {
+    setIsDisable( !( title && description && categories.length > 0 && ecosystems && file ) );
+  }, [ title, description, categories, ecosystems, file ] );
+
   const onDrop = useCallback( ( acceptedFiles: File[] ) =>
   {
     setFile( acceptedFiles[ 0 ] );
+    const reader:any = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+    reader.readAsDataURL( acceptedFiles[ 0 ] );
   }, [] );
-  const { getRootProps, getInputProps, isDragActive } = useDropzone( { onDrop } );
 
-  // const [ canProceed, setCanProceed ] = useState<boolean>( false );
-  const dispatch = useDispatch<AppDispatch>();
-  const communityData = useSelector( ( state: RootState ) => state.adminCommunity );
-  const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
-  // console.log( communityData );
+  const { getRootProps, getInputProps } = useDropzone( {
+    onDrop,
+    accept: {
+      'image/*': [ '.jpeg', '.png', '.webp', '.gif', '.svg' ]
+    }
+  } );
 
-
-  const getUploadUrl = async ( fileName: string ) =>
+  const getUploadUrl = async ( fileName: string ): Promise<string> =>
   {
-    // console.log("getUploadUrl called",fileName);
     try
     {
-      const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
+      const response = await axios.post<{ url: string; }>( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
         folder: 'CommunityLogo',
         fileName,
       } );
-      // console.log('Upload URL:', response.data.url);
       return response.data.url;
     } catch ( error )
     {
@@ -68,40 +92,25 @@ const CreateCommunity = () =>
     }
   };
 
-  const handleUpload = async () =>
+  const handleUpload = async (): Promise<boolean> =>
   {
-
     if ( !file ) return false;
 
     try
     {
-      const uploadUrl = await getUploadUrl( file.name );  // presigned url from server
-      // console.log('Upload URL:', uploadUrl);
-
+      const uploadUrl = await getUploadUrl( file.name );
       if ( !uploadUrl ) return false;
 
       const res = await axios.put( uploadUrl, file, {
-        headers: {
-          'Content-Type': file.type,
-        },
+        headers: { 'Content-Type': file.type },
       } );
 
-      if ( res.status === 200 )
-      {
-        console.log( 'File uploaded successfully', res );
-        return true;
-      }
-      else
-      {
-        console.log( 'File upload failed', res );
-        return false;
-      }
-    }
-    catch ( error )
+      return res.status === 200;
+    } catch ( error )
     {
-      console.log( 'Error uploading file:', error );
+      console.error( 'Error uploading file:', error );
       return false;
-    };
+    }
   };
 
   const handleSubmit = async ( e: React.FormEvent ) =>
@@ -115,7 +124,7 @@ const CreateCommunity = () =>
       return notify( "warn", "Please upload a community logo" );
     }
 
-    if ( file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp' && file.type !== 'image/gif' && file.type !== 'image/svg' )
+    if ( ![ 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml' ].includes( file.type ) )
     {
       setLoader( false );
       return notify( "warn", "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
@@ -123,63 +132,49 @@ const CreateCommunity = () =>
 
     try
     {
-      const res = await handleUpload();     //for handling image upload action on aws
-      if ( !res ) return;
+      const uploadSuccess = await handleUpload();
+      if ( !uploadSuccess )
+      {
+        setLoader( false );
+        return notify( "error", "Failed to upload image" );
+      }
 
-      //path for image on aws
       const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/CommunityLogo/${ file.name }`;
+      const newCommunity = {
+        title,
+        description,
+        logo: path,
+        category: categories.map( cat => cat.name ),
+        ecosystem: ecosystems,
+        creator: UserId
+      };
 
-      const newCommunity = { title, description, logo: path, category: categories, ecosystem: ecosystems, creator: KolId };
-      // console.log("newCommunity",newCommunity);
+      console.log("newCommunity ",newCommunity)
 
       const resultAction = await dispatch( createCommunity( newCommunity ) );
       if ( createCommunity.fulfilled.match( resultAction ) )
       {
         notify( "success", 'Community created successfully' );
-
-        // Clear form
-        setTitle( "" );
-        setDescription( "" );
-        setCategories( [] );
-        setEcosystems( "" );
-        setFile( null );
-        setLoader( false );
-
-        router.push( '/kol/my-community' );
+        router.push( '/user/my-community' );
       } else
       {
         notify( "error", 'Failed to create community' );
       }
-    }
-    catch ( err )
+    } catch ( err )
     {
-      console.log( "err", err );
+      console.error( "Error creating community:", err );
+      notify( "error", 'An error occurred while creating the community' );
+    } finally
+    {
+      setLoader( false );
     }
   };
-
-  const toggleCategory = ( category: any ) =>
-  {
-    setCategories( prevCategories =>
-      prevCategories.includes( category )
-        ? prevCategories.filter( c => c !== category )
-        : [ ...prevCategories, category ]
-    );
-  };
-
-  useEffect( () =>
-  {
-    setIsClient( true );
-    dispatch( getCommunitySuccess() );
-  }, [ dispatch ] );
 
   if ( !isClient ) return (
     <div className="flex justify-center h-screen items-center">
-      <BallTriangle />
+      <BallTriangle color="#8B5CF6" height={ 100 } width={ 100 } />
     </div>
   );
-
-  console.log( categories );
-
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 font-[ProFontWindow] text-white">
@@ -190,7 +185,7 @@ const CreateCommunity = () =>
         <form onSubmit={ handleSubmit } className="space-y-4 md:space-y-6">
           <div className="flex flex-col md:flex-row md:space-x-4">
             <div className="w-full md:w-1/5 mb-4 md:mb-0">
-              <div className="bg-black border border-gray-800 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer mx-auto md:mx-0">
+              <div className="bg-black border border-gray-800 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer mx-auto md:mx-0" style={{ backgroundImage: `url(${ preview })`,backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                 <div { ...getRootProps() } className="text-center">
                   <input { ...getInputProps() } />
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -280,18 +275,52 @@ const CreateCommunity = () =>
                 <label className="block font-semibold mb-1 text-sm">
                   Categories (Select multiple)*
                 </label>
-                <Select
+                <Multiselect
+                  options={ communityData?.categories?.map( category => ( {
+                    name: category?.name,
+                    id: category._id
+                  } ) ) || ["No category found"] }
+                  selectedValues={ categories }
+                  onSelect={ ( selectedList ) =>
+                  {
+                    console.log( "Selected:", selectedList );
+                    setCategories( selectedList );
+                  } }
+                  onRemove={ ( selectedList ) =>
+                  {
+                    console.log( "After remove:", selectedList );
+                    setCategories( selectedList );
+                  } }
+                  displayValue="name"
                   placeholder="Select Categories"
-                  selectionMode="multiple"
-                  onChange={ ( e ) => setCategories( Array.from( e.target.value ) ) }
-                  className="w-full border border-gray-800 rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 bg-yellow-300 text-sm text-white"
-                >
-                  { communityData?.categories?.map( ( category ) => (
-                    <SelectItem key={ category } value={ category } className="bg-black text-white">
-                      { category }
-                    </SelectItem>
-                  ) ) }
-                </Select>
+                  style={ {
+                    chips: {
+                      background: '#FFFFff',  
+                      color: '#000000'        
+                    },
+                    searchBox: {
+                      border: '1px solid #1f1f1f',
+                      borderRadius: '8px',
+                      background: 'black',
+                      color: 'white'
+                    },
+                    option: {
+                      color: 'white',
+                      background: 'black'
+                    },
+                    optionContainer: {
+                      background: 'black'
+                    },
+                    groupHeading: {
+                      background: 'black',
+                      color: 'white'
+                    }
+                  } }
+                  className="w-full rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 text-sm text-white"
+                  showCheckbox={ true }
+                  avoidHighlightFirstOption={ true }
+                  hideSelectedList={ false }
+                />
               </div>
               <div className="md:w-1/2">
                 <label className="block font-semibold mb-1 text-sm">Ecosystem</label>
@@ -301,9 +330,9 @@ const CreateCommunity = () =>
                   onChange={ ( e ) => setEcosystems( e.target.value ) }
                   className="w-full border border-gray-800 rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 bg-black text-sm text-white"
                 >
-                  { communityData?.ecosystems?.map( ( ecosystem ) => (
-                    <SelectItem key={ ecosystem } value={ ecosystem } className="bg-black text-white">
-                      { ecosystem }
+                  { communityData?.ecosystems?.map( ( ecosystem: any ) => (
+                    <SelectItem key={ ecosystem._id } value={ ecosystem } className="bg-black text-white">
+                      { ecosystem?.name }
                     </SelectItem>
                   ) ) }
                 </Select>
@@ -315,9 +344,9 @@ const CreateCommunity = () =>
             { !loader ? (
               <button
                 type="submit"
-                onClick={ () => console.log( "clicked" ) }                
-                className={`bg-purple-600 hover:bg-purple-700 px-6 py-2 rounded-lg transition-colors duration-300 text-sm ${ isDisable ? "hover:bg-red-500" : "bg-blue-500" }`}
-                 disabled={ isDisable }
+                onClick={ () => console.log( "clicked" ) }
+                className={ `bg-purple-600 hover:bg-purple-700 px-6 py-2 rounded-lg transition-colors duration-300 text-sm ${ isDisable ? "hover:bg-red-500" : "bg-blue-500" }` }
+                disabled={ isDisable }
               >
                 { isDisable ? "Please wait..." : "Submit" }
 
