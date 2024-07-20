@@ -38,6 +38,7 @@ const CreateCommunity: React.FC = () =>
   const [ categories, setCategories ] = useState<Category[]>( [] );
   const [ ecosystems, setEcosystems ] = useState<string>( "" );
   const [ file, setFile ] = useState<File | null>( null );
+  const [preview, setPreview] = useState<string|null>(null);
   const [ loader, setLoader ] = useState<boolean>( false );
   const [ isClient, setIsClient ] = useState<boolean>( false );
   const [ isBlockchainRelated, setIsBlockchainRelated ] = useState<boolean>( false );
@@ -61,6 +62,11 @@ const CreateCommunity: React.FC = () =>
   const onDrop = useCallback( ( acceptedFiles: File[] ) =>
   {
     setFile( acceptedFiles[ 0 ] );
+    const reader:any = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+    reader.readAsDataURL( acceptedFiles[ 0 ] );
   }, [] );
 
   const { getRootProps, getInputProps } = useDropzone( {
@@ -179,7 +185,7 @@ const CreateCommunity: React.FC = () =>
         <form onSubmit={ handleSubmit } className="space-y-4 md:space-y-6">
           <div className="flex flex-col md:flex-row md:space-x-4">
             <div className="w-full md:w-1/5 mb-4 md:mb-0">
-              <div className="bg-black border border-gray-800 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer mx-auto md:mx-0">
+              <div className="bg-black border border-gray-800 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer mx-auto md:mx-0" style={{ backgroundImage: `url(${ preview })`,backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                 <div { ...getRootProps() } className="text-center">
                   <input { ...getInputProps() } />
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
