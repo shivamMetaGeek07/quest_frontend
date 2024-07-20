@@ -17,11 +17,12 @@ export default function CommunityProject ( { params }: { params: { slug: string;
   const { data: community, loading, error, } = useSelector( ( state: RootState ) => state.community );
   const currentQuests = useSelector( ( state: any ) => state.quest.currentQuests );
   const questIds = community?.quests;
-  // console.log( community?.quests );
+  console.log( community );
 
   useEffect( () =>
   {
     dispatch( fetchCommunity( id ) );
+    // console.log(community);
   }, [ dispatch, id ] );
 
   useEffect( () =>
@@ -113,8 +114,8 @@ export default function CommunityProject ( { params }: { params: { slug: string;
   return (
     <div className="  min-h-screen">
       <div className="w-[80%] container mx-auto px-4 py-8">
-        <div className="bg-slate-900 rounded-lg shadow-lg overflow-hidden ">
-          <div className="h-64 bg-blue-600">
+        <div className="bg-[#131313c7] shadow-lg overflow-hidden ">
+          <div className="h-64 bg-white">
             <img
               src={ community.logo }
               alt={ community.title }
@@ -128,7 +129,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
             </div>
           </div>
           <div className="p-4">
-            <div className="font-bold text-blue-600 text-3xl p-6 ">{ community.title }</div>
+            <div className="font-bold text-white text-3xl p-6 ">{ community.title }</div>
             <div className="px-6">
               <p className="text-lg text-white  mb-6">
                 { community.description }
@@ -136,19 +137,19 @@ export default function CommunityProject ( { params }: { params: { slug: string;
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h2 className="text-2xl font-semibold text-blue-600 mb-4">
+                  {/* <h2 className="text-2xl font-semibold text-white mb-4">
                     Ecosystems
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
+                  </h2> */}
+                  {/* <div className="flex flex-wrap gap-2">
                     { community.ecosystem.map( ( eco, index ) => (
                       <span
                         key={ index }
-                        className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold"
+                        className="bg-blue-100 text-white px-3 py-1 rounded-full text-sm font-semibold"
                       >
                         { eco }
                       </span>
                     ) ) }
-                  </div>
+                  </div> */}
                 </div>
 
                 <div>
@@ -156,7 +157,7 @@ export default function CommunityProject ( { params }: { params: { slug: string;
                     className="flex gap-2"
                   >
 
-                    <h2 className="text-2xl font-semibold text-blue-600 mb-4">Community Stats</h2>
+                    <h2 className="text-2xl font-semibold text-white mb-4">Community Stats</h2>
                     <button
                       // onclick send the user to add-quest url endpoint
                       onClick={ () => window.location.href = `/kol/add-quest/${ id }`
@@ -176,9 +177,9 @@ export default function CommunityProject ( { params }: { params: { slug: string;
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-semibold mt-12 mb-6">
+            { (currentQuests && currentQuests.length > 0) && ( <h2 className="text-3xl font-semibold mt-12 mb-6">
                 Active Quests
-              </h2>
+              </h2>)}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 { currentQuests?.map( ( quest: any, index: number ) => (
                   // <Link href={`/user/quest/${questId}`} key={questId}>

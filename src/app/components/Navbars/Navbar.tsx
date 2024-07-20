@@ -84,13 +84,15 @@ const Navbar: React.FC = () =>
                 {/* Desktop menu */ }
                 <div className="hidden lg:flex items-center justify-between space-x-4">
                     {/* searchBar */}
-                    <div className=" flex flex-row justify-start items-center">
+                    <div className=" flex flex-row justify-start items-center border-gray-300">
+                        <div className='search-bar-trapizium p-[1px] text-white bg-[#fffefe4e] '>
                         <input
                             type="text"
                             placeholder="SEARCH"
-                            className="bg-gray-800 text-white px-3 py-2.5 w-48 xl:w-64"
+                            className="bg-black search-bar-trapizium text-[#fff] px-3 py-2.5 w-48 xl:w-64"
                         />
-                        <button className="search  bg-gray-700 text-white px-3 rounded-r">
+                        </div>
+                        <button className="search  text-white px-3 rounded-r">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                             </svg>
@@ -146,10 +148,9 @@ const Navbar: React.FC = () =>
                                 />
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                <DropdownItem key="profile" className="h-14 gap-2 font-bold">
-                                <p className="font-semibold">welcome { data.displayName }</p>
-                                    <p className="font-semibold">Signed in</p>
-                                    <p className='font-semibold'>{ data.email }</p>
+                                <DropdownItem key="profile" className="h-10 font-bold">
+                                {/* <p className="font-semibold">welcome { data.displayName }</p> */}
+                                <p className="font-semibold text-center" onClick={ () => router.push( '/user/profile' ) } >View profile</p>
                                 </DropdownItem>
                                 <DropdownItem key="logout" color="danger" onClick={ logoutClient } className="bg-[#f31260] text-white">
                                     <div className="font-bold text-white text-center">Logout</div>
