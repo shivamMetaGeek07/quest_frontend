@@ -14,6 +14,7 @@ import Link from "next/link";
 import { Button, Spinner } from "@nextui-org/react";
 import Slider from "react-slick";
 import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
+import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 
 
 const Homepage = () =>
@@ -51,6 +52,7 @@ const Homepage = () =>
   useEffect( () =>
   {
     dispatch( fetchAllCommunities() );
+    dispatch (getCommunitySuccess());
   }, [] );
 
   // if(!data) return (

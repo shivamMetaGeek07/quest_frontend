@@ -22,8 +22,8 @@ export const getCommunitySuccess = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
         const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/admin/getCommunityData` );
-        // console.log(response)
-      return response.data; // Ensure that the correct data is being returned
+        console.log(response)
+      return response.data.community; // Ensure that the correct data is being returned
     } catch (err) {
       return rejectWithValue('Failed to fetch community data');
     }
