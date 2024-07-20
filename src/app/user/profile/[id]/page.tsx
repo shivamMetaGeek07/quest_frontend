@@ -128,6 +128,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
         headers: { "Content-Type": "application/json" },
       } );
       setIsFollowed( !isFollowed );
+      
       getUserProfile();
     } catch ( error )
     {
@@ -135,30 +136,25 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
     }
   }, [ user, userId, isFollowed, getUserProfile ] );
 
-  useEffect( () =>
-  {
-    setIsClient( true );
-    dispatch( fetchUserData() );
-  }, [ dispatch ] );
+  
 
   useEffect( () =>
   {
+    if ( userData )
+      {
+        getFriends();
+      }
+
     if ( userId )
     {
       getUserProfile();
       checkFollow();
     }
-  }, [ userId, getUserProfile, checkFollow ] );
+    setIsClient( true );
+    dispatch( fetchUserData() );
+  }, [ userId, getUserProfile, checkFollow ,userData, getFriends, dispatch] );
 
-  useEffect( () =>
-  {
-    if ( userData )
-    {
-      getFriends();
-    }
-  }, [ userData, getFriends ] );
-
-
+   
   if ( !isClient )
     return (
       <div className="flex justify-center h-screen items-center">

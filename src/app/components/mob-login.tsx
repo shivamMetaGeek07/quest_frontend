@@ -7,7 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 import Cookies from 'js-cookie';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import 'react-phone-input-2/lib/style.css';
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, User } from "firebase/auth";
 import {auth}  from '../../../firebase';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ const LoginPage: React.FC = () =>
     const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
     const [loading, setLoading] = useState(false);
     const [showOTP, setShowOTP] = useState(false);
-    const[user,setuser]=useState(false);
+    const[user,setuser]= useState<User | null>(null);
     const dispatch=useDispatch<AppDispatch>()
     const router=useRouter()
     const data = useSelector( ( state: RootState ) => state.login?.user );
@@ -78,8 +78,7 @@ const LoginPage: React.FC = () =>
               "expired-callback": () => {
                 // Handle expired reCAPTCHA
               },
-            },
-            auth
+            } 
           );
         }  
     }
@@ -113,17 +112,21 @@ const LoginPage: React.FC = () =>
         if (confirmationResult && otp) {
             try {
             const result = await confirmationResult.confirm(otp);
-            const idToken = result._tokenResponse.idToken; // Get the ID token
-            setuser(result.user)
-            setLoading(false);
+            const users = result.user as User; // Type assertion
+            const idToken = await users.getIdToken();
+            console.log("ddd",idToken)
+            console.log("c",users?.phoneNumber)
+            const number=users?.phoneNumber
+            setuser(users); 
+        setLoading(false);
             toast.success("OTP verified successfully!");
         //   Send user data to the backend
-          const response = await fetch('http://localhost:8080/api/verify-phone', {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/verify-phone`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ users:result,idToken ,name:name}),
+            body: JSON.stringify({ users:result,idToken ,name:name,number:number}),
           });
           if(response.ok){
           const data = await response.json();
@@ -190,7 +193,8 @@ const LoginPage: React.FC = () =>
             <div className="rounded-lg shadow-xl w-full max-w-[492px] border border-gray-700 overflow-hidden">
                 <div className="h-full flex flex-col p-6">
                     <h1 className="text-2xl font-bold text-center text-white mb-6 font-[Qanelas-SemiBold, Helvetica]">LOGIN</h1>
-                    <form onSubmit={handleLogin} className="flex-grow flex flex-col justify-between space-y-6">                        <Toaster toastOptions={{ duration: 4000 }} />
+                    <form onSubmit={handleLogin} className="flex-grow flex flex-col justify-between space-y-6">   
+                     <Toaster toastOptions={{ duration: 4000 }} />
                         <div id="recaptcha-container"></div>
                         {user ? (
                         <h2 className="text-center text-white font-medium text-2xl">
