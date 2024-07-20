@@ -1,18 +1,29 @@
 "use client";
 
-import { useEffect } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCommunity } from "../../../../redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "../../../../redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
 import Image from "next/image";
+import UserTable from "@/app/components/table/userTable";
+import { User } from "@/app/leaderboard/data";
+import axios from "axios";
 
 export default function CommunityProject({
   params,
 }: {
   params: { slug: string };
-}) {
+  } )
+{
+  const columns = [
+    // { name: "SNO.", uid: "sno" },
+    { name: "NAME", uid: "name" },
+    { name: "STARS", uid: "stars" },
+    { name: "FAMPOINTS", uid: "fampoints" },
+    { name: "XPS", uid: "xps" },
+  ];
   const id = params.slug;
   const dispatch = useDispatch<AppDispatch>();
   const {
@@ -20,9 +31,11 @@ export default function CommunityProject({
     loading,
     error,
   } = useSelector((state: RootState) => state.community);
-  const currentQuests = useSelector((state: any) => state.quest.currentQuests);
+  const currentQuests = useSelector( ( state: any ) => state.quest.currentQuests );
+  const [users, setUsers] = useState([])
   const questIds = community?.quests;
-  console.log(community);
+  const userData = community?.members
+  console.log(userData);
   useEffect(() => {
     dispatch(fetchCommunity(id));
   }, [dispatch, id]);
@@ -31,7 +44,32 @@ export default function CommunityProject({
     if (questIds && questIds.length > 0) {
       dispatch(fetchQuests(questIds));
     }
-  }, [dispatch, questIds]);
+  }, [ dispatch, questIds ] );
+  
+
+
+  const getUsers = useCallback( async () =>
+  {
+    if ( !userData ) return;
+    const friendsIds = community?.members ;
+    try
+    {
+      const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/friends`, { friendsIds } );
+      // console.log(data)
+      setUsers(data.friends)
+    } catch ( error )
+    {
+      console.error( "Error fetching friends:", error );
+    }
+  }, [ userData ] );
+
+  useEffect( () =>
+  {
+    if ( userData )
+    {
+      getUsers();
+    }
+  }, [ userData ] );
 
   if (loading) {
     return (
@@ -283,9 +321,25 @@ export default function CommunityProject({
         </div>
 
         <div className="mai div flex  lg:flex-row sm:flex-col flex-col mt-16 gap-24 justify-end ">
-          {/* <div className=" border">
-            left side
-          </div> */}
+          <section className="w-full flex flex-col justify-center items-center">
+
+            <div className="flex flex-row justify-center my-2 gap-3 text-pink-950 lg:text-5xl">
+              - - - - - - - - - - -
+            </div>
+
+            <div className="my-4 flex items-center gap-2 justify-center">
+              <div className="">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="11" viewBox="0 0 15 11" fill="none">
+                  <path d="M0.5 1H5.98652L14.5 10" stroke="#FA00FF" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M5.5 5L10.5 10" stroke="#FA00FF" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className="listOfFriends">Leaderboard</div>
+            </div>
+            <div className="w-[90%] lg:w-[80%] flex userTable justify-center items-center bg-[#040404] ">
+              <UserTable<User> data={ users } columns={ columns } rowsPerPage={ 5 } />
+            </div>
+          </section>
 
           <div className="basis-[50%]">
             <div className="border border-neutral-600  p-5">
@@ -353,9 +407,9 @@ export default function CommunityProject({
                     </div>
                   </div>
 
-                  <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2">
+                  {/* <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2">
                     Sign in / up
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

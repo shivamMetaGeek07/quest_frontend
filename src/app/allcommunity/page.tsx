@@ -44,7 +44,7 @@ const MyCommunities = () =>
   const categories = data?.category || [];
   const ecosystems = data?.ecosystem || [];
 
-  console.log(data)
+  console.log( memberId );
 
   const joinningCommunity = async ( e: any ) =>
   {
@@ -175,7 +175,7 @@ const MyCommunities = () =>
                           setSelectedCategories( Array.from( keys ) as string[] )
                         }
                       >
-                        { categories.map( ( cat ) => (
+                        { categories.map( ( cat :any) => (
                           <DropdownItem key={ cat }>{ cat.name }</DropdownItem>
                         ) ) }
                       </DropdownMenu>
@@ -226,15 +226,15 @@ const MyCommunities = () =>
               key={ index }
               onClick={ () =>
               {
-                if ( card.creator == memberId )
+                if ( memberId && card.creator == memberId )
                 {
                   router.push( `/kol/community-project/${ card._id }` );
-                } else if ( card.members.includes( memberId ) )
+                } else if ( memberId && card.members.includes( memberId ) )
                 {
                   router.push( `/user/community-project/${ card._id }` );
                 } else
                 {
-                  notify( "warn", 'Please join the community' );
+                  router.push( `/allcommunity/${ card._id }` );
                 }
               } }
               className=" bg-white/5 outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-4 flex-col justify-center w-full sm:w-full"
@@ -291,30 +291,27 @@ const MyCommunities = () =>
               </div>
 
               { card.members.includes( memberId ) ? (
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center mt-1" >
                   <button
-                    className="px-2 py-1 text-sm bg-green-500/20 text-green-400 text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-default border border-green-500/50 hover:bg-green-500/30"
+                    className="px-2 py-1 text-sm bg-green-500/20 text-green-400 text-center font-medium rounded-lg transition-all duration-300 ease-in-out cursor-default border border-green-500/50 hover:bg-green-500/30 w-full"
                     disabled
                   >
-                    joined
+                    Joined
                   </button>
                 </div>
-              ) : ( card.creator == memberId ) ? (
-                <div className="flex  gap-3  mt-1">
+              ) : memberId && card.creator === memberId ? (
+                <div className="flex gap-3 mt-1">
                   <button
-                    className={ `px-2 py-1 text-xs bg-white/10 hover:bg-white/25  text-center text-neutral-400 descdata  rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${ loadingCommunityId === card._id ? "cursor-wait" : ""
-                      }` }
-                    onClick={ () => router.push( `{/kol/my-community/${ card._id }` ) }
-
+                    className="px-2 py-1 text-xs bg-white/10 hover:bg-white/25 text-center text-neutral-400 descdata rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg"
+                    onClick={ () => router.push( `/kol/community-project/${ card._id }` ) }
                   >
                     View Your Community
                   </button>
-
                 </div>
-              ) : (
-                <div className="flex  gap-3  mt-1">
+              ) : memberId ? (
+                <div className="flex gap-3 mt-1" >
                   <button
-                    className={ `px-2 py-1 text-xs bg-white/10 hover:bg-white/25 text-center text-neutral-400 descdata hover:text-blak  rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${ loadingCommunityId === card._id ? "cursor-wait" : ""
+                    className={ `px-2 py-1 text-xs bg-white/10 hover:bg-white/25 text-center text-neutral-400 descdata hover:text-black rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ${ loadingCommunityId === card._id ? "cursor-wait" : ""
                       }` }
                     onClick={ ( e ) =>
                     {
@@ -323,11 +320,18 @@ const MyCommunities = () =>
                     } }
                     disabled={ loadingCommunityId !== null }
                   >
-                    { loadingCommunityId === card._id
-                      ? "Joining..."
-                      : "Join Community" }
+                    { loadingCommunityId === card._id ? "Joining..." : "Join Community" }
                   </button>
                   <ReferralForm memberId={ memberId } id={ card._id } />
+                </div>
+              ) : (
+                <div className="mt-1 w-full" >
+                  <button
+                    className="px-2 py-1 text-xs bg-white/10 hover:bg-white/25 text-center text-neutral-400 descdata hover:text-black rounded-md transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg w-full"
+                    onClick={ () => router.push( '/login' ) }
+                  >
+                    Please Login
+                  </button>
                 </div>
               ) }
             </div>
