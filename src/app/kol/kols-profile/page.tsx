@@ -40,6 +40,10 @@ const KolsProfile = (props: Props) => {
 
   const user = useSelector((state: RootState) => state.login.user);
 
+  const handleDiscord=()=>{
+    window.location.href=`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`
+  }
+
   useEffect(() => {
     setIsClient(true);
     if (user && user.community) {
@@ -97,6 +101,9 @@ const KolsProfile = (props: Props) => {
                 <div>
                 <button className="bg-blue-500 rounded-2xl px-6 py-1 mt-6">
                   follow
+                </button>
+                <button onClick={handleDiscord} className="bg-blue-500 rounded-2xl px-6 py-1 mt-6">
+                Discord
                 </button>
                 </div>
               </div>

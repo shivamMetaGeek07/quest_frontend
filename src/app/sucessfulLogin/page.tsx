@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 const Page = () => {
   const router = useRouter(); // Initialize router here
   const dispatch = useDispatch<AppDispatch>();
-  const data = useSelector((state: RootState) => state.login.user);
-
+  const data = useSelector((state: RootState) => state.login?.user);
+  // console.log(data)
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);

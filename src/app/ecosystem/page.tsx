@@ -9,13 +9,13 @@ import Image from 'next/image';
        
        <div className=' p-3 '> 
         <div
-            className='image-container h-[10rem] w-36 items-center flex'>
+            className='image-container h-[4rem] w-[5rem] md:h-[7rem] md:w-28 items-center flex'>
             <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
          </div>
-         <div className='flex w-[21rem]   m-1 flex-col  items-center'>
+         <div className='flex w-[15rem] md:w-[21rem]   m-1 flex-col  items-center'>
             <div className='flex  flex-row items-center justify-between  w-full m-auto'>
-            <div className='text-4xl'>LINEA</div>
+            <div className='text-xl md:text-4xl'>LINEA</div>
             <div className='text-xs bg_Div_Container  bg-[#1d1a28] p-2 rounded-lg pl-6'>392K Participants</div>
             </div>
             
@@ -28,28 +28,28 @@ import Image from 'next/image';
 
          
         </div>
-        <div className='flex flex-row text-gray-500 text-xl w-[36rem] justify-between h-32 bg-[#111111] shadow-lg shadow-[#0d0d0d]  items-center  m-auto'>
+        <div className='flex flex-row text-gray-500 text-xl w-[21rem] md:w-[36rem] justify-between h-32 bg-[#111111] shadow-lg shadow-[#0d0d0d]  items-center  m-auto'>
         <div
-            className='bg_Div_half h-[8rem] w-[16rem] items-center flex'>
+            className='bg_Div_half hidden  sm:h-[8rem] sm:w-[16rem] items-center md:flex'>
             <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image '/>
          </div>
         
-            <div className='flex   flex-col w-2/4  gap-3 p-2 justify-start   '>
-            <div className='text-sm flex flex-row justify-between '> 
+            <div className='flex   flex-col w-[55%]  gap-3 p-2 justify-start   '>
+            <div className='text-xs sm:text-sm flex flex-row justify-between '> 
             <div className='text-white'>Noob :</div>
             <div>+1 Quests</div>
             </div>
-            <div className='text-sm flex flex-row justify-between '> 
+            <div className='text-xs sm:text-sm flex flex-row justify-between '> 
             <div className='text-white'>Maxi :</div>
             <div>+1 Quests</div>
             </div>
-            <div className='text-sm flex flex-row justify-between '> 
+            <div className='text-xs sm:text-sm flex flex-row justify-between '> 
             <div className='text-white'>Enthusiast :</div>
             <div>+1 Quests</div>
             </div>
             </div>
-            <div className='flex   flex-row text-sm gap-5 justify-end w-full m-auto'>
-            <div className=' text-right w-52  '>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsu  </div>
+            <div className='flex   flex-row text-sm gap-0 md:gap-5 justify-end w-full m-auto'>
+            <div className=' text-right sm:w-52 w-40  '>Lorem ipsum, dolor sit amet consectetur adipisicing elitorem ipsu  </div>
          </div>
 
          

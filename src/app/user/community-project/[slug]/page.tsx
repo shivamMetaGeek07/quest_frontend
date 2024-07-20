@@ -44,6 +44,7 @@ export default function CommunityProject({ params }: { params: { slug: string } 
 
   if (error) {
     return (
+      
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="text-center p-8 bg-white rounded-lg shadow-md">
           <svg
@@ -107,22 +108,50 @@ export default function CommunityProject({ params }: { params: { slug: string } 
   }
 
   return (
-    <div className="bg-[#181818]  min-h-screen ">
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-[#121212] rounded-lg shadow-lg overflow-hidden">
-          <div className="relative h-64 bg-blue-600">
+    <div className='bg-[#111111] pt-[5rem] md:pl-[5rem] h-full container p-5 md:p-5 pb-5 font-[ProFontWindows]'>
+            <div className="flex flex-row px-4 m-auto  gap-3 w-full items-center">
+            <div
+              className='div_right_community h-[5rem] sm:h-[8rem] w-[6rem]  sm:w-32 items-center flex'>
+              <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image ' />
+            </div>
+            <div
+              className='div_right_community_inwards relative justify-end  h-[5rem] sm:h-[8rem] w-full  items-end m-auto flex'>
             <img
               src={`https://dummyimage.com/1200x400/000/fff&text=${community.title[0]}`}
               alt={community.title}
-              className="w-full h-full object-cover opacity-50"
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
-              {/* <h1 className="text-3xl font-bold text-white mb-2">{ community.title }</h1> */}
-              <p className="text-xl text-gray-200">
-                {community.members?.length || 0} Members
-              </p>
+              className="w-full h-full absolute object-cover -z-10"
+            />              
+            <div className=" flex p-5 gap-5 items-end justify-end flex-1">
+              <div className=" p-0 pt-1">{community.title}</div>
+              <div className="flex-col text-xs flex">
+                <div>{community.quests?.length || 0}
+                </div>
+                <div>Quests</div>
+              </div>
+              <div className="flex-col text-xs flex">
+                <div>{community.members?.length || 0}</div>
+                <div> Members</div>
+              </div>
+              </div>
             </div>
-          </div>
+            </div>
+            <div className="flex flex-row px-4 m-auto  gap-3 w-full items-center">
+            <div
+              className='div_right_community h-[5rem] sm:h-[8rem] w-[6rem]  sm:w-32 items-center flex'>
+              <img src='https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg' alt='' className='styled-image ' />
+            </div>
+            <div
+              className='div_right_community_inwards relative flex-1  w-full  items-end m-auto flex'>
+              <div>Bio :</div>
+                <div> <p className="text-lg text-white  mb-6">
+              {community.description}
+            </p></div>            
+            
+            </div>
+            </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-[#121212] rounded-lg shadow-lg overflow-hidden">
+          
 
           <div className="p-6">
             <p className="text-lg text-white  mb-6">

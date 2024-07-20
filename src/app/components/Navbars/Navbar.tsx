@@ -9,7 +9,8 @@ import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, B
 import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
-
+import Cookies from 'js-cookie'
+import { notify } from '@/utils/notify';
 const Navbar: React.FC = () =>
 {
     const dispatch = useDispatch<AppDispatch>();
@@ -21,8 +22,7 @@ const Navbar: React.FC = () =>
 
     ] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
-
-    console.log( feedItems );
+    
 
     useEffect( () =>
     {
@@ -38,10 +38,14 @@ const Navbar: React.FC = () =>
     {
         try
         {
-            await dispatch( logoutUser() );
+         const response= await dispatch( logoutUser());
+         if(response){
             await persistor.flush();
             localStorage.clear();
-            router.push( '/login' );
+            Cookies.remove('authToken');
+            notify("success","Logout Successfully")
+            router.push('/');
+         }
         } catch ( error )
         {
             console.error( 'Error logging out:', error );
@@ -156,6 +160,7 @@ const Navbar: React.FC = () =>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
                                 <DropdownItem key="profile" className="h-14 gap-2 font-bold">
+                                <p className="font-semibold">welcome { data.displayName }</p>
                                     <p className="font-semibold">Signed in as { data.role }</p>
                                     <p className='font-semibold'>{ data.email }</p>
                                 </DropdownItem>
