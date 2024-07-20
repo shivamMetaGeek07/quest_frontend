@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { fetchUserData } from '@/redux/reducer/authSlice';
+import axios from 'axios';
+import { notify } from '@/utils/notify';
 
 const LoginPage: React.FC = () =>
 {
@@ -20,7 +22,6 @@ const LoginPage: React.FC = () =>
     const [ phoneNumber, setPhoneNumber ] = useState( '' );
     const [ nameError, setNameError ] = useState( '' );
     const [ phoneError, setPhoneError ] = useState( '' );
-    const [ logo, setLogo ] = useState<string | null>( null );
     const fileInputRef = useRef<HTMLInputElement>( null );
     const isDisabled = !!nameError || !!phoneError;
     const [otp, setOtp] = useState("");
@@ -28,7 +29,10 @@ const LoginPage: React.FC = () =>
     const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
     const [loading, setLoading] = useState(false);
     const [showOTP, setShowOTP] = useState(false);
-    const[user,setuser]=useState<User|null>(null);
+    const[user,setuser]= useState<User | null>(null);
+    const [ logoPreview, setLogoPreview ] = useState<string | null>( null );
+    const [ logo, setLogo ] = useState<any>( null );
+    const [ profilePic, setProfilePic ] = useState( '' );
     const dispatch=useDispatch<AppDispatch>()
     const router=useRouter()
     const data = useSelector( ( state: RootState ) => state.login?.user );
@@ -82,12 +86,78 @@ const LoginPage: React.FC = () =>
           );
         }  
     }
-    
+    const getUploadUrl = async ( fileName: string ): Promise<string> =>
+    {
+        try
+        {
+            const response = await axios.post<{ url: string; }>(`${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
+                folder: 'userProfile',
+                fileName,
+            } );
+            return response.data.url;
+        } catch ( error )
+        {
+            console.error( 'Error getting upload URL:', error );
+            throw error;
+        }
+    };
+
+    const handleUpload = async (): Promise<boolean> =>
+    {
+        if ( !logo ) return false;
+
+        try
+        {
+            const uploadUrl = await getUploadUrl( logo.name );
+            if ( !uploadUrl ) return false;
+
+            const res = await axios.put( uploadUrl, logo, {
+                headers: { 'Content-Type': logo.type },
+            } );
+
+            return res.status === 200;
+        } catch ( error )
+        {
+            console.error( 'Error uploading file:', error );
+            return false;
+        }
+    };
     const onSignup = async () => {
         setLoading(true);
+        
+        if ( !logo )
+        {
+            setLoading( false );
+            return notify( "warn", "Please upload Your profile" );
+        }
 
+        // Check if logo is a File object
+        if ( !( logo instanceof File ) )
+        {
+            setLoading( false );
+            return notify( "warn", "Invalid file type" );
+        }
+
+        if ( ![ 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml' ].includes( logo.type ) )
+        {
+            setLoading( false );
+            return notify( "warn", "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
+        }
         try {
-          await onCaptchVerify(); // Wait for reCAPTCHA initialization
+
+           const uploadSuccess = await handleUpload();
+            if ( !uploadSuccess )
+            {
+                setLoading( false );
+                return notify( "error", "Failed to upload image" );
+            }
+
+            const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ logo.name }`;
+
+            setProfilePic( path );
+            console.log("Profile path",path) ;
+
+            await onCaptchVerify(); // Wait for reCAPTCHA initialization
       
           const appVerifier = window.recaptchaVerifier;
           const formatPh = "+91" + ph;
@@ -112,18 +182,21 @@ const LoginPage: React.FC = () =>
         if (confirmationResult && otp) {
             try {
             const result = await confirmationResult.confirm(otp);
-            const idToken = await result.user.getIdToken(); // Get the ID token
-            setuser(result.user)
+            const users = result.user as User; // Type assertion
+            const idToken = await users.getIdToken();
+            console.log("ddd",idToken)
+            console.log("c",users?.phoneNumber)
+            const number=users?.phoneNumber
+            setuser(users); 
             setLoading(false);
             toast.success("OTP verified successfully!");
         //   Send user data to the backend
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/verify-phone`, {
-        //   const response = await fetch('http://localhost:8080/api/verify-phone', {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/verify-phone`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ users:result,idToken ,name:name}),
+            body: JSON.stringify({ users:result,idToken ,name:name,number:number,img:profilePic}),
           });
           if(response.ok){
           const data = await response.json();
@@ -148,12 +221,15 @@ const LoginPage: React.FC = () =>
     const handleLogoUpload = ( event: React.ChangeEvent<HTMLInputElement> ) =>
     {
         const file = event.target.files?.[ 0 ];
+        console.log("file",file);
         if ( file )
         {
+            setLogo( file );
             const reader = new FileReader();
             reader.onload = ( e ) =>
             {
-                setLogo( e.target?.result as string );
+                setLogoPreview( e.target?.result as string );
+                // setLogo( file );
             };
             reader.readAsDataURL( file );
         }
@@ -237,14 +313,15 @@ const LoginPage: React.FC = () =>
                                     className="bg-gray-700 border border-gray-600 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-300 hover:border-blue-500"
                                     onClick={ handleLogoClick }
                                 >
-                                    { logo ? (
-                                        <img src={ logo } alt="Uploaded logo" className="w-full h-full object-cover" />
-                                    ) : (
+                                   { logoPreview ? (
+                                        <img src={ logoPreview } alt="Uploaded logo" className="w-full h-full object-cover" />
+                                        ):
+                                        (
                                         <div className="text-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
-                                            <p className="text-xs text-gray-400 mt-2">Upload Logo</p>
+                                            <p className="text-xs text-gray-400 mt-2">Upload Logo | {logoPreview}</p>
                                         </div>
                                     ) }
                                 </div>
