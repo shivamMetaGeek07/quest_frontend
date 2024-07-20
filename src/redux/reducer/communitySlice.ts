@@ -1,3 +1,4 @@
+import { notify } from '@/utils/notify';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -134,11 +135,13 @@ export const joinCommunity = createAsyncThunk(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/joinCommunity/${id}`
         , { memberId }
       );
-      console.log(response)
+      // console.log( response.data.message )
       return response.data.community;
     }
-    catch ( err )
+    catch ( err:any )
     {
+      notify('warn',err.response.data.message)
+      console.log("error in joining :-", err)
       return thunkAPI.rejectWithValue( 'Failed to join community' );
     }
   }

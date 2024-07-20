@@ -1,4 +1,5 @@
 "use client";
+import { notify } from "@/utils/notify";
 import axios from "axios";
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,7 @@ const LoginPage = (props: Props) => {
   const router=useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showpassword, setShowpassword] = useState(false);
     
     const handleSubmit=async()=>{
         try {
@@ -17,12 +19,15 @@ const LoginPage = (props: Props) => {
             console.log(response);
 
             const data=response.data;
+            
             if(response.status===200){
-              localStorage.setItem('token',data.token)
+              notify("success",data.message);
+              localStorage.setItem('token',data.token);
               router.push('/admin/dashboard');
             }
 
-        } catch (error) {
+        } catch (error:any) {
+            notify("error",error.response.data.message);
             console.log(`error while admin login ${error}`)
         }
     }
@@ -66,16 +71,19 @@ const LoginPage = (props: Props) => {
                   >
                     Password
                   </label>
+                  <div className="flex justify-center items-center text-black">
                   <input
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     name="password"
                     id="password"
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   />
+                  <button className="ml-2 text-sm bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => setShowpassword(!showpassword)}>{showpassword ? "Hide" : "Show"}</button>
+                  </div>
                 </div>
                 <div className="flex items-center justify-between">
                  

@@ -2,21 +2,24 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
-interface Data {
+interface Data
+{
   id: number;
   image: string;
   backgroundImage: string;
   icons: string[];
-  name:string
+  name: string;
 }
 
-interface EcoData {
+interface EcoData
+{
   id: number;
   imageUrl: string;
   name: string;
 }
 
-interface CatData {
+interface CatData
+{
   id: number;
   imageUrl: string;
   title: string;
@@ -99,8 +102,8 @@ const data: Data[] = [
       "https://s3-alpha-sig.figma.com/img/f552/4d41/04db94e08ab24469fae629b971461e47?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bBlrSkLYS0a4wAJqyWmXHHtJDpeF6wYVskmtfpDUYSjY8qi7pTx9UY3l40frqVJNChtx0sBAAcgX46kdPF8B2yaOsbWHUQQB8DSqTnJz0WFeB038L2R7WETv03~uBGYEE7hfyYmNqNmzHPN-5-9OPrxV0BwzEP9MKDesSvkLunAMdTzauw7GSDo9UbEdPQTpHYLz4jGhlCZ8wm1Vmhs2Qh2gib97pI7BkPu7q5NrGxxAlapx5ILaMEDKAlAMuXVlZ8t4Bd3oUm9v26lNwQYKqoFX9adp29Vg-qgizYxVGbVBWS18vGXJDsYtPKSG9HPalWVys661nDXsHLsG-sWEww__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
-    icons: ["⭐", "🍎", "⬆️"],
-    name:"NFT"
+    icons: [ "⭐", "🍎", "⬆" ],
+    name: "NFT"
 
   },
   {
@@ -109,8 +112,8 @@ const data: Data[] = [
       "https://s3-alpha-sig.figma.com/img/949b/b0b5/8fe4beaa42c3a2dac01371ab43658b6b?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=O4h3Eh9wTTgTpIBcTBoOf8LkwbA28S4IDOoyDUuULs5HtV~IwRIdFjZmyFQXk8xbClv~4vw1ArZNwwB19GSeWyMHKUO9yNJ5AyeUfA0YqUW5Mqq-sM95AUAhHkDYa-n61lLhVnz-9LDDkfFUuRjqjgto3xc~lHyyQJBIQTx297eQ16ghTH4HZ3GsOt4lzNW~29UUbEB02K-JIjbb9jiWNVtFHFqlfA2JaEQTWSvIDJv6ptwko3t7iBmVzDSOOxRlVExsVwZKVZXI0-09rojhEqxEcrGUaHLr995pfPfTY0wrU4EhMdZPN0IbZGt0gQERQlv6VV522TIa2P-mJVbiNw__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
-    icons: ["⭐", "🍎", "⬆️"],
-     name:"BLOCKCHAIN"
+    icons: [ "⭐", "🍎", "⬆" ],
+    name: "BLOCKCHAIN"
   },
   {
     id: 3,
@@ -118,8 +121,8 @@ const data: Data[] = [
       "https://s3-alpha-sig.figma.com/img/8b59/9b0c/17269b22e70aacecf94bcf52eb04b833?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AKui5g889ScrxyvP7gpvS5IdnsFHxwsxblD4lhcqmObHfsIRyZmXIIrPQDVSezRc1f9PzCTFdWtbLqM~eBb1qMcIyfGyDKTh8nqGfaKUCXHTAnyVL31Fo2RwL28eO8ySifv0yfbcivcRSQpR0bCZw1sCMN9X1vykZ~D4za69th-RkE67tYIjfjOseGNHzM6NUaIeXSnRvRr0Ls~CeJd7FU0UtZoCHyZAhx3org1Sulk4IxDbUpKSjtjmKPeUQzJApVSCqU6~v7U17ZmlxkqeAUIKZ~VvnfrgoVaCiEK95U3fMYTbHUQiSioXu2VZRIUzva0iw1EArUlD9dwiyJqSnA__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
-    icons: ["⭐", "🍎", "⬆️"],
-     name:"NFT"
+    icons: [ "⭐", "🍎", "⬆" ],
+    name: "NFT"
   },
   {
     id: 4,
@@ -127,8 +130,8 @@ const data: Data[] = [
       "https://s3-alpha-sig.figma.com/img/82f5/550b/ce707281ecf1cfe66aa2cd9fbf7451a5?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=JQZNgbRxMsNkvwpimdUwcuvbR4VPphWfCuDv1fZBjZt-A7Prq-u1RVfpn5nP-WTPBMpnrzrvVUVw8sqZLcCiySFdB3etOY4fDkVOFQov9Z1vyUytO83TFruf1NwjQVSV97Uq7GYE5lpyuIxh-Xdqa4g2IrVKBBqh0rOBRPpUI2UjxUslk9ZZydleT0JRCKF20jXOebvTIjg3QrzFLkxhtumj4baKIlg3HxU~9L4r5RTApq7tEfIPs1SI~m0h7ZRB6HAZ4PsdYej1C-ifDFSe4tVoYfW4EpVD-DCVo0UyJiMWnYUryOR4FDuxiuRLJJ3xI-WNbU5eojKHMYXBeX1-bA__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
-    icons: ["⭐", "🍎", "⬆️"],
-     name:"NFT"
+    icons: [ "⭐", "🍎", "⬆" ],
+    name: "NFT"
   },
   {
     id: 5,
@@ -136,18 +139,19 @@ const data: Data[] = [
       "https://s3-alpha-sig.figma.com/img/944e/15fa/50022b01798505039b52ab7f7614a9a0?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H6S4ICjFwlAYTbIftaJIbpXQuwNSrUv6PzLDugk0nxfwrsiDjO46lzcUyyJdIRhYwLUJ9h3SYCBM33YGbPs4PtMF~pt240SXAOPaJa7bGI59aqaDlwVK6jJDDYo0oJX9WUfbc~3PBWKaOiQ15SvMp7XFGv6WONaGO0i~8VFced7zDS5DrxQnffYGMJxMfIulzruncqrX4VxJ8vlbgH6h9O4WTL4EtNPT8cHGftPRwMhRcKTxi28FGDrYd4RHZGVOWvHV4TCOh5lLPJISB3QdgTOwQzS4If9SmmM9rCp7sHd7TnEctfI9cfX207CwRffT1g-iTjGRODY6FG1PYk~1YQ__",
     backgroundImage:
       "https://s3-alpha-sig.figma.com/img/eebc/98f9/46df3b847cc86d00bc3d47e6ddc025ab?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I7YcPXyjPu6KpvZdEuyOAgnvPzZdbGBxSco1FkJ-UVVt5hoM1bkc27WRyEcI5GOy-bwuWLh8yCj-yMg7Aqgw~JKiFY8pENoFXr7xEO00E9s9GaOKV9WV5vvgg65XTefCGLqQN9MeT480~62tZQRo4EimMX-NVnWl3hWoDDmilpuJdhNiENwoMbCHlF8t2SOix0uXdqL27R7unP~~OsEahdmeQvTpYBKgGZcyU9vggmylg7AyKZjE3php2ZEJFpTpW4TEUcT3VsfmwrwjJxGYfXrD17UaoLcGa4bPNmUgqKtkz0Y6s5Lbnn1R8bA3wKG9W21-7RQGBqyJTnRs42vDMA__",
-    icons: ["⭐", "🍎", "⬆️"],
-     name:"NFT"
+    icons: [ "⭐", "🍎", "⬆" ],
+    name: "NFT"
   },
 ];
 
-const EcoCate: React.FC = () => {
- const router = useRouter ();
+const EcoCate: React.FC = () =>
+{
+  const router = useRouter();
 
-//  const ecosystem = useSelector( ( state: any ) => state.community.ecosystemCommunities )
+  //  const ecosystem = useSelector( ( state: any ) => state.community.ecosystemCommunities )
 
-// const ecosystem = useSelector( ( state: any ) => state.adminCommunity.ecosystems);
-// console.log(ecosystem)
+  // const ecosystem = useSelector( ( state: any ) => state.adminCommunity.ecosystems);
+  // console.log(ecosystem)
 
   return (
     <div className="lg:mx-20 ">
@@ -173,17 +177,17 @@ const EcoCate: React.FC = () => {
       </div>
       <div className="eco&cat flex flex-col lg:flex-row gap-10 ">
         <div className="Main grid gap-4 mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 pt-6 lg:basis-[50%]">
-          {data.map((item) => (
-            <div key={item.id} className="card p flex gap-1" onClick={()=>router.push(`/ecosystem/${item.name}`)}>
+          { data.map( ( item ) => (
+            <div key={ item.id } className="card p flex gap-1" onClick={ () => router.push( `/ecosystem/${ item.name }` ) }>
               <div className="card bg-black w-28 h-28 border border-gray-700 flex items-center justify-center relative">
                 <div className="w-full h-full relative">
                   <div
                     className="absolute inset-0 bg-cover bg-center opacity-10"
-                    style={{ backgroundImage: `url(${item.backgroundImage})` }}
+                    style={ { backgroundImage: `url( ${ item.backgroundImage } )` } }
                   ></div>
                   <div className="relative flex items-center justify-center w-full h-full">
                     <img
-                      src={item.image}
+                      src={ item.image }
                       alt="Profile"
                       className="w-16 h-16 object-cover rounded-full"
                     />
@@ -203,15 +207,15 @@ const EcoCate: React.FC = () => {
               </div>
 
               <div className="icon flex flex-col justify-start gap-2 bg-white/10 h-24 w-8 icon-clip">
-                {item.icons.map((icon, index) => (
-                  <span key={index} className="text">
-                    {icon}
+                { item.icons.map( ( icon, index ) => (
+                  <span key={ index } className="text">
+                    { icon }
                   </span>
-                ))}
+                ) ) }
               </div>
             </div>
-          ))}
-          <div className="flex items-center cursor-pointer ml-4  " onClick={()=>router.push('/ecosystem')} >
+          ) ) }
+          <div className="flex items-center cursor-pointer ml-4  " onClick={ () => router.push( '/ecosystem' ) } >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"
@@ -236,7 +240,7 @@ const EcoCate: React.FC = () => {
           </div>
         </div>
 
-        {/* pending */}
+        {/* pending */ }
         <div>
           <div className="relative sm:mx-10 lg:mx-0 mx-10 ">
             <div className="flex items-center gap-1 pt-1  absolute bottom-6 left-0 lg:mt-0 sm:pt-10 ">
@@ -309,29 +313,29 @@ const EcoCate: React.FC = () => {
           </div>
 
           <div className="  grid items-center  lg:grid-cols-5 sm:grid-cols-5 sm:mx-10 lg:gap-8 grid-cols-2  mt-16  shadow-2xl rounded-md mx-10 lg:mx-auto  basis-[50%]">
-            {CatData.map((card,index) => (
+            { CatData.map( ( card, index ) => (
               <div
-                key={index}
+                key={ index }
                 className="cate flex items-center mb-4 lg:mb-0"
               >
                 <div className="text-center">
                   <div className="image-container h-[6rem] w-[6rem]">
                     <img
-                      src={card.imageUrl}
-                      alt={card.title}
+                      src={ card.imageUrl }
+                      alt={ card.title }
                       className="styled-image"
                     />
                   </div>
 
                   <h1
                     className=" mt-1 text-center"
-                    style={{ letterSpacing: "20px" }}
+                    style={ { letterSpacing: "20px" } }
                   >
-                    {card.title}
+                    { card.title }
                   </h1>
                 </div>
               </div>
-            ))}
+            ) ) }
           </div>
         </div>
       </div>

@@ -38,6 +38,8 @@ export interface CardData
   image: string;
   name: string;
   taskName: string;
+  discord?:string;
+  discordLink?:string
   taskDescription: string;
   description: string;
   type: string;
@@ -62,7 +64,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
 
   const user = useSelector( ( state: RootState ) => state.login.user );
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
-
+  console.log(tasks)
   useEffect( () =>
   {
     dispatch( fetchTaskById( questId ) );
@@ -233,6 +235,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
     return task.completions?.some( completion => completion?.user === user?._id );
   }, [ user?._id ] );
 
+  // Reward claim
   const handleAllTasksCompleted = useCallback( async () =>
   {
     if ( allTasksCompletedCalled ) return;
@@ -252,6 +255,11 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       setAllTasksCompletedCalled( false ); // Reset on error to allow retry
     }
   }, [ questId, user?._id, allTasksCompletedCalled ] );
+
+
+  const submits=async ()=>{
+
+  }
 
   return (
     <div className="bg-[#000000] text-white h-full">
@@ -499,6 +507,20 @@ const Popup: React.FC<{
                     </div>
                   ) }
 
+                    { selectedCard.type === "Discord" && (
+                    <div>
+                      <a
+                        href={ selectedCard.discordLink }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white underline"
+                        // onClick={ () => onSubmit( selectedCard._id, { visited: "true" } ) }
+                      >
+                        { selectedCard.discordLink }
+                      </a>
+                    </div>
+                  ) }
+
                   { ( selectedCard.type === "Poll" || selectedCard.type === "Quiz" ) && (
                     <QuizPollCarousel
                       selectedCard={ selectedCard }
@@ -583,7 +605,7 @@ const Popup: React.FC<{
                     Cancel
                   </button>
 
-                  { selectedCard.type !== "Visit Link" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
+                  { selectedCard.type !== "Visit Link" &&selectedCard.type !== "Discord" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
                     <button
                       className="m-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848]"
                       onClick={ handleSubmit }

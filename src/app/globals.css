@@ -556,6 +556,15 @@ right:0px;
 border-left: 1px solid #ffffff00;
 }
 
+/* community css start */
+.div_right_community{
+  clip-path: polygon(88% 0, 88% 23%, 100% 33%, 100% 67%, 88% 77%, 88% 99%, 0 100%, 0 0);
+
+}
+.div_right_community_inwards{
+  clip-path: polygon(0 23%, 0 0, 100% 0, 100% 100%, 0 100%, 0 77%, 2% 67%, 2% 33%);
+}
+/* community css end*/
 .card-title{
   color: #FFF;
 font-family: sans-serif;

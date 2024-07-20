@@ -1,9 +1,11 @@
-"use client";
-import React, { useEffect } from "react";
+"use client"
+import React, { useEffect } from 'react'
+import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
 
-
-const page = () => {
-
+   const Page = () => {
+    
   return (
     <div className="bg-[#111111] pt-[5rem] h-screen font-[ProFontWindows]">
       <div className=" items-center flex ">
@@ -411,4 +413,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
