@@ -28,7 +28,7 @@ const MyCommunities: React.FC = () =>
 
   const userCommunities = useSelector( ( state: RootState ) => state.community.userCommunities );
   const userCommunityIds = useSelector( ( state: RootState ) => state.login.user?.community );
-  const temp = useSelector( ( state: any ) => ( state.login.user.createdCommunities ) );
+  const temp = useSelector( ( state: RootState ) => ( state?.login?.user?.createdCommunities ) );
   const [ createdCommunity, setCreatedCommunity ] = useState( [] );
 
 
@@ -37,7 +37,7 @@ const MyCommunities: React.FC = () =>
     dispatch( fetchUserData() );
 
   }, [ dispatch ] );
-
+  
   const fetchCreatedCommunities = (
     async () =>
     {

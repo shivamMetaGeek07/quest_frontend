@@ -150,8 +150,8 @@ const EcoCate: React.FC = () =>
 
   //  const ecosystem = useSelector( ( state: any ) => state.community.ecosystemCommunities )
 
-  // const ecosystem = useSelector( ( state: any ) => state.adminCommunity.ecosystems);
-  // console.log(ecosystem)
+  const ecosystem = useSelector( ( state: any ) => state.adminCommunity.ecosystems);
+  // console.log("ecosystem :-0",ecosystem)
 
   return (
     <div className="lg:mx-20 ">
