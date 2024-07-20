@@ -224,8 +224,6 @@ const LoginPage: React.FC = () =>
         }
     };
 
-
-
     useEffect( () =>
     {
         validateName( name );
