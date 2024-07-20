@@ -7,7 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 import Cookies from 'js-cookie';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import 'react-phone-input-2/lib/style.css';
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, User } from "firebase/auth";
 import {auth}  from '../../../firebase';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ const LoginPage: React.FC = () =>
     const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
     const [loading, setLoading] = useState(false);
     const [showOTP, setShowOTP] = useState(false);
-    const[user,setuser]=useState(false);
+    const[user,setuser]=useState<User|null>(null);
     const dispatch=useDispatch<AppDispatch>()
     const router=useRouter()
     const data = useSelector( ( state: RootState ) => state.login?.user );
@@ -78,8 +78,7 @@ const LoginPage: React.FC = () =>
               "expired-callback": () => {
                 // Handle expired reCAPTCHA
               },
-            },
-            auth
+            }
           );
         }  
     }
@@ -113,7 +112,7 @@ const LoginPage: React.FC = () =>
         if (confirmationResult && otp) {
             try {
             const result = await confirmationResult.confirm(otp);
-            const idToken = result._tokenResponse.idToken; // Get the ID token
+            const idToken = await result.user.getIdToken(); // Get the ID token
             setuser(result.user)
             setLoading(false);
             toast.success("OTP verified successfully!");

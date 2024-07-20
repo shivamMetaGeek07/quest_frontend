@@ -28,7 +28,7 @@ const MyCommunities: React.FC = () =>
 
   const userCommunities = useSelector( ( state: RootState ) => state.community.userCommunities );
   const userCommunityIds = useSelector( ( state: RootState ) => state.login.user?.community );
-  const temp = useSelector( ( state: any ) => ( state.login.user.createdCommunities ) );
+  const temp = useSelector( ( state: RootState ) => ( state?.login?.user?.createdCommunities ) );
   const [ createdCommunity, setCreatedCommunity ] = useState( [] );
 
 
@@ -75,6 +75,7 @@ const MyCommunities: React.FC = () =>
     fetchCreatedCommunities();
 
   }, [ dispatch, userCommunityIds ] );
+
   return (
     <div className="bg-black text-white min-h-screen">
       <div className="container mx-auto px-4 py-10">

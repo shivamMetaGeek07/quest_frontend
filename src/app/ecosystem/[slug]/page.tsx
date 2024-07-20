@@ -1,35 +1,10 @@
 "use client"
 import React, { useEffect } from 'react'
-// import Sidebar from '../components/sidebar'
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
 
-
-
-
-
-   const page = (
-    {
-        params,
-      }: {
-        params: { slug: string };
-      }
-   ) => {
-
-    const ecosystem = params.slug;
-    console.log(ecosystem)
-
-
-    
-
-    const communities = useSelector( ( state: any ) => state.community.ecosystemCommunities );
-    console.log(communities)
-    const dispatch = useDispatch();
-
-   useEffect ( () =>{
-      dispatch(fetchCategoryEcosystem());
-   },[]) 
+   const Page = () => {
     
   return (
     <div className='bg-[#111111] pt-[5rem] h-screen font-[ProFontWindows]'>
@@ -207,4 +182,4 @@ import { fetchCategoryEcosystem } from '@/redux/reducer/communitySlice';
   )
 }
 
-export default page
+export default Page
