@@ -7,7 +7,7 @@ import { toast, Toaster } from "react-hot-toast";
 import Cookies from 'js-cookie';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import 'react-phone-input-2/lib/style.css';
-import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
+import {  ConfirmationResult } from "firebase/auth";
 import { auth } from '../../../firebase';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { fetchUserData } from '@/redux/reducer/authSlice';
 import axios from 'axios';
 import { notify } from '@/utils/notify';
+import { signInWithPhoneNumber } from 'firebase/auth';
 
 const LoginPage: React.FC = () =>
 {
@@ -24,8 +25,8 @@ const LoginPage: React.FC = () =>
     const [ phoneError, setPhoneError ] = useState( '' );
     const [ logoPreview, setLogoPreview ] = useState<string | null>( null );
     const [ logo, setLogo ] = useState<File | null>( null );
-    const fileInputRef = useRef<HTMLInputElement>( null );
     const [ profilePic, setProfilePic ] = useState( '' );
+    const fileInputRef = useRef<HTMLInputElement>( null );
     const isDisabled = !!nameError || !!phoneError;
     const [ otp, setOtp ] = useState( "" );
     const [ ph, setPh ] = useState( "" );
@@ -222,6 +223,9 @@ const LoginPage: React.FC = () =>
             }
         }
     };
+
+
+
     useEffect( () =>
     {
         validateName( name );
@@ -263,16 +267,16 @@ const LoginPage: React.FC = () =>
         }
     };
 
-    const signup = async ( user: string ) =>
-    {
-        if ( user == 'user' )
-        {
-            window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/user`;
-        } else
-        {
-            window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/kol`;
-        }
-    };
+    // const signup = async ( user: string ) =>
+    // {
+    //     if ( user == 'user' )
+    //     {
+    //         window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/user`;
+    //     } else
+    //     {
+    //         window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/kol`;
+    //     }
+    // };
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
