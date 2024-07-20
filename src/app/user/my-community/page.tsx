@@ -75,6 +75,7 @@ const MyCommunities: React.FC = () =>
     fetchCreatedCommunities();
 
   }, [ dispatch, userCommunityIds ] );
+
   return (
     <div className="bg-black text-white min-h-screen">
       <div className="container mx-auto px-4 py-10">
