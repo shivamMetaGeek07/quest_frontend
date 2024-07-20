@@ -14,6 +14,7 @@ import Link from "next/link";
 import { Button, Spinner } from "@nextui-org/react";
 import Slider from "react-slick";
 import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
+import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 
 
 const Homepage = () =>
@@ -51,6 +52,7 @@ const Homepage = () =>
   useEffect( () =>
   {
     dispatch( fetchAllCommunities() );
+    dispatch (getCommunitySuccess());
   }, [] );
 
   // if(!data) return (
@@ -65,8 +67,8 @@ const Homepage = () =>
 
       <EcoCate />
 
-      <div>
-        <div className="flex items-center gap-1 lg:ml-20 sm:mx-20 mx-5 mt-10">
+      <div className="mx-5 md:mx-2">
+        <div className="flex items-center gap-1  mt-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -117,7 +119,7 @@ const Homepage = () =>
             </svg>
           </div>
         </div>
-        <div className="">
+        <div className=" mt-8">
           {/* <div className="grid  lg:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-6"> */ }
           <Slider { ...settings }>
 

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuest, createQuest1, Reward } from '../../../redux/reducer/questSlice';
 import { RootState, AppDispatch } from '../../../redux/store';
-import { useProtectedRoute } from '@/utils/privateRoute';
 import { notify } from '@/utils/notify';
 
 function CreateQuest ()

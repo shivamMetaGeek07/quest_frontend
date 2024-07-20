@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTaskOptionsSuccess } from "@/redux/reducer/taskOptionSlice";
 import { createTask } from "@/redux/reducer/taskSlice";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { useProtectedRoute } from "@/utils/privateRoute";
 import { AppDispatch } from "@/redux/store";
 import { notify } from "@/utils/notify";
 import Image from "next/image";
+import axios from "axios";
 
 interface IQuiz
 {
@@ -32,6 +32,8 @@ interface TaskOption
   visitLink?: string;
   quizzes?: IQuiz[];
   polls?: IPoll[];
+  discord?:string;
+  discordLink?:string
   inviteLink?: string;
   uploadLink?: string;
   response?: string | number;
@@ -39,7 +41,6 @@ interface TaskOption
 
 const AddTask = ( { params }: { params: { id: string; }; } ) =>
 {
-  useProtectedRoute( "kol" );
   const dispatch: AppDispatch = useDispatch();
   const [ isOpen, setIsOpen ] = useState( true );
   const [ selectedTask, setSelectedTask ] = useState<TaskOption | null>( null );
@@ -112,10 +113,18 @@ console.log(KolId,taskOptions)
     const value = e.target.value;
     const updatedField = {
       "Visit Link": { visitLink: value },
+      "Discord":{discordLink:value}
     }[ selectedTask.name ] || {};
     setSelectedTask( { ...selectedTask, ...updatedField } );
   };
-
+  const handlediscordChange = ( inviteUrl:any ) =>
+    {
+      if ( !selectedTask ) return;
+      const updatedField = {
+        "Discord":{discordLink:inviteUrl}
+      }[ selectedTask.name ] || {};
+      setSelectedTask( { ...selectedTask, ...updatedField } );
+    };
 
   const handleAddTask = async () =>
   {
@@ -132,6 +141,7 @@ console.log(KolId,taskOptions)
 
     const taskDataMap:any = {
       "Visit Link": { ...baseTask, visitLink: selectedTask.visitLink },
+      "Discord": { ...baseTask, discordLink: selectedTask.discordLink },
       "Poll": {
         ...baseTask,
         polls: polls.map( poll => ( {
@@ -224,7 +234,42 @@ console.log(KolId,taskOptions)
       setPolls( newPolls );
     }
   };
+  const [inviteUrl, setInviteUrl] = useState('');
+  const [success, setSuccess] = useState(false);
+  const CheckDiscord = async (inviteUrl: string) => {
+    // try {
+      const encodedInviteUrl = encodeURIComponent(inviteUrl); // encode the URL
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/validate/${encodedInviteUrl}`,
+        { withCredentials: true }
+      );
+  
+      if (response.data.success) {
+        setSuccess(true)
+        // handlediscordChange(inviteUrl)
+        notify("success", response.data.message);
+      } else {
+        setSuccess(false); 
+        notify("error", response.data.message);
+      }
+    // } catch (error:any) {
+    //   setSuccess(false); 
+    //   notify("error", response?.data?.message || "An error occurred");
+    // }
+  };
+  
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInviteUrl(event.target.value);
+  };
 
+  const handleButtonClick = () => {
+    if (inviteUrl) {
+      
+      CheckDiscord(inviteUrl);
+    } else {
+      notify("error", "Please enter a valid URL.");
+    }
+  };
   return (
     <>
 
@@ -385,6 +430,23 @@ console.log(KolId,taskOptions)
                     onChange={ handleInputChange }
                   />
                 ) }
+                 {selectedTask.name === "Discord" && (
+                  <>
+                    <input
+                      type="url"
+                      className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                      placeholder="https://"
+                      onChange={handleChange}
+                      value={inviteUrl}
+                    />
+                    <button
+                      className="mt-2 p-3 bg-blue-500 rounded-lg text-white"
+                      onClick={handleButtonClick}
+                    >
+                      Check Discord Invite
+                    </button>
+                  </>
+                )}
 
                 { selectedTask.name === "Poll" && (
                   <div className="space-y-4">
@@ -488,11 +550,12 @@ console.log(KolId,taskOptions)
                     Cancel
                   </button>
                   <button
-                    className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300"
-                    onClick={ handleAddTask }
-                  >
-                    Add Task
-                  </button>
+                  className={`px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ${selectedTask.name === "Discord" && !success ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  onClick={handleAddTask}
+                  disabled={selectedTask.name === "Discord" && !success}
+                >
+                  Add Task
+                </button>
                 </div>
               </div>
             </div>

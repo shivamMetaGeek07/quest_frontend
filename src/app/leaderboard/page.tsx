@@ -58,11 +58,11 @@ const GlobalLeaderboard = () =>
    
 
       {/* top3 */ }
-      <section className="w-full">
+      <section className="w-full ">
         <div className="lg:my-4 my-8 flex items-center gap-8 justify-center">
-          <div className="flex flex-col sm:flex-row lg:gap-6 gap-2 m-auto w-full justify-center items-between">
-            <div className=" p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
-              <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
+          <div className=" grid sm:grid-cols-2 lg:grid-cols-3 lg:gap-0 sm:gap-8 gap-2 m-auto w-full justify-center ">
+            <div className=" p-[1px] lg:w-[26rem] lg:h-[13rem] sm:w-[20rem] sm:h-[10rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
+              <div className=" lg:w-[26rem] lg:h-[13rem]  sm:w-[20rem] sm:h-[10rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                   <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
                     <img
@@ -86,8 +86,8 @@ const GlobalLeaderboard = () =>
                 </div>
               </div>
             </div>
-            <div className="lg:my-16 p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
-              <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
+            <div className="lg:my-16 p-[1px] lg:w-[26rem] lg:h-[13rem]  sm:w-[20rem] sm:h-[10rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
+              <div className=" lg:w-[26rem] lg:h-[13rem]  sm:w-[20rem] sm:h-[10rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                   <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
                     <img
@@ -114,8 +114,8 @@ const GlobalLeaderboard = () =>
                 </div>
               </div>
             </div>
-            <div className=" p-[1px] sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
-              <div className="sm:w-[22rem] sm:h-[12rem] w-[17rem] h-[8rem]  rank-box  ">
+            <div className=" p-[1px] lg:w-[26rem] lg:h-[13rem] sm:w-[20rem] sm:h-[10rem] w-[17rem] h-[8rem]  bg-[#282828] outer_leader_div">
+              <div className="lg:w-[26rem] lg:h-[13rem] sm:w-[20rem] sm:h-[10rem] w-[17rem] h-[8rem]  rank-box  ">
                 <div className="w-full h-full innerbox flex justify-center pt-2 sm:pt-[26px] items-center ">
                   <div className="sm:w-[11rem] w-[130px] pt-2 sm:pt-0 mx-auto h-[114px] sm:h-[10rem] pl-0 ">
                     <img
