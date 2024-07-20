@@ -158,10 +158,48 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
   clip-path: inherit; /* Ensures the image fits within the hexagon shape */
 }
 
+.card-white-text{
+  color: #FFF;
+  font-family: sans-serif;
+  font-style: normal;
+  font-size: xx-small;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.card-gray-text{
+  color: #3F3D49;
+  font-size: xx-small;
+font-family: sans-serif;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: uppercase;
+}
 
-
+.descText{
+  color: #FFF;
+  font-family: sans-serif;
+  /* font-size: 0.5rem; */
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.descdata{
+  color: #FFF;
+  font-family: sans-serif;
+  /* font-size: 0.5rem; */
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  opacity: 0.3;
+}
 
 /* hover effect on ecosystem components start*/
+
+
 .outer-div:hover .bg_Div_Down {
   background-color: #735dcf;  
 }
@@ -321,6 +359,7 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
   clip-path: polygon(50% 0, 100% 0, 100% 85%, 44% 85%, 36% 100%, 23% 100%, 15% 85%, 0 85%, 0 15%, 40% 15%);
 }
 .innerbox{
+  padding: 10px;
   background-image: linear-gradient(to right top, #111111,  #111111, #080808ef)
 }
 .outer-home:hover {
@@ -414,7 +453,6 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
 .ticker {
     display: inline-block;
     white-space: nowrap;
-    /* padding-right: 15px; */
     box-sizing: content-box;
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
@@ -482,6 +520,10 @@ clip-path: polygon(0 0, 53% 0, 53% 100%, 0% 100%);
   box-shadow:  15px 15px 30px #111,-15px 15px 30px #111;
 }
 
+.slick-slide > div{
+  margin: 0 10px;
+}
+
 .svg1{
 top:0px;
 left:0px;
@@ -523,3 +565,68 @@ border-left: 1px solid #ffffff00;
   clip-path: polygon(0 23%, 0 0, 100% 0, 100% 100%, 0 100%, 0 77%, 2% 67%, 2% 33%);
 }
 /* community css end*/
+.card-title{
+  color: #FFF;
+font-family: sans-serif;
+
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-transform: uppercase;
+
+}
+/* slider */
+/* slick-custom.css */
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+.slick-prev {
+  left: -25px;
+}
+
+.slick-next {
+  right: -25px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #FA00FF;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-dots li button:before {
+  color: #FA00FF;
+}
+
+@media (max-width: 640px) {
+  .slick-prev {
+    left: 10px;
+  }
+
+  .slick-next {
+    right: 10px;
+  }
+}
+
+.news-text{
+  color: #FFF;
+  font-family: sans-serif;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 117.574%; /* 1.32269rem */
+  text-transform: uppercase;
+}
+
+.news-clip{
+clip-path: polygon(100% 100%, 100% 0%, 32% 0%, 32% 27%, 0% 40%, 0% 60%, 32% 70%, 32% 100%);
+
+}
+.community-clip{
+  clip-path: polygon(0 24%, 0 0, 100% 0, 100% 100%, 0 100%, 0 78%, 2% 71%, 2% 30%);
+}

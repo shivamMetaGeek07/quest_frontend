@@ -24,7 +24,7 @@ const MainLayout = ( {
       <NextUIProvider>
         { isAdminRoute ? ( <AdminNavbar /> ) : <Navbar /> }
         <Sidebar />
-        <main className='min-h-screen'>{ children }</main>
+        <main className='min-h-screen md:ml-[4rem]'>{ children }</main>
         <ToastContainer />
         <Footer />
       </NextUIProvider>

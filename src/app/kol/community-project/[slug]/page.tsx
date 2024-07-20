@@ -7,19 +7,18 @@ import { RootState, AppDispatch } from "../../../../redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function CommunityProject ( { params }: { params: { slug: string; }; } )
 {
   const id = params.slug;
   const dispatch = useDispatch<AppDispatch>();
-  const {
-    data: community,
-    loading,
-    error,
-  } = useSelector( ( state: RootState ) => state.community );
+  const router = useRouter();
+  const { data: community, loading, error, } = useSelector( ( state: RootState ) => state.community );
   const currentQuests = useSelector( ( state: any ) => state.quest.currentQuests );
   const questIds = community?.quests;
-  // console.log(community?.quests)
+  // console.log( community?.quests );
+
   useEffect( () =>
   {
     dispatch( fetchCommunity( id ) );
@@ -117,103 +116,100 @@ export default function CommunityProject ( { params }: { params: { slug: string;
         <div className="bg-slate-900 rounded-lg shadow-lg overflow-hidden ">
           <div className="h-64 bg-blue-600">
             <img
-              src={community.logo}
+              src={ community.logo }
               alt={ community.title }
               className="w-full h-full object-cover  "
             />
             <div className="flex justify-end items-center px-4">
               {/* <h1 className="text-3xl font-bold text-white mb-2">{ community.title }</h1> */ }
-              <p className="text-xl text-gray-200">
+              <p className="text-xl text-gray-200 mt-4">
                 { community.members?.length || 0 } Members
               </p>
             </div>
           </div>
           <div className="p-4">
-          <div className="font-bold text-blue-600 text-3xl p-6 ">{community.title}</div>
-          <div className="px-6">
-            <p className="text-lg text-white  mb-6">
-              { community.description }
-            </p>
+            <div className="font-bold text-blue-600 text-3xl p-6 ">{ community.title }</div>
+            <div className="px-6">
+              <p className="text-lg text-white  mb-6">
+                { community.description }
+              </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-                  Ecosystems
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  { community.ecosystem.map( ( eco, index ) => (
-                    <span
-                      key={ index }
-                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold"
-                    >
-                      { eco }
-                    </span>
-                  ) ) }
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h2 className="text-2xl font-semibold text-blue-600 mb-4">
+                    Ecosystems
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    { community.ecosystem.map( ( eco, index ) => (
+                      <span
+                        key={ index }
+                        className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold"
+                      >
+                        { eco }
+                      </span>
+                    ) ) }
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <div
-                  className="flex gap-2"
-                >
-
-                  <h2 className="text-2xl font-semibold text-blue-600 mb-4">Community Stats</h2>
-                  <button
-                    // onclick send the user to add-quest url endpoint
-                    onClick={ () => window.location.href = `/kol/add-quest/${ id }`
-                    }
-                    className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+                <div>
+                  <div
+                    className="flex gap-2"
                   >
 
-                    Create A New Quest
+                    <h2 className="text-2xl font-semibold text-blue-600 mb-4">Community Stats</h2>
+                    <button
+                      // onclick send the user to add-quest url endpoint
+                      onClick={ () => window.location.href = `/kol/add-quest/${ id }`
+                      }
+                      className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
+                    >
 
-                  </button>
-                </div>
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <p className="text-3xl font-bold text-blue-800">{ community.quests?.length || 0 }</p>
-                  <p className="text-gray-600">Active Quests</p>
-                </div>
-              </div>
-            </div>
-          </div>
-           <div>
-        <h2 className="text-3xl font-semibold mt-12 mb-6">
-          Active Quests
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          { currentQuests?.map( ( quest: any, index: number ) => (
+                      Create A New Quest
 
-
-            // <Link href={`/user/quest/${questId}`} key={questId}>
-            <div
-            key={index}
-              onClick={ ( e ) =>
-              {
-                e.preventDefault();
-                window.location.href = `/kol/quest/${ quest._id }`;
-              } }
-            >
-
-              <div className=" bg-[#121212] border   dark:border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div className="bg-blue-100 h-40 flex items-center justify-center">
-                  <img className="w-full h-full bg-cover" src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV8zMF9hbl9hYnN0cmFjdF92aXN1YWxpemF0aW9uX29mX2FfYmxvY2tjaGFpbl9uZV80ZWIwODVmNC0yODFlLTRkYTMtYjdlMS00MmY1ZTFkMDkyM2VfMS5qcGc.jpg" alt="img" />
-                </div>
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold text-neutral-300 mb-2">
-                    { quest.title }
-                  </h3>
-                  <p className="text-neutral-300">Click to view quest details</p>
+                    </button>
+                  </div>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-3xl font-bold text-blue-800">{ community.quests?.length || 0 }</p>
+                    <p className="text-gray-600">Active Quests</p>
+                  </div>
                 </div>
               </div>
             </div>
-            // </Link>
-          ) ) }
+            <div>
+              <h2 className="text-3xl font-semibold mt-12 mb-6">
+                Active Quests
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                { currentQuests?.map( ( quest: any, index: number ) => (
+                  // <Link href={`/user/quest/${questId}`} key={questId}>
+                  <div
+                    key={ index }
+                    onClick={ ( e ) =>
+                    {
+                      e.preventDefault();
+                      router.push( `/kol/quest/${ quest._id }` );
+                    } }
+                  >
+                    <div className=" bg-[#121212] border   dark:border-gray-700 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                      <div className="bg-blue-100 h-40 flex items-center justify-center">
+                        <img className="w-full h-full bg-cover" src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3Jhd3BpeGVsX29mZmljZV8zMF9hbl9hYnN0cmFjdF92aXN1YWxpemF0aW9uX29mX2FfYmxvY2tjaGFpbl9uZV80ZWIwODVmNC0yODFlLTRkYTMtYjdlMS00MmY1ZTFkMDkyM2VfMS5qcGc.jpg" alt="img" />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="text-xl font-semibold text-neutral-300 mb-2">
+                          { quest.title }
+                        </h3>
+                        <p className="text-neutral-300">Click to view quest details</p>
+                      </div>
+                    </div>
+                  </div>
+                  // </Link>
+                ) ) }
+              </div>
+            </div>
           </div>
         </div>
-        </div>
-        </div>
 
-       
+
       </div>
     </div>
   );

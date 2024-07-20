@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { BallTriangle } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -57,128 +57,109 @@ const BadgesData: BadgesData[] = [
   },
 ];
 
-const UserProfile = ({ params }: { params: { id: string } }) => {
+const UserProfile = ( { params }: { params: { id: string; }; } ) =>
+{
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
-  const [isFollowed, setIsFollowed] = useState<Boolean>(false);
-  const [earned, setEarned] = useState<number | null>(null);
-  const [userData, setUser] = useState<any>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: RootState) => state.login.user);
-  console.log("user", user);
-  const handleEarnRewardsClicks = () => {
-    if (earned === null) {
-      const earnedAmount: number = 5000;
-      setEarned(earnedAmount);
-    } else {
-      setEarned(null);
+  const [ isClient, setIsClient ] = useState( false );
+  const [ isFollowed, setIsFollowed ] = useState<Boolean>( false );
+  const [ earned, setEarned ] = useState<number | null>( null );
+  const [ userData, setUserData ] = useState<any>( null );
+  const [ allFriends, setAllFriends ] = useState<any>( [] );
+
+
+  const user = useSelector( ( state: RootState ) => state.login.user );
+  const { id: userId } = useParams();
+
+  const handleEarnRewardsClicks = useCallback( () =>
+  {
+    setEarned( prev => prev === null ? 5000 : null );
+  }, [] );
+
+  const checkFollow = useCallback( () =>
+  {
+    if ( user?.following && userId )
+    {
+      setIsFollowed( user.following.includes( userId as string ) );
     }
-  };
+  }, [ user, userId ] );
 
-  const handleEarnRewardsClick = () => {
-    router.push("/");
-  };
-
-  const handleEarnRewardsClickss = () => {
-    router.push("/user/leaderboard");
-  };
-
-  const checkFollow = () => {
-  if (!user || !user.following || !params.id) {
-    return false; // If user, following array or params.id is not available, return false
-  }
-  const isFollowing = user.following.includes(params.id);
-  setIsFollowed(isFollowing);
-};
-  const getUserProfile = async () => {
-    try {
-      const id = params.id;
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/user/${id}`
-      );
-      console.log(response.data);
-      const data = response.data;
-      setUser(data);
-    } catch (error) {
-      console.log(error);
+  const getUserProfile = useCallback( async () =>
+  {
+    if ( !userId ) return;
+    try
+    {
+      const { data } = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/${ userId }` );
+      setUserData( data );
+    } catch ( error )
+    {
+      console.error( "Error fetching user profile:", error );
     }
-  };
-  const initailize = async () => {
-    try {
+  }, [ userId ] );
+
+  const getFriendIds = useCallback( ( user: any ) =>
+  {
+    const allConnections = [ ...( user?.followers || [] ), ...( user?.following || [] ) ];
+    return Array.from( new Set( allConnections ) );
+  }, [] );
+
+  const getFriends = useCallback( async () =>
+  {
+    if ( !userData ) return;
+    const friendsIds = getFriendIds( userData );
+    try
+    {
+      const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/friends`, { friendsIds } );
+      setAllFriends( data.friends );
+    } catch ( error )
+    {
+      console.error( "Error fetching friends:", error );
+    }
+  }, [ userData, getFriendIds ] );
+
+  const handleFollowToggle = useCallback( async () =>
+  {
+    if ( !user?._id || !userId ) return;
+    const endpoint = isFollowed ? 'unfollow' : 'follow';
+    const payload = isFollowed ? { unfollowId: userId, userId: user._id } : { followId: userId, userId: user._id };
+    try
+    {
+      await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/${ endpoint }`, payload, {
+        headers: { "Content-Type": "application/json" },
+      } );
+      setIsFollowed( !isFollowed );
+      getUserProfile();
+    } catch ( error )
+    {
+      console.error( `Error ${ isFollowed ? 'unfollowing' : 'following' } the user:`, error );
+    }
+  }, [ user, userId, isFollowed, getUserProfile ] );
+
+  useEffect( () =>
+  {
+    setIsClient( true );
+    dispatch( fetchUserData() );
+  }, [ dispatch ] );
+
+  useEffect( () =>
+  {
+    if ( userId )
+    {
       getUserProfile();
       checkFollow();
-    } catch (error) {
-      console.log(error);
     }
-  };
+  }, [ userId, getUserProfile, checkFollow ] );
 
-  useEffect(() => {
-    initailize();
-  }, []);
-
-  const handleFollow = async () => {
-    console.log("Follow clicked");
-    if (!user?._id || !params.id) {
-      console.log("User ID or Follow ID is missing");
-      return;
+  useEffect( () =>
+  {
+    if ( userData )
+    {
+      getFriends();
     }
-    console.log(params.id, user._id);
+  }, [ userData, getFriends ] );
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/user/follow`,
-        {
-          followId: params.id,
-          userId: user._id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response.data); // Log the data from the response
-      setIsFollowed(true);
-      getUserProfile();
-    } catch (error) {
-      console.error("Error following the user:", error);
-    }
-  };
-  const handleUnFollow=async()=>{
-    console.log("UnFollow clicked");
-      if (!user?._id || !params.id) {
-        console.log("User ID or Follow ID is missing");
-        return;
-      }
-    console.log(params.id, user._id);
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/user/unfollow`,
-        {
-          unfollowId: params.id,
-          userId: user._id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response); // Log the data from the response
-      setIsFollowed(false);
-      getUserProfile();
-    } catch (error) {
-      console.error("Error following the user:", error);
-    }
-  }
-
-  useEffect(() => {
-    setIsClient(true); // Set the client flag to true on the client side
-    dispatch(fetchUserData());
-  }, [dispatch]);
-
-  if (!isClient)
+  if ( !isClient )
     return (
       <div className="flex justify-center h-screen items-center">
         <BallTriangle />
@@ -189,56 +170,56 @@ const UserProfile = ({ params }: { params: { id: string } }) => {
     <>
       <div className="min-h-screen mb-8">
         <div className="w-[85%] mx-auto">
-          {/* user info */}
+          {/* user info */ }
           <section className="mt-20">
             <div className="flex flex-col lg:flex-row gap-4 items-center justify-between lg:mt-20 mx-4 lg:mx-10">
-              {/* user info */}
+              {/* user info */ }
               <div className="lg:w-1/2">
                 <div className="flex flex-col lg:flex-row items-center ">
                   <div className="lg:w-2/5 flex flex-col justify-center items-center">
                     <div className="w-[8rem] h-[8rem] flex justify-center items-center">
-                      {userData ? (
+                      { userData ? (
                         <img
-                          src={userData.image}
+                          src={ userData.image }
                           alt="avatar photo"
-                        
+
                           className="bottom-trapezium mt-8"
                         />
                       ) : (
                         <img
                           src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
                           alt="avatar photo"
-                       
+
                           className="bottom-trapezium mt-8"
                         />
-                      )}
+                      ) }
                     </div>
                   </div>
                   <div className="lg:w-3/5 flex lg:justify-start  mt-6 lg:mt-1">
                     <div className="flex flex-col justify-between lg:items-start items-center">
                       <div className="flex justify-start gap-5 row">
                         <span className="username">
-                          {userData?.displayName}
+                          { userData?.displayName }
                         </span>
                         <span className="user-rank">
-                          {/* Follow */}#{userData?.rank}
+                          {/* Follow */ }#{ userData?.rank }
                         </span>
                         <span>
-                          {isFollowed ? (
+                          { isFollowed ? (
                             <button
-                              onClick={handleUnFollow}
+                              onClick={ handleFollowToggle }
                               className="px-4 py-2 bg-[#FA00FF] rounded-full active:bg-[#711673]"
                             >
                               Unfollow
                             </button>
                           ) : (
                             <button
-                              onClick={handleFollow}
+                                onClick={ handleFollowToggle }
                               className="px-4 py-2 bg-[#FA00FF] rounded-full active:bg-[#711673]"
                             >
                               Follow
                             </button>
-                          )}
+                          ) }
                         </span>
                       </div>
                       <div className="flex row py-4 px-2 gap-1">
@@ -305,38 +286,38 @@ const UserProfile = ({ params }: { params: { id: string } }) => {
                     <div className="">
                       <div className="flex row gap-3">
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">
-                          {userData?.following?.length} following
+                          { userData?.following?.length } following
                         </button>
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">
-                          {userData?.followers?.length} followers
+                          { userData?.followers?.length } followers
                         </button>
                       </div>
 
                       <div className="flex col gap-5 justify-center items-center">
                         <Chip
-                          onClick={handleEarnRewardsClicks}
+                          onClick={ handleEarnRewardsClicks }
                           color="warning"
                           variant="bordered"
                           className="cursor-pointer px-4 py-2 mt-3"
                         >
-                          200 pts
+                          { user?.rewards?.xp } pts
                         </Chip>
 
-                        <Chip
+                        {/* <Chip
                           onClick={handleEarnRewardsClick}
                           variant="solid"
                           className="cursor-pointer px-4 py-2 mt-3"
                           color="warning"
                         >
                           Earn rewards
-                        </Chip>
+                        </Chip> */}
                       </div>
                     </div>
                   </div>
                   <div></div>
                 </div>
               </div>
-              {/* badges */}
+              {/* badges */ }
               <div className="lg:w-1/2 ">
                 <div className="flex flex-col lg:justify-start justify-center lg:items-start items-center">
                   {/* <svg className="top-0 left-0" style={{strokeWidth: "1px",stroke: "#FFF"}} xmlns="http://www.w3.org/2000/svg" width="135" height="51" viewBox="0 0 135 51" fill="none">
@@ -360,28 +341,28 @@ const UserProfile = ({ params }: { params: { id: string } }) => {
               </div> */}
                   <div className="badgesBox">
                     <div className="bg-black flex lg:flex-row flex-wrap lg:justify-start justify-center items-center p-4 ">
-                      {BadgesData.map((data) => (
+                      { BadgesData.map( ( data ) => (
                         <div
-                          key={data.id}
+                          key={ data.id }
                           className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
                         >
                           <div className="w-[2rem] h-[2rem] bottom-trapezium">
                             <img
-                              src={data.imageUrl}
+                              src={ data.imageUrl }
                               alt="badge photo"
                               className="w-full h-full bg-cover object-cover"
                             />
                           </div>
-                          <h1 className="  font-medium">{data.title}</h1>
+                          <h1 className="  font-medium">{ data.title }</h1>
                         </div>
-                      ))}
+                      ) ) }
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
-          {/* friends  */}
+          {/* friends  */ }
           <section className="mt-32">
             <div className="my-4 flex items-center gap-2 justify-center">
               <div className="">
@@ -408,11 +389,7 @@ const UserProfile = ({ params }: { params: { id: string } }) => {
               <div className="listOfFriends">List of Friends</div>
             </div>
             <div className="friendTable">
-              <UserTable<Friend>
-                data={friends}
-                columns={columns}
-                rowsPerPage={5}
-              />
+              <UserTable<Friend> data={ allFriends } columns={ columns } rowsPerPage={ 5 } />
             </div>
           </section>
           <section></section>

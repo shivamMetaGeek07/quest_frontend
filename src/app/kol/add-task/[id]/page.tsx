@@ -57,7 +57,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
-
+console.log(KolId,taskOptions)
   useEffect( () =>
   {
     dispatch( fetchUserData() );
@@ -568,6 +568,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     </>
   );
 };
+
 
 export default AddTask;
 

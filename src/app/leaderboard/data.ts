@@ -1,6 +1,11 @@
 import React from "react";
 
-export interface User {
+export interface User
+{
+  
+  image?: string;
+  displayName?: string;
+  rewards?: any;
   id: number;
   name: string;
   avatar: string;
@@ -119,3 +124,4 @@ const columns: Column[] = [
 ];
 
 export { users, columns };
+

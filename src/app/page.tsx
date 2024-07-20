@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import Link from "next/link";
 import { Button, Spinner } from "@nextui-org/react";
+import Slider from "react-slick";
 
 type CommunityCardData = {
   imageUrl: string;
@@ -55,23 +56,48 @@ const communityCardsData: CommunityCardData[] = [
   },
 ];
 
-const Homepage = () => {
-  const data = useSelector((state: RootState) => state.login.user);
+const Homepage = () =>
+{
+  const data = useSelector( ( state: RootState ) => state.login.user );
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1050,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 710,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
 
   // if(!data) return (
   // <div className="h-screen flex justify-center items-center">
   //   <Spinner/>
   // </div>
   // );
-
-  const signUpdiscord=()=>{
-    window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`
-  }
-
   return (
     <div className="w-[90%] mx-auto">
       <UserCard />
+      
+
       <EcoCate />
+    
       <div>
         <div className="flex items-center gap-1 lg:ml-20 sm:mx-20 mx-5 mt-10">
           <svg
@@ -94,9 +120,9 @@ const Homepage = () => {
           </div>
           <div>
             <svg
-            className="w-full"
+              className="w-full"
               xmlns="http://www.w3.org/2000/svg"
-              
+
               height="2"
               viewBox="0 0 952 2"
               fill="none"
@@ -124,24 +150,28 @@ const Homepage = () => {
             </svg>
           </div>
         </div>
-        <div className="lg:ml-16 sm:ml-16  ">
-          <div className="grid  lg:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-6">
-            {communityCardsData.map((data, index) => (
-              <CommunityCard key={index} data={data} />
-            ))}
-          </div>
+        <div className="">
+          {/* <div className="grid  lg:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-6"> */}
+            <Slider {...settings}>
+
+            { communityCardsData.map( ( data, index ) => (
+              <CommunityCard key={ index } data={ data } />
+            ) ) }
+            </Slider>
+          {/* </div> */}
         </div>
       </div>
 
-      <div>
-        <EducationCardList />
-      </div>
 
-      <div>
-        <GrantsCard />
-      </div>
+      <EducationCardList />
+
+
+
+      <GrantsCard />
+
     </div>
   );
 };
 
 export default Homepage;
+

@@ -2,10 +2,12 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { BallTriangle, TailSpin } from "react-loader-spinner";
+import Link from "next/link";
 
 type Props = {};
 
 interface KolsData {
+  _id:string;
   displayName: string;
   userName: string;
   role: string;
@@ -14,6 +16,93 @@ interface KolsData {
   upVotes: number;
   downVotes: number;
 }
+interface ProfileProps
+{
+    _id:string;
+    displayName: string;
+    // quests: number;
+    // followers: number;
+    bio: string;
+    image: string;
+    // quest: any;
+}
+
+const Profile: React.FC<ProfileProps> = ( { _id,displayName, bio, image } ) =>
+{
+
+    return (
+      <>
+      <Link href={`/kol/kols-profile/${_id}`}>
+        <div className='group flex flex-col gap-2 sm:flex-row border-[#333333] border p-4 w-full max-w-md bg-[#111111] text-white m-auto my-5 rounded-lg shadow-xl hover:bg-[#8c71ff] hover:text-[#000000]'>
+            <div className='w-full sm:w-1/3 flex flex-col gap-2 items-center mb-4 sm:mb-0 justify-start'>
+                <div className='h_image-container w-28 h-28 overflow-hidden rounded-sm'>
+                    <img src={image} alt={displayName} className='h_styled-image object-cover' />
+                </div>
+                <div className='h_bg_Div_Down bg-gray-800 group-hover:bg-[#735dcf] ' />
+                <div className="">
+                 <div className="flex row gap-1">
+                        <div className="box1 right-trapezium w-[2rem] h-[2rem] bg-[#ffffff33]">
+                          <svg className="box2 right-trapezium p-2" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                            <path d="M12.5736 2.125H14.7461L10.0003 7.52604L15.5834 14.875H11.2115L7.78815 10.4175L3.87035 14.875H1.69577L6.7724 9.09854L1.41669 2.125H5.89902L8.99444 6.19933L12.5736 2.125ZM11.8115 13.5802H13.0156L5.24452 3.35183H3.95252L11.8115 13.5802Z" fill="white" />
+                          </svg>
+                        </div>
+                        <div className="box1 left-right-trapezium w-[2rem] h-[2rem] px-2 bg-[#ffffff33]" >
+                          <svg className="box2 left-right-trapezium p-2" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                            <path d="M13.6496 3.77537C12.7075 3.3362 11.6875 3.01745 10.625 2.83328C10.6157 2.83299 10.6064 2.83473 10.5978 2.83841C10.5893 2.84208 10.5816 2.84758 10.5754 2.85453C10.4479 3.08828 10.2991 3.39287 10.2 3.62662C9.07302 3.45662 7.92694 3.45662 6.79998 3.62662C6.70081 3.38578 6.55206 3.08828 6.41748 2.85453C6.4104 2.84037 6.38915 2.83328 6.3679 2.83328C5.3054 3.01745 4.29248 3.3362 3.34331 3.77537C3.33623 3.77537 3.32915 3.78245 3.32206 3.78953C1.3954 6.67245 0.864148 9.47745 1.12623 12.2541C1.12623 12.2683 1.13331 12.2825 1.14748 12.2895C2.42248 13.2245 3.6479 13.7912 4.85915 14.1666C4.8804 14.1737 4.90165 14.1666 4.90873 14.1525C5.19206 13.7629 5.44706 13.352 5.66665 12.92C5.68081 12.8916 5.66665 12.8633 5.63831 12.8562C5.23456 12.7004 4.85206 12.5162 4.47665 12.3037C4.44831 12.2895 4.44831 12.247 4.46956 12.2258C4.54748 12.1691 4.6254 12.1054 4.70331 12.0487C4.71748 12.0345 4.73873 12.0345 4.7529 12.0416C7.18956 13.1537 9.81748 13.1537 12.2258 12.0416C12.24 12.0345 12.2612 12.0345 12.2754 12.0487C12.3533 12.1125 12.4312 12.1691 12.5091 12.2329C12.5375 12.2541 12.5375 12.2966 12.5021 12.3108C12.1337 12.5304 11.7441 12.7075 11.3404 12.8633C11.3121 12.8704 11.305 12.9058 11.3121 12.927C11.5387 13.3591 11.7937 13.77 12.07 14.1595C12.0912 14.1666 12.1125 14.1737 12.1337 14.1666C13.3521 13.7912 14.5775 13.2245 15.8525 12.2895C15.8666 12.2825 15.8737 12.2683 15.8737 12.2541C16.1854 9.04537 15.3566 6.26162 13.6779 3.78953C13.6708 3.78245 13.6637 3.77537 13.6496 3.77537ZM6.03498 10.5612C5.3054 10.5612 4.69623 9.88828 4.69623 9.05953C4.69623 8.23078 5.29123 7.55787 6.03498 7.55787C6.78581 7.55787 7.38081 8.23787 7.37373 9.05953C7.37373 9.88828 6.77873 10.5612 6.03498 10.5612ZM10.9721 10.5612C10.2425 10.5612 9.63332 9.88828 9.63332 9.05953C9.63332 8.23078 10.2283 7.55787 10.9721 7.55787C11.7229 7.55787 12.3179 8.23787 12.3108 9.05953C12.3108 9.88828 11.7229 10.5612 10.9721 10.5612Z" fill="#8C71FF" />
+                          </svg>
+                        </div>
+                        <div className="box1 left-trapezium w-[2rem] h-[2rem] bg-[#ffffff33]">
+                          <svg className="box2 left-trapezium p-2" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                            <g clipPath="url(#clip0_213_2492)">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M5.40967 0.295777C3.95975 0.717526 2.67072 1.56676 1.71099 2.73255C0.751252 3.89834 0.165424 5.32648 0.0300293 6.83042H3.4586C3.65736 4.54191 4.32089 2.31799 5.4086 0.294706L5.40967 0.295777ZM3.4586 8.16971H0.0300293C0.165141 9.6737 0.750718 11.102 1.71027 12.268C2.66981 13.4339 3.95872 14.2834 5.4086 14.7054C4.32089 12.6821 3.65736 10.4582 3.4586 8.16971ZM7.12717 14.9915C5.82731 12.9316 5.03081 10.5946 4.80217 8.16971H10.1968C9.96817 10.5946 9.17167 12.9316 7.87182 14.9915C7.62375 15.0035 7.37524 15.0035 7.12717 14.9915ZM9.59146 14.7043C11.0412 14.2824 12.33 13.4331 13.2895 12.2673C14.249 11.1016 14.8347 9.67351 14.97 8.16971H11.5415C11.3427 10.4582 10.6792 12.6821 9.59146 14.7054V14.7043ZM11.5415 6.83042H14.97C14.8349 5.32643 14.2493 3.89815 13.2898 2.73216C12.3302 1.56618 11.0413 0.716705 9.59146 0.294706C10.6792 2.31798 11.3427 4.5419 11.5415 6.83042ZM7.12717 0.00863426C7.37559 -0.00352913 7.62446 -0.00352913 7.87289 0.00863426C9.17237 2.06857 9.9685 4.40557 10.1968 6.83042H4.80324C5.03574 4.39078 5.83396 2.05185 7.12717 0.00863426Z" fill="#FA00FF" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_213_2492">
+                                <rect width="15" height="15" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+            <div className='w-full sm:w-2/3 flex flex-col sm:pl-4 p-2'>
+                <div className='flex flex-wrap items-center justify-evenly sm:justify-start mb-4'>
+                    <div>
+                    <h2 className='text-sm font-bold mb-2 text-start mr-7 mt-3 sm:text-left'>{ displayName }</h2>
+                    </div>
+                    <div className="flex flex-row gap-1">
+                      <div className='text-center sm:text-right mr-3 text-sm'>
+                        {/* <span className='block '>{ quest.length }</span> */}
+                        <span className='opacity-40' >QUESTS</span>
+                    </div>
+                    <div className='text-start sm:text-right text-sm'>
+                        {/* <span className='block'>{ followers }</span> */}
+                        <span className='opacity-40 text-sm'>FOLLOWERS</span>
+                    </div>
+                </div>
+                </div>
+                <p className='text-xs p-2 mb-4 text-center sm:text-left group-hover:bg-[#735dcf]'>
+                    <span >BIO: </span>
+                    <span className='opacity-40 font-semibold justify-center'>
+                        { bio }
+                    </span>
+                </p>
+                <div className="mb-4">
+                    <span className="text-xs text-gray-400 group-hover:text-black">VOTES</span>
+                    <div className="mt-1 flex space-x-1">
+                        { [ ...Array( 6 ) ].map( ( _, i ) => (
+                            <div key={ i } className={ `h-1 w-full ${ i < 3 ? 'bg-purple-500' : 'bg-gray-700' }` }></div>
+                        ) ) }
+                    </div>
+                </div>
+            </div>
+        </div>
+        </Link>
+      </>
+    );
+};
 
 const RateKols = (props: Props) => {
 
@@ -51,12 +140,10 @@ const RateKols = (props: Props) => {
     console.log(kols); // Log kols whenever it changes
   }, [kols]);
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-[90%] mx-auto">
 
-    <div className=" w-full bg-slate-900 h-screen">
-      <div className="flex justify-center items-center h-32 w-full bg-slate-800">
-        <div className="text-3xl text-center font-bold text-white">Rate Kols</div>
-      </div>
+    <div className=" w-full bg-black min-h-screen">
+     
       <div className="container  mx-auto mt-8">
       <div className="text-2xl  font-bold h-20 text-start text-white"
       >All the kols:</div>
@@ -66,154 +153,9 @@ const RateKols = (props: Props) => {
       </div>
       :
       (
-      <div className="grid gap-6 p-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 ">
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 p-2">
           {kols?.map((kol,index) => (
-            <div key={index} className="bg-white shadow rounded-lg p-6">
-              <div className="flex flex-col items-center">
-                <img
-                  src={kol.image}
-                  className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
-                  alt={kol.displayName}
-                />
-                <h1 className="text-xl font-bold text-gray-700">{kol.displayName}</h1>
-                <p className="text-gray-700">{kol.userName}</p>
-              </div>
-  
-              <div className="flex flex-col mt-4">
-                <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
-                  Bio
-                </span>
-                <p className="text-gray-700 mb-4 text-sm">{kol.bio}</p>
-              </div>
-              <div className="flex items-center justify-center space-x-4">
-                <span className="text-2xl font-bold text-black">{kol.upVotes}</span>
-                <button className="p-2 border rounded-full bg-green-400">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 15l7-7 7 7"
-                    />
-                  </svg>
-                </button>
-                <span className="text-2xl font-bold text-black">{kol.downVotes}</span>
-                <button className="p-2 border rounded-full bg-red-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-black"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-              </div>
-              {/* <div className="mt-4">
-                <h3 className="font-semibold text-start text-black">
-                  Follow me on
-                </h3>
-                <div className="flex justify-start items-center gap-6 my-4">
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit LinkedIn"
-                    href={kol?.socialLinks?.linkedin}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit YouTube"
-                    href={kol?.socialLinks?.youtube}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 576 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit Facebook"
-                    href={kol?.socialLinks?.facebook}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 320 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="m279.14 288 14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit Instagram"
-                    href={kol?.socialLinks?.instagram}
-                    target="_blank"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      className="h-6"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a
-                    className="text-gray-700 hover:text-orange-600"
-                    aria-label="Visit Twitter"
-                    href={kol?.socialLinks?.twitter}
-                    target="_blank"
-                  >
-                    <svg
-                      className="h-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div> */}
-            </div>
+            <Profile key={ index } { ...kol } />
           ))}
       </div>
       )

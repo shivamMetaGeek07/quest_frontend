@@ -1,10 +1,11 @@
 // userSlice.ts
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { Quest } from './questSlice';
 import { persistor } from '../store';
 import Cookies from 'js-cookie';
+import axios from 'axios';
+
 // Define interfaces for Twitter and Discord info
 export interface ITwitterInfo {
   twitterId?: string;
@@ -49,6 +50,7 @@ export interface IUser
   community?: [];
   following?: string[];
   followers?: string[];
+  rewards?: any;
 }
 
 // Define the initial state interface
@@ -70,6 +72,7 @@ export const fetchUserData = createAsyncThunk(
   'login/fetchUserData',
   async ( _, { rejectWithValue } ) =>
   {
+    console.log("login called")
     try {
       const authToken = `Bearer ${Cookies.get('authToken')}`;
       const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {

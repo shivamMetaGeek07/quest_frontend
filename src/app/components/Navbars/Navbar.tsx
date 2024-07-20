@@ -4,7 +4,6 @@ import { AppDispatch, persistor, RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { images } from '../../../../public/assests/image';
 import { Dropdown, Avatar, DropdownItem, DropdownMenu, DropdownTrigger, Input, Badge, Button } from "@nextui-org/react";
 import axios from 'axios';
 import Link from 'next/link';
@@ -15,15 +14,10 @@ const Navbar: React.FC = () =>
 {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
-    const [ drop, setDrop ] = useState( false );
-    const [ isClient, setIsClient ] = useState( false );
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
-    const [ feedItems, setFeedItems ] = useState<string[]>( [
-
-    ] );
+    const [ feedItems, setFeedItems ] = useState<string[]>( [] );
     const data = useSelector( ( state: RootState ) => state.login?.user );
     
-
     useEffect( () =>
     {
         const interval = setInterval( () =>
@@ -75,7 +69,7 @@ const Navbar: React.FC = () =>
             } );
             setFeedItems( response.data.feeds );
 
-            console.log( 'feed items :-', response.data );
+            // console.log( 'feed items :-', response.data );
         } catch ( error )
         {
             console.log( 'error in getting feed :-', error );
@@ -85,67 +79,60 @@ const Navbar: React.FC = () =>
 
 
     return (
-        <nav className="bg-black text-white flex items-center space-x-16 justify-between p-4">
-            <div className="w-96 flex flex-wrap items-center justify-between mx-auto p-4">
-                {/* Logo */ }
-                <div>
-                    <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                        <img
-                            src="https://flowbite.com/docs/images/logo.svg"
-                            className="h-8 "
-                            alt="Flowbite Logo"
-                            width={ 32 }
-                            height={ 32 }
+        <nav className="bg-black text-white py-2 md:py-4  ml-[8rem] mr-[4rem] ">
+            <div className="container mx-auto ">
+                {/* Desktop menu */ }
+                <div className="hidden lg:flex items-center justify-between space-x-4">
+                    {/* searchBar */}
+                    <div className=" flex flex-row justify-start items-center">
+                        <input
+                            type="text"
+                            placeholder="SEARCH"
+                            className="bg-gray-800 text-white px-3 py-2.5 w-48 xl:w-64"
                         />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap">
-                            Fam Protocol
-                        </span>
-                    </Link>
-                </div>
-
-                {/* Notifications */ }
-                <div>
-                    <Badge content="99+" shape="circle" color="danger">
-                        <Button
-                            radius="full"
-                            isIconOnly
-                            aria-label="more than 99 notifications"
-                            variant="light"
-                        >
-                            <i className="bi bi-bell-fill text-white text-2xl"></i>
-                        </Button>
-                    </Badge>
-                </div>
-            </div>
-            <div className="hidden md:flex items-center space-x-5 w-2/6">
-                <input
-                    type="text"
-                    placeholder="SEARCH"
-                    className="bg-gray-800 text-white px-3 py-1 w-full h-12"
-                />
-                <button className="text-white search rounded-r h-12 text-center p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                    </svg>
-                </button>
-            </div>
-            {/* style={ { background: 'linear-gradient(90deg, #FA00FF, #FF7B7B, #5538CE)' } } */ }
-            <div className="flex items-center space-x-20 w-4/6">
-
-                <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-2 overflow-hidden relative w-2/3 rounded-sm px-5">
-                    <span className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-purple-600 to-purple-600 px-4 flex items-center font-bold z-10 border-r-2">
-                        NEWS
-                    </span>
-                    <div className="ticker-wrap ml-2 px-5">
-                        <div className="ticker">
-                            { feedItems?.map( ( item: any, index: number ) => (
-                                <div key={ index } className="ticker__item">{ item?.title }</div>
-                            ) ) }
-                        </div>
+                        <button className="search  bg-gray-700 text-white px-3 rounded-r">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                            </svg>
+                        </button>
                     </div>
-                </div>
-                { data ? (
-                    <li className="text-center md:text-left">
+                   
+
+                    {/* news */}
+                    <div className='bg-gradient-to-r from-[#FA00FF] via-[#FF7B7B] to-[#5538CE] text-white h-[40px]'>
+                    <div className=" flex flex-row max-w-lg min-w-[200px] xl:min-w-[300px] justify-center items-center">
+                     {/* linear-gradient(90deg, #FA00FF 0.03%, #FF7B7B 23.93%, #5538CE 118.3%); */}
+                        
+                        <div className="py-1 px-4 rounded overflow-hidden relative w-full ">
+                            <span className="absolute left-0 top-0 bottom-0 bg-transparent px-2 flex items-center font-bold p-2 z-10 news-text" >
+                                <div className='border-r-1 pr-2'>
+                                NEWS
+                                </div>
+                            </span>
+                            <div className="inline-block ticker-wrap ml-16">
+                                <div className="ticker">
+                                    { feedItems && feedItems.length > 0 ? (
+                                        feedItems.map( ( item:any, index:number ) => (
+                                            <div key={ index } className="ticker__item">{ item?.title }</div>
+                                        ) )
+                                    ) : (
+                                        <div className="ticker__item">No news available at the moment</div>
+                                    ) }
+                                </div>
+                            </div>
+                        </div>
+                        <div className='w-7 mr-1'>
+                          <div className='news-clip h-[36px] pl-1 pr-1 bg-gray-900 flex justify-center items-center'>
+                               <svg className="" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+  <path d="M4.45496 9.96001L7.71496 6.70001C8.09996 6.31501 8.09996 5.68501 7.71496 5.30001L4.45496 2.04001" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+</svg> </div>
+                            </div>
+                       
+                    </div>
+                    </div>
+                    {/* profile */}
+                    <div className=" flex justify-evenly items-center">
+                    { data ? (
                         <Dropdown placement="bottom-end" className="bg-slate-800">
                             <DropdownTrigger>
                                 <Avatar
@@ -155,7 +142,7 @@ const Navbar: React.FC = () =>
                                     color="secondary"
                                     name="Jason Hughes"
                                     size="sm"
-                                    src={ data?.image ? data.image : 'https://png.pngtree.com/thumb_back/fh260/background/20230612/pngtree-man-wearing-glasses-is-wearing-colorful-background-image_2905240.jpg' }
+                                    src={ data?.image || 'https://png.pngtree.com/thumb_back/fh260/background/20230612/pngtree-man-wearing-glasses-is-wearing-colorful-background-image_2905240.jpg' }
                                 />
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -164,21 +151,53 @@ const Navbar: React.FC = () =>
                                     <p className="font-semibold">Signed in as { data.role }</p>
                                     <p className='font-semibold'>{ data.email }</p>
                                 </DropdownItem>
-                                <DropdownItem key="logout" color="danger" onClick={ logoutClient } className="bg-[#f31260] text-white" >
+                                <DropdownItem key="logout" color="danger" onClick={ logoutClient } className="bg-[#f31260] text-white">
                                     <div className="font-bold text-white text-center">Logout</div>
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
-                    </li>
-                ) : (
-                    <button className='login1 rounded' onClick={ signup }>
-                        <div className="login2 py-1 px-6 rounded">
-                            <div className='m-1 w-full'>Sign in / up</div>
+                    ) : (
+                        <button className='rounded bg-blue-700' onClick={ signup }>
+                            <div className="py-1 px-4 rounded">
+                                <div className='m-1 w-full'>Sign in / up</div>
+                            </div>
+                        </button>
+                    ) }
+                     {/* notification */}
+                    <div className="relative px-2">
+                        <Badge content="99+" shape="circle" color="danger">
+                            <Button
+                                radius="full"
+                                isIconOnly
+                                aria-label="more than 99 notifications"
+                                variant="light"
+                            >
+                                <i className="bi bi-bell-fill text-white text-xl"></i>
+                            </Button>
+                        </Badge>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile and Tablet menu */ }
+            <div className="lg:hidden md:mt-4 ml-0">
+                <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-2 px-4 rounded overflow-hidden relative h-[40px]">
+                    <span className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-purple-600 to-purple-600 px-1 flex items-center z-10 border-r-2">
+                        NEWS
+                    </span>
+                    <div className="ticker-wrap ml-16">
+                        <div className="ticker">
+                            { feedItems && feedItems.length > 0 ? (
+                                feedItems.map( ( item:any, index:number ) => (
+                                    <div key={ index } className="ticker__item">{ item?.title }</div>
+                                ) )
+                            ) : (
+                                <div className="ticker__item">No news available at the moment</div>
+                            ) }
                         </div>
-                    </button>
-                ) }
-                {/* animate-spin for spinner */ }
-                {/* <div className=" rounded-full h-6 w-6 border-2 border-blue-600 hidden md:block"></div> */ }
+                    </div>
+                </div>
             </div>
         </nav>
     );
