@@ -117,7 +117,8 @@ const LoginPage: React.FC = () =>
             setLoading(false);
             toast.success("OTP verified successfully!");
         //   Send user data to the backend
-          const response = await fetch('http://localhost:8080/api/verify-phone', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/verify-phone`, {
+        //   const response = await fetch('http://localhost:8080/api/verify-phone', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
