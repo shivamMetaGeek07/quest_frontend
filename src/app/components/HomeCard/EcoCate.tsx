@@ -154,7 +154,7 @@ const EcoCate: React.FC = () =>
   // console.log(ecosystem)
 
   return (
-    <div className="lg:mx-20 ">
+    <div className="lg:mx-5 ">
       <div className="flex items-center gap-1 mt-8 lg:mx-0 sm:mx-6 mx-6">
         <svg
           xmlns="http://www.w3.org/2000/svg"

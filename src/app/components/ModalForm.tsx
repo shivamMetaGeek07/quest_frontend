@@ -151,7 +151,7 @@ const ModalForm = () =>
           className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center"
         >
           <div className="relative p-4 w-full max-w-md">
-            <div className="bg-[#282828] rounded-lg shadow-xl">
+            <div className=" bg-[#121212] rounded-lg shadow-xl">
               <button
                 type="button"
                 onClick={ toggleModal }
@@ -210,7 +210,7 @@ const ModalForm = () =>
                       name="nickname"
                       value={ formData.nickname }
                       onChange={ handleChange }
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#121212] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Your nickname"
                     />
                   </div>
@@ -225,7 +225,7 @@ const ModalForm = () =>
                       value={ formData.bio }
                       onChange={ handleChange }
                       rows={ 4 }
-                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#121212] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Tell us about yourself"
                     />
                   </div>
