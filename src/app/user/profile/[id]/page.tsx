@@ -138,21 +138,21 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
 
   
 
-  useEffect( () =>
-  {
-    if ( userData )
-      {
-        getFriends();
-      }
+  // useEffect( () =>
+  // {
+  //   if ( userData )
+  //     {
+  //       getFriends();
+  //     }
 
-    if ( userId )
-    {
-      getUserProfile();
-      checkFollow();
-    }
-    setIsClient( true );
-    dispatch( fetchUserData() );
-  }, [ userId, getUserProfile, checkFollow ,userData, getFriends, dispatch] );
+  //   if ( userId )
+  //   {
+  //     getUserProfile();
+  //     checkFollow();
+  //   }
+  //   setIsClient( true );
+  //   dispatch( fetchUserData() );
+  // }, [ userId, getUserProfile, checkFollow ,userData, getFriends, dispatch] );
 
    
   if ( !isClient )
