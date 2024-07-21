@@ -12,6 +12,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { fetchAllCommunities, fetchCommunity, joinCommunity } from "@/redux/reducer/communitySlice";
 import { useRouter } from "next/navigation";
 import { notify } from "@/utils/notify";
+import ReferralForm from "@/app/components/referalPopUp";
 
 export default function CommunityProject ( {
     params,
@@ -437,10 +438,12 @@ export default function CommunityProject ( {
                                         </div>
                                     </div>
 
-                                    { ( memberId && !userData?.includes( memberId ) ) ? <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => { joinningCommunity( community ); } }
+                                    { ( memberId && !userData?.includes( memberId ) ) ?<> <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => { joinningCommunity( community ); } }
                                     >
                                         Join the community
-                                    </button> : ( memberId && userData?.includes( memberId ) ) ? <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" 
+                                    </button>               
+                                       <ReferralForm memberId={ memberId } id={ community._id } />
+                                    </> : ( memberId && userData?.includes( memberId ) ) ? <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" 
                                     >
                                          Leave the community
                                     </button>: <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => router.push( "/login" ) } >

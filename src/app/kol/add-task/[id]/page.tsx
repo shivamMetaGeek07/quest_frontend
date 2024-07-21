@@ -8,6 +8,7 @@ import { AppDispatch } from "@/redux/store";
 import { notify } from "@/utils/notify";
 import Image from "next/image";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 interface IQuiz
 {
@@ -33,6 +34,7 @@ interface TaskOption
   quizzes?: IQuiz[];
   polls?: IPoll[];
   discord?:string;
+  guild?:string;
   discordLink?:string
   inviteLink?: string;
   uploadLink?: string;
@@ -113,15 +115,15 @@ console.log(KolId,taskOptions)
     const value = e.target.value;
     const updatedField = {
       "Visit Link": { visitLink: value },
-      "Discord":{discordLink:value}
+      "Discord":{discordLink:value,guild:value}
     }[ selectedTask.name ] || {};
     setSelectedTask( { ...selectedTask, ...updatedField } );
   };
-  const handlediscordChange = ( inviteUrl:any ) =>
+  const handlediscordChange = ( inviteUrl:any,guildata:any ) =>
     {
       if ( !selectedTask ) return;
       const updatedField = {
-        "Discord":{discordLink:inviteUrl}
+        "Discord":{discordLink:inviteUrl,guild:guildata}
       }[ selectedTask.name ] || {};
       setSelectedTask( { ...selectedTask, ...updatedField } );
     };
@@ -141,7 +143,7 @@ console.log(KolId,taskOptions)
 
     const taskDataMap:any = {
       "Visit Link": { ...baseTask, visitLink: selectedTask.visitLink },
-      "Discord": { ...baseTask, discordLink: selectedTask.discordLink },
+      "Discord": { ...baseTask, discordLink: selectedTask.discordLink ,guild:selectedTask.guild},
       "Poll": {
         ...baseTask,
         polls: polls.map( poll => ( {
@@ -236,26 +238,37 @@ console.log(KolId,taskOptions)
   };
   const [inviteUrl, setInviteUrl] = useState('');
   const [success, setSuccess] = useState(false);
+  const authToken = `Bearer ${Cookies.get('authToken')}`;
+
   const CheckDiscord = async (inviteUrl: string) => {
-    // try {
+    try {
       const encodedInviteUrl = encodeURIComponent(inviteUrl); // encode the URL
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/validate/${encodedInviteUrl}`,
-        { withCredentials: true }
+        {}, // assuming there is no body payload
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authToken,
+          },
+        }
       );
-  
+      const data=response.data;
+      const guildata=data.validLink.guilData;
+      console.log(guildata)
       if (response.data.success) {
         setSuccess(true)
-        // handlediscordChange(inviteUrl)
+        console.log(response)
+        handlediscordChange(inviteUrl,guildata)
         notify("success", response.data.message);
       } else {
         setSuccess(false); 
         notify("error", response.data.message);
       }
-    // } catch (error:any) {
-    //   setSuccess(false); 
-    //   notify("error", response?.data?.message || "An error occurred");
-    // }
+    } catch (error:any) {
+      setSuccess(false); 
+      notify("error", "An error occurred");
+    }
   };
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

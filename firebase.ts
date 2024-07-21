@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCOrlGtRCPHfu9YCHRllByRRMJaEMmp6Ow",
@@ -13,8 +14,21 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+try {
+  app = initializeApp(firebaseConfig);
+  console.log("Firebase app initialized:", app);
+} catch (error) {
+  console.error("Error initializing Firebase app:", error);
+}
 
- const auth = getAuth(app);
+// Initialize Firebase Authentication
+let auth;
+try {
+  auth = getAuth(app);
+  console.log("Firebase auth initialized:", auth);
+} catch (error) {
+  console.error("Error initializing Firebase auth:", error);
+}
 
-export {auth} 
+export { auth };

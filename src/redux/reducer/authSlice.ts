@@ -115,7 +115,8 @@ export const updateUserProfile = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
           'Authorization': authToken,
-        },      });
+        },  
+       });
       console.log(response);
       return response.data.user;
     } catch (err) {

@@ -184,8 +184,7 @@ const LoginPage: React.FC = () =>
             const result = await confirmationResult.confirm(otp);
             const users = result.user as User; // Type assertion
             const idToken = await users.getIdToken();
-            console.log("ddd",idToken)
-            console.log("c",users?.phoneNumber)
+             
             const number=users?.phoneNumber
             setuser(users); 
             setLoading(false);
