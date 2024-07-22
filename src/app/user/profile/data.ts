@@ -15,13 +15,7 @@ type Friend = {
   email: string;
 };
 
-const columns = [
-  // { name: "SNO.", uid: "sno" },
-  { name: "NAME", uid: "name" },
-  { name: "STARS", uid: "stars" },
-  { name: "FAMPOINTS", uid: "fampoints" },
-  { name: "XPS", uid: "xps" },
-];
+
 
 const friends = [
   {
@@ -121,9 +115,8 @@ const friends = [
     xps: 3500,
     stars: 4,
     email: "emily.johnson@example.com",
-  }
+  },
 ];
 
-
-export type { Friend};
-export { columns, friends };
+export type { Friend };
+export {  friends };

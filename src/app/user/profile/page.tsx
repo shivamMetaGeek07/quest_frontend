@@ -8,7 +8,7 @@ import ModalForm from "../../components/ModalForm";
 import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Inter, Roboto_Mono } from 'next/font/google';
 import { Chip } from "@nextui-org/react";
-import { columns } from "./data";
+
 import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
 import Image from "next/image";
@@ -74,6 +74,15 @@ const BadgesData: BadgesData[] = [
   },
 ];
 
+const columns = [
+  // { name: "SNO.", uid: "sno" },
+  { name: "NAME", uid: "name" },
+  { name: "STARS", uid: "stars" },
+  { name: "FAMPOINTS", uid: "fampoints" },
+  { name: "XPS", uid: "xps" },
+  { name: "level", uid: "level" },
+];
+
 const StarDisplay: React.FC<StarDisplayProps> = ( { cellValue } ) =>
 {
   const stars: JSX.Element[] = [];
@@ -95,7 +104,7 @@ const Profile: React.FC = () =>
 
   const dispatch = useDispatch<AppDispatch>();
   const user: any = useSelector( ( state: RootState ) => state.login.user );
-  // console.log(user)
+  console.log( user );
 
   const getFriendIds = ( user: any ) =>
   {
@@ -137,7 +146,6 @@ const Profile: React.FC = () =>
     }
   };
 
-
   useEffect( () =>
   {
     getFriends();
@@ -155,16 +163,6 @@ const Profile: React.FC = () =>
     {
       setEarned( null );
     }
-  };
-  // console.log( "user", user );
-  const handleEarnRewardsClick = () =>
-  {
-    router.push( "/" );
-  };
-
-  const handleEarnRewardsClickss = () =>
-  {
-    router.push( "/user/leaderboard" );
   };
 
 
@@ -215,7 +213,7 @@ const Profile: React.FC = () =>
                         </div>
                         <div className="user-rank" >
                           {/* Follow */ }
-                          #{ user?.rank }
+                          #{ user?.level }
                         </div>
                       </div>
                       <div className="flex row gap-1">
@@ -306,23 +304,48 @@ const Profile: React.FC = () =>
 <path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" stroke-opacity="0.1"/>
 </svg> */}
 
-                      <div className="flex flex-wrap lg:justify-start justify-center items-center p-2 ">
-                        { BadgesData.map( ( data ) => (
-                          <div
-                            key={ data.id }
-                            className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
-                          >
-                            <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                              <img
-                                src={ data.imageUrl }
-                                alt="badge photo"
-                                className="w-full h-full bg-cover object-cover"
-                              />
+                      { user?.badges.length ? (
+                        <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
+                          { user.badges.map( ( data:any ) => (
+                            <div
+                              key={ data?.id }
+                              className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
+                            >
+                              <div className="w-[2rem] h-[2rem] bottom-trapezium">
+                                <img
+                                  src={ data?.imageUrl || 'https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png' }
+                                  alt="badge photo"
+                                  className="w-full h-full bg-cover object-cover"
+                                />
+                              </div>
+                              <h1 className="font-medium">{ data?.name }</h1>
                             </div>
-                            <h1 className="  font-medium">{ data.title }</h1>
+                          ) ) }
+                        </div>
+                      ) : (
+                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" onClick={()=>router.push('/allcommunity')} >
+                          <div className=" rounded-lg p-6 text-center shadow-md">
+                            <svg
+                              className="mx-auto h-12 w-12 text-gray-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                              />
+                            </svg>
+                            <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Complete quests and tasks to earn badges!
+                            </p>
                           </div>
-                        ) ) }
-                      </div>
+                        </div>
+                      ) }
                     </div>
                   </div>
 

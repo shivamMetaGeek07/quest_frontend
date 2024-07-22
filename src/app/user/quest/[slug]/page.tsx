@@ -257,9 +257,6 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   }, [ questId, user?._id, allTasksCompletedCalled ] );
 
 
-  const submits=async ()=>{
-
-  }
 
   return (
     <div className="bg-[#000000] text-white h-full">
