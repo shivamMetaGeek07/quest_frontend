@@ -375,7 +375,7 @@ const TaskCards: React.FC<{
     { tasks.map( ( task: CardData, index: number ) => (
       <div
         key={ task._id || index }
-        className={ `border border-gray-200 bg-white/5 sm:p-2 lg:py-4 rounded-xl h-full w-full shadow-lg group hover:scale-105 hover:bg-white/10 ${ isTaskCompleted( task ) ? 'opacity-50' : ''
+        className={ `border cursor-pointer border-gray-200 bg-white/5 sm:p-2 lg:py-4 rounded-xl h-full w-full shadow-lg group hover:scale-105 hover:bg-white/10 ${ isTaskCompleted( task ) ? 'opacity-50' : ''
           }` }
         onClick={ () => onCardClick( task ) }
       >
