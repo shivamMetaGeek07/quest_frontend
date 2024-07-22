@@ -40,7 +40,7 @@ const Navbar: React.FC = () =>
             await persistor.flush();
             localStorage.clear();
             Cookies.remove('authToken');
-            toast.success("Logout Successfull");
+            notify( "success", "Logout Successfull" );
 
             setRefresh(true)
          }
