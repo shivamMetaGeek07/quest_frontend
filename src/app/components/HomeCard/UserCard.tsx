@@ -87,7 +87,7 @@ const UserCard = () =>
   const renderUserCard = ( user: any ) => (
     <div
       key={ user._id }
-      className="main outer-home border border-gray-700 bg-black p-4 rounded shadow-lg group "
+      className="main outer-home border border-gray-700 bg-black p-4 rounded shadow-lg group cursor-pointer"
       onClick={()=> router.push(`/user/profile/${user._id}`)}
     >
       <div className="rounded-md flex">

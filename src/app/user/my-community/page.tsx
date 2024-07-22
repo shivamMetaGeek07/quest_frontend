@@ -106,7 +106,7 @@ const MyCommunities: React.FC = () =>
               <div
                 key={ index }
                 onClick={ () => router.push( `/user/community-project/${ card?._id }` ) }
-                className="overflow-hidden outer-div bg-white/5  rounded-md relative flex md:gap-6 lg:gap-6 sm:gap-4 gap-4 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border md:p-4 lg:p-4 p-2 flex-col  justify-center w-full sm:w-full"
+                className="overflow-hidden cursor-pointer outer-div bg-white/5  rounded-md relative flex md:gap-6 lg:gap-6 sm:gap-4 gap-4 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border md:p-4 lg:p-4 p-2 flex-col  justify-center w-full sm:w-full"
               >
 
                 <div className="flex  flex-col md:flex-row lg:flex-row text-xl items-center justify-around ">
