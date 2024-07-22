@@ -12,6 +12,7 @@ import { User } from "@/app/leaderboard/data";
 import axios from "axios";
 import { notify } from "@/utils/notify";
 import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/react";
 
 export default function CommunityProject ( {
   params,
@@ -224,14 +225,14 @@ export default function CommunityProject ( {
                       </span>
                     </div>
                     <div className='flex mr-2 items-center flex-col'>
-                      <button
+                      <Button
                         onClick={ () =>
                           ( window.location.href = `/kol/add-quest/${ id }` )
                         }
-                        className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300'
+                        className='px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300'
                       >
                         Create A New Quest
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -406,12 +407,12 @@ export default function CommunityProject ( {
                     </div>
                   </div>
 
-                  <button
-                    className=' lg:py-3 lg:px-4 sm:py-3 lg:mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300'
+                  <Button
+                    className=' lg:py-3 lg:px-4 sm:py-3 lg:mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300'
                     onClick={ deleteCommunity }
                   >
                     Delete the Community
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
