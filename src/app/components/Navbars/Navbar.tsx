@@ -10,12 +10,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Cookies from 'js-cookie'
 import { notify } from '@/utils/notify';
+import { toast, Toaster } from "react-hot-toast";
+
 const Navbar: React.FC = () =>
 {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
     const [ feedItems, setFeedItems ] = useState<string[]>( [] );
+    const[refresh,setRefresh]=useState(false);
     const data = useSelector( ( state: RootState ) => state.login?.user );
     
     useEffect( () =>
@@ -37,8 +40,9 @@ const Navbar: React.FC = () =>
             await persistor.flush();
             localStorage.clear();
             Cookies.remove('authToken');
-            notify("success","Logout Successfully")
-            router.push('/');
+            toast.success("Logout Successfull");
+
+            setRefresh(true)
          }
         } catch ( error )
         {
@@ -54,6 +58,10 @@ const Navbar: React.FC = () =>
 
     useEffect( () =>
     {
+        if(refresh){
+            router.push('/');
+            setRefresh(false)
+        }
         getFeeds();
     }, [] );
 
@@ -81,6 +89,8 @@ const Navbar: React.FC = () =>
     return (
         <nav className="bg-black text-white py-2 md:py-4  ml-[8rem] mr-[4rem] ">
             <div className="container mx-auto ">
+            <Toaster toastOptions={{ duration: 4000 }} />
+
                 {/* Desktop menu */ }
                 <div className="hidden lg:flex items-center justify-between space-x-4">
                     {/* searchBar */}
@@ -123,10 +133,11 @@ const Navbar: React.FC = () =>
                         </div>
                         <div className='w-7 mr-1'>
                           <div className='news-clip h-[36px] pl-1 pr-1 bg-gray-900 flex justify-center items-center'>
-                               <svg className="" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-  <path d="M4.45496 9.96001L7.71496 6.70001C8.09996 6.31501 8.09996 5.68501 7.71496 5.30001L4.45496 2.04001" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-</svg> </div>
-                            </div>
+                                <svg className="" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M4.45496 9.96001L7.71496 6.70001C8.09996 6.31501 8.09996 5.68501 7.71496 5.30001L4.45496 2.04001" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                             </div>
+                        </div>
                        
                     </div>
                     </div>

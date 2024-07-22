@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { notify } from '@/utils/notify';
+import Cookies from 'js-cookie';
 
 interface ReferralFormProps {
     memberId: any;
@@ -31,11 +32,18 @@ interface ReferralFormProps {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData)
+    const authToken = `Bearer ${Cookies.get('authToken')}`;
     const response = await axios.post(
-        `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/get/joinCommunities/${id}`
-        , formData 
+        `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/get/joinCommunities/${id}`,
+      formData ,
+        {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken,
+        }
+      }, 
       );
+      console.log("dsa",response.data)
       await dispatch(fetchAllCommunities());
       notify("success",response.data);
       notify("error",response.data);

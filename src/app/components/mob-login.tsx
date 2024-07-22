@@ -73,7 +73,6 @@ const LoginPage: React.FC = () =>
         }
     };
 
-
     function onCaptchVerify ()
     {
         if ( !window.recaptchaVerifier )
@@ -210,8 +209,7 @@ const LoginPage: React.FC = () =>
                 const result = await confirmationResult.confirm( otp );
                 const users = result.user as User; // Type assertion
                 const idToken = await users.getIdToken();
-                console.log( "ddd", idToken );
-                console.log( "c", users?.phoneNumber );
+
                 const number = users?.phoneNumber;
                 setuser( users );
                 setLoading( false );
@@ -301,7 +299,8 @@ const LoginPage: React.FC = () =>
             <div className="rounded-lg shadow-xl w-full max-w-[492px] bg-[#00000066] border border-gray-700 overflow-hidden">
                 <div className="h-full flex flex-col p-6">
                     <h1 className="text-2xl font-bold text-center text-white mb-6 font-[Qanelas-SemiBold, Helvetica]">LOGIN</h1>
-                    <form onSubmit={ handleLogin } className="flex-grow flex flex-col justify-between space-y-6">                        <Toaster toastOptions={ { duration: 4000 } } />
+                    <form onSubmit={ handleLogin } className="flex-grow flex flex-col justify-between space-y-6">
+                        <Toaster toastOptions={ { duration: 4000 } } />
                         <div id="recaptcha-container"></div>
                         { user ? (
                             <h2 className="text-center text-white font-medium text-2xl">
@@ -312,7 +311,7 @@ const LoginPage: React.FC = () =>
 
                                 { showOTP ? (
                                     <>
-                                        <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                                        <div className="bg-white text-violet-800 w-fit mx-auto p-4 rounded-full">
                                             <BsFillShieldLockFill size={ 30 } />
                                         </div>
                                         <label
@@ -331,6 +330,7 @@ const LoginPage: React.FC = () =>
                                         <button
                                             onClick={ handleVerifyCode }
                                             // onClick={onOTPVerify}
+
 
 
                                             className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
@@ -383,41 +383,41 @@ const LoginPage: React.FC = () =>
                                                         className="mt-1 p-1.5 block w-full rounded-md bg-gray-700 border border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500 text-sm"
                                                         required
                                                     />
-                                                </div>
+                                                </div>;
+                                                
+                            
+                                
+                                <input
+                                type="tel"
+                                id="phone"
+                                value={ph}
+                                onChange={(e) => setPh(e.target.value)}
+                                placeholder="Enter your phone number"
+                                className="border-2 border-white rounded px-3 py-2 text-black mb-4 w-full"
+                                />
+                            
+                                </div>
+                                </div>
+                                <div className='w-full flex flex-row justify-center items-center m-auto'>
+                                <button
+                            onClick={onSignup}
+                                className="bg-violet-800 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
+                                >
+                                {loading && (
+                                    <CgSpinner size={20} className="mt-1 animate-spin" />
+                                )}
+                                <span>Send code via SMS</span>
+                                </button>
+                                </div>
+                            </>
+                            )}
+                        </div>
+                        )}
+                 </form>
+                </div >
 
-
-
-                                                <input
-                                                    type="tel"
-                                                    id="phone"
-                                                    value={ ph }
-                                                    onChange={ ( e ) => setPh( e.target.value ) }
-                                                    placeholder="Enter your phone number"
-                                                    className="border-2 border-white rounded px-3 py-2 text-black mb-4 w-full"
-                                                />
-
-                                            </div>
-                                        </div>
-                                                <div className='w-full flex flex-row justify-center items-center m-auto'>
-                                                    <button
-                                                        onClick={ onSignup }
-                                                        className="bg-emerald-600 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
-                                                    >
-                                                        { loading && (
-                                                            <CgSpinner size={ 20 } className="mt-1 animate-spin" />
-                                                        ) }
-                                                        <span>Send code via SMS</span>
-                                                    </button>
-                                                </div>
-                                    </>
-                                ) }
-                            </div>
-                        ) }
-                    </form>
-                </div>
-
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

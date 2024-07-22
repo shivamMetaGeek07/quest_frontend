@@ -116,14 +116,16 @@ export const logoutUser = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   'login/updateUserProfile',
-  async ( formData: Partial<IUser>, { rejectWithValue } ) =>
-  {
-    try
-    {
-      const response = await axios.put( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/profile/update`, formData, {
-        withCredentials: true,
-      } );
-      console.log( response );
+  async (formData: Partial<IUser>, { rejectWithValue }) => {
+    try {
+      const authToken = `Bearer ${Cookies.get('authToken')}`;
+      const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile/update`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken,
+        },  
+       });
+      console.log(response);
       return response.data.user;
     } catch ( err )
     {

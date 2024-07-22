@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { updateUserProfile } from "@/redux/reducer/authSlice";
+import { fetchUserData, updateUserProfile } from "@/redux/reducer/authSlice";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Chip } from "@nextui-org/react";
+import { notify } from "@/utils/notify";
 
 const ModalForm = () =>
 {
@@ -115,15 +116,16 @@ const ModalForm = () =>
       const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
       if ( updateUserProfile.fulfilled.match( resultAction ) )
       {
-        // You might want to add a success notification here
-        router.refresh();
+        dispatch( fetchUserData() );
+        notify("success", "Profile updated successfully");
+
         setIsModalVisible( false );
+        // router.push( '/user/profile' );
       } else
       {
-        // You might want to add an error notification here
-        setLoader( false );
-        console.log( 'Error updating user profile:' );
+        notify("error", "Failed to update profile");
       }
+      
     } catch ( err )
     {
       console.log( "err", err );
