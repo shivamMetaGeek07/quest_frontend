@@ -61,6 +61,8 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   const [ submissions, setSubmissions ] = useState<{ [ key: string ]: string | File; }>( {} );
   const [ progress, setProgress ] = useState<any>( 0 );
   const [ allTasksCompletedCalled, setAllTasksCompletedCalled ] = useState<boolean>( false );
+ 
+
 
   const user = useSelector( ( state: RootState ) => state.login.user );
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
@@ -257,9 +259,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   }, [ questId, user?._id, allTasksCompletedCalled ] );
 
 
-  const submits=async ()=>{
-
-  }
+   
 
   return (
     <div className="bg-[#000000] text-white h-full">
@@ -432,8 +432,58 @@ const Popup: React.FC<{
   referral,
   validateSubmission
 } ) =>
-  {
+  { 
+    const [linkClicked, setLinkClicked] = useState(false);
+    const [isMember, setIsMember] = useState(null);
+    const user = useSelector( ( state: RootState ) => state.login.user );
+    const handleLinkClick = () => {
+    setLinkClicked(true); 
+  };
 
+  const handleVisibilityChange = () => {
+    if (!document.hidden && linkClicked) {
+      console.log(selectedCard)
+      console.log('User has returned to the tab after clicking the link');
+      console.log(user)
+      checkMembership();
+
+      // Perform actions when the user returns to the tab after clicking the link
+      setLinkClicked(false); // Reset the state if you only want to handle it once
+    }
+  };
+  const checkMembership = async () => {
+    const data=user?.discordInfo?.discordId;
+    const accessToken=user?.discordInfo?.accessToken;
+    const guildId=user?.discordInfo?.guilds;
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/check-discord-membership`, {
+        data,
+        accessToken,
+        guildId,
+      },
+    );
+    const discordShip=response.data.isMember
+    if(discordShip){
+    notify("success","Join Successful")
+    }else{
+      notify("error","Please join Not a membe")
+
+    }
+      setIsMember(response.data.isMember);
+    } catch (error) {
+      console.error('Error checking Discord membership:', error);
+      setIsMember(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener('beforeunload', handleLinkClick);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      window.removeEventListener('beforeunload', handleLinkClick);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [linkClicked]);
+   
     const handleSubmit = () =>
     {
       if ( validateSubmission( selectedCard.type, submissions[ selectedCard._id ] ) )
@@ -508,12 +558,13 @@ const Popup: React.FC<{
                   ) }
 
                     { selectedCard.type === "Discord" && (
-                    <div>
+                    <div >
                       <a
                         href={ selectedCard.discordLink }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white underline"
+                        onClick={handleLinkClick}
                         // onClick={ () => onSubmit( selectedCard._id, { visited: "true" } ) }
                       >
                         { selectedCard.discordLink }

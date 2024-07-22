@@ -85,7 +85,7 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
               "expired-callback": () => {
                 // Handle expired reCAPTCHA
               },
-            }
+            } 
           );
         }  
     }
@@ -187,8 +187,7 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             const result = await confirmationResult.confirm(otp);
             const users = result.user as User; // Type assertion
             const idToken = await users.getIdToken();
-            console.log("ddd",idToken)
-            console.log("c",users?.phoneNumber)
+             
             const number=users?.phoneNumber
             setuser(users); 
             setLoading(false);
@@ -270,7 +269,8 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             <div className="rounded-lg shadow-xl w-full max-w-[492px] bg-[#00000066] border border-gray-700 overflow-hidden">
                 <div className="h-full flex flex-col p-6">
                     <h1 className="text-2xl font-bold text-center text-white mb-2 mt-2 font-[Qanelas-SemiBold, Helvetica]">LOGIN</h1>
-                    <form onSubmit={handleLogin} className="flex-grow flex flex-col justify-between space-y-6">                        <Toaster toastOptions={{ duration: 4000 }} />
+                    <form onSubmit={handleLogin} className="flex-grow flex flex-col justify-between space-y-6">                      
+                    <Toaster toastOptions={{ duration: 4000 }} />
                         <div id="recaptcha-container"></div>
                         {user ? (
                         <h2 className="text-center text-white font-medium text-2xl">
