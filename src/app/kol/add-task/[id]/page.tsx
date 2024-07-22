@@ -264,7 +264,7 @@ console.log(KolId,taskOptions)
       if (checkguild) {
         setSuccess(true)
         console.log(response)
-        // handlediscordChange(inviteUrl,guildata)
+        handlediscordChange(inviteUrl,guildata)
         notify("success", "Valid  link bot is  present");
       } else {
         setShowConnectButton(true);
