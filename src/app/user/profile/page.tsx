@@ -187,6 +187,7 @@ const Profile: React.FC = () =>
     dispatch( fetchUserData() );
   }, [ dispatch ] );
 
+
   if ( !isClient ) return (
     <div className="flex justify-center h-screen items-center">
       <BallTriangle />
@@ -262,16 +263,11 @@ const Profile: React.FC = () =>
                 <div className="flex flex-col lg:flex-row items-center mt-4">
                   <div className="lg:w-2/5">
                     <div className="">
-                      <div className="flex row  items-center justify-center">
+                      <div className="flex flex-row items-center justify-center">
                         <div>
                           <ModalForm />
                         </div>
-
-                       
-                        <div className="App flex justify-center w-full m-auto items-center">
-                            <h1>Login with Telegram</h1>
-                            <div id="telegram-login"></div>
-            </div>
+                        <div id="telegram-login"></div>
             
                       </div>
                       <div className="flex row gap-3">
