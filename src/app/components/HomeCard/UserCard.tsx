@@ -47,7 +47,7 @@ const UserCard = () =>
       console.log( error );
     }
   };
-  console.log( "Users :-", data );
+  // console.log( "Users :-", data );
 
   useEffect( () =>
   {

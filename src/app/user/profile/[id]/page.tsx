@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
 import { Chip } from "@nextui-org/react";
-import { columns, friends } from "../data";
 import type { Friend } from "../data";
 import UserTable from "@/app/components/table/userTable";
 import axios from "axios";
@@ -55,6 +54,15 @@ const BadgesData: BadgesData[] = [
     imageUrl:
       "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
   },
+];
+
+const columns = [
+  // { name: "SNO.", uid: "sno" },
+  { name: "NAME", uid: "name" },
+  { name: "STARS", uid: "stars" },
+  { name: "FAMPOINTS", uid: "fampoints" },
+  { name: "XPS", uid: "xps" },
+  { name: "level", uid: "level" },
 ];
 
 const UserProfile = ( { params }: { params: { id: string; }; } ) =>
@@ -337,21 +345,48 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
               </div> */}
                   <div className="badgesBox">
                     <div className="bg-black flex lg:flex-row flex-wrap lg:justify-start justify-center items-center p-4 ">
-                      { BadgesData.map( ( data ) => (
-                        <div
-                          key={ data.id }
-                          className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
-                        >
-                          <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                            <img
-                              src={ data.imageUrl }
-                              alt="badge photo"
-                              className="w-full h-full bg-cover object-cover"
-                            />
-                          </div>
-                          <h1 className="  font-medium">{ data.title }</h1>
+                      { userData?.badges.length ? (
+                        <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
+                          { userData.badges.map( ( data: any ) => (
+                            <div
+                              key={ data?.id }
+                              className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
+                            >
+                              <div className="w-[2rem] h-[2rem] bottom-trapezium">
+                                <img
+                                  src={ data?.imageUrl || 'https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png' }
+                                  alt="badge photo"
+                                  className="w-full h-full bg-cover object-cover"
+                                />
+                              </div>
+                              <h1 className="font-medium">{ data?.name }</h1>
+                            </div>
+                          ) ) }
                         </div>
-                      ) ) }
+                      ) : (
+                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" >
+                          <div className=" rounded-lg p-6 text-center shadow-md">
+                            <svg
+                              className="mx-auto h-12 w-12 text-gray-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                              />
+                            </svg>
+                            <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
+                            <p className="mt-1 text-sm text-gray-500">
+                              {userData?.displayName} does not have any badge
+                            </p>
+                          </div>
+                        </div>
+                      ) }
                     </div>
                   </div>
                 </div>

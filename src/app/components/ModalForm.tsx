@@ -46,7 +46,7 @@ const ModalForm = () =>
     try
     {
       const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
-        folder: 'ProfileImages',
+        folder: 'userProfile',
         fileName,
       } );
       return response.data.url;
@@ -101,18 +101,19 @@ const ModalForm = () =>
         const uploadSuccess = await handleUpload();
         if ( uploadSuccess )
         {
-          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/ProfileImages/${ file.name }`;
+          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ file.name }`;
         } else
         {
           setLoader( false );
-          // You might want to add a notification here about the upload failure
+
           return;
         }
       }
 
       const updatedFormData = { ...formData, image: newImageUrl };
-      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
+      console.log( updatedFormData );
 
+      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
       if ( updateUserProfile.fulfilled.match( resultAction ) )
       {
         dispatch( fetchUserData() );
@@ -206,16 +207,16 @@ const ModalForm = () =>
 
                   <div>
                     <label htmlFor="nickname" className="block text-sm font-medium text-gray-300 mb-1">
-                      Nickname
+                      Name
                     </label>
                     <input
                       type="text"
-                      id="nickname"
-                      name="nickname"
+                      id="name"
+                      name="name"
                       value={ formData.nickname }
                       onChange={ handleChange }
                       className="w-full px-3 py-2 bg-[#121212] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Your nickname"
+                      placeholder="Your Name"
                     />
                   </div>
 

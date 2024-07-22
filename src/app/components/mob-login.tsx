@@ -1,14 +1,14 @@
 // pages/login.tsx
-"use client"
+"use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { BsFillShieldLockFill} from "react-icons/bs";
+import { BsFillShieldLockFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import { toast, Toaster } from "react-hot-toast";
 import Cookies from 'js-cookie';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import 'react-phone-input-2/lib/style.css';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, User } from "firebase/auth";
-import {auth}  from '../../../firebase';
+import { auth } from '../../../firebase';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
@@ -19,6 +19,7 @@ import { notify } from '@/utils/notify';
 interface LoginPageProps {
   setNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
 {
     const [ name, setName ] = useState( '' );
@@ -27,18 +28,19 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
     const [ phoneError, setPhoneError ] = useState( '' );
     const fileInputRef = useRef<HTMLInputElement>( null );
     const isDisabled = !!nameError || !!phoneError;
-    const [otp, setOtp] = useState("");
-    const [ph, setPh] = useState("");
-    const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [showOTP, setShowOTP] = useState(false);
-    const[user,setuser]= useState<User | null>(null);
+    const [ otp, setOtp ] = useState( "" );
+    const [ ph, setPh ] = useState( "" );
+    const [ confirmationResult, setConfirmationResult ] = useState<ConfirmationResult | null>( null );
+    const [ loading, setLoading ] = useState( false );
+    const [ showOTP, setShowOTP ] = useState( false );
+    const [ user, setuser ] = useState<User | null>( null );
     const [ logoPreview, setLogoPreview ] = useState<string | null>( null );
     const [ logo, setLogo ] = useState<any>( null );
     const [ profilePic, setProfilePic ] = useState( '' );
-    const dispatch=useDispatch<AppDispatch>()
-    const router=useRouter()
+    const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
     const data = useSelector( ( state: RootState ) => state.login?.user );
+
 
     const validateName = ( value: string ) =>
     {
@@ -53,6 +55,7 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             setNameError( '' );
         }
     };
+
 
     const validatePhoneNumber = ( value: string ) =>
     {
@@ -73,27 +76,31 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
         }
     };
 
-    function onCaptchVerify() {
-        if (!window.recaptchaVerifier) {
-          window.recaptchaVerifier = new RecaptchaVerifier(auth,
-            "recaptcha-container",
-            {
-              size: "invisible",
-              callback: (response:any) => {
-                // reCAPTCHA solved, proceed with sign-up
-              },
-              "expired-callback": () => {
-                // Handle expired reCAPTCHA
-              },
-            } 
-          );
-        }  
+    function onCaptchVerify ()
+    {
+        if ( !window.recaptchaVerifier )
+        {
+            window.recaptchaVerifier = new RecaptchaVerifier( auth,
+                "recaptcha-container",
+                {
+                    size: "invisible",
+                    callback: ( response: any ) =>
+                    {
+                        // reCAPTCHA solved, proceed with sign-up
+                    },
+                    "expired-callback": () =>
+                    {
+                        // Handle expired reCAPTCHA
+                    },
+                }
+            );
+        }
     }
     const getUploadUrl = async ( fileName: string ): Promise<string> =>
     {
         try
         {
-            const response = await axios.post<{ url: string; }>(`${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
+            const response = await axios.post<{ url: string; }>( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
                 folder: 'userProfile',
                 fileName,
             } );
@@ -105,18 +112,22 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
         }
     };
 
+
     const handleUpload = async (): Promise<boolean> =>
     {
         if ( !logo ) return false;
+
 
         try
         {
             const uploadUrl = await getUploadUrl( logo.name );
             if ( !uploadUrl ) return false;
 
+
             const res = await axios.put( uploadUrl, logo, {
                 headers: { 'Content-Type': logo.type },
             } );
+
 
             return res.status === 200;
         } catch ( error )
@@ -125,14 +136,16 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             return false;
         }
     };
-    const onSignup = async () => {
-        setLoading(true);
-        
+    const onSignup = async () =>
+    {
+        setLoading( true );
+
         if ( !logo )
         {
             setLoading( false );
             return notify( "warn", "Please upload Your profile" );
         }
+
 
         // Check if logo is a File object
         if ( !( logo instanceof File ) )
@@ -141,44 +154,53 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             return notify( "warn", "Invalid file type" );
         }
 
+
         if ( ![ 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml' ].includes( logo.type ) )
         {
             setLoading( false );
             return notify( "warn", "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
         }
-        try {
+        try
+        {
 
-           const uploadSuccess = await handleUpload();
+
+            const uploadSuccess = await handleUpload();
             if ( !uploadSuccess )
             {
                 setLoading( false );
                 return notify( "error", "Failed to upload image" );
             }
 
+
             const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ logo.name }`;
 
+
             setProfilePic( path );
-            console.log("Profile path",path) ;
+            console.log( "Profile path", path );
+
 
             await onCaptchVerify(); // Wait for reCAPTCHA initialization
-      
-          const appVerifier = window.recaptchaVerifier;
-          const formatPh = "+91" + ph;
-      
-          const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
-          setConfirmationResult(result); 
-          setLoading(false);
-          setShowOTP(true);
-          toast.success("OTP sent successfully!");
-        } catch (error:any) {
-            console.log(error)
-          setLoading(false);
-          if (error.code === 'auth/too-many-requests') {
-            toast.error("Too many requests. Please try again later.");
-          } else {
-            console.log(error);
-            toast.error("Failed to send OTP. Please try again.");
-          }
+
+            const appVerifier = window.recaptchaVerifier;
+            const formatPh = "+91" + ph;
+
+            const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
+            setConfirmationResult( result );
+            setLoading( false );
+            setShowOTP( true );
+            toast.success( "OTP sent successfully!" );
+        } catch ( error: any )
+        {
+            console.log( error );
+            setLoading( false );
+            if ( error.code === 'auth/too-many-requests' )
+            {
+                toast.error( "Too many requests. Please try again later." );
+            } else
+            {
+                console.log( error );
+                toast.error( "Failed to send OTP. Please try again." );
+            }
         }
       }
       const handleVerifyCode = async () => {
@@ -216,15 +238,17 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
         validateName( name );
     }, [ name ] );
 
+
     useEffect( () =>
     {
         validatePhoneNumber( phoneNumber );
     }, [ phoneNumber ] );
 
+
     const handleLogoUpload = ( event: React.ChangeEvent<HTMLInputElement> ) =>
     {
         const file = event.target.files?.[ 0 ];
-        console.log("file",file);
+        console.log( "file", file );
         if ( file )
         {
             setLogo( file );
@@ -238,10 +262,12 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
         }
     };
 
+
     const handleLogoClick = () =>
     {
         fileInputRef.current?.click();
     };
+
 
     const handleLogin = ( e: React.FormEvent ) =>
     {
@@ -253,6 +279,7 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
         }
     };
 
+
     const signup = async ( user: string ) =>
     {
         if ( user == 'user' )
@@ -263,6 +290,7 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/kol`;
         }
     };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4 box1">
@@ -384,5 +412,6 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
         </div>
     );
 };
+
 
 export default LoginPage;

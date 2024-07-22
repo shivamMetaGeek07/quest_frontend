@@ -38,6 +38,7 @@ export interface CardData
   image: string;
   name: string;
   taskName: string;
+  guild?:string;
   discord?:string;
   discordLink?:string
   taskDescription: string;
@@ -435,6 +436,7 @@ const Popup: React.FC<{
   { 
     const [linkClicked, setLinkClicked] = useState(false);
     const [isMember, setIsMember] = useState<boolean>(false);
+    const dispatch=useDispatch<AppDispatch>()
     const user = useSelector( ( state: RootState ) => state.login.user );
     const handleLinkClick = () => {
     setLinkClicked(true); 
@@ -442,9 +444,7 @@ const Popup: React.FC<{
 
   const handleVisibilityChange = () => {
     if (!document.hidden && linkClicked) {
-      console.log(selectedCard)
-      console.log('User has returned to the tab after clicking the link');
-      console.log(user)
+      
       checkMembership();
 
       // Perform actions when the user returns to the tab after clicking the link
@@ -454,7 +454,7 @@ const Popup: React.FC<{
   const checkMembership = async () => {
     const data=user?.discordInfo?.discordId;
     const accessToken=user?.discordInfo?.accessToken;
-    const guildId=user?.discordInfo?.guilds;
+    const guildId=selectedCard?.guild;
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/check-discord-membership`, {
         data,
@@ -463,13 +463,23 @@ const Popup: React.FC<{
       },
     );
     const discordShip=response.data.isMember
+    console.log("dfd",discordShip)
+    const datas = {
+      taskId:selectedCard._id,
+      userId: user?._id,
+      userName: user?.displayName,
+      submission: "Join Discord Successfully "
+    };
+    console.log(datas)
     if(discordShip){
     notify("success","Join Successful")
-    }else{
-      notify("error","Please join Not a membe")
+    await dispatch( completeTask( datas ) );
+      
+      }else{
+      notify("error","Please join Not a member")
 
     }
-      setIsMember(response.data.isMember);
+      setIsMember(true);
     } catch (error) {
       console.error('Error checking Discord membership:', error);
       setIsMember(false);

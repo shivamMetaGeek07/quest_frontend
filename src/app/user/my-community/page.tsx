@@ -37,7 +37,7 @@ const MyCommunities: React.FC = () =>
     dispatch( fetchUserData() );
 
   }, [ dispatch ] );
-
+  
   const fetchCreatedCommunities = (
     async () =>
     {
