@@ -3,7 +3,7 @@ import QuizPollCarousel from "@/app/components/QuizPollCarousel";
 import { fetchTaskById, completeTask } from "@/redux/reducer/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { notify } from "@/utils/notify";
-import { Progress } from "@nextui-org/react";
+import { Button, Progress } from "@nextui-org/react";
 import axios from "axios";
 import { warning } from "framer-motion/dom";
 import Image from "next/image";
@@ -434,7 +434,7 @@ const Popup: React.FC<{
 } ) =>
   { 
     const [linkClicked, setLinkClicked] = useState(false);
-    const [isMember, setIsMember] = useState(null);
+    const [isMember, setIsMember] = useState<boolean>(false);
     const user = useSelector( ( state: RootState ) => state.login.user );
     const handleLinkClick = () => {
     setLinkClicked(true); 
@@ -559,7 +559,10 @@ const Popup: React.FC<{
 
                     { selectedCard.type === "Discord" && (
                     <div >
-                      <a
+                      
+                      <div className="flex justify-center items-center">
+                        
+                         <a
                         href={ selectedCard.discordLink }
                         target="_blank"
                         rel="noopener noreferrer"
@@ -567,8 +570,11 @@ const Popup: React.FC<{
                         onClick={handleLinkClick}
                         // onClick={ () => onSubmit( selectedCard._id, { visited: "true" } ) }
                       >
-                        { selectedCard.discordLink }
+                      <Button>Join server</Button>
+                      
                       </a>
+                      </div>
+                     
                     </div>
                   ) }
 
