@@ -255,20 +255,21 @@ console.log(KolId,taskOptions)
       );
       const data=response.data;
       const guildata=data.validLink.guilData;
+      const checkguild=data.validLink.checkLink;
       console.log(guildata)
-      if (response.data.success) {
+      if (checkguild) {
         setSuccess(true)
         console.log(response)
-        handlediscordChange(inviteUrl,guildata)
-        notify("success", response.data.message);
+        // handlediscordChange(inviteUrl,guildata)
+        notify("success", "Valid  link bot is  present");
       } else {
         setSuccess(false); 
-        notify("error", response.data.message);
+        notify("error",  "Invalid  link .bot is not present");
       }
     } catch (error:any) {
       setSuccess(false); 
-      notify("error", "An error occurred");
-    }
+      const errorMessage = error.response?.data?.message || "An error occurred";
+      notify("error", errorMessage);    }
   };
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

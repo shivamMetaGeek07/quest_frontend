@@ -434,24 +434,50 @@ const Popup: React.FC<{
 } ) =>
   { 
     const [linkClicked, setLinkClicked] = useState(false);
+    const [isMember, setIsMember] = useState(null);
     const user = useSelector( ( state: RootState ) => state.login.user );
     const handleLinkClick = () => {
-    setLinkClicked(true);
+    setLinkClicked(true); 
   };
 
   const handleVisibilityChange = () => {
     if (!document.hidden && linkClicked) {
+      console.log(selectedCard)
       console.log('User has returned to the tab after clicking the link');
       console.log(user)
+      checkMembership();
+
       // Perform actions when the user returns to the tab after clicking the link
       setLinkClicked(false); // Reset the state if you only want to handle it once
     }
   };
+  const checkMembership = async () => {
+    const data=user?.discordInfo?.discordId;
+    const accessToken=user?.discordInfo?.accessToken;
+    const guildId=user?.discordInfo?.guilds;
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/check-discord-membership`, {
+        data,
+        accessToken,
+        guildId,
+      },
+    );
+    const discordShip=response.data.isMember
+    if(discordShip){
+    notify("success","Join Successful")
+    }else{
+      notify("error","Please join Not a membe")
 
+    }
+      setIsMember(response.data.isMember);
+    } catch (error) {
+      console.error('Error checking Discord membership:', error);
+      setIsMember(false);
+    }
+  };
   useEffect(() => {
     window.addEventListener('beforeunload', handleLinkClick);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
     return () => {
       window.removeEventListener('beforeunload', handleLinkClick);
       document.removeEventListener('visibilitychange', handleVisibilityChange);

@@ -277,7 +277,7 @@ const LoginPage: React.FC = () =>
                             
                             {showOTP ? (
                             <>
-                                <div className="bg-white text-emerald-500 w-fit mx-auto p-4 rounded-full">
+                                <div className="bg-white text-violet-800 w-fit mx-auto p-4 rounded-full">
                                 <BsFillShieldLockFill size={30} />
                                 </div>
                                 <label
@@ -365,7 +365,7 @@ const LoginPage: React.FC = () =>
                                 <div className='w-full flex flex-row justify-center items-center m-auto'>
                                 <button
                             onClick={onSignup}
-                                className="bg-emerald-600 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
+                                className="bg-violet-800 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
                                 >
                                 {loading && (
                                     <CgSpinner size={20} className="mt-1 animate-spin" />
