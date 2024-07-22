@@ -212,7 +212,7 @@ const Profile: React.FC = () =>
 
                       className="bottom-trapezium"
                     /> ) : ( <img
-                      src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
+                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                       alt="avatar photo"
 
                       className="bottom-trapezium "
