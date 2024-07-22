@@ -9,6 +9,8 @@ import { notify } from "@/utils/notify";
 import Image from "next/image";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import Link from "next/link";
+import DiscordJoin from "@/app/components/discordPopup";
 
 interface IQuiz
 {
@@ -238,6 +240,8 @@ console.log(KolId,taskOptions)
   };
   const [inviteUrl, setInviteUrl] = useState('');
   const [success, setSuccess] = useState(false);
+  const [showConnectButton, setShowConnectButton] = useState(false);
+  const[modalView,setModalView]=useState(false);
   const authToken = `Bearer ${Cookies.get('authToken')}`;
 
   const CheckDiscord = async (inviteUrl: string) => {
@@ -263,15 +267,19 @@ console.log(KolId,taskOptions)
         // handlediscordChange(inviteUrl,guildata)
         notify("success", "Valid  link bot is  present");
       } else {
+        setShowConnectButton(true);
         setSuccess(false); 
+        setModalView(true);
         notify("error",  "Invalid  link .bot is not present");
       }
     } catch (error:any) {
       setSuccess(false); 
+      setShowConnectButton(true);
       const errorMessage = error.response?.data?.message || "An error occurred";
       notify("error", errorMessage);    }
   };
-  
+ 
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInviteUrl(event.target.value);
   };
@@ -284,6 +292,8 @@ console.log(KolId,taskOptions)
       notify("error", "Please enter a valid URL.");
     }
   };
+
+  
   return (
     <>
 
@@ -444,23 +454,28 @@ console.log(KolId,taskOptions)
                     onChange={ handleInputChange }
                   />
                 ) }
-                 {selectedTask.name === "Discord" && (
-                  <>
-                    <input
-                      type="url"
-                      className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
-                      placeholder="https://"
-                      onChange={handleChange}
-                      value={inviteUrl}
-                    />
-                    <button
-                      className="mt-2 p-3 bg-blue-500 rounded-lg text-white"
-                      onClick={handleButtonClick}
-                    >
-                      Check Discord Invite
-                    </button>
-                  </>
-                )}
+               {selectedTask.name === "Discord" && (
+        <>
+          <input
+            type="url"
+            className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+            placeholder="https://"
+            onChange={handleChange}
+            value={inviteUrl}
+          />
+          <button
+            className="mt-2 p-3 bg-blue-500 rounded-lg text-white"
+            onClick={handleButtonClick}
+          >
+            Check Discord Invite
+          </button>
+
+            <>
+            {/* {modalView &&  (<DiscordJoin setModalView={setModalView} />)} */}
+            {modalView && <DiscordJoin  />}
+            </>
+         </>
+      )}
 
                 { selectedTask.name === "Poll" && (
                   <div className="space-y-4">
