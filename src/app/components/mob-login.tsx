@@ -16,6 +16,7 @@ import { fetchUserData } from '@/redux/reducer/authSlice';
 import axios from 'axios';
 import { notify } from '@/utils/notify';
 
+
 const LoginPage: React.FC = () =>
 {
     const [ name, setName ] = useState( '' );
@@ -52,6 +53,7 @@ const LoginPage: React.FC = () =>
         }
     };
 
+
     const validatePhoneNumber = ( value: string ) =>
     {
         console.log( value.length );
@@ -70,6 +72,7 @@ const LoginPage: React.FC = () =>
             setPhoneError( '' );
         }
     };
+
 
     function onCaptchVerify ()
     {
@@ -107,18 +110,22 @@ const LoginPage: React.FC = () =>
         }
     };
 
+
     const handleUpload = async (): Promise<boolean> =>
     {
         if ( !logo ) return false;
+
 
         try
         {
             const uploadUrl = await getUploadUrl( logo.name );
             if ( !uploadUrl ) return false;
 
+
             const res = await axios.put( uploadUrl, logo, {
                 headers: { 'Content-Type': logo.type },
             } );
+
 
             return res.status === 200;
         } catch ( error )
@@ -137,12 +144,14 @@ const LoginPage: React.FC = () =>
             return notify( "warn", "Please upload Your profile" );
         }
 
+
         // Check if logo is a File object
         if ( !( logo instanceof File ) )
         {
             setLoading( false );
             return notify( "warn", "Invalid file type" );
         }
+
 
         if ( ![ 'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml' ].includes( logo.type ) )
         {
@@ -152,6 +161,7 @@ const LoginPage: React.FC = () =>
         try
         {
 
+
             const uploadSuccess = await handleUpload();
             if ( !uploadSuccess )
             {
@@ -159,10 +169,13 @@ const LoginPage: React.FC = () =>
                 return notify( "error", "Failed to upload image" );
             }
 
+
             const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ logo.name }`;
+
 
             setProfilePic( path );
             console.log( "Profile path", path );
+
 
             await onCaptchVerify(); // Wait for reCAPTCHA initialization
 
@@ -229,10 +242,12 @@ const LoginPage: React.FC = () =>
         validateName( name );
     }, [ name ] );
 
+
     useEffect( () =>
     {
         validatePhoneNumber( phoneNumber );
     }, [ phoneNumber ] );
+
 
     const handleLogoUpload = ( event: React.ChangeEvent<HTMLInputElement> ) =>
     {
@@ -244,20 +259,29 @@ const LoginPage: React.FC = () =>
             const reader = new FileReader();
             reader.onload = ( e ) =>
             {
-
-                // This is just for preview purposes
                 setLogoPreview( e.target?.result as string );
-
+                // setLogo( file );
             };
             reader.readAsDataURL( file );
         }
     };
+
 
     const handleLogoClick = () =>
     {
         fileInputRef.current?.click();
     };
 
+
+    const handleLogin = ( e: React.FormEvent ) =>
+    {
+        e.preventDefault();
+        if ( !nameError && !phoneError )
+        {
+            console.log( 'Login attempted with:', { name, phoneNumber, logo } );
+            // Add your login logic here
+        }
+    };
 
 
     const signup = async ( user: string ) =>
@@ -271,12 +295,13 @@ const LoginPage: React.FC = () =>
         }
     };
 
+
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="rounded-lg shadow-xl w-full max-w-[492px] border border-gray-700 overflow-hidden">
+            <div className="rounded-lg shadow-xl w-full max-w-[492px] bg-[#00000066] border border-gray-700 overflow-hidden">
                 <div className="h-full flex flex-col p-6">
                     <h1 className="text-2xl font-bold text-center text-white mb-6 font-[Qanelas-SemiBold, Helvetica]">LOGIN</h1>
-                    <form className="flex-grow flex flex-col justify-between space-y-6">                        <Toaster toastOptions={ { duration: 4000 } } />
+                    <form onSubmit={ handleLogin } className="flex-grow flex flex-col justify-between space-y-6">                        <Toaster toastOptions={ { duration: 4000 } } />
                         <div id="recaptcha-container"></div>
                         { user ? (
                             <h2 className="text-center text-white font-medium text-2xl">
@@ -306,6 +331,7 @@ const LoginPage: React.FC = () =>
                                         <button
                                             onClick={ handleVerifyCode }
                                             // onClick={onOTPVerify}
+
 
                                             className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
                                         >
@@ -372,17 +398,17 @@ const LoginPage: React.FC = () =>
 
                                             </div>
                                         </div>
-                                        <div className='w-full flex flex-row justify-center items-center m-auto'>
-                                            <button
-                                                onClick={ onSignup }
-                                                className="bg-emerald-600 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
-                                            >
-                                                { loading && (
-                                                    <CgSpinner size={ 20 } className="mt-1 animate-spin" />
-                                                ) }
-                                                <span>Send code via SMS</span>
-                                            </button>
-                                        </div>
+                                                <div className='w-full flex flex-row justify-center items-center m-auto'>
+                                                    <button
+                                                        onClick={ onSignup }
+                                                        className="bg-emerald-600 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
+                                                    >
+                                                        { loading && (
+                                                            <CgSpinner size={ 20 } className="mt-1 animate-spin" />
+                                                        ) }
+                                                        <span>Send code via SMS</span>
+                                                    </button>
+                                                </div>
                                     </>
                                 ) }
                             </div>
@@ -391,8 +417,9 @@ const LoginPage: React.FC = () =>
                 </div>
 
             </div>
-
-
         </div>
     );
-}
+};
+
+
+export default LoginPage;

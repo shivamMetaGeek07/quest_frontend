@@ -45,7 +45,7 @@ const ModalForm = () =>
     try
     {
       const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
-        folder: 'ProfileImages',
+        folder: 'userProfile',
         fileName,
       } );
       return response.data.url;
@@ -100,18 +100,19 @@ const ModalForm = () =>
         const uploadSuccess = await handleUpload();
         if ( uploadSuccess )
         {
-          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/ProfileImages/${ file.name }`;
+          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ file.name }`;
         } else
         {
           setLoader( false );
-          // You might want to add a notification here about the upload failure
+
           return;
         }
       }
 
       const updatedFormData = { ...formData, image: newImageUrl };
-      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
+      console.log( updatedFormData );
 
+      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
       if ( updateUserProfile.fulfilled.match( resultAction ) )
       {
         // You might want to add a success notification here
@@ -120,6 +121,8 @@ const ModalForm = () =>
       } else
       {
         // You might want to add an error notification here
+        setLoader( false );
+        console.log( 'Error updating user profile:' );
       }
     } catch ( err )
     {
