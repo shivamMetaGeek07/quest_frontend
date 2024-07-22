@@ -1,15 +1,46 @@
 "use client";
 import Image from "next/image";
-import React ,{useState} from "react";
+import React ,{useState,useEffect} from "react";
+import {useParams, useRouter} from "next/navigation";
+import axios from "axios";
 
 type Props = {};
 
-const KolsProfileSlug = (props: Props) => {
+type Kols={
+  displayName: string;
+  image: string;
+  bio: string;
+  upVotes: number;
+  downVotes: number;
+}
 
+const KolsProfileSlug = (props: Props) => {
+  
+  const { slug } = useParams();
+  console.log("slug", slug );
   const [ votes, setvotes ] = useState( 0 );
- 
-  const users = JSON.parse(localStorage.getItem('user') || '{}')
-  console.log(users.image)
+  const [ users, setusers ] = useState<Kols | null>( null );
+  
+  const getKol=async()=>{
+    try{
+       const response= axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/kols/${ slug }`);
+
+    const users = await response;
+    console.log( users.data.kols );
+    setusers( users.data.kols );
+    }
+    catch( error ){
+      console.log( error );
+    }
+   
+  }
+
+  useEffect(() => {
+   getKol();
+  }, []);
+
+  // const users = JSON.parse(localStorage.getItem('user') || '{}');
+  // console.log(users.image);
   return (
     <div>
       <div className="bg-gray-100">
@@ -19,8 +50,8 @@ const KolsProfileSlug = (props: Props) => {
               <div className="bg-white shadow rounded-lg p-6">
                 <div className="flex flex-col items-center">
                   <img
-                    src={ users.image }
-                    alt={users?.name}
+                    src={ users?.image }
+                    alt={users?.displayName}
                     className="w-32 h-32  rounded-full mb-4 shrink-0"
                   />
                   <h1 className="text-xl font-bold text-gray-700">{ users?.displayName }</h1>
@@ -32,10 +63,7 @@ const KolsProfileSlug = (props: Props) => {
                     Bio
                   </span>
                   <p className="text-gray-700 mb-4 text-sm ">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Corporis officia quod obcaecati, at laboriosam laudantium
-                    nesciunt, dolor optio error, ipsum tempora temporibus quas
-                    ut reprehenderit a nemo eos amet necessitatibus.
+                    { users?.bio }
                   </p>
                 </div>
                 <div className="flex items-center justify-center space-x-4">
