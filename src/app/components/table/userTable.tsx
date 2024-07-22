@@ -32,7 +32,7 @@ const UserTable = <T extends { [ key: string ]: any; }> ( { data, columns, rowsP
 {
   const [ page, setPage ] = useState( 1 );
   const rowPerPage = rowsPerPage || 10;
-  const pages = Math.ceil( data.length / rowPerPage );
+  const pages = Math.ceil( data?.length / rowPerPage );
 
   const items = useMemo( () =>
   {

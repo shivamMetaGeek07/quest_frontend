@@ -10,6 +10,8 @@ import Image from "next/image";
 import UserTable from "@/app/components/table/userTable";
 import { User } from "@/app/leaderboard/data";
 import axios from "axios";
+import { notify } from "@/utils/notify";
+import { useRouter } from "next/navigation";
 
 export default function CommunityProject ( {
   params,
@@ -33,11 +35,13 @@ export default function CommunityProject ( {
     loading,
     error,
   } = useSelector( ( state: RootState ) => state.community );
+  const memberId = useSelector( ( state: RootState ) => state.login?.user?._id );
   const currentQuests = useSelector( ( state: any ) => state.quest.currentQuests );
   const [ users, setUsers ] = useState( [] );
   const questIds = community?.quests;
   const userData = community?.members;
-  console.log( userData );
+  const router = useRouter();
+  // console.log( userData, memberId );
   useEffect( () =>
   {
     dispatch( fetchCommunity( id ) );
@@ -79,6 +83,29 @@ export default function CommunityProject ( {
       getUsers();
     }
   }, [ userData ] );
+
+  // leave the community
+  const handleLeaveCommunity = async () =>
+  {
+    try
+    {
+
+      const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/leavecommunity/${ id }`, { memberId } );
+      console.log( data );
+      notify( 'success', 'Left community succesfull' );
+
+      router.push( '/allcommunity' );
+
+    } catch ( error )
+    {
+      console.log(
+        "Error leaving community:",
+        error
+      );
+    }
+  };
+
+
 
   if ( loading )
   {
@@ -420,9 +447,13 @@ export default function CommunityProject ( {
                     </div>
                   </div>
 
-                  {/* <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2">
-                    Sign in / up
-                  </button> */}
+                  
+
+                  <button className=' lg:py-3 lg:px-4 sm:py-3 lg:mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300'
+                    onClick={ handleLeaveCommunity }
+                  >
+                    Leave the Community
+                  </button>
                 </div>
               </div>
             </div>
@@ -464,7 +495,19 @@ export default function CommunityProject ( {
                 onClick={ ( e ) =>
                 {
                   e.preventDefault();
-                  window.location.href = `/user/quest/${ quest._id }`;
+                  if ( memberId && userData?.includes( memberId ) )
+                  {
+
+                    window.location.href = `/user/quest/${ quest._id }`;
+                  } else if (
+                    memberId && !userData?.includes( memberId )
+                  )
+                  {
+                    notify( "warn", ' please join  the community' );
+                  } else
+                  {
+                    notify( "warn", ' please login to join the community' );
+                  }
                 } }
                 className=""
               >

@@ -228,7 +228,7 @@ const Profile: React.FC = () =>
                         </div>
                         <div className="user-rank" >
                           {/* Follow */ }
-                          #{ user?.level }
+                          #{ user?.rank }
                         </div>
                       </div>
                       <div className="flex row gap-1">

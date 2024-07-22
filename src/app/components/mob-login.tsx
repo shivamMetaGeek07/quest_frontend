@@ -383,37 +383,35 @@ const LoginPage: React.FC = () =>
                                                         className="mt-1 p-1.5 block w-full rounded-md bg-gray-700 border border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500 text-sm"
                                                         required
                                                     />
-                                                </div>;
-                                                
-                            
-                                
-                                <input
-                                type="tel"
-                                id="phone"
-                                value={ph}
-                                onChange={(e) => setPh(e.target.value)}
-                                placeholder="Enter your phone number"
-                                className="border-2 border-white rounded px-3 py-2 text-black mb-4 w-full"
-                                />
-                            
-                                </div>
-                                </div>
-                                <div className='w-full flex flex-row justify-center items-center m-auto'>
-                                <button
-                            onClick={onSignup}
-                                className="bg-violet-800 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
-                                >
-                                {loading && (
-                                    <CgSpinner size={20} className="mt-1 animate-spin" />
-                                )}
-                                <span>Send code via SMS</span>
-                                </button>
-                                </div>
-                            </>
-                            )}
-                        </div>
-                        )}
-                 </form>
+                                                </div>
+
+                                                <input
+                                                    type="tel"
+                                                    id="phone"
+                                                    value={ ph }
+                                                    onChange={ ( e ) => setPh( e.target.value ) }
+                                                    placeholder="Enter your phone number"
+                                                    className="border-2 border-white rounded px-3 py-2 text-black mb-4 w-full"
+                                                />
+
+                                            </div>
+                                        </div>
+                                        <div className='w-full flex flex-row justify-center items-center m-auto'>
+                                            <button
+                                                onClick={ onSignup }
+                                                className="bg-violet-800 w-full mx-5 flex  items-center justify-center py-1 text-white rounded"
+                                            >
+                                                { loading && (
+                                                    <CgSpinner size={ 20 } className="mt-1 animate-spin" />
+                                                ) }
+                                                <span>Send code via SMS</span>
+                                            </button>
+                                        </div>
+                                    </>
+                                ) }
+                            </div>
+                        ) }
+                    </form>
                 </div >
 
             </div >

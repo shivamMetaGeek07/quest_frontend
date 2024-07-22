@@ -11,6 +11,7 @@ import UserTable from "@/app/components/table/userTable";
 import { User } from "@/app/leaderboard/data";
 import axios from "axios";
 import { notify } from "@/utils/notify";
+import { useRouter } from "next/navigation";
 
 export default function CommunityProject ( {
   params,
@@ -27,6 +28,7 @@ export default function CommunityProject ( {
     { name: "XPS", uid: "xps" },
   ];
   const id = params.slug;
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { data: community, loading, error } = useSelector(
     ( state: RootState ) => state.community
@@ -80,6 +82,20 @@ export default function CommunityProject ( {
       getUsers();
     }
   }, [ userData ] );
+
+  const deleteCommunity = async () =>
+  {
+    try {
+      
+      const response = await axios.delete( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/${ id }` );
+      console.log( response )
+      notify( 'success', "Community has deleted successfully" )
+      router.push( `/user/my-community`)
+    } catch (error) {
+      console.error( error )
+      notify('error', 'There is some server error in deleting the community')
+    }
+  }
 
   if ( loading )
   {
@@ -187,7 +203,7 @@ export default function CommunityProject ( {
                   <div className='absolute lg:bottom-5 lg:right-5 sm:bottom-5 sm:right-5  bottom-1 right-1 flex gap-2 place-items-center '>
                     <div className='mr-8'>
                       { " " }
-                      <h1 className='lg:text-lg sm:text-lg text-sm'>{community?.title }</h1>
+                      <h1 className='lg:text-lg sm:text-lg text-sm'>{ community?.title }</h1>
                     </div>
                     <div className='flex  mr-2 items-center flex-col'>
                       <span className='card-white-text lg:text-xl sm:text-xl text-sm'>
@@ -391,9 +407,7 @@ export default function CommunityProject ( {
 
                   <button
                     className=' lg:py-3 lg:px-4 sm:py-3 lg:mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300'
-                    onClick={ () =>
-                      notify( "warn", "This feature under development" )
-                    }
+                    onClick={ deleteCommunity }
                   >
                     Delete the Community
                   </button>
