@@ -266,6 +266,13 @@ const Profile: React.FC = () =>
                         <div>
                           <ModalForm />
                         </div>
+
+                       
+                        <div className="App flex justify-center w-full m-auto items-center">
+                            <h1>Login with Telegram</h1>
+                            <div id="telegram-login"></div>
+            </div>
+            
                       </div>
                       <div className="flex row gap-3">
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{ user?.following?.length } following</button>
