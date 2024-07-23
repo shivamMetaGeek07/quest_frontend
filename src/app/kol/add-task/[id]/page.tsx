@@ -172,6 +172,7 @@ console.log(KolId,taskOptions)
 
     try
     {
+      console.log("task", taskData );
       const response = await dispatch( createTask( taskData ) );
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
@@ -260,6 +261,7 @@ console.log(KolId,taskOptions)
             'Content-Type': 'application/json',
             'Authorization': authToken,
           },
+          withCredentials: true         
         }
       );
       const data=response.data;

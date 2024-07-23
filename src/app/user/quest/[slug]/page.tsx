@@ -444,7 +444,7 @@ const Popup: React.FC<{
 
   const handleVisibilityChange = () => {
     if (!document.hidden && linkClicked) {
-      
+      console.log("handlevisibilty called");
       checkMembership();
 
       // Perform actions when the user returns to the tab after clicking the link
@@ -452,6 +452,7 @@ const Popup: React.FC<{
     }
   };
   const checkMembership = async () => {
+    console.log("check membership called")
     const data=user?.discordInfo?.discordId;
     const accessToken=user?.discordInfo?.accessToken;
     const guildId=selectedCard?.guild;
@@ -472,8 +473,9 @@ const Popup: React.FC<{
     };
     console.log(datas)
     if(discordShip){
-    notify("success","Join Successful")
+    notify("success","Join Successful");
     await dispatch( completeTask( datas ) );
+    onClose();
       
       }else{
       notify("error","Please join Not a member")
@@ -576,11 +578,11 @@ const Popup: React.FC<{
                         href={ selectedCard.discordLink }
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white underline"
+                        className="text-white bg-[#8e25ff] hover:bg-[#953ff1] font-bold py-2 px-4 rounded-full"
                         onClick={handleLinkClick}
                         // onClick={ () => onSubmit( selectedCard._id, { visited: "true" } ) }
                       >
-                      <Button>Join server</Button>
+                     Join Server
                       
                       </a>
                       </div>
@@ -665,20 +667,24 @@ const Popup: React.FC<{
                     />
                   ) }
 
-                  <button
-                    className="m-4 bg-[#ff2a2a] text-white px-4 py-2 rounded hover:bg-[#484848]"
+                  <Button
+                    variant="solid"
+                    color="danger"
+                    className="m-4 text-white   "
                     onClick={ onClose }
                   >
                     Cancel
-                  </button>
+                  </Button>
 
                   { selectedCard.type !== "Visit Link" &&selectedCard.type !== "Discord" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
-                    <button
-                      className="m-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848]"
+                    <Button
+                      variant="solid"
+                      color="primary"
+                      className=" "
                       onClick={ handleSubmit }
                     >
                       Submit
-                    </button>
+                    </Button>
                   ) }
                 </>
               ) }

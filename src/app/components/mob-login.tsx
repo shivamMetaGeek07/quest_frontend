@@ -225,46 +225,39 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                 toast.error( "Failed to send OTP. Please try again." );
             }
         }
-    };
-
-    const handleVerifyCode = async () =>
-    {
-        if ( confirmationResult && otp )
-        {
-            try
-            {
-                const result = await confirmationResult.confirm( otp );
-                const users = result.user as User;
-                const idToken = await users.getIdToken();
-
-                const number = users?.phoneNumber;
-                setuser( users );
-                setLoading( false );
-                toast.success( "OTP verified successfully!" );
-
-                const response = await fetch( `${ process.env.NEXT_PUBLIC_SERVER_URL }/api/verify-phone`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify( { users: result, idToken, name: name, number: number, img: profilePic } ),
-                } );
-
-                if ( response.ok )
-                {
-                    const data = await response.json();
-                    Cookies.set( 'authToken', data.token, { expires: 7 } );
-                    dispatch( fetchUserData() );
-                    setNav( true );
-                    router.push( '/' );
-                }
-            } catch ( error )
-            {
-                console.error( 'Error during code verification:', error );
-            }
-        }
-    };
-
+      }
+      const handleVerifyCode = async () => {
+        if (confirmationResult && otp) {
+            try {
+            const result = await confirmationResult.confirm(otp);
+            const users = result.user as User; // Type assertion
+            const idToken = await users.getIdToken();
+             
+            const number=users?.phoneNumber
+            setuser(users); 
+            setLoading(false);
+            toast.success("OTP verified successfully!");
+        //   Send user data to the backend
+          const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/verify-phone`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ users:result,idToken ,name:name,number:number,img:profilePic}),
+            credentials: 'include' 
+          });
+          if(response.ok){
+          const data = await response.json();
+        //   Cookies.set('authToken', data.token, { expires: 7 });
+        console.log(data)
+          dispatch(fetchUserData());
+            setNav( true );
+            router.push('/');
+          }
+           } catch (error) {
+          console.error('Error during code verification:', error);
+        }}
+      };
     useEffect( () =>
     {
         validateName( name );
