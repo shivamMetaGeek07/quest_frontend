@@ -23,7 +23,7 @@ interface Grant {
   prize: string;
 }
 
-const page = () => {
+const Grantspage = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -614,4 +614,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Grantspage;
