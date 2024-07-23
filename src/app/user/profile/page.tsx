@@ -33,11 +33,6 @@ type BadgesData = {
   imageUrl: string;
 };
 
-
-interface StarDisplayProps
-{
-  cellValue: number;
-}
 const BadgesData: BadgesData[] = [
   {
     id: 1,
@@ -85,18 +80,6 @@ const columns = [
   { name: "XPS", uid: "xps" },
   { name: "level", uid: "level" },
 ];
-
-const StarDisplay: React.FC<StarDisplayProps> = ( { cellValue } ) =>
-{
-  const stars: JSX.Element[] = [];
-
-  for ( let i = 0; i < cellValue; i++ )
-  {
-    stars.push( <i key={ i } className="bi bi-star-fill text-yellow-400 "></i> );
-  }
-
-  return <div className="flex flex-row justify-center gap-1 items-center">{ stars }</div>;
-};
 
 const Profile: React.FC = () =>
 {
