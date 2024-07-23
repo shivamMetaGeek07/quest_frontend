@@ -88,7 +88,8 @@ export const fetchUserData = createAsyncThunk(
           'Content-Type': 'application/json',
           'Authorization': authToken,
         },
-      } );
+        withCredentials:true
+      });
       const data = response.data;
       return data;
     } catch ( err )
@@ -124,6 +125,7 @@ export const updateUserProfile = createAsyncThunk(
           'Content-Type': 'application/json',
           'Authorization': authToken,
         },  
+        withCredentials: true 
        });
       console.log(response);
       return response.data.user;

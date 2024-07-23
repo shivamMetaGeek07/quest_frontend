@@ -40,9 +40,9 @@ interface ReferralFormProps {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': authToken,
-        }
-      }, 
-      );
+        },  withCredentials: true // Add this line to include credentials
+      }
+    );
       console.log("dsa",response.data)
       await dispatch(fetchAllCommunities());
       notify("success",response.data);
