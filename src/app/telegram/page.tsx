@@ -18,37 +18,95 @@ const TeleApp: React.FC = () => {
   //     <div id="telegram-login"></div>
   //   </div>
   // );
+  // useEffect(() => {
+  //   // Function to handle Telegram login
+  //   const handleTelegramLogin = (event:any) => {
+  //     const user = event.detail;
+  //     console.log('Telegram user:', user);
+
+  //     // Call your function with the Telegram user data
+  //     yourCustomFunction(user);
+  //   };
+
+  //   // Listen for the Telegram login event
+  //   window.addEventListener('telegram-web-app-login', handleTelegramLogin);
+
+  //   // Create the script element for the Telegram widget
+  //   const script = document.createElement('script');
+  //   script.src = 'https://telegram.org/js/telegram-widget.js?22';
+  //   script.async = true;
+  //   script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
+  //   script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
+  //   script.setAttribute('data-auth-url', '');  // No backend callback URL
+  //   script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
+  //   document.getElementById('telegram-login')?.appendChild(script);
+
+  //   // Cleanup the event listener on component unmount
+  //   return () => {
+  //     window.removeEventListener('telegram-web-app-login', handleTelegramLogin);
+  //   };
+  // }, []);
+
+  // // Define your custom function here
+  // const yourCustomFunction = (user:any) => {
+  //   // Implement your custom logic with the user data
+  //   console.log('Custom function called with user:', user);
+  //   // Extract username and id from the user object
+  //   const { username, id } = user;
+  //   console.log(`Username: ${username}, ID: ${id}`);
+  // };
+
+  // return <div id="telegram-login"></div>;
+
   useEffect(() => {
     // Function to handle Telegram login
-    const handleTelegramLogin = (event:any) => {
-      const user = event.detail;
-      console.log('Telegram user:', user);
+    const handleTelegramLogin = () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const firstName = params.get('first_name');
+      const lastName = params.get('last_name');
+      const username = params.get('username');
+      const photoUrl = params.get('photo_url');
+      const authDate = params.get('auth_date');
+      const hash = params.get('hash');
 
-      // Call your function with the Telegram user data
-      yourCustomFunction(user);
+      if (id && firstName && username) {
+        const user = {
+          id,
+          firstName,
+          lastName,
+          username,
+          photoUrl,
+          authDate,
+          hash,
+        };
+
+        // Call your function with the Telegram user data
+        yourCustomFunction(user);
+      }
     };
 
     // Listen for the Telegram login event
-    window.addEventListener('telegram-web-app-login', handleTelegramLogin);
+    window.addEventListener('telegram-login', handleTelegramLogin);
 
     // Create the script element for the Telegram widget
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-widget.js?22';
     script.async = true;
-    script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
-    script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
-    script.setAttribute('data-auth-url', '');  // No backend callback URL
-    script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
+    script.setAttribute('data-telegram-login', 'Anijojo_bot'); // Your Bot Username
+    script.setAttribute('data-size', 'medium'); // Widget Size: small, medium, large
+    script.setAttribute('data-auth-url', ''); // No backend callback URL
+    script.setAttribute('data-request-access', 'write'); // Permissions requested from the user
     document.getElementById('telegram-login')?.appendChild(script);
 
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener('telegram-web-app-login', handleTelegramLogin);
+      window.removeEventListener('telegram-login', handleTelegramLogin);
     };
   }, []);
 
   // Define your custom function here
-  const yourCustomFunction = (user:any) => {
+  const yourCustomFunction = (user: any) => {
     // Implement your custom logic with the user data
     console.log('Custom function called with user:', user);
     // Extract username and id from the user object
@@ -56,7 +114,11 @@ const TeleApp: React.FC = () => {
     console.log(`Username: ${username}, ID: ${id}`);
   };
 
-  return <div id="telegram-login"></div>;
+  return (
+    <div className="App flex">
+      <div id="telegram-login"></div>
+    </div>
+  );
 
 };
 
