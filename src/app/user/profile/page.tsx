@@ -169,10 +169,24 @@ const Profile: React.FC = () =>
   };
 
   const signupDiscord = async () => {
+    if(!user?.discordInfo?.username){
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`;
+    }
+    else{
+      const url = `https://discordapp.com/users/${user?.discordInfo?.discordId}`;
+      window.open(url, '_blank');
+    }
+   
   };
   const signupX = async () => {
+    if(!user?.twitterInfo?.username){
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter`;
+
+    }
+    else{
+      const url = `https://x.com/${user?.twitterInfo?.username}`;
+      window.open(url, '_blank');
+    }
   };
   useEffect( () =>
   {
@@ -274,7 +288,7 @@ const Profile: React.FC = () =>
                         </div>
                         {!user?.discordInfo?.username && (
                           <div className="mb-2">
-                          <Button className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
+                          <Button onClick={signupDiscord} className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
                           </div>
                         )
                                   }
