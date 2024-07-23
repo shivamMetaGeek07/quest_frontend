@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "../../components/ModalForm";
 import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Inter, Roboto_Mono } from 'next/font/google';
-import { Chip } from "@nextui-org/react";
+import { Button, Chip } from "@nextui-org/react";
 
 import Cookies from 'js-cookie';
 import type { Friend } from './data';
@@ -271,6 +271,9 @@ const Profile: React.FC = () =>
                         <div>
                           <TeleApp/>
                         </div>
+                        <div>
+                        <Button onClick={ signupDiscord} className="bg-[#bb28ff] hover:bg-[#c267ec]" ><span><i className="bi bi-discord"></i></span><span>Log in with Discord</span></Button>
+                        </div>
                       </div>
                       <div className="flex row gap-3">
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{ user?.following?.length } following</button>
@@ -324,7 +327,7 @@ const Profile: React.FC = () =>
 <path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" stroke-opacity="0.1"/>
 </svg> */}
 
-                      { user?.badges.length ? (
+                      { user?.badges?.length ? (
                         <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
                           { user.badges.map( ( data:any ) => (
                             <div
