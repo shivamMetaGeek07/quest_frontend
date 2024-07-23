@@ -260,6 +260,7 @@ console.log(KolId,taskOptions)
             'Content-Type': 'application/json',
             'Authorization': authToken,
           },
+          withCredentials: true         
         }
       );
       const data=response.data;

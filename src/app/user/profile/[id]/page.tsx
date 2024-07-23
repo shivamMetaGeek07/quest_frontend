@@ -127,6 +127,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
 
   const handleFollowToggle = useCallback( async () =>
   {
+    console.log("user",user);
     if ( !user?._id || !userId ) return;
     const endpoint = isFollowed ? 'unfollow' : 'follow';
     const payload = isFollowed ? { unfollowId: userId, userId: user._id } : { followId: userId, userId: user._id };
@@ -146,21 +147,15 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
 
   
 
-  // useEffect( () =>
-  // {
-  //   if ( userData )
-  //     {
-  //       getFriends();
-  //     }
-
-  //   if ( userId )
-  //   {
-  //     getUserProfile();
-  //     checkFollow();
-  //   }
-  //   setIsClient( true );
-  //   dispatch( fetchUserData() );
-  // }, [ userId, getUserProfile, checkFollow ,userData, getFriends, dispatch] );
+  useEffect( () =>
+  {
+    
+        getFriends();
+      getUserProfile();
+      checkFollow();
+    setIsClient( true );
+    dispatch( fetchUserData() );
+  }, [] );
 
    
   if ( !isClient )
