@@ -157,7 +157,7 @@ const Grantspage = () => {
       if ( !file )
       {
         setLoading( false );
-        return notify( "warn","Please upload a community logo" );
+        return notify( "warn","Please upload a grant logo" );
       }
   
       if ( file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/webp' && file.type !== 'image/gif' && file.type !== 'image/svg' )
@@ -197,12 +197,12 @@ const Grantspage = () => {
             initailFormData();
             setLoading( false );
             getGrants();
-            notify( "success",'Blog feed created successfully' );
+            notify( "success",'grant created successfully' );
           }
         //   router.push('/dashboard');
         } catch ( error )
         {
-          console.error( 'Error creating blog feed:', error );
+          console.error( 'Error creating grant:', error );
         }
       }
       else
@@ -264,11 +264,11 @@ const Grantspage = () => {
               initailFormData();
               setLoading(false);
               getGrants();
-              notify("success",'Blog feed updated successfully');  
+              notify("success",'grant updated successfully');  
             }
         }
         catch (error) {
-          console.error('Error creating blog feed:', error);
+          console.error('Error creating blog grant:', error);
         }
       }
 
@@ -291,7 +291,7 @@ const Grantspage = () => {
       if(response.status===200){
         initailFormData();
         setLoading(false);
-        notify("success",'Blog feed deleted successfully');  
+        notify("success",'grant deleted successfully');  
         getGrants();
       }
     }
