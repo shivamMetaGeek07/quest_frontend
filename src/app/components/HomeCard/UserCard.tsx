@@ -47,7 +47,7 @@ const UserCard = () =>
       console.log( error );
     }
   };
-  console.log( "Users :-", data );
+  // console.log( "Users :-", data );
 
   useEffect( () =>
   {
@@ -137,7 +137,7 @@ const UserCard = () =>
   );
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto ">
       <div className="flex items-center gap-1 mt-10 mb-8">
         <svg
           xmlns="http://www.w3.org/2000/svg"

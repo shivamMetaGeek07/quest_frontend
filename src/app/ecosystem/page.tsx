@@ -43,6 +43,7 @@ const Page: React.FC = () => {
                 <div className="relative flex items-center justify-center w-full h-full">
                   <img src={item.imageUrl} alt="Profile" className="w-16 h-16 object-cover rounded-full" />
                 </div>
+                <div className='text-center '>{item.name}</div>
               </div>
               <div className="absolute -bottom-1 -right-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="5" height="5" viewBox="0 0 4 4" fill="none">

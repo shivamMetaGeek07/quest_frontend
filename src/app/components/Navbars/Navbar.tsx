@@ -10,12 +10,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Cookies from 'js-cookie'
 import { notify } from '@/utils/notify';
+import { toast, Toaster } from "react-hot-toast";
+
 const Navbar: React.FC = () =>
 {
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
     const [ currentNewsIndex, setCurrentNewsIndex ] = useState( 0 );
     const [ feedItems, setFeedItems ] = useState<string[]>( [] );
+    const[refresh,setRefresh]=useState(false);
     const data = useSelector( ( state: RootState ) => state.login?.user );
     
     useEffect( () =>
@@ -37,8 +40,9 @@ const Navbar: React.FC = () =>
             await persistor.flush();
             localStorage.clear();
             Cookies.remove('authToken');
-            notify("success","Logout Successfully")
-            router.push('/');
+            notify( "success", "Logout Successfull" );
+
+            setRefresh(true)
          }
         } catch ( error )
         {
@@ -54,6 +58,10 @@ const Navbar: React.FC = () =>
 
     useEffect( () =>
     {
+        if(refresh){
+            router.push('/');
+            setRefresh(false)
+        }
         getFeeds();
     }, [] );
 
@@ -81,16 +89,20 @@ const Navbar: React.FC = () =>
     return (
         <nav className="bg-black text-white py-2 md:py-4  ml-[8rem] mr-[4rem] ">
             <div className="container mx-auto ">
+            <Toaster toastOptions={{ duration: 4000 }} />
+
                 {/* Desktop menu */ }
                 <div className="hidden lg:flex items-center justify-between space-x-4">
                     {/* searchBar */}
-                    <div className=" flex flex-row justify-start items-center">
+                    <div className=" flex flex-row justify-start items-center border-gray-300">
+                        <div className='search-bar-trapizium p-[1px] text-white bg-[#fffefe4e] '>
                         <input
                             type="text"
                             placeholder="SEARCH"
-                            className="bg-gray-800 text-white px-3 py-2.5 w-48 xl:w-64"
+                            className="bg-black search-bar-trapizium text-[#fff] px-3 py-2.5 w-48 xl:w-64"
                         />
-                        <button className="search  bg-gray-700 text-white px-3 rounded-r">
+                        </div>
+                        <button className="search  text-white px-3 rounded-r">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                             </svg>
@@ -123,10 +135,11 @@ const Navbar: React.FC = () =>
                         </div>
                         <div className='w-7 mr-1'>
                           <div className='news-clip h-[36px] pl-1 pr-1 bg-gray-900 flex justify-center items-center'>
-                               <svg className="" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-  <path d="M4.45496 9.96001L7.71496 6.70001C8.09996 6.31501 8.09996 5.68501 7.71496 5.30001L4.45496 2.04001" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-</svg> </div>
-                            </div>
+                                <svg className="" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M4.45496 9.96001L7.71496 6.70001C8.09996 6.31501 8.09996 5.68501 7.71496 5.30001L4.45496 2.04001" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                             </div>
+                        </div>
                        
                     </div>
                     </div>
@@ -146,10 +159,9 @@ const Navbar: React.FC = () =>
                                 />
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                <DropdownItem key="profile" className="h-14 gap-2 font-bold">
-                                <p className="font-semibold">welcome { data.displayName }</p>
-                                    <p className="font-semibold">Signed in</p>
-                                    <p className='font-semibold'>{ data.email }</p>
+                                <DropdownItem key="profile" className="h-10 font-bold">
+                                {/* <p className="font-semibold">welcome { data.displayName }</p> */}
+                                <p className="font-semibold text-center" onClick={ () => router.push( '/user/profile' ) } >View profile</p>
                                 </DropdownItem>
                                 <DropdownItem key="logout" color="danger" onClick={ logoutClient } className="bg-[#f31260] text-white">
                                     <div className="font-bold text-white text-center">Logout</div>

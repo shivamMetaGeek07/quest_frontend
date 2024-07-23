@@ -67,7 +67,7 @@ const Homepage = () =>
 
       <EcoCate />
 
-      <div className="mx-5 md:mx-2">
+      <div className="mx-5 md:mx-2 mb-8">
         <div className="flex items-center gap-1  mt-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +130,7 @@ const Homepage = () =>
           {/* </div> */ }
         </div>
       </div>
-      <EducationCardList />
+      <EducationCardList  />
       <GrantsCard />
     </div>
   );

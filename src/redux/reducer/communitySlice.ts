@@ -149,6 +149,7 @@ export const joinCommunity = createAsyncThunk(
   
 
 
+
 const communitySlice = createSlice({
   name: 'community',
   initialState,

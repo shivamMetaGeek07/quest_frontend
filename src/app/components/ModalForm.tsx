@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { updateUserProfile } from "@/redux/reducer/authSlice";
+import { fetchUserData, updateUserProfile } from "@/redux/reducer/authSlice";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Chip } from "@nextui-org/react";
+import { notify } from "@/utils/notify";
 
 const ModalForm = () =>
 {
@@ -45,7 +46,7 @@ const ModalForm = () =>
     try
     {
       const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/aws/generate-upload-url`, {
-        folder: 'ProfileImages',
+        folder: 'userProfile',
         fileName,
       } );
       return response.data.url;
@@ -100,27 +101,31 @@ const ModalForm = () =>
         const uploadSuccess = await handleUpload();
         if ( uploadSuccess )
         {
-          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/ProfileImages/${ file.name }`;
+          newImageUrl = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ file.name }`;
         } else
         {
           setLoader( false );
-          // You might want to add a notification here about the upload failure
+
           return;
         }
       }
 
       const updatedFormData = { ...formData, image: newImageUrl };
-      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
+      console.log( updatedFormData );
 
+      const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
       if ( updateUserProfile.fulfilled.match( resultAction ) )
       {
-        // You might want to add a success notification here
-        router.refresh();
+        dispatch( fetchUserData() );
+        notify("success", "Profile updated successfully");
+
         setIsModalVisible( false );
+        // router.push( '/user/profile' );
       } else
       {
-        // You might want to add an error notification here
+        notify("error", "Failed to update profile");
       }
+      
     } catch ( err )
     {
       console.log( "err", err );
@@ -202,16 +207,16 @@ const ModalForm = () =>
 
                   <div>
                     <label htmlFor="nickname" className="block text-sm font-medium text-gray-300 mb-1">
-                      Nickname
+                      Name
                     </label>
                     <input
                       type="text"
-                      id="nickname"
+                      id="name"
                       name="nickname"
                       value={ formData.nickname }
                       onChange={ handleChange }
                       className="w-full px-3 py-2 bg-[#121212] border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Your nickname"
+                      placeholder="Your Name"
                     />
                   </div>
 

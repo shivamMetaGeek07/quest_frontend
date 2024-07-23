@@ -12,6 +12,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { fetchAllCommunities, fetchCommunity, joinCommunity } from "@/redux/reducer/communitySlice";
 import { useRouter } from "next/navigation";
 import { notify } from "@/utils/notify";
+import ReferralForm from "@/app/components/referalPopUp";
 
 export default function CommunityProject ( {
     params,
@@ -21,10 +22,12 @@ export default function CommunityProject ( {
 {
     const columns = [
         // { name: "SNO.", uid: "sno" },
+        { name: 'level', uid: 'level' },
         { name: "NAME", uid: "name" },
         { name: "STARS", uid: "stars" },
         { name: "FAMPOINTS", uid: "fampoints" },
         { name: "XPS", uid: "xps" },
+        
     ];
     const { id } = params;
     const router = useRouter();
@@ -65,7 +68,11 @@ export default function CommunityProject ( {
                 { friendsIds }
             );
             // console.log(data)
-            setUsers( data.friends );
+            // Sort users based on rewards.xps in descending order
+            const sortedUsers = data?.friends.sort( ( a: any, b: any ) =>
+                ( b.rewards?.xp || 0 ) - ( a.rewards?.xp || 0 )
+            );
+            setUsers( sortedUsers );
         } catch ( error )
         {
             console.error( "Error fetching friends:", error );
@@ -437,13 +444,15 @@ export default function CommunityProject ( {
                                         </div>
                                     </div>
 
-                                    { ( memberId && !userData?.includes( memberId ) ) ? <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => { joinningCommunity( community ); } }
+                                    { ( memberId && !userData?.includes( memberId ) ) ?<> <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => { joinningCommunity( community ); } }
                                     >
                                         Join the community
-                                    </button> : ( memberId && userData?.includes( memberId ) ) ? <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" 
+                                    </button>               
+                                       <ReferralForm memberId={ memberId } id={ community._id } />
+                                    </> : ( memberId && userData?.includes( memberId ) ) ? <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" 
                                     >
-                                         Leave the community
-                                    </button>: <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => router.push( "/login" ) } >
+                                        Leave the community
+                                    </button> : <button className="bg-[#6e00fa] text-white lg:py-3 lg:px-4 sm:py-3 py-1 rounded-md lg:mt-2" onClick={ () => router.push( "/login" ) } >
                                         Sign in / up
                                     </button> }
 
@@ -491,16 +500,16 @@ export default function CommunityProject ( {
                                     e.preventDefault();
                                     if ( memberId && userData?.includes( memberId ) )
                                     {
-                                        
+
                                         window.location.href = `/user/quest/${ quest._id }`;
                                     } else if (
                                         memberId && !userData?.includes( memberId )
                                     )
                                     {
-                                        notify("warn", ' please join  the community')
+                                        notify( "warn", ' please join  the community' );
                                     } else
                                     {
-                                        notify("warn", ' please login to join the community')
+                                        notify( "warn", ' please login to join the community' );
                                     }
                                 } }
                                 className=''

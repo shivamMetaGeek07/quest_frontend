@@ -94,7 +94,7 @@ const KolData: KolData[] = [
 
 const EducationCardList: React.FC = () => {
   return (
-    <div className=" gap-1 mt-12">
+    <div className=" gap-1 mb-8">
       <div className="mb-8">
         <svg
         className="w-full"
