@@ -190,14 +190,6 @@ const Profile: React.FC = () =>
   };
   useEffect( () =>
   {
-      const script = document.createElement('script');
-      script.src = 'https://telegram.org/js/telegram-widget.js?22';
-      script.async = true;
-      script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
-      script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
-      script.setAttribute('data-auth-url', 'https://docsblock.io/auth/telegram/callback');  // Back-End Callback URL
-      script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
-      document.getElementById('telegram-login')?.appendChild(script);
     setIsClient( true );
     dispatch( fetchUserData() );
   }, [ dispatch ] );
@@ -288,7 +280,7 @@ const Profile: React.FC = () =>
                         </div>
                         {!user?.discordInfo?.username && (
                           <div className="mb-2">
-                          <Button onClick={signupDiscord} className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
+                          <Button className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
                           </div>
                         )
                                   }
