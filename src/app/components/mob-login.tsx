@@ -196,10 +196,12 @@ const LoginPage: React.FC = () =>
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ users:result,idToken ,name:name,number:number,img:profilePic}),
+            credentials: 'include' 
           });
           if(response.ok){
           const data = await response.json();
-          Cookies.set('authToken', data.token, { expires: 7 });
+        //   Cookies.set('authToken', data.token, { expires: 7 });
+        console.log(data)
           dispatch(fetchUserData());
             router.push('/user/profile')
           }
