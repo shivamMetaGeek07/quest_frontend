@@ -1,5 +1,5 @@
 // components/TelegramAuthHandler.js
-
+"use client";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import axios from 'axios';
