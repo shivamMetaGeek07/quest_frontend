@@ -265,15 +265,27 @@ const Profile: React.FC = () =>
                   <div className="lg:w-2/5">
                     <div className="">
                       <div className="flex  flex-col  items-center justify-center">
-                        <div>
+                        <div className="mb-2">
                           <ModalForm />
                         </div>
-                        <div>
+                        <div className="flex flex-row justify-center items-center gap-2">
+                        <div className="mb-2">
                           <TeleApp/>
                         </div>
-                        <div>
-                        <Button onClick={ signupDiscord} className="bg-[#bb28ff] hover:bg-[#c267ec]" ><span><i className="bi bi-discord"></i></span><span>Log in with Discord</span></Button>
-                        </div>
+                        {!user?.discordInfo?.username && (
+                          <div className="mb-2">
+                          <Button className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
+                          </div>
+                        )
+                                  }
+                                  {
+                                    !user?.twitterInfo?.username && (
+                                      <div className="mb-2">
+                                      <Button variant="solid" onClick={signupX} className="bg-[#e6e6e6] text-black text-md"><span>connect </span><span><i className="bi bi-twitter-x"></i></span></Button>
+                                      </div>
+                                    )
+                                  }
+                                  </div>
                       </div>
                       <div className="flex row gap-3">
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{ user?.following?.length } following</button>
