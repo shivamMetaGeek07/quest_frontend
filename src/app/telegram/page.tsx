@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { notify } from '@/utils/notify';
 const TeleApp: React.FC = () => {
   useEffect(() => {
     const script = document.createElement('script');
@@ -27,13 +29,32 @@ const TeleApp: React.FC = () => {
         auth_date: urlParams.get('auth_date'),
         hash: urlParams.get('hash'),
       };
+      
+      if (telegramData.id) {
+              try {
+                // Send the Telegram data to your API route for verification and storage
+                const response = await axios.post(
+                  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/telegram/callback`,
+                  telegramData,
+                  {
+                    withCredentials: true,
+                  }
+                );
+                if (response.data) {
 
-      console.log("telegramData",telegramData);
+                  notify("success","Telegram connected successfully")
+                  router.push('/user/profile');  // Redirect to the dashboard or another authenticated page
+                }
+               
+              } catch(error:any){
+                console.log("telegramData",telegramData);
+                notify("error",error?.response.data.message)
+              }
     };
 
     // Handle initial route change
     handleRouteChange();
-  }, [router]);
+  }}, [router]);
 
   // Define your custom function here
   const yourCustomFunction = (user: any) => {
@@ -43,6 +64,8 @@ const TeleApp: React.FC = () => {
     const { username, id } = user;
     console.log(`Username: ${username}, ID: ${id}`);
   };
+
+    
 
   return (
     <div className="App flex">
