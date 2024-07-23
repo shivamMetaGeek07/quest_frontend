@@ -10,7 +10,8 @@ import Image from "next/image";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import Link from "next/link";
-import DiscordJoin from "@/app/components/discordPopup";
+import { DiscordJoin } from "@/app/components/discordPopup";
+import { Button } from "@nextui-org/react";
 
 interface IQuiz
 {
@@ -77,7 +78,11 @@ console.log(KolId,taskOptions)
       setQuizzes( [ { question: "", options: [ "", "", "", "" ], correctAnswer: "" } ] );
     }
   };
-  const closeTaskModal = () => setSelectedTask( null );
+  const closeTaskModal = () =>{
+    setSelectedTask( null );
+    setInviteUrl( "" );
+    setModalView(false);
+  } 
 
   // const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   // {
@@ -167,6 +172,7 @@ console.log(KolId,taskOptions)
 
     try
     {
+      console.log("task", taskData );
       const response = await dispatch( createTask( taskData ) );
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
@@ -266,12 +272,12 @@ console.log(KolId,taskOptions)
         setSuccess(true)
         console.log(response)
         handlediscordChange(inviteUrl,guildata)
-        notify("success", "Valid  link bot is  present");
+        notify("success", "Bot connected successfully");
       } else {
         setShowConnectButton(true);
         setSuccess(false); 
         setModalView(true);
-        notify("error",  "Invalid  link .bot is not present");
+        notify("error",  "Connect to the server to add a Discord task");
       }
     } catch (error:any) {
       setSuccess(false); 
@@ -464,17 +470,17 @@ console.log(KolId,taskOptions)
             onChange={handleChange}
             value={inviteUrl}
           />
-          <button
-            className="mt-2 p-3 bg-blue-500 rounded-lg text-white"
+
+          <div className="flex justify-between gap-4 items-center">
+            <Button
+           
             onClick={handleButtonClick}
           >
             Check Discord Invite
-          </button>
-
-            <>
-            {/* {modalView &&  (<DiscordJoin setModalView={setModalView} />)} */}
-            {modalView && <DiscordJoin  />}
-            </>
+          </Button>
+            {modalView &&  (<DiscordJoin setModalView={setModalView} />)}
+          </div>
+          
          </>
       )}
 

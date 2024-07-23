@@ -57,7 +57,7 @@ const grantsData: Grant[] = [
 
 function GrantsCard() {
   return (
-    <div className=" ">
+    <div className="mb-8">
       <div className="flex items-center gap-1 mt-8 ">
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -37,10 +37,10 @@ const GlobalLeaderboard = () =>
       setTopUsers( topThreeUsers );
 
       // Set all users for the table
-      setData( allUsers );
+      setData( sortedUsers );
 
-      console.log( "Top 3 users:", topThreeUsers );
-      console.log( "All users:", allUsers );
+      // console.log( "Top 3 users:", topThreeUsers );
+      // console.log( "All users:", allUsers );
     } catch ( error )
     {
       console.log( error );

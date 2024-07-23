@@ -3,7 +3,7 @@ import QuizPollCarousel from "@/app/components/QuizPollCarousel";
 import { fetchTaskById, completeTask } from "@/redux/reducer/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { notify } from "@/utils/notify";
-import { Progress } from "@nextui-org/react";
+import { Button, Progress } from "@nextui-org/react";
 import axios from "axios";
 import { warning } from "framer-motion/dom";
 import Image from "next/image";
@@ -376,7 +376,7 @@ const TaskCards: React.FC<{
     { tasks.map( ( task: CardData, index: number ) => (
       <div
         key={ task._id || index }
-        className={ `border border-gray-200 bg-white/5 sm:p-2 lg:py-4 rounded-xl h-full w-full shadow-lg group hover:scale-105 hover:bg-white/10 ${ isTaskCompleted( task ) ? 'opacity-50' : ''
+        className={ `border cursor-pointer border-gray-200 bg-white/5 sm:p-2 lg:py-4 rounded-xl h-full w-full shadow-lg group hover:scale-105 hover:bg-white/10 ${ isTaskCompleted( task ) ? 'opacity-50' : ''
           }` }
         onClick={ () => onCardClick( task ) }
       >
@@ -435,7 +435,7 @@ const Popup: React.FC<{
 } ) =>
   { 
     const [linkClicked, setLinkClicked] = useState(false);
-    const [isMember, setIsMember] = useState(false);
+    const [isMember, setIsMember] = useState<boolean>(false);
     const dispatch=useDispatch<AppDispatch>()
     const user = useSelector( ( state: RootState ) => state.login.user );
     const handleLinkClick = () => {
@@ -444,7 +444,7 @@ const Popup: React.FC<{
 
   const handleVisibilityChange = () => {
     if (!document.hidden && linkClicked) {
-      
+      console.log("handlevisibilty called");
       checkMembership();
 
       // Perform actions when the user returns to the tab after clicking the link
@@ -452,6 +452,7 @@ const Popup: React.FC<{
     }
   };
   const checkMembership = async () => {
+    console.log("check membership called")
     const data=user?.discordInfo?.discordId;
     const accessToken=user?.discordInfo?.accessToken;
     const guildId=selectedCard?.guild;
@@ -472,8 +473,9 @@ const Popup: React.FC<{
     };
     console.log(datas)
     if(discordShip){
-    notify("success","Join Successful")
+    notify("success","Join Successful");
     await dispatch( completeTask( datas ) );
+    onClose();
       
       }else{
       notify("error","Please join Not a member")
@@ -569,16 +571,22 @@ const Popup: React.FC<{
 
                     { selectedCard.type === "Discord" && (
                     <div >
-                      <a
+                      
+                      <div className="flex justify-center items-center">
+                        
+                         <a
                         href={ selectedCard.discordLink }
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white underline"
+                        className="text-white bg-[#8e25ff] hover:bg-[#953ff1] font-bold py-2 px-4 rounded-full"
                         onClick={handleLinkClick}
                         // onClick={ () => onSubmit( selectedCard._id, { visited: "true" } ) }
                       >
-                        { selectedCard.discordLink }
+                     Join Server
+                      
                       </a>
+                      </div>
+                     
                     </div>
                   ) }
 
@@ -659,20 +667,24 @@ const Popup: React.FC<{
                     />
                   ) }
 
-                  <button
-                    className="m-4 bg-[#ff2a2a] text-white px-4 py-2 rounded hover:bg-[#484848]"
+                  <Button
+                    variant="solid"
+                    color="danger"
+                    className="m-4 text-white   "
                     onClick={ onClose }
                   >
                     Cancel
-                  </button>
+                  </Button>
 
                   { selectedCard.type !== "Visit Link" &&selectedCard.type !== "Discord" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
-                    <button
-                      className="m-4 bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848]"
+                    <Button
+                      variant="solid"
+                      color="primary"
+                      className=" "
                       onClick={ handleSubmit }
                     >
                       Submit
-                    </button>
+                    </Button>
                   ) }
                 </>
               ) }

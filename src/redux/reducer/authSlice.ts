@@ -7,19 +7,22 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 // Define interfaces for Twitter and Discord info
-export interface ITwitterInfo {
+export interface ITwitterInfo
+{
   twitterId?: string;
   username?: string;
   profileImageUrl?: string;
   oauthToken?: string;
   oauthTokenSecret?: string;
 }
-export interface ITeleInfo {
+export interface ITeleInfo
+{
   telegramId?: string;
   teleName?: string;
-  teleusername?: string; 
+  teleusername?: string;
 }
-export interface IDiscordInfo {
+export interface IDiscordInfo
+{
   discordId?: string;
   username?: string;
   profileImageUrl?: string;
@@ -38,15 +41,15 @@ export interface IUser
   email: string;
   role: string;
   image: string;
-  bio:string;
-  nickname:string;
-  bgImage:string;
+  bio: string;
+  nickname: string;
+  bgImage: string;
   badjes?: string[];
   rank: string;
   quest: Quest[];
   twitterInfo?: ITwitterInfo;
   discordInfo?: IDiscordInfo;
-  teleInfo?:ITeleInfo;
+  teleInfo?: ITeleInfo;
   community?: [];
   following?: string[];
   followers?: string[];
@@ -57,7 +60,8 @@ export interface IUser
 }
 
 // Define the initial state interface
-interface UserState {
+interface UserState
+{
   user: IUser | null;
   loading: boolean;
   error: string | null;
@@ -75,10 +79,11 @@ export const fetchUserData = createAsyncThunk(
   'login/fetchUserData',
   async ( _, { rejectWithValue } ) =>
   {
-    console.log("login called")
-    try {
-      const authToken = `Bearer ${Cookies.get('authToken')}`;
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/profile`, {
+    console.log( "login called" );
+    try
+    {
+      const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/profile`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': authToken,
@@ -89,20 +94,23 @@ export const fetchUserData = createAsyncThunk(
       return data;
     } catch ( err )
     {
-      console.log("Failed to detch user :-", err)
-      return rejectWithValue('Failed to fetch user data');
+      console.log( "Failed to detch user :-", err );
+      return rejectWithValue( 'Failed to fetch user data' );
     }
   }
 );
 
 export const logoutUser = createAsyncThunk(
   'login/logoutUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/logout`,  { withCredentials: true });
-       return response.data;
-    } catch (err) {
-      return rejectWithValue('Failed to log out');
+  async ( _, { rejectWithValue } ) =>
+  {
+    try
+    {
+      const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`, { withCredentials: true } );
+      return response.data;
+    } catch ( err )
+    {
+      return rejectWithValue( 'Failed to log out' );
     }
   }
 );
@@ -121,57 +129,68 @@ export const updateUserProfile = createAsyncThunk(
        });
       console.log(response);
       return response.data.user;
-    } catch (err) {
-      return rejectWithValue('Failed to update user profile');
+    } catch ( err )
+    {
+      return rejectWithValue( 'Failed to update user profile' );
     }
   }
 );
 
 // Create the slice
-const userSlice = createSlice({
+const userSlice = createSlice( {
   name: 'login',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: ( builder ) =>
+  {
     builder
       // fetchUserData handles fetching user profile data
-      .addCase(fetchUserData.pending, (state) => {
+      .addCase( fetchUserData.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(fetchUserData.fulfilled, (state, action: PayloadAction<IUser>) => {
+      } )
+      .addCase( fetchUserData.fulfilled, ( state, action: PayloadAction<IUser> ) =>
+      {
         state.loading = false;
         state.user = action.payload;
-      })
-      .addCase(fetchUserData.rejected, (state, action: PayloadAction<any>) => {
+      } )
+      .addCase( fetchUserData.rejected, ( state, action: PayloadAction<any> ) =>
+      {
         state.loading = false;
         state.error = action.payload;
-      })
-      .addCase(logoutUser.pending, (state) => {
+      } )
+      .addCase( logoutUser.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(logoutUser.fulfilled, (state) => {
+      } )
+      .addCase( logoutUser.fulfilled, ( state ) =>
+      {
         state.loading = false;
         state.user = null;  // Ensure user state is cleared
-      })
-      .addCase(logoutUser.rejected, (state, action: PayloadAction<any>) => {
+      } )
+      .addCase( logoutUser.rejected, ( state, action: PayloadAction<any> ) =>
+      {
         state.loading = false;
         state.error = action.payload;
-      })
-      .addCase(updateUserProfile.pending, (state) => {
+      } )
+      .addCase( updateUserProfile.pending, ( state ) =>
+      {
         state.loading = true;
         state.error = null;
-      })
-      .addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<IUser>) => {
+      } )
+      .addCase( updateUserProfile.fulfilled, ( state, action: PayloadAction<IUser> ) =>
+      {
         state.loading = false;
         state.user = action.payload;
-      })
-      .addCase(updateUserProfile.rejected, (state, action: PayloadAction<any>) => {
+      } )
+      .addCase( updateUserProfile.rejected, ( state, action: PayloadAction<any> ) =>
+      {
         state.loading = false;
         state.error = action.payload;
-      });
+      } );
   },
-});
+} );
 
 export default userSlice.reducer;

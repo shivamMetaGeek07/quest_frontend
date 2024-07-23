@@ -174,7 +174,7 @@ const Navbar = () =>
               <Link href="/admin/dashboard/feed-section">feed section</Link>
             </li>
              <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard/community-section">feed section</Link>
+              <Link href="/admin/dashboard/community-section">Community section</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <button onClick={handleLogout}>Logout</button>

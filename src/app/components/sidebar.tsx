@@ -8,9 +8,10 @@ import { RootState } from '@/redux/store';
 import LoginPage from './mob-login';
 import { useRouter, usePathname } from 'next/navigation';
 
+
 const Sidebar = () =>
 {
-  const [ nav, setNav ] = useState( true );
+  const [ nav, setNav ] = useState<boolean>( true );
   const router = useRouter();
   const pathname = usePathname();
   const user = useSelector( ( state: RootState ) => state.login?.user );
@@ -103,7 +104,7 @@ const Sidebar = () =>
             </div>
           </div>
         ) : (
-          <LoginPage />
+          <LoginPage setNav={ setNav } />
         ) }
       </div>
     </>

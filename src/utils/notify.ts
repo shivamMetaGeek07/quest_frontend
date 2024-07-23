@@ -36,7 +36,7 @@ export const notify = (type: NotifyType, message: NotifyMessage) => {
       break;
     case "error":
       toast.error(message, {
-        position: "top-left"
+        position: "top-center",
       });
       break;
     case "warn":

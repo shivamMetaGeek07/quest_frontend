@@ -7,8 +7,8 @@ import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "../../components/ModalForm";
 import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Inter, Roboto_Mono } from 'next/font/google';
-import { Chip } from "@nextui-org/react";
-import { columns } from "./data";
+import { Button, Chip } from "@nextui-org/react";
+
 import Cookies from 'js-cookie';
 import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
@@ -77,6 +77,15 @@ const BadgesData: BadgesData[] = [
   },
 ];
 
+const columns = [
+  // { name: "SNO.", uid: "sno" },
+  { name: "NAME", uid: "name" },
+  { name: "STARS", uid: "stars" },
+  { name: "FAMPOINTS", uid: "fampoints" },
+  { name: "XPS", uid: "xps" },
+  { name: "level", uid: "level" },
+];
+
 const StarDisplay: React.FC<StarDisplayProps> = ( { cellValue } ) =>
 {
   const stars: JSX.Element[] = [];
@@ -98,7 +107,7 @@ const Profile: React.FC = () =>
 
   const dispatch = useDispatch<AppDispatch>();
   const user: any = useSelector( ( state: RootState ) => state.login.user );
-  // console.log(user)
+  console.log( user );
 
   const getFriendIds = ( user: any ) =>
   {
@@ -140,7 +149,6 @@ const Profile: React.FC = () =>
     }
   };
 
-
   useEffect( () =>
   {
     getFriends();
@@ -159,36 +167,33 @@ const Profile: React.FC = () =>
       setEarned( null );
     }
   };
-  // console.log( "user", user );
-  const handleEarnRewardsClick = () =>
-  {
-    router.push( "/" );
-  };
-
-  const handleEarnRewardsClickss = () =>
-  {
-    router.push( "/user/leaderboard" );
-  };
 
   const signupDiscord = async () => {
+    if(!user?.discordInfo?.username){
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`;
+    }
+    else{
+      const url = `https://discordapp.com/users/${user?.discordInfo?.discordId}`;
+      window.open(url, '_blank');
+    }
+   
   };
   const signupX = async () => {
+    if(!user?.twitterInfo?.username){
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter`;
+
+    }
+    else{
+      const url = `https://x.com/${user?.twitterInfo?.username}`;
+      window.open(url, '_blank');
+    }
   };
   useEffect( () =>
   {
-      const script = document.createElement('script');
-      script.src = 'https://telegram.org/js/telegram-widget.js?22';
-      script.async = true;
-      script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
-      script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
-      script.setAttribute('data-auth-url', 'https://docsblock.io/auth/telegram/callback');  // Back-End Callback URL
-      script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
-      document.getElementById('telegram-login')?.appendChild(script);
     setIsClient( true );
     dispatch( fetchUserData() );
   }, [ dispatch ] );
+
 
   if ( !isClient ) return (
     <div className="flex justify-center h-screen items-center">
@@ -214,7 +219,7 @@ const Profile: React.FC = () =>
 
                       className="bottom-trapezium"
                     /> ) : ( <img
-                      src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
+                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                       alt="avatar photo"
 
                       className="bottom-trapezium "
@@ -266,12 +271,27 @@ const Profile: React.FC = () =>
                   <div className="lg:w-2/5">
                     <div className="">
                       <div className="flex  flex-col  items-center justify-center">
-                        <div>
+                        <div className="mb-2">
                           <ModalForm />
                         </div>
-                        <div>
+                        <div className="flex flex-row justify-center items-center gap-2">
+                        <div className="mb-2">
                           <TeleApp/>
                         </div>
+                        {!user?.discordInfo?.username && (
+                          <div className="mb-2">
+                          <Button className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
+                          </div>
+                        )
+                                  }
+                                  {
+                                    !user?.twitterInfo?.username && (
+                                      <div className="mb-2">
+                                      <Button variant="solid" onClick={signupX} className="bg-[#e6e6e6] text-black text-md"><span>connect </span><span><i className="bi bi-twitter-x"></i></span></Button>
+                                      </div>
+                                    )
+                                  }
+                                  </div>
                       </div>
                       <div className="flex row gap-3">
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{ user?.following?.length } following</button>
@@ -325,23 +345,48 @@ const Profile: React.FC = () =>
 <path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" stroke-opacity="0.1"/>
 </svg> */}
 
-                      <div className="flex flex-wrap lg:justify-start justify-center items-center p-2 ">
-                        { BadgesData.map( ( data ) => (
-                          <div
-                            key={ data.id }
-                            className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
-                          >
-                            <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                              <img
-                                src={ data.imageUrl }
-                                alt="badge photo"
-                                className="w-full h-full bg-cover object-cover"
-                              />
+                      { user?.badges?.length ? (
+                        <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
+                          { user.badges.map( ( data:any ) => (
+                            <div
+                              key={ data?.id }
+                              className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
+                            >
+                              <div className="w-[2rem] h-[2rem] bottom-trapezium">
+                                <img
+                                  src={ data?.imageUrl || 'https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png' }
+                                  alt="badge photo"
+                                  className="w-full h-full bg-cover object-cover"
+                                />
+                              </div>
+                              <h1 className="font-medium">{ data?.name }</h1>
                             </div>
-                            <h1 className="  font-medium">{ data.title }</h1>
+                          ) ) }
+                        </div>
+                      ) : (
+                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" onClick={()=>router.push('/allcommunity')} >
+                          <div className=" rounded-lg p-6 text-center shadow-md">
+                            <svg
+                              className="mx-auto h-12 w-12 text-gray-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                              />
+                            </svg>
+                            <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Complete quests and tasks to earn badges!
+                            </p>
                           </div>
-                        ) ) }
-                      </div>
+                        </div>
+                      ) }
                     </div>
                   </div>
 

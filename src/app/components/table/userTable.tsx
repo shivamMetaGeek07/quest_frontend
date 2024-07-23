@@ -32,7 +32,7 @@ const UserTable = <T extends { [ key: string ]: any; }> ( { data, columns, rowsP
 {
   const [ page, setPage ] = useState( 1 );
   const rowPerPage = rowsPerPage || 10;
-  const pages = Math.ceil( data.length / rowPerPage );
+  const pages = Math.ceil( data?.length / rowPerPage );
 
   const items = useMemo( () =>
   {
@@ -50,17 +50,17 @@ const UserTable = <T extends { [ key: string ]: any; }> ( { data, columns, rowsP
       case "id":
         return (
           <div className="capitalize w-[40%]">
-            <span className="lvl text-end text-xl">#{ columnKey || '' }</span>
+            <span className="lvl text-end text-xl">{ columnKey || '' }</span>
           </div>
         );
       case "name":
         return (
           <div className="capitalize flex justify-start items-center px-2">
-            <span className="lvl text-end text-xl mr-2 px-2">#{ user.id || '' }</span>
+            <span className="lvl text-end text-xl mr-2 px-2">{ user.id || '' }</span>
             <User
               avatarProps={ { radius: "none", src: user.image || '', size: "md" } }
               name={ user.displayName || user.name || '' }
-             
+
             />
           </div>
         );
@@ -77,9 +77,7 @@ const UserTable = <T extends { [ key: string ]: any; }> ( { data, columns, rowsP
               <span className="user-leaderboard-text px-2">Xps :  </span>
               <span>{ user.rewards?.xp || cellValue || 0 }</span>
             </div>
-            <div>
-              <span className="lvl"> - LVL: { user.level || 0 }</span>
-            </div>
+
           </div>
         );
       case "fampoints":
@@ -107,6 +105,12 @@ const UserTable = <T extends { [ key: string ]: any; }> ( { data, columns, rowsP
                 <i className="bi bi-trash-fill text-xl"></i>
               </span>
             </Tooltip>
+          </div>
+        );
+      case "level":
+        return (
+          <div>
+            <span className="lvl"> LVL: { user.level || 0 }</span>
           </div>
         );
       default:

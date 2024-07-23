@@ -37,7 +37,7 @@ const MyCommunities: React.FC = () =>
     dispatch( fetchUserData() );
 
   }, [ dispatch ] );
-
+  
   const fetchCreatedCommunities = (
     async () =>
     {
@@ -78,7 +78,7 @@ const MyCommunities: React.FC = () =>
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <div className="container mx-auto px-4 py-10">
+      <div className="container w-[90%] mx-auto px-4 py-10">
         <header className="mb-12">
           <h1 className="text-3xl font-bold mb-4">My Communities</h1>
           <div className="flex justify-between items-center">
@@ -86,19 +86,21 @@ const MyCommunities: React.FC = () =>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore
               neque magni dolorum dignissimos enim delectus velit ut aspernatur.
             </p>
-            <button
-              onClick={ handleJoinMore }
-              className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-2 px-4 rounded-full flex items-center"
-            >
-              <FaPlus className="mr-2" /> Join More
-            </button>
           </div>
         </header>
 
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">
+          <div className="flex justify-between items-center">
+           <h2 className="text-md font-bold text-center mb-8">
             Your Joined Communities
           </h2>
+            <button
+              onClick={ handleJoinMore }
+              className="bg-[#5538CE] hover:bg-[#7c5bff] text-white text-sm font-bold py-2 px-4 rounded-full flex items-center"
+            >
+              <FaPlus className="mr-2" /> Join More
+            </button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             { userCommunities && userCommunities.length > 0 && userCommunities.map( ( card: Card, index ) => (
@@ -106,7 +108,7 @@ const MyCommunities: React.FC = () =>
               <div
                 key={ index }
                 onClick={ () => router.push( `/user/community-project/${ card?._id }` ) }
-                className="overflow-hidden outer-div bg-white/5  rounded-md relative flex md:gap-6 lg:gap-6 sm:gap-4 gap-4 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border md:p-4 lg:p-4 p-2 flex-col  justify-center w-full sm:w-full"
+                className="overflow-hidden cursor-pointer outer-div bg-white/5  rounded-md relative flex md:gap-6 lg:gap-6 sm:gap-4 gap-4 hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border md:p-4 lg:p-4 p-2 flex-col  justify-center w-full sm:w-full"
               >
 
                 <div className="flex  flex-col md:flex-row lg:flex-row text-xl items-center justify-around ">
@@ -165,17 +167,18 @@ const MyCommunities: React.FC = () =>
         </section>
 
         <section>
-          <div className="flex flex-col items-center mb-8">
-            <h2 className="text-3xl font-bold text-center mb-4">
+            <div className="flex justify-between items-center mb-8">
+            <h2 className="text-md font-bold mb-4">
               Your Created Communities
             </h2>
             <button
               onClick={ () => router.push( '/kol/create-community' ) }
-              className="bg-[#8c71ff] hover:bg-[#7c5bff] text-white font-bold py-2 px-4 rounded-lg flex items-center"
+              className="bg-[#5538CE] hover:bg-[#7c5bff] text-white text-sm font-bold py-2 px-4 rounded-full flex items-center"
             >
               <FaPlus className="mr-2" /> Add Community
             </button>
-          </div>
+            </div>
+         
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             { createdCommunity?.map( ( card: Card, index ) => (

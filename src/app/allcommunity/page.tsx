@@ -237,7 +237,7 @@ const MyCommunities = () =>
                   router.push( `/allcommunity/${ card._id }` );
                 }
               } }
-              className=" bg-white/5 outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-4 flex-col justify-center w-full sm:w-full"
+              className=" bg-white/5 cursor-pointer outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-4 sm:p-2 p-4 flex-col justify-center w-full sm:w-full"
             >
               <div className="flex  flex-row md:flex-row lg:flex-row text-xl items-center justify-around ">
                 <div className="p-1">
