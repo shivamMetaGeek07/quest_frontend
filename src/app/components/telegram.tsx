@@ -30,28 +30,6 @@ const TeleApp: React.FC = () => {
         hash: urlParams.get('hash'),
       };
       
-      if (telegramData.id) {
-              try {
-                // Send the Telegram data to your API route for verification and storage
-                const response = await axios.post(
-                  `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/telegram/callback`,
-                  telegramData,
-                  {
-                    withCredentials: true,
-                  }
-                );
-                if (response.data) {
-
-                  notify("success","Telegram connected successfully")
-                  router.push('/user/profile');  // Redirect to the dashboard or another authenticated page
-                }
-               
-              } catch(error:any){
-                console.log("telegramData",telegramData);
-                notify("error",error?.response.data.message)
-              }
-    };
-
     // Handle initial route change
     handleRouteChange();
   }
