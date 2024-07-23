@@ -1,4 +1,4 @@
-// pages/login.tsx
+// pages/signup.tsx
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { BsFillShieldLockFill } from "react-icons/bs";
@@ -16,18 +16,18 @@ import { fetchUserData } from '@/redux/reducer/authSlice';
 import axios from 'axios';
 import { notify } from '@/utils/notify';
 
-interface LoginPageProps {
-  setNav: React.Dispatch<React.SetStateAction<boolean>>;
+interface LoginPageProps
+{
+    setNav: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
+const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 {
     const [ name, setName ] = useState( '' );
     const [ phoneNumber, setPhoneNumber ] = useState( '' );
     const [ nameError, setNameError ] = useState( '' );
     const [ phoneError, setPhoneError ] = useState( '' );
     const fileInputRef = useRef<HTMLInputElement>( null );
-    const isDisabled = !!nameError || !!phoneError;
     const [ otp, setOtp ] = useState( "" );
     const [ ph, setPh ] = useState( "" );
     const [ confirmationResult, setConfirmationResult ] = useState<ConfirmationResult | null>( null );
@@ -37,10 +37,9 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
     const [ logoPreview, setLogoPreview ] = useState<string | null>( null );
     const [ logo, setLogo ] = useState<any>( null );
     const [ profilePic, setProfilePic ] = useState( '' );
+    const [ isExistingUser, setIsExistingUser ] = useState( true );
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();
-    const data = useSelector( ( state: RootState ) => state.login?.user );
-
 
     const validateName = ( value: string ) =>
     {
@@ -136,15 +135,36 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             return false;
         }
     };
+
+    const checkExistingUser = async ( phoneNumber: string ) =>
+    {
+        console.log( phoneNumber );
+        try
+        {
+            const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/check/user`, { phone_number: phoneNumber } );
+            console.log( response );
+            if ( response.status == 200 )
+            {
+                notify( 'warn', `${ response.data.message }` );
+            }
+            return response.data.existingUser;
+        } catch ( error )
+        {
+            console.error( 'Error checking existing user:', error );
+            return false;
+        }
+    };
+
     const onSignup = async () =>
     {
         setLoading( true );
 
-        if ( !logo )
+        if ( !isExistingUser && !logo )
         {
             setLoading( false );
             return notify( "warn", "Please upload Your profile" );
         }
+
 
 
         // Check if logo is a File object
@@ -160,35 +180,38 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
             setLoading( false );
             return notify( "warn", "Only JPEG, PNG, WEBP, GIF, SVG images are allowed" );
         }
+
+
         try
         {
+            const userExists = await checkExistingUser( ph );
+            setIsExistingUser( userExists );
 
 
-            const uploadSuccess = await handleUpload();
-            if ( !uploadSuccess )
+
+            if ( !userExists )
             {
-                setLoading( false );
-                return notify( "error", "Failed to upload image" );
+                const uploadSuccess = await handleUpload();
+                if ( !uploadSuccess )
+                {
+                    setLoading( false );
+                    return notify( "error", "Failed to upload image" );
+                }
+
+                const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ logo.name }`;
+                setProfilePic( path );
+
+                await onCaptchVerify();
+
+                const appVerifier = window.recaptchaVerifier;
+                const formatPh = "+91" + ph;
+
+                const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
+                setConfirmationResult( result );
+                setShowOTP( true );
+                toast.success( "OTP sent successfully!" );
             }
-
-
-            const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${ logo.name }`;
-
-
-            setProfilePic( path );
-            console.log( "Profile path", path );
-
-
-            await onCaptchVerify(); // Wait for reCAPTCHA initialization
-
-            const appVerifier = window.recaptchaVerifier;
-            const formatPh = "+91" + ph;
-
-            const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
-            setConfirmationResult( result );
             setLoading( false );
-            setShowOTP( true );
-            toast.success( "OTP sent successfully!" );
         } catch ( error: any )
         {
             console.log( error );
@@ -202,37 +225,46 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
                 toast.error( "Failed to send OTP. Please try again." );
             }
         }
-      }
-      const handleVerifyCode = async () => {
-        if (confirmationResult && otp) {
-            try {
-            const result = await confirmationResult.confirm(otp);
-            const users = result.user as User; // Type assertion
-            const idToken = await users.getIdToken();
-             
-            const number=users?.phoneNumber
-            setuser(users); 
-            setLoading(false);
-            toast.success("OTP verified successfully!");
-        //   Send user data to the backend
-          const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/verify-phone`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ users:result,idToken ,name:name,number:number,img:profilePic}),
-          });
-          if(response.ok){
-          const data = await response.json();
-          Cookies.set('authToken', data.token, { expires: 7 });
-          dispatch(fetchUserData());
-            setNav( true );
-            router.push('/');
-          }
-           } catch (error) {
-          console.error('Error during code verification:', error);
-        }}
-      };
+    };
+
+    const handleVerifyCode = async () =>
+    {
+        if ( confirmationResult && otp )
+        {
+            try
+            {
+                const result = await confirmationResult.confirm( otp );
+                const users = result.user as User;
+                const idToken = await users.getIdToken();
+
+                const number = users?.phoneNumber;
+                setuser( users );
+                setLoading( false );
+                toast.success( "OTP verified successfully!" );
+
+                const response = await fetch( `${ process.env.NEXT_PUBLIC_SERVER_URL }/api/verify-phone`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify( { users: result, idToken, name: name, number: number, img: profilePic } ),
+                } );
+
+                if ( response.ok )
+                {
+                    const data = await response.json();
+                    Cookies.set( 'authToken', data.token, { expires: 7 } );
+                    dispatch( fetchUserData() );
+                    setNav( true );
+                    router.push( '/' );
+                }
+            } catch ( error )
+            {
+                console.error( 'Error during code verification:', error );
+            }
+        }
+    };
+
     useEffect( () =>
     {
         validateName( name );
@@ -243,7 +275,6 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
     {
         validatePhoneNumber( phoneNumber );
     }, [ phoneNumber ] );
-
 
     const handleLogoUpload = ( event: React.ChangeEvent<HTMLInputElement> ) =>
     {
@@ -269,149 +300,150 @@ const LoginPage : React.FC<LoginPageProps> = ({setNav}) =>
     };
 
 
-    const handleLogin = ( e: React.FormEvent ) =>
+    const handleLogin = async () =>
     {
-        e.preventDefault();
-        if ( !nameError && !phoneError )
+        const formatPh = "+91" + ph;
+        const userExists = await checkExistingUser( formatPh );
+        setuser( userExists );
+        // console.log( userExists );
+        if ( !userExists )
         {
-            console.log( 'Login attempted with:', { name, phoneNumber, logo } );
-            // Add your login logic here
+            setIsExistingUser( false );
+            // notify( 'warn', "You don't have any account, Please signup" );
+            return;
         }
+
+        await onCaptchVerify();
+
+        const appVerifier = window.recaptchaVerifier;
+        // // const formatPh = "+91" + ph;
+
+        const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
+        setConfirmationResult( result );
+        setShowOTP( true );
+        toast.success( "OTP sent successfully!" );
     };
-
-
-    const signup = async ( user: string ) =>
-    {
-        if ( user == 'user' )
-        {
-            window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/user`;
-        } else
-        {
-            window.location.href = `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/google/kol`;
-        }
-    };
-
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4 box1">
             <div className="rounded-lg shadow-xl w-full max-w-[492px] bg-[#00000066] border border-gray-700 overflow-hidden">
                 <div className="h-full flex flex-col p-6">
-                    <h1 className="text-2xl font-bold text-center text-white mb-2 mt-2 font-[Qanelas-SemiBold, Helvetica]">LOGIN</h1>
-                    <form onSubmit={handleLogin} className="flex-grow flex flex-col justify-between space-y-6">                      
-                    <Toaster toastOptions={{ duration: 4000 }} />
+                    <h1 className="text-2xl font-bold text-center text-white mb-2 mt-2 font-[Qanelas-SemiBold, Helvetica]">
+                        { isExistingUser ? "LOGIN" : "SIGN UP" }
+                    </h1>
+                    <form onSubmit={ ( e ) => e.preventDefault() } className="flex-grow flex flex-col justify-between space-y-6">
+                        <Toaster toastOptions={ { duration: 4000 } } />
                         <div id="recaptcha-container"></div>
-                        {user ? (
-                        <h2 className="text-center text-white font-medium text-2xl">
-                            Login Successfull 
-                        </h2>
+                        { user ? (
+                            <h2 className="text-center text-white font-medium text-2xl">
+                                { isExistingUser ? "Login Successful" : "Signup Successful" }
+                            </h2>
                         ) : (
-                        <div className="w-full h-full flex flex-col gap-4 rounded-lg p-4">
-                            
-                            {showOTP ? (
-                            <>
-                                <div className="bg-white text-[#5538CE] w-fit mx-auto p-4 rounded-full">
-                                <BsFillShieldLockFill  size={30} />
-                                </div>
-                                <label
-                                htmlFor="otp"
-                                className="font-bold text-xl text-white text-center"
-                                >
-                                Enter your OTP
-                                </label>
-                                <input
-                                type="text"
-                                id="otp"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                className="border-1 border-gray-600 bg-gray-950 rounded px-3 py-2 text-white mb-4 w-full"
-                                />
-                                <button
-                                onClick={handleVerifyCode}
-                                // onClick={onOTPVerify}
-
-                                className="bg-[#5538CE] w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
-                                >
-                                {loading && (
-                                    <CgSpinner size={20} className="mt-1 animate-spin" />
-                                )}
-                                <span>Verify OTP</span>
-                                </button>
-                            </>
-                            ) : (
-                            <>   
-                        <div className="flex   flex-col sm:flex-row sm:space-x-6 space-y-6 sm:space-y-0">
-                            <div className="w-full   sm:w-1/3 flex justify-center sm:block">
-                                <div
-                                    className="bg-gray-950 border border-gray-600 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-300 hover:border-blue-500"
-                                    onClick={ handleLogoClick }
-                                >
-                                   { logoPreview ? (
-                                        <img src={ logoPreview } alt="Uploaded logo" className="w-full h-full object-cover" />
-                                        ):
-                                        (
-                                        <div className="text-center">
-                                           <img src="https://clusterprotocol2024.s3.amazonaws.com/others/gallery-add.png" alt="upload image" />
+                            <div className="w-full h-full flex flex-col gap-4 rounded-lg p-4">
+                                { showOTP ? (
+                                    // OTP verification UI
+                                    <>
+                                        <div className="bg-white text-[#5538CE] w-fit mx-auto p-4 rounded-full">
+                                            <BsFillShieldLockFill size={ 30 } />
                                         </div>
-                                    ) }
-                                </div>
-                                <input
-                                    type="file"
-                                    ref={ fileInputRef }
-                                    onChange={ handleLogoUpload }
-                                    accept="image/*"
-                                    className="hidden"
-                                />
+                                        <label htmlFor="otp" className="font-bold text-xl text-white text-center">
+                                            Enter your OTP
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="otp"
+                                            value={ otp }
+                                            onChange={ ( e ) => setOtp( e.target.value ) }
+                                            className="border-1 border-gray-600 bg-gray-950 rounded px-3 py-2 text-white mb-4 w-full"
+                                        />
+                                        <button
+                                            onClick={ handleVerifyCode }
+                                            className="bg-[#5538CE] w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
+                                        >
+                                            { loading && <CgSpinner size={ 20 } className="mt-1 animate-spin" /> }
+                                            <span>Verify OTP</span>
+                                        </button>
+                                    </>
+                                ) : (
+                                    // Signup/Login form
+                                    <>
+                                                { !isExistingUser ? (
+                                                    <div className="flex flex-col sm:flex-row sm:space-x-6 space-y-6 sm:space-y-0">
+                                                        <div className="w-full sm:w-1/3 flex justify-center sm:block">
+                                                            <div
+                                                                className="bg-gray-950 border border-gray-600 h-28 w-28 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-300 hover:border-blue-500"
+                                                                onClick={ handleLogoClick }
+                                                            >
+                                                                { logoPreview ? (
+                                                                    <img src={ logoPreview } alt="Uploaded logo" className="w-full h-full object-cover" />
+                                                                ) : (
+                                                                    <div className="text-center">
+                                                                        <img src="https://clusterprotocol2024.s3.amazonaws.com/others/gallery-add.png" alt="upload image" />
+                                                                    </div>
+                                                                ) }
+                                                            </div>
+                                                            <input
+                                                                type="file"
+                                                                ref={ fileInputRef }
+                                                                onChange={ handleLogoUpload }
+                                                                accept="image/*"
+                                                                className="hidden"
+                                                            />
+                                                        </div>
+                                                        <div className="w-full sm:w-2/3 space-y-3">
+                                                            <div>
+                                                                <div className="flex justify-between items-center">
+                                                                    <label htmlFor="name" className="text-sm font-medium text-gray-300 font-[Helvetica]">NAME *</label>
+                                                                    { nameError && <p className="text-xs text-red-500 uppercase font-serif ">{ nameError }</p> }
+                                                                </div>
+                                                                <input
+                                                                    type="text"
+                                                                    id="name"
+                                                                    value={ name }
+                                                                    onChange={ ( e ) => setName( e.target.value ) }
+                                                                    className="mt-1 p-1.5 block w-full rounded-md bg-gray-950 border border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500 text-sm"
+                                                                    required
+                                                                />
+                                                            </div>
+                                                            <input
+                                                                type="tel"
+                                                                id="phone"
+                                                                value={ ph }
+                                                                onChange={ ( e ) => setPh( e.target.value ) }
+                                                                placeholder="Enter your phone number"
+                                                                className="border-1 border-gray-600 bg-gray-950 rounded px-3 py-2 text-white mb-4 w-full"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ) :
+
+                                                    <input
+                                                        type="tel"
+                                                        id="phone"
+                                                        value={ ph }
+                                                        onChange={ ( e ) => setPh( e.target.value ) }
+                                                        placeholder="Enter your phone number"
+                                                        className="border-1 border-gray-600 bg-gray-950 rounded px-3 py-2 text-white mb-4 w-full"
+                                                    />
+                                                }
+                                        <div className='w-full flex flex-row justify-center mt-4 items-center m-auto'>
+                                            <button
+                                                onClick={ isExistingUser ? handleLogin : onSignup }
+                                                className="bg-[#5538CE] w-full flex items-center justify-center py-1 text-white rounded"
+                                            >
+                                                { loading && <CgSpinner size={ 20 } className="mt-1 animate-spin" /> }
+                                                <span>{ isExistingUser ? "Login" : "Sign Up" }</span>
+                                            </button>
+                                        </div>
+                                    </>
+                                ) }
                             </div>
-                            <div className="w-full  sm:w-2/3 space-y-3">
-                                <div>
-                                    <div className="flex justify-between items-center">
-                                        <label htmlFor="name" className="text-sm font-medium text-gray-300 font-[Helvetica]">NAME *</label>
-                                        { nameError && <p className="text-xs text-red-500 uppercase font-serif ">{ nameError }</p> }
-                                    </div>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        value={ name }
-                                        onChange={ ( e ) => setName( e.target.value ) }
-                                        className="mt-1 p-1.5 block w-full rounded-md bg-gray-950 border border-gray-600 text-white focus:border-blue-500 focus:ring-blue-500 text-sm"
-                                        required
-                                    />
-                                </div>
-                                <input
-                                type="tel"
-                                id="phone"
-                                value={ph}
-                                onChange={(e) => setPh(e.target.value)}
-                                placeholder="Enter your phone number"
-                                className="border-1 border-gray-600 bg-gray-950 rounded px-3 py-2 text-white mb-4 w-full"
-                                />
-                            
-                                </div>
-                                </div>
-                                <div className='w-full flex flex-row justify-center mt-4 items-center m-auto'>
-                                <button
-                            onClick={onSignup}
-                                className="bg-[#5538CE] w-full flex  items-center justify-center py-1 text-white rounded"
-                                >
-                                {loading && (
-                                    <CgSpinner size={20} className="mt-1 animate-spin" />
-                                )}
-                                <div>
-                                </div>
-                                <span>Login</span>
-                                </button>
-                                </div>
-                            </>
-                            )}
-                        </div>
-                        )}
-                 </form>
+                        ) }
+                    </form>
                 </div>
-                
             </div>
         </div>
     );
 };
-
 
 export default LoginPage;

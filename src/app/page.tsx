@@ -15,11 +15,13 @@ import { Button, Spinner } from "@nextui-org/react";
 import Slider from "react-slick";
 import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
 import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
+import { useRouter } from "next/navigation";
 
 
 const Homepage = () =>
 {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const data = useSelector( ( state: RootState ) => state.login.user );
   const communities = useSelector( ( state: any ) => state.community.allCommunities );
   // console.log( Communities );
@@ -68,7 +70,7 @@ const Homepage = () =>
       <EcoCate />
 
       <div className="mx-5 md:mx-2 mb-8">
-        <div className="flex items-center gap-1  mt-10">
+        <div className="flex items-center gap-1 mt-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -87,11 +89,10 @@ const Homepage = () =>
           <div>
             <p>Communities</p>
           </div>
-          <div>
+          <div className="flex-grow relative">
             <svg
               className="w-full"
               xmlns="http://www.w3.org/2000/svg"
-
               height="2"
               viewBox="0 0 952 2"
               fill="none"
@@ -117,17 +118,36 @@ const Homepage = () =>
                 </linearGradient>
               </defs>
             </svg>
+            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 hover:cursor-pointer">
+              <button className="bg-transparent border-none cursor-pointer" onClick={()=>router.push('/allcommunity')}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 16 16 12 12 8" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
+                </svg>
+              </button>
+              <span className="invisible group-hover:visible absolute top-1/2 left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap">
+                View all communities
+              </span>
+            </div>
           </div>
         </div>
-        <div className=" mt-8">
-          {/* <div className="grid  lg:gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-6"> */ }
+        <div className="mt-8">
           <Slider { ...settings }>
-
             { communities?.map( ( data: any, index: number ) => (
               <CommunityCard key={ index } data={ data } />
             ) ) }
           </Slider>
-          {/* </div> */ }
         </div>
       </div>
       <EducationCardList  />

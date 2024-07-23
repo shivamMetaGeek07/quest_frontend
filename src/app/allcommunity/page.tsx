@@ -23,6 +23,7 @@ import axios from "axios";
 import ReferralForm from "../components/referalPopUp";
 import { notify } from "@/utils/notify";
 import Image from "next/image";
+import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 
 const MyCommunities = () =>
 {
@@ -40,11 +41,23 @@ const MyCommunities = () =>
   const [ selectedEcosystem, setSelectedEcosystem ] = useState<string[]>( [] );
   const [ selectedCategories, setSelectedCategories ] = useState<string[]>( [] );
 
-  const data = useSelector( ( state: RootState ) => state.community.forall );
-  const categories = data?.category || [];
-  const ecosystems = data?.ecosystem || [];
+  // const data = useSelector( ( state: RootState ) => state.community.forall );
+  const data = useSelector( ( state: any ) => state.adminCommunity );
 
-  console.log( memberId );
+  const categories = data?.categories || [];
+  const ecosystems = data?.ecosystems || [];
+  const storedCategory = sessionStorage?.getItem( 'category' );
+
+  // console.log("category Name:",storedCategory)
+
+  if ( storedCategory )
+  {
+    setSelectedCategories( [storedCategory] );
+    // Optionally, remove it from session storage if you don't need it anymore
+    sessionStorage.removeItem( 'category' );
+  }
+
+  // console.log( selectedCategories );
 
   const joinningCommunity = async ( e: any ) =>
   {
@@ -98,6 +111,8 @@ const MyCommunities = () =>
   useEffect( () =>
   {
     fetchCommunities( "", "", "" );
+    dispatch( getCommunitySuccess() );
+
     // dispatch( fetchAllCommunities() );
     // dispatch( fetchCategoryEcosystem() );
     dispatch( fetchUserData() );
@@ -108,6 +123,15 @@ const MyCommunities = () =>
     e.preventDefault();
     fetchCommunities( search, ecosystem, category );
   };
+
+  const rest = async () =>
+  {
+    setSearch( '' )
+    setSelectedCategories( [] );
+    setSelectedEcosystem( [] )
+    fetchCommunities( "", "", "" );
+
+  }
   return (
     <div className="bg-black text-white min-h-screen">
       <div className="mx-4 lg:mx-20 sm:ml-20">
@@ -175,8 +199,8 @@ const MyCommunities = () =>
                           setSelectedCategories( Array.from( keys ) as string[] )
                         }
                       >
-                        { categories.map( ( cat :any) => (
-                          <DropdownItem key={ cat }>{ cat.name }</DropdownItem>
+                        { categories.map( ( cat: any ) => (
+                          <DropdownItem key={ cat.name }>{ cat.name }</DropdownItem>
                         ) ) }
                       </DropdownMenu>
                     </Dropdown>
@@ -202,18 +226,27 @@ const MyCommunities = () =>
                         }
                         selectedKeys={ selectedEcosystem }
                       >
-                        { ecosystems.map( ( eco ) => (
-                          <DropdownItem key={ eco }>{ eco }</DropdownItem>
+                        { ecosystems.map( ( eco: any ) => (
+                          <DropdownItem key={ eco.name }>{ eco.name }</DropdownItem>
                         ) ) }
                       </DropdownMenu>
                     </Dropdown>
                   </div>
 
                 </div>
-                <div className="flex justify-center items-center ">
-                  <Button className="lg:ml-0 ml-4" type="submit" color="primary" variant="solid">
+                <div className="flex justify-center items-center gap-4">
+                  <button
+                    type="submit"
+                    className="px-6 py-2 border-2 border-blue-500 text-blue-500 font-semibold rounded-xl transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  >
                     Apply
-                  </Button>
+                  </button>
+                  <button
+                    onClick={ rest }
+                    className="px-6 py-2 border-2 border-red-500 text-red-500 font-semibold rounded-xl transition duration-300 ease-in-out hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                  >
+                    Reset
+                  </button>
                 </div>
               </div>
             </div>
@@ -243,13 +276,13 @@ const MyCommunities = () =>
                 <div className="p-1">
                   <div className="image-container h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] items-center flex ">
                     <img
-                      src={card.logo}
+                      src={ card.logo }
                       alt="style image"
                       className="styled-image"
                     />
                   </div>
                   <div className="bg_Div_Down h-[1rem] md:h-[2rem] bg-gray-800">
-                    {" "}
+                    { " " }
                   </div>
                 </div>
 
@@ -257,13 +290,13 @@ const MyCommunities = () =>
                   <div className="flex w-full flex-col items-start ">
                     <div className="flex w-full md:h-[5rem] bg_eco_div border-b-4 border-[#8c71ff] gap-2 md:gap-2  p-2 bg-[#28223d] flex-col lg:flex-row items-center md:items-end lg:items-end justify-between ">
                       <div className="md:w-4/5  w-4/5 truncate text-[12px] md:text-[10px] lg:text-[10px] md:ml-3 md:text-start text-center card-title">
-                        {card.title}
+                        { card.title }
                       </div>
 
                       <div className="md:1/5 flex flex-row rounded-lg justify-center md:justify-end">
                         <div className="flex gap-1 mr-2 items-center flex-col">
                           <span className="card-white-text text text-lg ">
-                            {card.quests.length}
+                            { card.quests.length }
                           </span>
                           <span className=" card-gray-text text-3xl">
                             QUESTS
@@ -271,7 +304,7 @@ const MyCommunities = () =>
                         </div>
                         <div className="flex gap-1 items-center flex-col">
                           <span className="card-white-text text-lg">
-                            {card.members.length}
+                            { card.members.length }
                           </span>
                           <span className=" card-gray-text text-lg">
                             FOLLOWERS
