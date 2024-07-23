@@ -1,61 +1,66 @@
-import Image from "next/image";
-import React from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
+"use client";
+
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
 
 type Grant = {
+  _id: string;
   title: string;
   description: string;
-  imgUrl: string;
-  imgAlt: string;
-  author: string;
+  logoUrl: string;
+  organizer: string;
   prize: string;
 };
 
-const grantsData: Grant[] = [
-  {
-    title: "WEB3 INFRASTRUCTURE",
-    description:
-      "THIS ROUND AIMS TO STRENGTHEN THE ETHEREUM ECOSYSTEM’S FOUNDATIONAL INFRASTRUCTURE LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.",
-    imgUrl:
-      "https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__",
-    imgAlt: "TABI",
-    author: "TABI",
-    prize: "$300,000 USDC",
-  },
+const GrantsCard = () => {
+  const [grantItems, setGrantItems] = useState<Grant[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
 
-  {
-    title: "WEB3 INFRASTRUCTURE",
-    description:
-      "THIS ROUND AIMS TO STRENGTHEN THE ETHEREUM ECOSYSTEM’S FOUNDATIONAL INFRASTRUCTURE LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.",
-    imgUrl:
-      "https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__",
-    imgAlt: "TABI",
-    author: "TABI",
-    prize: "$300,000 USDC",
-  },
-  {
-    title: "WEB3 INFRASTRUCTURE",
-    description:
-      "THIS ROUND AIMS TO STRENGTHEN THE ETHEREUM ECOSYSTEM’S FOUNDATIONAL INFRASTRUCTURE LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.",
-    imgUrl:
-      "https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__",
-    imgAlt: "TABI",
-    author: "TABI",
-    prize: "$300,000 USDC",
-  },
-  {
-    title: "WEB3 INFRASTRUCTURE",
-    description:
-      "THIS ROUND AIMS TO STRENGTHEN THE ETHEREUM ECOSYSTEM’S FOUNDATIONAL INFRASTRUCTURE LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.",
-    imgUrl:
-      "https://s3-alpha-sig.figma.com/img/72f7/eb8e/ff8692bf95982ecb561c199d5314291f?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ko6OiZDcudfyqG3Q720xpwT7kirvLOEHUMzDkD3FW7WDemHxn~meR~6t~ixjmKFS8eyi5tztRMuF8fE0NexpIZKZlnA5BU85mtwW65RMzVSQ8QnNoPhPNK2puIgtmmgHuM0Wy3VUDYfYo7rwojdBSHWMb8uz9fvVjlYU0yvePoQc1-y3AHKffy4SfCzuUblXc0iwEGNTi6Tt22D~ix6yYUN5KAJcXeHarnrUuPJiuWcREzDQW2R3lj0QOLn-6kkgk9yZgzLFLv8PCfwXIxQJU-qWo~cktRd8KX6uUkiV~d~TydSWMIYa2YbmXUyf9ys1On54umNl73gADgLhSkm96Q__",
-    imgAlt: "TABI",
-    author: "TABI",
-    prize: "$300,000 USDC",
-  },
-];
+  const getGrants = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/grant`
+      );
+      setGrantItems(response.data.grants);
+      console.log("grants items :-", response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log("error in getting grants :-", error);
+    }
+  };
 
-function GrantsCard() {
+  useEffect(() => {
+    getGrants();
+  }, []);
+
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1050,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 710,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
   return (
     <div className="mb-8">
       <div className="flex items-center gap-1 mt-8 ">
@@ -79,9 +84,10 @@ function GrantsCard() {
         </div>
       </div>
 
-      <div className="grid gap-5 ml-4 mt-5 sm:mt-5 sm:grid-cols-2  grid-cols-1 lg:grid-cols-4">
-        {grantsData.map((grant, index) => (
-          <div className="relative" key={index}>
+      <div  className=" reasponsive div here  mt-5">
+      <Slider { ...settings }>
+        {grantItems.map((grant, index) => (
+          <div className="relative" key={grant._id}>
             <div className="relative grant-clip bg-gray-500 box1 w-12 ">
               <div
                 key={index}
@@ -89,7 +95,7 @@ function GrantsCard() {
               >
                 <div>
                   <h1
-                    className="text-md text-center"
+                    className="text-md text-center uppercase"
                     style={{ letterSpacing: "4px" }}
                   >
                     {grant.title}
@@ -105,7 +111,7 @@ function GrantsCard() {
                   </h1>
                 </div>
 
-                <div className="ml-8 mt-3">
+                <div className="ml-8 mt-3 uppercase">
                   <p className="text-end" style={{ fontSize: "0.6rem" }}>
                     {grant.description}
                   </p>
@@ -113,18 +119,22 @@ function GrantsCard() {
 
                 <div>
                   <img
-                    src={grant.imgUrl}
-                    alt={grant.imgAlt}
+                    src={grant.logoUrl}
+                    alt="Image"
                     className="h-6 w-6 rounded-full object-cover"
                   />
-                  <p className="text-sm text-zinc-400">{grant.author}</p>
+                  <p className="text-sm text-zinc-400 uppercase">
+                    {grant.organizer}
+                  </p>
                 </div>
 
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center gap-2">
                   <div className="flex-1 text-center">
                     <h2 className="text-white">
-                      <span className="text-zinc-400 text-sm">PRIZE: </span>
-                      {grant.prize}
+                      <span className="text-zinc-400 text-sm uppercase">
+                        PRIZE:{" "}
+                      </span>
+                      ${grant.prize} USDC
                     </h2>
                   </div>
                 </div>
@@ -165,9 +175,10 @@ function GrantsCard() {
             </div>
           </div>
         ))}
+         </Slider>
       </div>
     </div>
   );
-}
+};
 
 export default GrantsCard;
