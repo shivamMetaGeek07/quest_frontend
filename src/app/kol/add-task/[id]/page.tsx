@@ -60,7 +60,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
-console.log(KolId,taskOptions)
+// console.log(KolId,taskOptions)
   useEffect( () =>
   {
     dispatch( fetchUserData() );
@@ -174,9 +174,10 @@ console.log(KolId,taskOptions)
     {
       console.log("task", taskData );
       const response = await dispatch( createTask( taskData ) );
+      console.log("response after creating task:",response)
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
-    } catch ( error )
+    } catch ( error ) 
     {
       console.error( "Error creating task:", error );
       notify( "error", "Error creating task" );
@@ -267,7 +268,7 @@ console.log(KolId,taskOptions)
       const data=response.data;
       const guildata=data.validLink.guilData;
       const checkguild=data.validLink.checkLink;
-      console.log(guildata)
+      // console.log(guildata)
       if (checkguild) {
         setSuccess(true)
         console.log(response)

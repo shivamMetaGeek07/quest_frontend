@@ -46,7 +46,7 @@ const MyCommunities = () =>
 
   const categories = data?.categories || [];
   const ecosystems = data?.ecosystems || [];
-  const storedCategory = sessionStorage?.getItem( 'category' );
+  const storedCategory = localStorage?.getItem( 'category' );
 
   // console.log("category Name:",storedCategory)
 
@@ -54,7 +54,7 @@ const MyCommunities = () =>
   {
     setSelectedCategories( [storedCategory] );
     // Optionally, remove it from session storage if you don't need it anymore
-    sessionStorage.removeItem( 'category' );
+    localStorage.removeItem( 'category' );
   }
 
   // console.log( selectedCategories );

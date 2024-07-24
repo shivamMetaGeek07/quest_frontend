@@ -189,7 +189,7 @@ const EcoCate: React.FC = () =>
                 onClick={ () =>
                 {
                   // Store the category name in session storage
-                  sessionStorage.setItem( 'category', card.name );
+                  localStorage.setItem( 'category', card.name );
                   router.push( '/allcommunity' );
                 }
                 }

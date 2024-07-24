@@ -260,8 +260,6 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   }, [ questId, user?._id, allTasksCompletedCalled ] );
 
 
-   
-
   return (
     <div className="bg-[#000000] text-white h-full">
       <div className="mx-4 lg:mx-20">
@@ -508,7 +506,8 @@ const Popup: React.FC<{
           "Submission is invalid. Please check the submission and try again."
         );
       }
-    };
+  };
+  console.log(selectedCard)
 
     return (
       <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
@@ -518,7 +517,7 @@ const Popup: React.FC<{
               <div className="flex items-center">
                 <div className="mx-2">
                   <h3 className="text-lg font-semibold text-white">
-                    { selectedCard.taskName }
+                    { selectedCard.taskName || "No Task Name" }
                   </h3>
                 </div>
               </div>
@@ -552,7 +551,7 @@ const Popup: React.FC<{
               ) : (
                 <>
                   <p className="text-sm text-gray-100 mb-4">
-                    { selectedCard.taskDescription }
+                    { selectedCard.taskDescription || "No description " }
                   </p>
 
                   { selectedCard.type === "Visit Link" && (
