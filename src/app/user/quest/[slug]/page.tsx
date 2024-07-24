@@ -551,7 +551,7 @@ const Popup: React.FC<{
     };
 
 
-    const getAcceptedFileTypes = ( uploadFileType: string ) =>
+    const getAcceptedFileTypes = ( uploadFileType: string | any ) =>
     {
       switch ( uploadFileType )
       {
@@ -576,7 +576,7 @@ const Popup: React.FC<{
       }
     };
 
-    const validateFileType = ( file: any, uploadFileType: string ) =>
+    const validateFileType = ( file: any, uploadFileType: string | any ) =>
     {
       const acceptedTypes = getAcceptedFileTypes( uploadFileType ).split( ',' );
       return acceptedTypes.some( type =>
