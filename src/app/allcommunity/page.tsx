@@ -46,16 +46,22 @@ const MyCommunities = () =>
 
   const categories = data?.categories || [];
   const ecosystems = data?.ecosystems || [];
-  const storedCategory = localStorage?.getItem( 'category' );
 
-  // console.log("category Name:",storedCategory)
-
-  if ( storedCategory )
+  let storedCategory
+  useEffect( () =>
   {
-    setSelectedCategories( [storedCategory] );
-    // Optionally, remove it from session storage if you don't need it anymore
-    localStorage.removeItem( 'category' );
-  }
+     storedCategory = localStorage?.getItem( 'category' );
+     if ( storedCategory )
+     {
+       setSelectedCategories( [storedCategory] );
+       // Optionally, remove it from session storage if you don't need it anymore
+       localStorage.removeItem( 'category' );
+      }
+      
+      // console.log("category Name:",storedCategory)
+  },[])
+
+
 
   // console.log( selectedCategories );
 
