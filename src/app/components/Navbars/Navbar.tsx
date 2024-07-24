@@ -51,10 +51,12 @@ const Navbar: React.FC = () =>
     }, [ feedItems.length ] );
 
     const logoutClient = useCallback( async () =>
-    {
+        {
+    console.log("logout called")    
         try
         {
             const response = await dispatch( logoutUser() );
+            console.log(response)
             if ( response )
             {
                 await persistor.flush();

@@ -183,9 +183,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
         try
         {
             const userExists = await checkExistingUser( ph );
+
             setIsExistingUser( userExists );
-
-
 
             if ( !userExists )
             {
@@ -231,8 +230,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
             const result = await confirmationResult.confirm(otp);
             const users = result.user as User; // Type assertion
             const idToken = await users.getIdToken();
-             
             const number=users?.phoneNumber
+            console.log(users)
             setuser(users); 
             setLoading(false);
             toast.success("OTP verified successfully!");
@@ -244,11 +243,12 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
             },
             body: JSON.stringify({ users:result,idToken ,name:name,number:number,img:profilePic}),
             credentials: 'include' 
-          });
+          } );
+                console.log("response:-",response)
           if(response.ok){
           const data = await response.json();
-        //   Cookies.set('authToken', data.token, { expires: 7 });
-        // console.log(data)
+          Cookies.set('authToken', data.authToken, { expires: 7 });
+        console.log(data)
           dispatch(fetchUserData());
             setNav( true );
             router.push('/');
@@ -294,8 +294,11 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 
     const handleLogin = async () =>
     {
+
         const formatPh = "+91" + ph;
         const userExists = await checkExistingUser( formatPh );
+            setIsExistingUser( userExists );
+
         // setuser( userExists );
         // console.log( userExists );
         if ( !userExists )
