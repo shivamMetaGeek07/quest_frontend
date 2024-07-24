@@ -33,14 +33,12 @@ const Sidebar = () =>
   {
     if ( pathname === "/login" || prevPathRef.current === "/login" )
     {
-      console.log( "This is login or coming from login" );
       setNav( false );
       if ( pathname === "/login" )
       {
         router.push( '/' );
       }
     }
-    console.log( "useEffect called" );
     prevPathRef.current = pathname;
   }, [ pathname, router ] );
 

@@ -168,7 +168,7 @@ const CommunityDataPage = (props: Props) => {
         folder: selectedData.type,
         fileName,
       } );
-      console.log( 'Upload URL:', response.data.url );
+      // console.log( 'Upload URL:', response.data.url );
       return response.data.url;
     } catch ( error )
     {
@@ -191,12 +191,12 @@ const CommunityDataPage = (props: Props) => {
       } );
       if ( response.status === 200 )
       {
-        console.log( 'File uploaded successfully' );
+        // console.log( 'File uploaded successfully' );
         return true;
       }
       else
       {
-        console.log( 'File upload failed', response );
+        // console.log( 'File upload failed', response );
         return false;
       }
     } catch ( error )
@@ -312,7 +312,7 @@ const CommunityDataPage = (props: Props) => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/getCommunityData`
         );
-        console.log(response.data);
+        // console.log(response.data);
         setEcosystems(response.data.community.ecosystems);
         setCategories(response.data.community.categories);
       } catch (error) {

@@ -50,7 +50,7 @@ const AddFeedPage = () =>
   const handleOpen = (option: string, feed: Feed| null) => {
     initailFormData();
     setLoader(false);
-    console.log('feed:-',feed)
+    // console.log('feed:-',feed)
     if(option === 'edit' && feed){
       setFormData({
         title: feed.title,
@@ -83,7 +83,7 @@ const AddFeedPage = () =>
       setFeeds(response.data.feeds);
       setTotalPages(response.data.totalPages);
 
-      console.log('feed items :-',response.data)
+      // console.log('feed items :-',response.data)
       setLoader(false)
     } catch (error) {
       console.log('error in getting feed :-',error)
@@ -110,7 +110,7 @@ const AddFeedPage = () =>
         folder: 'feedImage',
         fileName,
       } );
-      console.log( 'Upload URL:', response.data.url );
+      // console.log( 'Upload URL:', response.data.url );
       return response.data.url;
     } catch ( error )
     {
@@ -133,7 +133,7 @@ const AddFeedPage = () =>
       } );
       if ( response.status === 200 )
       {
-        console.log( 'File uploaded successfully' );
+        // console.log( 'File uploaded successfully' );
         return true;
       }
       else

@@ -35,16 +35,7 @@ const TeleApp: React.FC = () => {
   }
   }, [router]);
 
-  // Define your custom function here
-  const yourCustomFunction = (user: any) => {
-    // Implement your custom logic with the user data
-    console.log('Custom function called with user:', user);
-    // Extract username and id from the user object
-    const { username, id } = user;
-    console.log(`Username: ${username}, ID: ${id}`);
-  };
 
-    
 
   return (
     <div className="App flex">

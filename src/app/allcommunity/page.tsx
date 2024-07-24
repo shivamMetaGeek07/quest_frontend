@@ -73,7 +73,7 @@ const MyCommunities = () =>
       const res = await dispatch(
         joinCommunity( { memberId, id: e._id } )
       ).unwrap();
-      console.log( res );
+      // console.log( res );
       await dispatch( fetchAllCommunities() );
     } catch ( error )
     {

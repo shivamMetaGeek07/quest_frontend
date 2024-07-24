@@ -316,7 +316,7 @@ const CreateCommunity: React.FC = () =>
                     }
                   } }
                   className="w-full rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 text-sm text-white"
-                  showCheckbox={ true }
+                  showCheckbox={ false }
                   avoidHighlightFirstOption={ true }
                   hideSelectedList={ false }
                 />

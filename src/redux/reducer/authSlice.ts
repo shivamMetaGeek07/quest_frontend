@@ -89,7 +89,8 @@ export const fetchUserData = createAsyncThunk(
           'Authorization': authToken,
         },
         withCredentials:true
-      });
+      } );
+      console.log("response from userslice:", response.data );
       const data = response.data;
       return data;
     } catch ( err )

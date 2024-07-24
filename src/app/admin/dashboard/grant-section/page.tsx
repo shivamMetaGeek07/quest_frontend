@@ -53,7 +53,6 @@ const Grantspage = () => {
   const handleOpen = (option: string, grant: Grant | null) => {
     initailFormData();
     setLoading(false);
-    console.log("grant:-", grant);
     if (option === "edit" && grant) {
       setFormData({
         title: grant.title,
@@ -78,7 +77,6 @@ const Grantspage = () => {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/grant`
       );
       setGrantItems(response.data.grants);
-      console.log("grants items :-", response.data);
       setLoading(false);
     } catch (error) {
       console.log("error in getting grants :-", error);
@@ -104,7 +102,7 @@ const Grantspage = () => {
           fileName,
         }
       );
-      console.log("Upload URL:", response.data.url);
+      // console.log("Upload URL:", response.data.url);
       return response.data.url;
     } catch (error) {
       console.error("Error getting upload URL:", error);
@@ -122,7 +120,7 @@ const Grantspage = () => {
         },
       });
       if (response.status === 200) {
-        console.log("File uploaded successfully");
+        // console.log("File uploaded successfully");
         return true;
       } else {
         console.log("File upload failed", response);

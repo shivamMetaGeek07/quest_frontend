@@ -23,7 +23,7 @@ const GrantsCard = () => {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/grant`
       );
       setGrantItems(response.data.grants);
-      console.log("grants items :-", response.data);
+      // console.log("grants items :-", response.data);
       setLoading(false);
     } catch (error) {
       console.log("error in getting grants :-", error);

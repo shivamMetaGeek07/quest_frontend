@@ -38,9 +38,9 @@ export interface CardData
   image: string;
   name: string;
   taskName: string;
-  guild?:string;
-  discord?:string;
-  discordLink?:string
+  guild?: string;
+  discord?: string;
+  discordLink?: string;
   taskDescription: string;
   description: string;
   type: string;
@@ -51,6 +51,7 @@ export interface CardData
   inviteLink?: string;
   uploadLink?: string;
   completions: Completion[];
+  uploadFileType?: string;
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
@@ -62,12 +63,12 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   const [ submissions, setSubmissions ] = useState<{ [ key: string ]: string | File; }>( {} );
   const [ progress, setProgress ] = useState<any>( 0 );
   const [ allTasksCompletedCalled, setAllTasksCompletedCalled ] = useState<boolean>( false );
- 
+
 
 
   const user = useSelector( ( state: RootState ) => state.login.user );
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
-  console.log(tasks)
+  console.log( tasks );
   useEffect( () =>
   {
     dispatch( fetchTaskById( questId ) );
@@ -77,8 +78,8 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   {
     const completedTasks = tasks.filter( ( task ) => isTaskCompleted( task ) ).length;
     const progressPercentage = ( ( completedTasks / tasks.length ) * 100 );
-    
-    setProgress( progressPercentage.toFixed(2) );
+
+    setProgress( progressPercentage.toFixed( 2 ) );
     if ( progressPercentage === 100 && !allTasksCompletedCalled )
     {
       handleAllTasksCompleted();
@@ -106,8 +107,8 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       // Validate submission based on task type
       if ( !validateSubmission( selectedCard?.type, submission ) )
       {
-        console.log(submission)
-        notify( "warn","Invalid submission. Please check your input." );
+        console.log( submission );
+        notify( "warn", "Invalid submission. Please check your input." );
         return;
       }
 
@@ -118,7 +119,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
         if ( !uploadSuccess )
         {
           console.error( "File upload failed" );
-          notify( "error","File upload failed" );
+          notify( "error", "File upload failed" );
           return;
         }
 
@@ -137,7 +138,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
     } catch ( error )
     {
       console.log( "Error in completing the task:", error );
-      notify( "error","An error occurred while submitting the task. Please try again." );
+      notify( "error", "An error occurred while submitting the task. Please try again." );
     }
   }, [ dispatch, selectedCard, submissions, user ] );
 
@@ -325,10 +326,14 @@ const StatusBar: React.FC<{ progress: number; }> = ( { progress } ) => (
         { progress }%
       </span>
       <Progress
+        value={ progress }
         isStriped
         aria-label="Loading..."
-        color="success"
-        value={ progress }
+        classNames={ {
+          track: "drop-shadow-md border border-default",
+          indicator: "bg-pink-400",
+          label: "tracking-wider font-medium text-default-600",
+        } }
       />
     </div>
 
@@ -431,69 +436,79 @@ const Popup: React.FC<{
   referral,
   validateSubmission
 } ) =>
-  { 
-    const [linkClicked, setLinkClicked] = useState(false);
-    const [isMember, setIsMember] = useState<boolean>(false);
-    const dispatch=useDispatch<AppDispatch>()
+  {
+    const [ linkClicked, setLinkClicked ] = useState( false );
+    const [ isMember, setIsMember ] = useState<boolean>( false );
+    const dispatch = useDispatch<AppDispatch>();
     const user = useSelector( ( state: RootState ) => state.login.user );
-    const handleLinkClick = () => {
-    setLinkClicked(true); 
-  };
-
-  const handleVisibilityChange = () => {
-    if (!document.hidden && linkClicked) {
-      console.log("handlevisibilty called");
-      checkMembership();
-
-      // Perform actions when the user returns to the tab after clicking the link
-      setLinkClicked(false); // Reset the state if you only want to handle it once
-    }
-  };
-  const checkMembership = async () => {
-    console.log("check membership called")
-    const data=user?.discordInfo?.discordId;
-    const accessToken=user?.discordInfo?.accessToken;
-    const guildId=selectedCard?.guild;
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/check-discord-membership`, {
-        data,
-        accessToken,
-        guildId,
-      },
-    );
-    const discordShip=response.data.isMember
-    console.log("dfd",discordShip)
-    const datas = {
-      taskId:selectedCard._id,
-      userId: user?._id,
-      userName: user?.displayName,
-      submission: "Join Discord Successfully "
+    const handleLinkClick = () =>
+    {
+      setLinkClicked( true );
     };
-    console.log(datas)
-    if(discordShip){
-    notify("success","Join Successful");
-    await dispatch( completeTask( datas ) );
-    onClose();
-      
-      }else{
-      notify("error","Please join Not a member")
 
-    }
-      setIsMember(true);
-    } catch (error) {
-      console.error('Error checking Discord membership:', error);
-      setIsMember(false);
-    }
-  };
-  useEffect(() => {
-    window.addEventListener('beforeunload', handleLinkClick);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      window.removeEventListener('beforeunload', handleLinkClick);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    const handleVisibilityChange = () =>
+    {
+      if ( !document.hidden && linkClicked )
+      {
+        console.log( "handlevisibilty called" );
+        checkMembership();
+
+        // Perform actions when the user returns to the tab after clicking the link
+        setLinkClicked( false ); // Reset the state if you only want to handle it once
+      }
     };
-  }, [linkClicked]);
-   
+    const checkMembership = async () =>
+    {
+      console.log( "check membership called" );
+      const data = user?.discordInfo?.discordId;
+      const accessToken = user?.discordInfo?.accessToken;
+      const guildId = selectedCard?.guild;
+      try
+      {
+        const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/check-discord-membership`, {
+          data,
+          accessToken,
+          guildId,
+        },
+        );
+        const discordShip = response.data.isMember;
+        console.log( "dfd", discordShip );
+        const datas = {
+          taskId: selectedCard._id,
+          userId: user?._id,
+          userName: user?.displayName,
+          submission: "Join Discord Successfully "
+        };
+        console.log( datas );
+        if ( discordShip )
+        {
+          notify( "success", "Join Successful" );
+          await dispatch( completeTask( datas ) );
+          onClose();
+
+        } else
+        {
+          notify( "error", "Please join Not a member" );
+
+        }
+        setIsMember( true );
+      } catch ( error )
+      {
+        console.error( 'Error checking Discord membership:', error );
+        setIsMember( false );
+      }
+    };
+    useEffect( () =>
+    {
+      window.addEventListener( 'beforeunload', handleLinkClick );
+      document.addEventListener( 'visibilitychange', handleVisibilityChange );
+      return () =>
+      {
+        window.removeEventListener( 'beforeunload', handleLinkClick );
+        document.removeEventListener( 'visibilitychange', handleVisibilityChange );
+      };
+    }, [ linkClicked ] );
+
     const handleSubmit = () =>
     {
       if ( validateSubmission( selectedCard.type, submissions[ selectedCard._id ] ) )
@@ -501,13 +516,80 @@ const Popup: React.FC<{
         onSubmit( selectedCard._id );
       } else
       {
-        notify( "warn","Invalid input.Please check your submission." );
+        notify( "warn", "Invalid input.Please check your submission." );
         console.log(
           "Submission is invalid. Please check the submission and try again."
         );
       }
-  };
-  console.log(selectedCard)
+    };
+    console.log( selectedCard );
+
+    // validation for file upload
+    const getFileTypeInfo = ( uploadFileType: any ) =>
+    {
+      switch ( uploadFileType )
+      {
+        case 'image':
+          return '.jpg, .png, .gif';
+        case 'audio':
+          return '.mp3, .wav';
+        case 'video':
+          return '.mp4, .mov';
+        case 'document':
+          return '.pdf, .doc, .txt';
+        case 'spreadsheet':
+          return '.xlsx, .csv';
+        case 'code':
+          return '.js, .py, .html';
+        case '3d':
+          return '.obj, .fbx';
+        case 'archive':
+          return '.zip, .rar';
+        default:
+          return '';
+      }
+    };
+
+
+    const getAcceptedFileTypes = ( uploadFileType: string ) =>
+    {
+      switch ( uploadFileType )
+      {
+        case 'image':
+          return 'image/jpeg,image/png,image/gif';
+        case 'audio':
+          return 'audio/mpeg,audio/wav';
+        case 'video':
+          return 'video/mp4,video/quicktime';
+        case 'document':
+          return '.pdf,.doc,.docx,.txt';
+        case 'spreadsheet':
+          return '.xlsx,.csv';
+        case 'code':
+          return '.js,.py,.html';
+        case '3d':
+          return '.obj,.fbx';
+        case 'archive':
+          return '.zip,.rar';
+        default:
+          return '';
+      }
+    };
+
+    const validateFileType = ( file: any, uploadFileType: string ) =>
+    {
+      const acceptedTypes = getAcceptedFileTypes( uploadFileType ).split( ',' );
+      return acceptedTypes.some( type =>
+      {
+        if ( type.startsWith( '.' ) )
+        {
+          return file.name.toLowerCase().endsWith( type );
+        } else
+        {
+          return file.type === type;
+        }
+      } );
+    };
 
     return (
       <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center">
@@ -568,24 +650,24 @@ const Popup: React.FC<{
                     </div>
                   ) }
 
-                    { selectedCard.type === "Discord" && (
+                  { selectedCard.type === "Discord" && (
                     <div >
-                      
+
                       <div className="flex justify-center items-center">
-                        
-                         <a
-                        href={ selectedCard.discordLink }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white bg-[#8e25ff] hover:bg-[#953ff1] font-bold py-2 px-4 rounded-full"
-                        onClick={handleLinkClick}
+
+                        <a
+                          href={ selectedCard.discordLink }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white bg-[#8e25ff] hover:bg-[#953ff1] font-bold py-2 px-4 rounded-full"
+                          onClick={ handleLinkClick }
                         // onClick={ () => onSubmit( selectedCard._id, { visited: "true" } ) }
-                      >
-                     Join Server
-                      
-                      </a>
+                        >
+                          Join Server
+
+                        </a>
                       </div>
-                     
+
                     </div>
                   ) }
 
@@ -596,47 +678,62 @@ const Popup: React.FC<{
                     />
                   ) }
 
-                    { selectedCard.type === "Invites" && (
-                      <div className="flex flex-col">
-                        <p>Referral Code:</p>
-                        <div className="flex justify-center items-center space-x-2 my-2">
-                          <input
-                            type="text"
-                            value={ referral }
-                            readOnly
-                            className="text-xl font-bold bg-gray-800 text-white border border-gray-700 rounded px-3 py-2 w-full"
-                          />
-                          <button
-                            onClick={ () =>
-                            {
-                              navigator.clipboard.writeText( referral );
-                              notify( "default",'Referral code copied to clipboard!' );
-                            } }
-                            className="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors duration-300"
-                          >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                          </button>
-                        </div>
+                  { selectedCard.type === "Invites" && (
+                    <div className="flex flex-col">
+                      <p>Referral Code:</p>
+                      <div className="flex justify-center items-center space-x-2 my-2">
+                        <input
+                          type="text"
+                          value={ referral }
+                          readOnly
+                          className="text-xl font-bold bg-gray-800 text-white border border-gray-700 rounded px-3 py-2 w-full"
+                        />
                         <button
-                          className="p-2 rounded-2xl bg-purple-600 text-white px-4 m-3 hover:bg-purple-700 transition-colors duration-300"
-                          onClick={ onGenerateReferral }
+                          onClick={ () =>
+                          {
+                            navigator.clipboard.writeText( referral );
+                            notify( "default", 'Referral code copied to clipboard!' );
+                          } }
+                          className="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors duration-300"
                         >
-                          Generate Referral
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={ 2 } d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
                         </button>
                       </div>
-                    ) }
+                      <button
+                        className="p-2 rounded-2xl bg-purple-600 text-white px-4 m-3 hover:bg-purple-700 transition-colors duration-300"
+                        onClick={ onGenerateReferral }
+                      >
+                        Generate Referral
+                      </button>
+                    </div>
+                  ) }
 
                   { selectedCard.type === "File upload" && (
                     <div>
+                      { selectedCard.uploadFileType && (
+                        <p className="text-sm text-gray-300 mb-2">
+                          Please upload a { selectedCard?.uploadFileType } file. Accepted formats: { getFileTypeInfo( selectedCard.uploadFileType ) }
+                        </p>
+                      ) }
                       <input
                         type="file"
                         className="w-full p-2 border rounded-lg mb-2 bg-[#282828]"
+                        accept={ getAcceptedFileTypes( selectedCard?.uploadFileType ) }
                         onChange={ ( e ) =>
                         {
                           const file = e.target.files?.[ 0 ];
-                          if ( file ) onFileInputChange( selectedCard._id, file );
+                          if ( file )
+                          {
+                            if ( validateFileType( file, selectedCard?.uploadFileType ) )
+                            {
+                              onFileInputChange( selectedCard._id, file );
+                            } else
+                            {
+                              alert( `Please upload a valid ${ selectedCard.uploadFileType } file.` );
+                            }
+                          }
                         } }
                       />
                     </div>
@@ -675,7 +772,7 @@ const Popup: React.FC<{
                     Cancel
                   </Button>
 
-                  { selectedCard.type !== "Visit Link" &&selectedCard.type !== "Discord" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
+                  { selectedCard.type !== "Visit Link" && selectedCard.type !== "Discord" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
                     <Button
                       variant="solid"
                       color="primary"

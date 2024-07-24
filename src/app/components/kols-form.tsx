@@ -63,7 +63,7 @@ const KolsForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form data:", JSON.stringify({ kolsData: formData }));
+    // console.log("Submitting form data:", JSON.stringify({ kolsData: formData }));
   
     try {
       // Submit the form data to the backend

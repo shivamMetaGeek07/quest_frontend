@@ -39,7 +39,8 @@ export type TaskOrPoll = ITaskBase & {
   invitee?: string[];
   uploadLink?: string;
   taskName?:string;
-  taskDescription?:string;
+  taskDescription?: string;
+  uploadFileType?: string;
 };
 
 

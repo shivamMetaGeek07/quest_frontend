@@ -58,7 +58,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 
     const validatePhoneNumber = ( value: string ) =>
     {
-        console.log( value.length );
+        // console.log( value.length );
         if ( !value )
         {
             setPhoneError( 'Phone number is required' );
@@ -138,11 +138,11 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 
     const checkExistingUser = async ( phoneNumber: string ) =>
     {
-        console.log( phoneNumber );
+        // console.log( phoneNumber );
         try
         {
             const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/check/user`, { phone_number: phoneNumber } );
-            console.log( response );
+            // console.log( response );
             if ( response.status == 200 )
             {
                 notify( 'warn', `${ response.data.message }` );
@@ -164,8 +164,6 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
             setLoading( false );
             return notify( "warn", "Please upload Your profile" );
         }
-
-
 
         // Check if logo is a File object
         if ( !( logo instanceof File ) )
@@ -214,7 +212,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
             setLoading( false );
         } catch ( error: any )
         {
-            console.log( error );
+            // console.log( error );
             setLoading( false );
             if ( error.code === 'auth/too-many-requests' )
             {
@@ -225,7 +223,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                 toast.error( "Failed to send OTP. Please try again." );
             }
         }
-      }
+    }
+    
       const handleVerifyCode = async () => {
         if (confirmationResult && otp) {
             try {
@@ -249,7 +248,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
           if(response.ok){
           const data = await response.json();
         //   Cookies.set('authToken', data.token, { expires: 7 });
-        console.log(data)
+        // console.log(data)
           dispatch(fetchUserData());
             setNav( true );
             router.push('/');
@@ -272,7 +271,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
     const handleLogoUpload = ( event: React.ChangeEvent<HTMLInputElement> ) =>
     {
         const file = event.target.files?.[ 0 ];
-        console.log( "file", file );
+        // console.log( "file", file );
         if ( file )
         {
             setLogo( file );
@@ -297,7 +296,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
     {
         const formatPh = "+91" + ph;
         const userExists = await checkExistingUser( formatPh );
-        setuser( userExists );
+        // setuser( userExists );
         // console.log( userExists );
         if ( !userExists )
         {
@@ -312,6 +311,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
         // // const formatPh = "+91" + ph;
 
         const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
+        console.log("result:",result)
         setConfirmationResult( result );
         setShowOTP( true );
         toast.success( "OTP sent successfully!" );
@@ -332,7 +332,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                                 { isExistingUser ? "Login Successful" : "Signup Successful" }
                             </h2>
                         ) : (
-                            <div className="w-full h-full flex flex-col gap-4 rounded-lg p-4">
+                                <div className="w-full h-full flex flex-col gap-4 rounded-lg p-4">
+                                    
                                 { showOTP ? (
                                     // OTP verification UI
                                     <>
