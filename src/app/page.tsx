@@ -16,6 +16,7 @@ import Slider from "react-slick";
 import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
 import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 import { useRouter } from "next/navigation";
+import CommunityCardSkeleton from "./components/HomeCard/CommunityCardSkeleton";
 
 
 const Homepage = () =>
@@ -23,7 +24,8 @@ const Homepage = () =>
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const data = useSelector( ( state: RootState ) => state.login.user );
-  const communities = useSelector( ( state: any ) => state.community.allCommunities );
+  const {allCommunities,loading} = useSelector( ( state: any ) => state.community );
+
   // console.log( Communities );
   const settings = {
     dots: true,
@@ -144,9 +146,16 @@ const Homepage = () =>
         </div>
         <div className="mt-8">
           <Slider { ...settings }>
-            { communities?.map( ( data: any, index: number ) => (
+            { loading
+              ? Array( 6 ).fill( 0 ).map( ( _, index ) => <CommunityCardSkeleton key={ index } /> )
+              : allCommunities?.map( ( data: any, index: number ) => (
+                <CommunityCard key={ index } data={ data } />
+              ) )
+            }
+            
+            {/* { communities?.map( ( data: any, index: number ) => (
               <CommunityCard key={ index } data={ data } />
-            ) ) }
+            ) ) } */}
           </Slider>
         </div>
       </div>

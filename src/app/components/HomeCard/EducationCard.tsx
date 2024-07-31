@@ -1,105 +1,76 @@
+import { fetchAllQuests } from "@/redux/reducer/questSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 import Image from "next/image";
-import React from "react";
-interface EducationData {
-  imageUrl: string;
-  smallImageUrl: string;
-  title: string;
-  description1: string;
-  description2: string;
-  description3: string;
-  description4: string;
-}
-interface KolData {
-  imageUrl: string;
-  smallImageUrl: string;
-  title: string;
-  description1: string;
-  description2: string;
-  description3: string;
-  description4: string;
-}
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const educationData: EducationData[] = [
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Q3y~7wTX4z6d1ge4agt8Y3eafh~Uq2~r9FH8GhQwBz5RbUsidw21GHwKewD-uF~cKxidMnmDpY6b6k~jWDisNm33b5a0yCUgXHK9xh8V3eX3wECbMYxnShCkUQdXYY~mPRIn8NtMAqQ6o5ZpWKVjX6H6aFi1DPonX0uTYu8nC1lZnWxqSPNJLwrg5s1zxG8ysAsgDiGM2is1KWYeQzCoHwfdU1CTxZvp8hH6ZE2VdiAUyAjME8hWGwZzSoNduNn2F7BoxDYVJdYuX1Cgjrgx0~Ls0gedpt7i-9tgyOmz-eBtIqDHh3ktwjfgdlkBv85qSSXYxTlidYusn3CfG9qaxQ__",
-    smallImageUrl:
-      "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
-    title: "TOKYO BEAST",
-    description1: "Tokyo",
-    description2: "Beastokyo",
-    description3: "Beast",
-    description4: "Alpha M...",
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Q3y~7wTX4z6d1ge4agt8Y3eafh~Uq2~r9FH8GhQwBz5RbUsidw21GHwKewD-uF~cKxidMnmDpY6b6k~jWDisNm33b5a0yCUgXHK9xh8V3eX3wECbMYxnShCkUQdXYY~mPRIn8NtMAqQ6o5ZpWKVjX6H6aFi1DPonX0uTYu8nC1lZnWxqSPNJLwrg5s1zxG8ysAsgDiGM2is1KWYeQzCoHwfdU1CTxZvp8hH6ZE2VdiAUyAjME8hWGwZzSoNduNn2F7BoxDYVJdYuX1Cgjrgx0~Ls0gedpt7i-9tgyOmz-eBtIqDHh3ktwjfgdlkBv85qSSXYxTlidYusn3CfG9qaxQ__",
-    smallImageUrl:
-      "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
-    title: "TOKYO BEAST",
-    description1: "Tokyo",
-    description2: "Beastokyo",
-    description3: "Beast",
-    description4: "Alpha M...",
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Q3y~7wTX4z6d1ge4agt8Y3eafh~Uq2~r9FH8GhQwBz5RbUsidw21GHwKewD-uF~cKxidMnmDpY6b6k~jWDisNm33b5a0yCUgXHK9xh8V3eX3wECbMYxnShCkUQdXYY~mPRIn8NtMAqQ6o5ZpWKVjX6H6aFi1DPonX0uTYu8nC1lZnWxqSPNJLwrg5s1zxG8ysAsgDiGM2is1KWYeQzCoHwfdU1CTxZvp8hH6ZE2VdiAUyAjME8hWGwZzSoNduNn2F7BoxDYVJdYuX1Cgjrgx0~Ls0gedpt7i-9tgyOmz-eBtIqDHh3ktwjfgdlkBv85qSSXYxTlidYusn3CfG9qaxQ__",
-    smallImageUrl:
-      "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
-    title: "TOKYO BEAST",
-    description1: "Tokyo",
-    description2: "Beastokyo",
-    description3: "Beast",
-    description4: "Alpha M...",
-  },
-];
 
-const KolData: KolData[] = [
+// this will suffle and only provide randam 3 quests
+const shuffleArray = ( array: any[] ) =>
+{
+  for ( let i = array.length - 1; i > 0; i-- )
   {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Q3y~7wTX4z6d1ge4agt8Y3eafh~Uq2~r9FH8GhQwBz5RbUsidw21GHwKewD-uF~cKxidMnmDpY6b6k~jWDisNm33b5a0yCUgXHK9xh8V3eX3wECbMYxnShCkUQdXYY~mPRIn8NtMAqQ6o5ZpWKVjX6H6aFi1DPonX0uTYu8nC1lZnWxqSPNJLwrg5s1zxG8ysAsgDiGM2is1KWYeQzCoHwfdU1CTxZvp8hH6ZE2VdiAUyAjME8hWGwZzSoNduNn2F7BoxDYVJdYuX1Cgjrgx0~Ls0gedpt7i-9tgyOmz-eBtIqDHh3ktwjfgdlkBv85qSSXYxTlidYusn3CfG9qaxQ__",
-    smallImageUrl:
-      "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
-    title: "TOKYO BEAST",
-    description1: "Tokyo",
-    description2: "Beastokyo",
-    description3: "Beast",
-    description4: "Alpha M...",
-    // show the dynamic bg colur
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Q3y~7wTX4z6d1ge4agt8Y3eafh~Uq2~r9FH8GhQwBz5RbUsidw21GHwKewD-uF~cKxidMnmDpY6b6k~jWDisNm33b5a0yCUgXHK9xh8V3eX3wECbMYxnShCkUQdXYY~mPRIn8NtMAqQ6o5ZpWKVjX6H6aFi1DPonX0uTYu8nC1lZnWxqSPNJLwrg5s1zxG8ysAsgDiGM2is1KWYeQzCoHwfdU1CTxZvp8hH6ZE2VdiAUyAjME8hWGwZzSoNduNn2F7BoxDYVJdYuX1Cgjrgx0~Ls0gedpt7i-9tgyOmz-eBtIqDHh3ktwjfgdlkBv85qSSXYxTlidYusn3CfG9qaxQ__",
-    smallImageUrl:
-      "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
-    title: "TOKYO BEAST",
-    description1: "Tokyo",
-    description2: "Beastokyo",
-    description3: "Beast",
-    description4: "Alpha M...",
-  },
-  {
-    imageUrl:
-      "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Q3y~7wTX4z6d1ge4agt8Y3eafh~Uq2~r9FH8GhQwBz5RbUsidw21GHwKewD-uF~cKxidMnmDpY6b6k~jWDisNm33b5a0yCUgXHK9xh8V3eX3wECbMYxnShCkUQdXYY~mPRIn8NtMAqQ6o5ZpWKVjX6H6aFi1DPonX0uTYu8nC1lZnWxqSPNJLwrg5s1zxG8ysAsgDiGM2is1KWYeQzCoHwfdU1CTxZvp8hH6ZE2VdiAUyAjME8hWGwZzSoNduNn2F7BoxDYVJdYuX1Cgjrgx0~Ls0gedpt7i-9tgyOmz-eBtIqDHh3ktwjfgdlkBv85qSSXYxTlidYusn3CfG9qaxQ__",
-    smallImageUrl:
-      "https://s3-alpha-sig.figma.com/img/b9d2/e44d/b3d7744b85dd5e8422da709a3ea970ee?Expires=1721606400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WjMdCjGpgMn9td83crKxhXK051iVMADovLU9Vy9FZOBByZwPVKNBoKUOCOAvdSGqUZ2kwOomwMFtapdqnMCgyHAGDINhbL8ZA3lkZYfDW7z63Xs9akrDAL3-2CKscuXbt7wQ84JznoWgnjG59X7qG7Xe02qyUfEGYLUQF8PaIGHKdqqKL2H5ydEqyN-3x-ygVUyeX80nTCn12811B4NrfkE5lYnQidKrNUacacNgG~lRXc~XuPSzU6Cx4~msJWkzlcNJToTWcU-nCve7h6b13iQRtAuriA36g5cHhlpQVlyvshbsjKbVk9X97Ppwcc5AGju-OdkPoF3NMb~E8dQCmg__",
-    title: "TOKYO BEAST",
-    description1: "Tokyo",
-    description2: "Beastokyo",
-    description3: "Beast",
-    description4: "Alpha M...",
-  },
-];
+    const j = Math.floor( Math.random() * ( i + 1 ) );
+    [ array[ i ], array[ j ] ] = [ array[ j ], array[ i ] ];
+  }
+  return array;
+};
 
-const EducationCardList: React.FC = () => {
+const SkeletonCard = () => (
+  <div className="animate-pulse">
+    <div className="box1 education-clip bg-gray-700">
+      <div className="education-clip box2 border h-28 w-48 bg-gray-600 flex justify-center items-center p-4">
+        <div className="h-16 w-36 bg-gray-500"></div>
+      </div>
+    </div>
+    <div className="mt-2 flex gap-3">
+      <div className="h-6 w-6 rounded-full bg-gray-500"></div>
+      <div className="h-4 w-24 bg-gray-500 rounded"></div>
+    </div>
+    <div className="mt-2">
+      <div className="h-3 w-full bg-gray-500 rounded mb-2"></div>
+      <div className="h-3 w-3/4 bg-gray-500 rounded"></div>
+    </div>
+  </div>
+);
+
+const EducationCardList: React.FC = () =>
+{
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const { allQuests, loading } = useSelector( ( state: RootState ) => state.quest );
+
+  // Filter and shuffle education quests
+  const educationQuests = shuffleArray(
+    allQuests.filter( ( quest: any ) =>
+      quest?.categories?.some( ( category: any ) =>
+        category?.name?.toLowerCase() === 'education'
+      )
+    )
+  ).slice( 0, 3 );
+
+  // Filter and shuffle KOL quests
+  const kolQuests = shuffleArray(
+    allQuests.filter( ( quest: any ) =>
+      quest?.categories?.some( ( category: any ) =>
+        category?.name?.toLowerCase() === 'kol quest'
+      )
+    )
+  ).slice( 0, 3 );
+
+  console.log( 'allquests:-', educationQuests, kolQuests );
+  useEffect( () =>
+  {
+    dispatch( fetchAllQuests() );
+  }, [] );
   return (
     <div className=" gap-1 mb-8">
       <div className="mb-8">
         <svg
-        className="w-full"
+          className="w-full"
           xmlns="http://www.w3.org/2000/svg"
-         
+
           height="2"
           viewBox="0 0 1082 2"
           fill="none"
@@ -210,15 +181,21 @@ const EducationCardList: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-2 edu neo mt-5 grid lg:gap-10 sm:gap-10 gap-4  mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  lg:basis-[50%]">
-            {educationData.map((data, index) => (
-              <div key={index} className="">
+          <div className="p-2 edu neo mt-5 grid lg:gap-10 sm:gap-10 gap-4 mx-8 lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 lg:basis-[50%]">
+            { loading ? (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            ) : ( educationQuests.map( ( data, index ) => (
+              <div key={ index } className="cursor-pointer" onClick={ () => router.push( `/user/community-project/${ data?.community }` ) } >
                 <div>
                   <div className="box1 education-clip bg-red-700 ">
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
                         <img
-                          src={data.imageUrl}
+                          src={ data.logo }
                           alt=""
                           className="h-16 w-36 object-cover"
                         />
@@ -227,37 +204,37 @@ const EducationCardList: React.FC = () => {
                   </div>
 
                   <div className="mt-2 flex gap-3">
-                    <div>
+                    {/* <div>
                       <img
-                        src={data.smallImageUrl}
+                        src={ data.logo }
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"
                       />
-                    </div>
+                    </div> */}
                     <div>
-                      <p className="text-small text-slate-300">{data.title}</p>
+                      <p className="text-small text-slate-300">{ data.title }</p>
                     </div>
                   </div>
 
                   <div>
                     <div className="flex md:gap-4 gap-2">
-                      <p className="md:text-medium text-sm">{data.description1}</p>
-                      <p className="md:text-medium text-sm">{data.description2}</p>
+                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
+                      <p className="md:text-medium text-sm">{ data.description }</p>
                     </div>
 
                     <div className="flex md:gap-4 gap-2">
-                      <p className="md:text-medium text-sm">{data.description3}</p>
-                      <p className="md:text-medium text-sm">|</p>
-                      <p className="md:text-medium text-sm">{data.description4}</p>
+                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
+                      {/* <p className="md:text-medium text-sm">|</p> */ }
+                      {/* <p className="md:text-medium text-sm">{ data.description }</p> */}
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+            ) ) ) }
           </div>
         </div>
 
-        {/* pending */}
+        {/* pending */ }
 
         <div>
           <div className="relative lg:mx-0  sm:mx-10 mx-10">
@@ -329,15 +306,21 @@ const EducationCardList: React.FC = () => {
             </div>
           </div>
 
-          <div className=" mt-5 neo p-2 grid lg:gap-10 sm:gap-10 gap-4  mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3  lg:basis-[50%]">
-            {KolData.map((data, index) => (
-              <div key={index} className="">
+          <div className="mt-5 neo p-2 grid lg:gap-10 sm:gap-10 gap-4 mx-8 lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 lg:basis-[50%]">
+            { loading ? (
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            ) : ( kolQuests.map( ( data, index ) => (
+              <div key={ index } className="">
                 <div>
                   <div className="box1 education-clip bg-red-600">
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
                         <img
-                          src={data.imageUrl}
+                          src={ data.logo }
                           alt=""
                           className="h-16 w-36 object-cover"
                         />
@@ -347,32 +330,32 @@ const EducationCardList: React.FC = () => {
 
                   <div className="mt-2 flex gap-3">
                     <div>
-                      <img
-                        src={data.smallImageUrl}
+                      {/* <img
+                        src={ data.logo }
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"
-                      />
+                      /> */}
                     </div>
                     <div>
-                      <p className="text-small text-slate-300">{data.title}</p>
+                      <p className="text-small text-slate-300">{ data.title }</p>
                     </div>
                   </div>
 
                   <div>
                     <div className="flex md:gap-4 gap-2">
-                      <p className="md:text-medium text-sm">{data.description1}</p>
-                      <p className="md:text-medium text-sm">{data.description2}</p>
+                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
+                      <p className="md:text-medium text-sm">{ data.description }</p>
                     </div>
 
                     <div className="flex md:gap-4 gap-2">
-                      <p className="md:text-medium text-sm">{data.description3}</p>
-                      <p className="md:text-medium text-sm">|</p>
-                      <p className="md:text-medium text-sm">{data.description4}</p>
+                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
+                      {/* <p className="md:text-medium text-sm">|</p> */ }
+                      {/* <p className="md:text-medium text-sm">{ data.description }</p> */}
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+            ) ) ) }
           </div>
         </div>
       </div>

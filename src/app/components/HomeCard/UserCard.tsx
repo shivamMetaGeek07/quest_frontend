@@ -21,12 +21,14 @@ export interface User
 const UserCard = () =>
 {
 
-  const [ data, setdata ] = useState( [] );
+  const [ data, setData ] = useState( [] );
+  const [loading,setLoading] = useState(false)
   const router = useRouter();
   const getAllUser = async () =>
   {
     try
     {
+      setLoading( true );
       const response = await axios.get(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/`,
         {
@@ -34,17 +36,14 @@ const UserCard = () =>
             "Content-Type": "application/json",
           },
         }
-      )
-        .then( ( response ) =>
-        {
-          // console.log( response );
-          setdata( response.data );
-        } )
-        .catch( ( error ) => console.log( error ) );
-      // console.log( users );
+      );
+      setData( response.data );
     } catch ( error )
     {
       console.log( error );
+    } finally
+    {
+      setLoading( false );
     }
   };
   // console.log( "Users :-", data );

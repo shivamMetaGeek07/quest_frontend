@@ -46,7 +46,7 @@ const MyCommunities = () =>
   const [ selectedCategories, setSelectedCategories ] = useState<string[]>( [] );
   const [ page, setPage ] = useState( 1 );
   const [ totalPages, setTotalPages ] = useState( 1 );
-  const [ itemsPerPage, setItemsPerPage ] = useState( 10 );
+  const [ itemsPerPage, setItemsPerPage ] = useState( 12 );
 
 
   // const data = useSelector( ( state: RootState ) => state.community.forall );
@@ -413,7 +413,7 @@ const MyCommunities = () =>
               ) ) }
             </div>
 
-            <div className="flex w-full justify-center">
+            <div className="flex w-full justify-center mt-7">
               <Pagination
                 onChange={ handlePageChange }
                 page={ page }
@@ -436,10 +436,10 @@ const MyCommunities = () =>
                   onChange={ ( e ) => setItemsPerPage( Number( e.target.value ) ) }
                   className="bg-black border border-[#282828] rounded-md text-black px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#8c71ff] w-28"
                 >
-                  <SelectItem className="bg-gray-600 text-white" key={ 10 } value="10">10</SelectItem>
-                  <SelectItem className="bg-gray-600 text-white" key={ 20 } value="20">20</SelectItem>
-                  <SelectItem className="bg-gray-600 text-white" key={ 50 } value="50">50</SelectItem>
-                  <SelectItem className="bg-gray-600 text-white" key={ 100 } value="100">100</SelectItem>
+                  <SelectItem className="bg-gray-600 text-white" key={ 12 } value="12">12</SelectItem>
+                  <SelectItem className="bg-gray-600 text-white" key={ 21 } value="21">21</SelectItem>
+                  <SelectItem className="bg-gray-600 text-white" key={ 51 } value="51">51</SelectItem>
+                  <SelectItem className="bg-gray-600 text-white" key={ 100 } value="102">100</SelectItem>
                 </Select>
               </div>
             </div>
