@@ -24,7 +24,7 @@ import
   SelectItem,
 } from "@nextui-org/react";
 import axios from "axios";
-import ReferralForm from "../components/referalPopUp";
+import ReferralForm from "@/app/components/referalPopUp";
 import { notify } from "@/utils/notify";
 import Image from "next/image";
 import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";

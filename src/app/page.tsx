@@ -1,22 +1,21 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import UserCard from "./components/HomeCard/UserCard";
-import CommunityCard from "./components/HomeCard/CommunityCard";
-import EcoCate from "./components/HomeCard/EcoCate";
-import EducationCardList from "./components/HomeCard/EducationCard";
-import GrantsCard from "./components/HomeCard/GrantsCard";
+import UserCard from "@/app/components/HomeCard/UserCard";
+import CommunityCard from "@/app/components/HomeCard/CommunityCard";
+import EcoCate from "@/app/components/HomeCard/EcoCate";
+import EducationCardList from "@/app/components/HomeCard/EducationCard";
+import GrantsCard from "@/app/components/HomeCard/GrantsCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-// import { fetchAllCommunities} from "../"
 import Link from "next/link";
 import { Button, Spinner } from "@nextui-org/react";
 import Slider from "react-slick";
 import { fetchAllCommunities } from "@/redux/reducer/communitySlice";
 import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 import { useRouter } from "next/navigation";
-import CommunityCardSkeleton from "./components/HomeCard/CommunityCardSkeleton";
+import CommunityCardSkeleton from "@/app/components/HomeCard/CommunityCardSkeleton";
 
 
 const Homepage = () =>

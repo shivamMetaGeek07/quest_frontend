@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useDropzone } from 'react-dropzone';
 import {Modal,Pagination, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure,Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, ChipProps, getKeyValue} from "@nextui-org/react";
-import { notify } from "../../../../utils/notify";
+import { notify } from "@/utils/notify";
 import { Spinner } from "@nextui-org/react";
 type Props = {};
 

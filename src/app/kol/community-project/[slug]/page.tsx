@@ -2,8 +2,8 @@
 
 import { use, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCommunity } from "../../../../redux/reducer/communitySlice";
-import { RootState, AppDispatch } from "../../../../redux/store";
+import { fetchCommunity } from "@/redux/reducer/communitySlice";
+import { RootState, AppDispatch } from "@/redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
 import Image from "next/image";

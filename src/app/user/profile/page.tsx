@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { BallTriangle } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import ModalForm from "../../components/ModalForm";
+import ModalForm from "@/app/components/ModalForm";
 import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Inter, Roboto_Mono } from 'next/font/google';
 import { Button, Chip } from "@nextui-org/react";
@@ -14,7 +14,7 @@ import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
 import Image from "next/image";
 import axios from "axios";
-import TeleApp from "../../components/telegram"
+import TeleApp from "@/app/components/telegram"
 
 const inter = Inter( {
   subsets: [ 'latin' ],

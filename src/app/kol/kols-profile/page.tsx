@@ -3,7 +3,7 @@ import { RootState } from "@/redux/store";
 import React, { useState, useEffect } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import { useSelector } from "react-redux";
-import ModalForm from "../../components/ModalForm";
+import ModalForm from "@/app/components/ModalForm";
 import axios from "axios";
 import { FaBolt, FaTwitter, FaUser } from "react-icons/fa";
 import { useRouter } from "next/navigation";
