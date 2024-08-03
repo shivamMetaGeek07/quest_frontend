@@ -2,8 +2,8 @@
 
 import Registrartion from "@/app/components/login";
 import React, { useEffect } from "react";
-import LoginPage from "../components/mob-login";
-import Navbar from "../components/Navbars/Navbar";
+import LoginPage from "@/app/components/mob-login";
+import Navbar from "@/app/components/Navbars/Navbar";
 import { useRouter } from "next/navigation";
 
 const Login: React.FC = () =>

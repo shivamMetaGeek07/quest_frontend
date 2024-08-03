@@ -89,7 +89,8 @@ export const fetchUserData = createAsyncThunk(
           'Authorization': authToken,
         },
         withCredentials:true
-      });
+      } );
+      console.log("response from userslice:", response.data );
       const data = response.data;
       return data;
     } catch ( err )
@@ -107,6 +108,7 @@ export const logoutUser = createAsyncThunk(
     try
     {
       const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`, { withCredentials: true } );
+     console.log("response from logout",response)
       return response.data;
     } catch ( err )
     {

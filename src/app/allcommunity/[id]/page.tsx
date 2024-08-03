@@ -95,13 +95,13 @@ export default function CommunityProject ( {
             const res = await dispatch(
                 joinCommunity( { memberId, id: e._id } )
             ).unwrap();
-            console.log( res );
+            // console.log( res );
         } catch ( error )
         {
             console.log( "error in adding the community", "123", error );
         } finally
         {
-            console.log( "Tis is finally" );
+            // console.log( "Tis is finally" );
             dispatch( fetchCommunity( id ) );
         }
     };

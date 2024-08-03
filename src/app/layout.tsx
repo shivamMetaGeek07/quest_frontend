@@ -3,7 +3,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Providers } from "./provider";
-import MainLayout from "./components/MainLayout/mainLayout";
+import MainLayout from "@/app/components/MainLayout/mainLayout";
 
 // laptop 1440x900
 // mobile 375x667

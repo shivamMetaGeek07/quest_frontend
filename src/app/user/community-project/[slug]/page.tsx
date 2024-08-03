@@ -2,8 +2,8 @@
 
 import { use, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCommunity } from "../../../../redux/reducer/communitySlice";
-import { RootState, AppDispatch } from "../../../../redux/store";
+import { fetchCommunity } from "@/redux/reducer/communitySlice";
+import { RootState, AppDispatch } from "@/redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
 import Image from "next/image";
@@ -37,6 +37,7 @@ export default function CommunityProject ( {
   } = useSelector( ( state: RootState ) => state.community );
   const memberId = useSelector( ( state: RootState ) => state.login?.user?._id );
   const currentQuests = useSelector( ( state: any ) => state.quest.currentQuests );
+  const user = useSelector((state:RootState)=>state.login.user?._id)
   const [ users, setUsers ] = useState( [] );
   const questIds = community?.quests;
   const userData = community?.members;
@@ -54,6 +55,14 @@ export default function CommunityProject ( {
       dispatch( fetchQuests( questIds ) );
     }
   }, [ dispatch, questIds ] );
+
+  useEffect( () =>
+  {
+    if ( user !== undefined && community?.creator !== undefined && memberId === community?.creator )
+    {
+      router.push( `/kol/community-project/${ community._id }` );
+    }
+  }, [ memberId, community, router ] );
 
 
 
@@ -89,7 +98,6 @@ export default function CommunityProject ( {
   {
     try
     {
-
       const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/leavecommunity/${ id }`, { memberId } );
       console.log( data );
       notify( 'success', 'Left community succesfull' );
@@ -447,7 +455,7 @@ export default function CommunityProject ( {
                     </div>
                   </div>
 
-                  
+
 
                   <button className=' lg:py-3 lg:px-4 sm:py-3 lg:mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300'
                     onClick={ handleLeaveCommunity }
@@ -516,24 +524,22 @@ export default function CommunityProject ( {
                     <div className="education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4">
                       <div>
                         <img
-                          src={
-                            "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U4DiI90Nb~y-baCsBKlUdMg0bdnFmPTwIHqnEj6XIpfLQ-Wrrkxh19U3XxyEBSYW6skusvRfpKf1JglEQirKFdDOr-F61gwWjzqgfffqjJ4F2nSZoG77-uhqZ3oe0G-M~bfpO-OfRuMFxMe4WGaRKoZqNB~yI1MRN~0e~kyuD37gWTGNPqDYML7sSexowM2laSDLDVFZZqc~xJEulldl9iCWRvhbjMHvRqqkF3XxcfQu7lPvZVIS9b~a6vPmLfg~G-GEgp-m8b-Vp4ESk8e~xFjt2ww7Kl9R9aSle4QXsvE6BudwTUeSATqxnxfiM3POsBR7oxS8OUSKiDlIdTZh8w__"
-                          }
+                          src={ quest?.logo || `https://dummyimage.com/150x100/718096/ffffff&text=${ quest.title }` }
                           alt=""
-                          className="h-16 w-36 object-cover"
+                          className="h-16 w-36 object-fill"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-2 flex gap-3 justify-center">
-                    <div>
+                    {/* <div>
                       <img
                         src={ `${ community.logo }` }
                         alt=""
                         className="h-6 w-6 rounded-full object-cover"
                       />
-                    </div>
+                    </div> */}
                     <div>
                       <p className="text-small text-slate-300">{ quest.title }</p>
                     </div>

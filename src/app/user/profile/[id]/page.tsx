@@ -75,7 +75,6 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
   const [ userData, setUserData ] = useState<any>( null );
   const [ allFriends, setAllFriends ] = useState<any>( [] );
 
-
   const user = useSelector( ( state: RootState ) => state.login.user );
   const { id: userId } = useParams();
 
@@ -94,11 +93,16 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
 
   const getUserProfile = useCallback( async () =>
   {
-    if ( !userId ) return;
+    if ( !userId )
+    {
+      console.log( "User id not found", userId );
+      return;
+    }
     try
     {
       const { data } = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/${ userId }` );
       setUserData( data );
+      return data;
     } catch ( error )
     {
       console.error( "Error fetching user profile:", error );
@@ -111,10 +115,9 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
     return Array.from( new Set( allConnections ) );
   }, [] );
 
-  const getFriends = useCallback( async () =>
+  const getFriends = useCallback( async ( user: any ) =>
   {
-    if ( !userData ) return;
-    const friendsIds = getFriendIds( userData );
+    const friendsIds = getFriendIds( user );
     try
     {
       const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/friends`, { friendsIds } );
@@ -123,11 +126,10 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
     {
       console.error( "Error fetching friends:", error );
     }
-  }, [ userData, getFriendIds ] );
+  }, [ getFriendIds ] );
 
   const handleFollowToggle = useCallback( async () =>
   {
-    console.log("user",user);
     if ( !user?._id || !userId ) return;
     const endpoint = isFollowed ? 'unfollow' : 'follow';
     const payload = isFollowed ? { unfollowId: userId, userId: user._id } : { followId: userId, userId: user._id };
@@ -137,27 +139,42 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
         headers: { "Content-Type": "application/json" },
       } );
       setIsFollowed( !isFollowed );
-      
-      getUserProfile();
+      const updatedUserData = await getUserProfile();
+      if ( updatedUserData )
+      {
+        getFriends( updatedUserData );
+      }
     } catch ( error )
     {
       console.error( `Error ${ isFollowed ? 'unfollowing' : 'following' } the user:`, error );
     }
-  }, [ user, userId, isFollowed, getUserProfile ] );
-
-  
+  }, [ user, userId, isFollowed, getUserProfile, getFriends ] );
 
   useEffect( () =>
   {
-    
-        getFriends();
-      getUserProfile();
-      checkFollow();
     setIsClient( true );
     dispatch( fetchUserData() );
-  }, [] );
+  }, [ dispatch ] );
 
-   
+  useEffect( () =>
+  {
+    if ( userId )
+    {
+      getUserProfile().then( data =>
+      {
+        if ( data )
+        {
+          getFriends( data );
+        }
+      } );
+    }
+  }, [ userId, getUserProfile, getFriends ] );
+
+  useEffect( () =>
+  {
+    checkFollow();
+  }, [ checkFollow ] );
+
   if ( !isClient )
     return (
       <div className="flex justify-center h-screen items-center">
@@ -213,7 +230,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                             </button>
                           ) : (
                             <button
-                                onClick={ handleFollowToggle }
+                              onClick={ handleFollowToggle }
                               className="px-4 py-2 bg-[#FA00FF] rounded-full active:bg-[#711673]"
                             >
                               Follow
@@ -377,7 +394,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                             </svg>
                             <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
                             <p className="mt-1 text-sm text-gray-500">
-                              {userData?.displayName} does not have any badge
+                              { userData?.displayName } does not have any badge
                             </p>
                           </div>
                         </div>

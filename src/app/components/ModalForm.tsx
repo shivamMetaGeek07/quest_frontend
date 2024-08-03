@@ -74,11 +74,11 @@ const ModalForm = () =>
 
       if ( res.status === 200 )
       {
-        console.log( 'File uploaded successfully', res );
+        // console.log( 'File uploaded successfully', res );
         return true;
       } else
       {
-        console.log( 'File upload failed', res );
+        // console.log( 'File upload failed', res );
         return false;
       }
     } catch ( error )

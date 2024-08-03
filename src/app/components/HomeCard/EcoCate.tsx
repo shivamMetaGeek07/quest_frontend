@@ -20,7 +20,7 @@ const EcoCate: React.FC = () =>
   const ecosystem = communityData.ecosystems.slice( 0, 7 );
   const categories = communityData.categories.slice( 0, 5 );
 
-    // console.log( "ecosystem :-0", communityData );
+  // console.log( "ecosystem :-0", communityData );
   return (
     <div className="mb-8">
       <div className="flex items-center gap-1 mt-8 lg:mx-0 sm:mx-6 mx-6">
@@ -43,6 +43,7 @@ const EcoCate: React.FC = () =>
           <p>Ecosystems</p>
         </div>
       </div>
+
       <div className="eco&cat flex flex-col lg:flex-row lg:justify-between gap-10 ">
         <div className="Main grid gap-4 mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 pt-6 lg:basis-[50%]">
           { ecosystem?.map( ( item: data ) => (
@@ -181,19 +182,27 @@ const EcoCate: React.FC = () =>
           </div>
 
           <div className="  grid items-center  lg:grid-cols-5 sm:grid-cols-5 sm:mx-10 lg:gap-8 grid-cols-2  mt-16  shadow-2xl rounded-md mx-10 lg:mx-auto  basis-[50%]">
-            { categories.map( ( card:data, index:number ) => (
+            { categories.map( ( card: data, index: number ) => (
               <div
                 key={ index }
                 className="cate flex items-center mb-4 lg:mb-0 hover:cursor-pointer"
-                onClick={()=> router.push('/allcommunity')}
+                onClick={ () =>
+                {
+                  // Store the category name in session storage
+                  localStorage.setItem( 'category', card.name );
+                  router.push( '/allcommunity' );
+                }
+                }
+
               >
+
                 <div className="text-center">
                   <div className="image-container h-[6rem] w-[6rem]">
                     <img
                       src={ card.imageUrl }
                       alt={ card.name }
                       className="styled-image"
-                    />  
+                    />
                   </div>
 
                   <h1

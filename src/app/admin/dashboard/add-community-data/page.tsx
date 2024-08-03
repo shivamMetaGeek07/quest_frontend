@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useDropzone } from 'react-dropzone';
 import {Modal,Pagination, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure,Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, Chip, Tooltip, ChipProps, getKeyValue} from "@nextui-org/react";
-import { notify } from "../../../../utils/notify";
+import { notify } from "@/utils/notify";
 import { Spinner } from "@nextui-org/react";
 type Props = {};
 
@@ -168,7 +168,7 @@ const CommunityDataPage = (props: Props) => {
         folder: selectedData.type,
         fileName,
       } );
-      console.log( 'Upload URL:', response.data.url );
+      // console.log( 'Upload URL:', response.data.url );
       return response.data.url;
     } catch ( error )
     {
@@ -191,12 +191,12 @@ const CommunityDataPage = (props: Props) => {
       } );
       if ( response.status === 200 )
       {
-        console.log( 'File uploaded successfully' );
+        // console.log( 'File uploaded successfully' );
         return true;
       }
       else
       {
-        console.log( 'File upload failed', response );
+        // console.log( 'File upload failed', response );
         return false;
       }
     } catch ( error )
@@ -312,7 +312,7 @@ const CommunityDataPage = (props: Props) => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/getCommunityData`
         );
-        console.log(response.data);
+        // console.log(response.data);
         setEcosystems(response.data.community.ecosystems);
         setCategories(response.data.community.categories);
       } catch (error) {

@@ -11,7 +11,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import Link from "next/link";
 import { DiscordJoin } from "@/app/components/discordPopup";
-import { Button } from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@nextui-org/react";
 
 interface IQuiz
 {
@@ -36,9 +36,9 @@ interface TaskOption
   visitLink?: string;
   quizzes?: IQuiz[];
   polls?: IPoll[];
-  discord?:string;
-  guild?:string;
-  discordLink?:string
+  discord?: string;
+  guild?: string;
+  discordLink?: string;
   inviteLink?: string;
   uploadLink?: string;
   response?: string | number;
@@ -57,10 +57,17 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   ] );
   const [ taskName, setTaskName ] = useState( "" );
   const [ taskDescription, setTaskDescription ] = useState( "" );
+  const [ fileType, setFileType ] = useState( "" );
+  const [ inviteUrl, setInviteUrl ] = useState( '' );
+  const [ success, setSuccess ] = useState( false );
+  const [ showConnectButton, setShowConnectButton ] = useState( false );
+  const [ modalView, setModalView ] = useState( false );
+  const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
-console.log(KolId,taskOptions)
+  console.log(fileType)
+
   useEffect( () =>
   {
     dispatch( fetchUserData() );
@@ -78,43 +85,14 @@ console.log(KolId,taskOptions)
       setQuizzes( [ { question: "", options: [ "", "", "", "" ], correctAnswer: "" } ] );
     }
   };
-  const closeTaskModal = () =>{
+  const closeTaskModal = () =>
+  {
     setSelectedTask( null );
     setInviteUrl( "" );
-    setModalView(false);
-  } 
+    setModalView( false );
+  };
 
-  // const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
-  // {
-  //   if ( !selectedTask ) return;
 
-  //   const value = e.target.value;
-
-  //   // Regular expression to validate URL format
-  //   const urlPattern = new RegExp(
-  //     '^(http)'  // protocol
-  //     // '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-  //     // '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-  //     // '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-  //     // '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-  //     // '(\\#[-a-z\\d_]*)?$', 'i' // fragment locator
-  //   );
-
-  //   if ( urlPattern.test( value ) ) 
-  //   {
-  //     const updatedField = {
-  //       "Visit Link": { visitLink: value },
-  //     }[ selectedTask.name ] || {};
-
-  //     setSelectedTask( { ...selectedTask, ...updatedField } );
-  //   } else
-  //   {
-  //     // Handle invalid URL, e.g., show an error message
-  //     notify('error', "Please enter a valid url")
-  //     console.error( 'Invalid URL' );
-  //     return
-  //   }
-  // };
 
   const handleInputChange = ( e: React.ChangeEvent<HTMLInputElement> ) =>
   {
@@ -122,18 +100,18 @@ console.log(KolId,taskOptions)
     const value = e.target.value;
     const updatedField = {
       "Visit Link": { visitLink: value },
-      "Discord":{discordLink:value,guild:value}
+      "Discord": { discordLink: value, guild: value }
     }[ selectedTask.name ] || {};
     setSelectedTask( { ...selectedTask, ...updatedField } );
   };
-  const handlediscordChange = ( inviteUrl:any,guildata:any ) =>
-    {
-      if ( !selectedTask ) return;
-      const updatedField = {
-        "Discord":{discordLink:inviteUrl,guild:guildata}
-      }[ selectedTask.name ] || {};
-      setSelectedTask( { ...selectedTask, ...updatedField } );
-    };
+  const handlediscordChange = ( inviteUrl: any, guildata: any ) =>
+  {
+    if ( !selectedTask ) return;
+    const updatedField = {
+      "Discord": { discordLink: inviteUrl, guild: guildata }
+    }[ selectedTask.name ] || {};
+    setSelectedTask( { ...selectedTask, ...updatedField } );
+  };
 
   const handleAddTask = async () =>
   {
@@ -148,9 +126,9 @@ console.log(KolId,taskOptions)
       taskDescription,
     };
 
-    const taskDataMap:any = {
+    const taskDataMap: any = {
       "Visit Link": { ...baseTask, visitLink: selectedTask.visitLink },
-      "Discord": { ...baseTask, discordLink: selectedTask.discordLink ,guild:selectedTask.guild},
+      "Discord": { ...baseTask, discordLink: selectedTask.discordLink, guild: selectedTask.guild },
       "Poll": {
         ...baseTask,
         polls: polls.map( poll => ( {
@@ -166,17 +144,22 @@ console.log(KolId,taskOptions)
           correctAnswer: quiz.correctAnswer,
         } ) ),
       },
+      "File upload": {
+        ...baseTask,
+        uploadFileType: fileType
+      },
     };
 
     const taskData = taskDataMap[ selectedTask.name ] || baseTask;
 
     try
     {
-      console.log("task", taskData );
+      console.log( "task", taskData );
       const response = await dispatch( createTask( taskData ) );
+      console.log( "response after creating task:", response );
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
-    } catch ( error )
+    } catch ( error ) 
     {
       console.error( "Error creating task:", error );
       notify( "error", "Error creating task" );
@@ -244,63 +227,69 @@ console.log(KolId,taskOptions)
       setPolls( newPolls );
     }
   };
-  const [inviteUrl, setInviteUrl] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [showConnectButton, setShowConnectButton] = useState(false);
-  const[modalView,setModalView]=useState(false);
-  const authToken = `Bearer ${Cookies.get('authToken')}`;
 
-  const CheckDiscord = async (inviteUrl: string) => {
-    try {
-      const encodedInviteUrl = encodeURIComponent(inviteUrl); // encode the URL
+
+  const CheckDiscord = async ( inviteUrl: string ) =>
+  {
+    try
+    {
+      const encodedInviteUrl = encodeURIComponent( inviteUrl ); // encode the URL
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/validate/${encodedInviteUrl}`,
+        `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/validate/${ encodedInviteUrl }`,
         {}, // assuming there is no body payload
         {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': authToken,
           },
-          withCredentials: true         
+          withCredentials: true
         }
       );
-      const data=response.data;
-      const guildata=data.validLink.guilData;
-      const checkguild=data.validLink.checkLink;
-      console.log(guildata)
-      if (checkguild) {
-        setSuccess(true)
-        console.log(response)
-        handlediscordChange(inviteUrl,guildata)
-        notify("success", "Bot connected successfully");
-      } else {
-        setShowConnectButton(true);
-        setSuccess(false); 
-        setModalView(true);
-        notify("error",  "Connect to the server to add a Discord task");
+      const data = response.data;
+      const guildata = data.validLink.guilData;
+      const checkguild = data.validLink.checkLink;
+      // console.log(guildata)
+      if ( checkguild )
+      {
+        setSuccess( true );
+        console.log( response );
+        handlediscordChange( inviteUrl, guildata );
+        notify( "success", "Bot connected successfully" );
+      } else
+      {
+        setShowConnectButton( true );
+        setSuccess( false );
+        setModalView( true );
+        notify( "error", "Connect to the server to add a Discord task" );
       }
-    } catch (error:any) {
-      setSuccess(false); 
-      setShowConnectButton(true);
+    } catch ( error: any )
+    {
+      setSuccess( false );
+      setShowConnectButton( true );
       const errorMessage = error.response?.data?.message || "An error occurred";
-      notify("error", errorMessage);    }
-  };
- 
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInviteUrl(event.target.value);
-  };
-
-  const handleButtonClick = () => {
-    if (inviteUrl) {
-      
-      CheckDiscord(inviteUrl);
-    } else {
-      notify("error", "Please enter a valid URL.");
+      notify( "error", errorMessage );
     }
   };
 
-  
+
+  const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) =>
+  {
+    setInviteUrl( event.target.value );
+  };
+
+  const handleButtonClick = () =>
+  {
+    if ( inviteUrl )
+    {
+
+      CheckDiscord( inviteUrl );
+    } else
+    {
+      notify( "error", "Please enter a valid URL." );
+    }
+  };
+
+
   return (
     <>
 
@@ -461,28 +450,28 @@ console.log(KolId,taskOptions)
                     onChange={ handleInputChange }
                   />
                 ) }
-               {selectedTask.name === "Discord" && (
-        <>
-          <input
-            type="url"
-            className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
-            placeholder="https://"
-            onChange={handleChange}
-            value={inviteUrl}
-          />
+                { selectedTask.name === "Discord" && (
+                  <>
+                    <input
+                      type="url"
+                      className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                      placeholder="https://"
+                      onChange={ handleChange }
+                      value={ inviteUrl }
+                    />
 
-          <div className="flex justify-between gap-4 items-center">
-            <Button
-           
-            onClick={handleButtonClick}
-          >
-            Check Discord Invite
-          </Button>
-            {modalView &&  (<DiscordJoin setModalView={setModalView} />)}
-          </div>
-          
-         </>
-      )}
+                    <div className="flex justify-between gap-4 items-center">
+                      <Button
+
+                        onClick={ handleButtonClick }
+                      >
+                        Check Discord Invite
+                      </Button>
+                      { modalView && ( <DiscordJoin setModalView={ setModalView } /> ) }
+                    </div>
+
+                  </>
+                ) }
 
                 { selectedTask.name === "Poll" && (
                   <div className="space-y-4">
@@ -572,6 +561,26 @@ console.log(KolId,taskOptions)
                   </div>
                 ) }
 
+                { selectedTask.name === "File upload" && (
+
+                  <Select
+
+                    label="Select type of file you will upload"
+                    placeholder="Select type of file you will upload"
+                    onChange={(e) => setFileType(e.target.value)}
+                    className="w-full border border-gray-800 rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 bg-black text-sm text-white"
+                  >
+                    <SelectItem className="bg-gray-600 text-white" key={ "image" } value="image">Image (.jpg, .png, .gif)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "audio" } value="audio">Audio (.mp3, .wav)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "video" } value="video">Video (.mp4, .mov)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "document" } value="document">Document (.pdf, .doc, .txt)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "spreedsheet" } value="spreadsheet">Spreadsheet (.xlsx, .csv)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "code" } value="code">Code File (.js, .py, .html)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "3d" } value="3d">3D Model (.obj, .fbx)</SelectItem>
+                    <SelectItem className="bg-gray-600 text-white" key={ "archived" } value="archive">Archive (.zip, .rar)</SelectItem>
+                  </Select>
+                ) }
+
                 { ( selectedTask.name === "Text" || selectedTask.name === "Number" || selectedTask.name === "URL" ) && (
                   <p className="text-center text-lg">
                     In this task, the user will respond with a { selectedTask.name.toLowerCase() }.
@@ -586,12 +595,12 @@ console.log(KolId,taskOptions)
                     Cancel
                   </button>
                   <button
-                  className={`px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ${selectedTask.name === "Discord" && !success ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  onClick={handleAddTask}
-                  disabled={selectedTask.name === "Discord" && !success}
-                >
-                  Add Task
-                </button>
+                    className={ `px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ${ selectedTask.name === "Discord" && !success ? 'opacity-50 cursor-not-allowed' : '' }` }
+                    onClick={ handleAddTask }
+                    disabled={ selectedTask.name === "Discord" && !success }
+                  >
+                    Add Task
+                  </button>
                 </div>
               </div>
             </div>

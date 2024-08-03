@@ -14,6 +14,7 @@ export interface CommunityData {
   members?: string[];
   createdAt?: string;
   updatedAt?: string;
+  creator?: string;
 }
 export interface forAll{
   ecosystem: string[];

@@ -16,7 +16,7 @@ const LoginPage = (props: Props) => {
     const handleSubmit=async()=>{
         try {
             const response= await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/login`,{email,password});
-            console.log(response);
+            // console.log(response);
 
             const data=response.data;
             
@@ -97,7 +97,7 @@ const LoginPage = (props: Props) => {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log(email, password); 
+                    // console.log(email, password); 
                     handleSubmit();
                   }}
                   type="submit"
