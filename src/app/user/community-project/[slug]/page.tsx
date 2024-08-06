@@ -99,7 +99,7 @@ export default function CommunityProject ( {
     try
     {
       const { data } = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/leavecommunity/${ id }`, { memberId } );
-      console.log( data );
+      // console.log( data );
       notify( 'success', 'Left community succesfull' );
 
       router.push( '/allcommunity' );

@@ -33,7 +33,6 @@ const Page = ( params: { params: { slug: any; }; } ) =>
         dispatch( fetchAllCommunities() );
     }, [] );
 
-    console.log( data );
 
     return (
         <div className='bg-[#111111] pt-[5rem] font-[ProFontWindows]'>

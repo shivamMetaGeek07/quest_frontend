@@ -79,7 +79,6 @@ export const fetchUserData = createAsyncThunk(
   'login/fetchUserData',
   async ( _, { rejectWithValue } ) =>
   {
-    console.log( "login called" );
     try
     {
       const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
@@ -90,7 +89,7 @@ export const fetchUserData = createAsyncThunk(
         },
         withCredentials:true
       } );
-      console.log("response from userslice:", response.data );
+      // console.log("response from userslice:", response.data );
       const data = response.data;
       return data;
     } catch ( err )
@@ -108,7 +107,7 @@ export const logoutUser = createAsyncThunk(
     try
     {
       const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`, { withCredentials: true } );
-     console.log("response from logout",response)
+    //  console.log("response from logout",response)
       return response.data;
     } catch ( err )
     {
@@ -129,7 +128,6 @@ export const updateUserProfile = createAsyncThunk(
         },  
         withCredentials: true 
        });
-      console.log(response);
       return response.data.user;
     } catch ( err )
     {

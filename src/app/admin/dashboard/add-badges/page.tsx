@@ -45,7 +45,7 @@ const Page = () => {
   const handleOpen = (option: string, badge: Badge| null) => {
     initailFormData();
     setLoader(false);
-    console.log('badge:-', badge)
+    // console.log('badge:-', badge)
     if(option === 'edit' &&  badge){
       setFormData({
         name:  badge.name,

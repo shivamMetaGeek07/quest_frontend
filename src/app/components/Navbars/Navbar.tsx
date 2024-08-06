@@ -56,7 +56,7 @@ const Navbar: React.FC = () =>
         try
         {
             const response = await dispatch( logoutUser() );
-            console.log(response)
+            // console.log(response)
             if ( response )
             {
                 await persistor.flush();

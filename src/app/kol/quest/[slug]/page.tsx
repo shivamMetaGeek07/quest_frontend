@@ -64,7 +64,6 @@ const QuestPage = ( { params }: { params: { slug: string; }; } ) =>
     router.push( `/kol/add-task/${ questId }` )
   };
 
-  console.log(selectedCard)
 
   return (
     <div className="text-white min-h-screen">

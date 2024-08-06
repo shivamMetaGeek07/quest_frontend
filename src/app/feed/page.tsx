@@ -93,7 +93,7 @@ export default function Feed() {
       setFeedItems(response.data.feeds);
       setTotalPages(response.data.totalPages);
 
-      console.log('feed items :-',response.data)
+      // console.log('feed items :-',response.data)
       setLoading(false)
     } catch (error) {
       console.log('error in getting feed :-',error)

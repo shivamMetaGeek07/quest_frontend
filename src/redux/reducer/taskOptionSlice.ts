@@ -20,7 +20,6 @@ export const getTaskOptionsSuccess = createAsyncThunk(
   async (_, { rejectWithValue }): Promise<any> => {
     try {
         const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/task/task-options` );
-        console.log(response)
       return response.data; // Ensure that the correct data is being returned
     } catch (err) {
       return rejectWithValue('Failed to fetch community data');

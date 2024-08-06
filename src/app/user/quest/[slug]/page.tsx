@@ -64,11 +64,8 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   const [ progress, setProgress ] = useState<any>( 0 );
   const [ allTasksCompletedCalled, setAllTasksCompletedCalled ] = useState<boolean>( false );
 
-
-
   const user = useSelector( ( state: RootState ) => state.login.user );
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
-  console.log( tasks );
   useEffect( () =>
   {
     dispatch( fetchTaskById( questId ) );
@@ -107,7 +104,6 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       // Validate submission based on task type
       if ( !validateSubmission( selectedCard?.type, submission ) )
       {
-        console.log( submission );
         notify( "warn", "Invalid submission. Please check your input." );
         return;
       }
@@ -134,6 +130,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
         submission: JSON.stringify( submission ),
       };
       await dispatch( completeTask( data ) );
+      notify('success','your rewards are added to your profile')
       window.location.reload();
     } catch ( error )
     {
@@ -169,11 +166,10 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       case "Quiz":
         return typeof submission === 'object' && Object.keys( submission ).length > 0;
       default:
-        console.log( "validation is complete" );
+        console.log( "validation is complete, no matches found" );
         return false;
     }
   };
-
 
   const handleGenerateReferral = useCallback( async () =>
   {
@@ -450,7 +446,6 @@ const Popup: React.FC<{
     {
       if ( !document.hidden && linkClicked )
       {
-        console.log( "handlevisibilty called" );
         checkMembership();
 
         // Perform actions when the user returns to the tab after clicking the link
@@ -459,7 +454,7 @@ const Popup: React.FC<{
     };
     const checkMembership = async () =>
     {
-      console.log( "check membership called" );
+      // console.log( "check membership called" );
       const data = user?.discordInfo?.discordId;
       const accessToken = user?.discordInfo?.accessToken;
       const guildId = selectedCard?.guild;
@@ -472,14 +467,13 @@ const Popup: React.FC<{
         },
         );
         const discordShip = response.data.isMember;
-        console.log( "dfd", discordShip );
+        // console.log( "dfd", discordShip );
         const datas = {
           taskId: selectedCard._id,
           userId: user?._id,
           userName: user?.displayName,
           submission: "Join Discord Successfully "
         };
-        console.log( datas );
         if ( discordShip )
         {
           notify( "success", "Join Successful" );
@@ -498,6 +492,7 @@ const Popup: React.FC<{
         setIsMember( false );
       }
     };
+
     useEffect( () =>
     {
       window.addEventListener( 'beforeunload', handleLinkClick );
@@ -517,12 +512,11 @@ const Popup: React.FC<{
       } else
       {
         notify( "warn", "Invalid input.Please check your submission." );
-        console.log(
-          "Submission is invalid. Please check the submission and try again."
-        );
+        // console.log(
+        //   "Submission is invalid. Please check the submission and try again."
+        // );
       }
     };
-    console.log( selectedCard );
 
     // validation for file upload
     const getFileTypeInfo = ( uploadFileType: any ) =>
@@ -763,25 +757,67 @@ const Popup: React.FC<{
                     />
                   ) }
 
-                  <Button
+                  { selectedCard.type === "Connect wallet" && (
+                    <Button variant="solid"
+                      color="primary"
+                      className="justify-center text-center ">
+                      Connect to wallet
+                    </Button>
+                  ) }
+
+                  { selectedCard.type === "Gitcoin passport" && (
+                    <Button variant="solid"
+                      color="primary"
+                      className="justify-center text-center ">
+                      Clam points from Gitcoin passport
+                    </Button>
+                  ) }
+
+                  { selectedCard.type == "Civic pass verification" && (
+                      <Button variant="solid" 
+                        onClick={()=>{}}
+                      color="primary"
+                      className="justify-center text-center ">
+                      Verify the Civic pass
+                    </Button>
+                  ) }
+
+                  { selectedCard.type == "Ens holder" && (
+                    <Button variant="solid"
+                      color="primary"
+                      className="justify-center text-center ">
+                      Verify the account
+                    </Button>
+                  ) }
+                  { selectedCard.type == "Eth holder" && (
+                    <Button variant="solid"
+                      color="primary"
+                        className="text-center justify-center ">
+                      Verify the account
+                    </Button>
+                    ) }
+                    
+                  {/* <Button
                     variant="solid"
                     color="danger"
                     className="m-4 text-white   "
                     onClick={ onClose }
                   >
                     Cancel
-                  </Button>
+                  </Button> */}
 
-                  { selectedCard.type !== "Visit Link" && selectedCard.type !== "Discord" && selectedCard.type !== "Poll" && selectedCard.type !== "Quiz" && selectedCard.type !== "Invites" && (
-                    <Button
-                      variant="solid"
-                      color="primary"
-                      className=" "
-                      onClick={ handleSubmit }
-                    >
-                      Submit
-                    </Button>
-                  ) }
+                  { ( selectedCard.type === 'File upload' || selectedCard.type === 'Text' || selectedCard.type === 'Number' || selectedCard.type === 'URL'
+                  ) &&
+                    (
+                      <Button
+                        variant="solid"
+                        color="primary"
+                        className=" "
+                        onClick={ handleSubmit }
+                      >
+                        Submit
+                      </Button>
+                    ) }
                 </>
               ) }
             </div>

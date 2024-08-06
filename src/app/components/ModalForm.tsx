@@ -111,7 +111,7 @@ const ModalForm = () =>
       }
 
       const updatedFormData = { ...formData, image: newImageUrl };
-      console.log( updatedFormData );
+      // console.log( updatedFormData );
 
       const resultAction = await dispatch( updateUserProfile( updatedFormData ) );
       if ( updateUserProfile.fulfilled.match( resultAction ) )

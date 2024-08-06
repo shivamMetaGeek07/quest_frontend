@@ -9,7 +9,6 @@ export const useProtectedRoute = (requiredRole: 'user' | 'kol') => {
   const userRole = useSelector((state: RootState) => state.login.user?.role);
   const [isLoading, setIsLoading] = useState(true);
   const [hasAccess, setHasAccess] = useState(false);
-console.log(userRole)
   useEffect(() => {
     if (userRole === null) {
       router.push('/login');  
