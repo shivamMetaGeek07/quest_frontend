@@ -1,6 +1,6 @@
 "use client";
 import QuizPollCarousel from "@/app/components/QuizPollCarousel";
-import { fetchTaskById, completeTask } from "@/redux/reducer/taskSlice";
+import { fetchTaskById, completeTask, connetToWallets, fetchTasks } from "@/redux/reducer/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { notify } from "@/utils/notify";
 import { Button, Progress } from "@nextui-org/react";
@@ -52,7 +52,7 @@ export interface CardData
   uploadLink?: string;
   completions: Completion[];
   uploadFileType?: string;
-  walletsToConnect?:number
+  walletsToConnect?: number;
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
@@ -66,10 +66,12 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
   const [ allTasksCompletedCalled, setAllTasksCompletedCalled ] = useState<boolean>( false );
 
   const user = useSelector( ( state: RootState ) => state.login.user );
+  console.log( "user:-", user );
   const tasks = useSelector( ( state: RootState ) => state.task.currentTask );
   useEffect( () =>
   {
     dispatch( fetchTaskById( questId ) );
+    dispatch( fetchTasks() );
   }, [ dispatch, questId ] );
 
   useEffect( () =>
@@ -131,7 +133,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
         submission: JSON.stringify( submission ),
       };
       await dispatch( completeTask( data ) );
-      notify('success','your rewards are added to your profile')
+      notify( 'success', 'your rewards are added to your profile' );
       window.location.reload();
     } catch ( error )
     {
@@ -438,6 +440,20 @@ const Popup: React.FC<{
     const [ isMember, setIsMember ] = useState<boolean>( false );
     const dispatch = useDispatch<AppDispatch>();
     const user = useSelector( ( state: RootState ) => state.login.user );
+    const tasks = useSelector( ( state: RootState ) => state.task.tasks );
+    const connectMultipleWallet = ( id: string ) =>
+      {
+        // connect your wallet and
+        
+        // connetToWallets(id,address)
+        const task = tasks?.filter( ( item ) => item._id == id );
+        console.log( "task:-",task );
+      
+      if ( task[0]?.connectedWallets?.length && task[0]?.walletsToConnect && task[0]?.connectedWallets?.length === task[0]?.walletsToConnect )
+      {
+        onSubmit( id, { visit: "wallet connceted" } );
+      }
+    };
     const handleLinkClick = () =>
     {
       setLinkClicked( true );
@@ -744,7 +760,6 @@ const Popup: React.FC<{
                     />
                   ) }
 
-
                   { selectedCard.type === "URL" && (
                     <input
                       type="url"
@@ -775,8 +790,8 @@ const Popup: React.FC<{
                   ) }
 
                   { selectedCard.type == "Civic pass verification" && (
-                      <Button variant="solid" 
-                        onClick={()=>{}}
+                    <Button variant="solid"
+                      onClick={ () => { } }
                       color="primary"
                       className="justify-center text-center ">
                       Verify the Civic pass
@@ -793,11 +808,31 @@ const Popup: React.FC<{
                   { selectedCard.type == "Eth holder" && (
                     <Button variant="solid"
                       color="primary"
-                        className="text-center justify-center ">
+                      className="text-center justify-center ">
                       Verify the account
                     </Button>
-                    ) }
-                    
+                  ) }
+
+                  { selectedCard.type === "Connect multiple wallet" && (
+                    <div>
+                      { [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
+                        <div className="flex justify-between py-4">
+                          <label htmlFor="">Connect your wallet { index + 1 }</label>
+                          <Button
+                            key={ index }
+                            onClick={ () => connectMultipleWallet( selectedCard._id ) }
+                            variant="solid"
+                            color="primary"
+                            className="text-center justify-center"
+
+                          >
+                            Connect to wallet
+                          </Button>
+                        </div>
+                      ) ) }
+
+                    </div>
+                  ) }
                   {/* <Button
                     variant="solid"
                     color="danger"

@@ -42,6 +42,7 @@ export type TaskOrPoll = ITaskBase & {
   taskDescription?: string;
   uploadFileType?: string;
   walletsToConnect?: number;
+  connectedWallets?: string[];
 };
 
 
@@ -69,7 +70,8 @@ export const fetchTasks = createAsyncThunk(
   'tasks/fetchAll',
   async (_, { rejectWithValue }):Promise<any> => {
     try {
-      const response = await axios.get(API_BASE_URL);
+      const response = await axios.get( API_BASE_URL );
+      console.log("response in task:-",response)
       return response.data;
     } catch (error) {
       return rejectWithValue('Failed to fetch tasks');
@@ -117,6 +119,23 @@ export const createTask = createAsyncThunk(
     }
   }
 );
+
+// connect to walllet
+export const connetToWallets = createAsyncThunk(
+  'tasks/create',
+  async ({ taskId,  address }: { taskId: string, address: string }) : Promise<any> => {
+    try {
+      const response = await axios.post( `${ API_BASE_URL }/connect-wallet`, {taskId,address} );
+      console.log("wallet connect response:-",response)
+      return response.data;
+    } catch ( error )
+    {
+      console.log("error in connecting to wallet:-",error)
+      // return rejectWithValue('Failed to create task');
+    }
+  }
+);
+
 
 // complete the task
 export const completeTask = createAsyncThunk(

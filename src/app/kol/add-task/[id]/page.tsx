@@ -96,6 +96,10 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     setRewards( { xp: 0, coins: 0, } );
     setTaskDescription( " " );
     setTaskName( ' ' );
+    setFileType( '' );
+    setPolls( [ { question: "", options: [ "", "" ] } ] );
+    setQuizzes( [ { question: "", options: [ "", "", "", "" ], correctAnswer: '' } ] );
+    setWallets( 0 );
   };
 
 
@@ -156,17 +160,18 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
         ...baseTask,
         uploadFileType: fileType
       },
-      "Multiple wallet connect": {
+      "Connect multiple wallet": {
         ...baseTask,
-        walletsToConnect:wallets
+        walletsToConnect: wallets
       }
     };
 
     const taskData = taskDataMap[ selectedTask.name ] || baseTask;
-
+console.log('taskdata:-',taskData)
     try
     {
       const response = await dispatch( createTask( taskData ) );
+      console.log('response in adding the task:-',response)
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
     } catch ( error ) 
@@ -457,10 +462,10 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                       </label>
                       <input
                         type="number"
-                        value={wallets}
+                        // value={wallets}
                         className="w-3/4 p-3 bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none"
-                        placeholder="Task Name"
-                        onChange={ ( e ) => setWallets( Number(e.target.value) ) }
+                        placeholder="Total wallets to connect"
+                        onChange={ ( e ) => setWallets( Number( e.target.value ) ) }
                       />
                     </div>
                   }
