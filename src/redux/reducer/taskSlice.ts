@@ -41,6 +41,7 @@ export type TaskOrPoll = ITaskBase & {
   taskName?:string;
   taskDescription?: string;
   uploadFileType?: string;
+  walletsToConnect?: number;
 };
 
 

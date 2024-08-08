@@ -64,6 +64,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   const [ showConnectButton, setShowConnectButton ] = useState( false );
   const [ modalView, setModalView ] = useState( false );
   const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+  const [ wallets, setWallets ] = useState( 0 );
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
@@ -92,9 +93,9 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     setSelectedTask( null );
     setInviteUrl( "" );
     setModalView( false );
-    setRewards( { xp: 0, coins: 0, } )
+    setRewards( { xp: 0, coins: 0, } );
     setTaskDescription( " " );
-    setTaskName(' ')
+    setTaskName( ' ' );
   };
 
 
@@ -155,7 +156,10 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
         ...baseTask,
         uploadFileType: fileType
       },
-
+      "Multiple wallet connect": {
+        ...baseTask,
+        walletsToConnect:wallets
+      }
     };
 
     const taskData = taskDataMap[ selectedTask.name ] || baseTask;
@@ -429,6 +433,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
               <div className="p-6 space-y-6 overflow-y-auto flex-grow">
                 <p className="text-gray-300">{ selectedTask.description }</p>
 
+
                 <div className="space-y-4">
                   <input
                     type="text"
@@ -442,6 +447,24 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                     onChange={ ( e ) => setTaskDescription( e.target.value ) }
                     rows={ 4 }
                   />
+
+                  { ( selectedTask.name === "Connect multiple wallet" ) &&
+                    <div className="flex items-center mt-2">
+                      <label
+                        className="w-full p-3 border-r-1  rounded-l-lg bg-gray-700 text-white"
+                      >
+                        Total wallet to connect
+                      </label>
+                      <input
+                        type="number"
+                        value={wallets}
+                        className="w-3/4 p-3 bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                        placeholder="Task Name"
+                        onChange={ ( e ) => setWallets( Number(e.target.value) ) }
+                      />
+                    </div>
+                  }
+
 
                   <label className="block text-gray-300 font-semibold mb-2">Rewards</label>
                   <div className="flex items-center mt-2">
@@ -621,6 +644,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                     In this task, the user will respond with a { selectedTask.name.toLowerCase() }.
                   </p>
                 ) }
+
 
                 <div className="flex justify-end space-x-4 mt-6">
                   <button

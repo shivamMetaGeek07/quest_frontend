@@ -52,6 +52,7 @@ export interface CardData
   uploadLink?: string;
   completions: Completion[];
   uploadFileType?: string;
+  walletsToConnect?:number
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
