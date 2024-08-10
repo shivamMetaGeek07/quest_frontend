@@ -462,10 +462,12 @@ console.log('taskdata:-',taskData)
                       </label>
                       <input
                         type="number"
-                        // value={wallets}
+                        min={ 1 }
+                        max={ 10 }
+                        value={wallets}
                         className="w-3/4 p-3 bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none"
-                        placeholder="Total wallets to connect"
-                        onChange={ ( e ) => setWallets( Number( e.target.value ) ) }
+                        placeholder="Wallets to connect"
+                        onChange={ ( e ) => setWallets( parseInt( e.target.value )>10?10:parseInt( e.target.value )) }
                       />
                     </div>
                   }
@@ -481,7 +483,9 @@ console.log('taskdata:-',taskData)
                     <input
                       type="number"
                       value={ rewards.xp }
-                      onChange={ ( e ) => setRewards( { ...rewards, xp: parseInt( e.target.value ) } ) }
+                      min={ 0 }
+                      max={ 500 }
+                      onChange={ ( e ) => setRewards( { ...rewards, xp: parseInt( e.target.value )>500?500:parseInt( e.target.value ) } ) }
                       placeholder="Value"
                       className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
                       required
@@ -495,8 +499,10 @@ console.log('taskdata:-',taskData)
                     </label>
                     <input
                       type="number"
+                      min={ 0 }
+                      max={ 100 }
                       value={ rewards.coins }
-                      onChange={ ( e ) => setRewards( { ...rewards, coins: parseInt( e.target.value ) } ) }
+                      onChange={ ( e ) => setRewards( { ...rewards, coins:parseInt( e.target.value )>100?100:parseInt( e.target.value ) } ) }
                       placeholder="Value"
                       className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
                       required
