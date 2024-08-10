@@ -413,7 +413,7 @@ const MyCommunities = () =>
               ) ) }
             </div>
 
-            <div className="flex w-full justify-center mt-7">
+            <div className="flex w-full justify-center gap-4 mt-7">
               <Pagination
                 onChange={ handlePageChange }
                 page={ page }
@@ -425,7 +425,7 @@ const MyCommunities = () =>
                 color="secondary"
               />
               <div className="flex items-center ">
-                <label htmlFor="itemsPerPage" className="text-sm text-gray-400">
+                <label htmlFor="itemsPerPage" className="text-sm px-2 text-gray-400">
                   Items per page:
                 </label>
 
