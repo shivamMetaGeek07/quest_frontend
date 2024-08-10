@@ -9,6 +9,7 @@ import { warning } from "framer-motion/dom";
 import Image from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// import { ethers } from 'ethers';
 
 // types.ts
 
