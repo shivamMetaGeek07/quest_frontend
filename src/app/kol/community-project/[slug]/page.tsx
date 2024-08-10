@@ -38,7 +38,7 @@ export default function CommunityProject ( {
   const [ users, setUsers ] = useState( [] );
   const questIds = community?.quests;
   const userData = community?.members;
-  console.log( userData );
+  // console.log( userData );
   useEffect( () =>
   {
     dispatch( fetchCommunity( id ) );

@@ -137,8 +137,6 @@ const Profile: React.FC = () =>
     getFriends();
   }, [] );
 
-  // console.log("ALl friends:",allFriends)
-
   const handleEarnRewardsClicks = () =>
   {
     if ( earned === null )

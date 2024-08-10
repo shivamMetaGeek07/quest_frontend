@@ -14,7 +14,7 @@ interface Data {
 const Page: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const ecosystems = useSelector( ( state: any ) => state.adminCommunity.ecosystems);
-  console.log(ecosystems)
+  // console.log(ecosystems)
 
   useEffect(() => {
     dispatch(getCommunitySuccess());

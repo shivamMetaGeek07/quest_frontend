@@ -38,7 +38,7 @@ export default function FeedItemPage({ params }: { params: { id: string } }) {
       setLoading(false);
     }
   };
-  console.log(item);
+  // console.log(item);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;

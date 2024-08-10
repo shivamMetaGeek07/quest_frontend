@@ -57,16 +57,19 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   ] );
   const [ taskName, setTaskName ] = useState( "" );
   const [ taskDescription, setTaskDescription ] = useState( "" );
+  const [ rewards, setRewards ] = useState( { xp: 0, coins: 0, } );
   const [ fileType, setFileType ] = useState( "" );
   const [ inviteUrl, setInviteUrl ] = useState( '' );
   const [ success, setSuccess ] = useState( false );
   const [ showConnectButton, setShowConnectButton ] = useState( false );
   const [ modalView, setModalView ] = useState( false );
   const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+  const [ wallets, setWallets ] = useState( 0 );
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
-  console.log(fileType)
+
+  // console.log(taskOptions)
 
   useEffect( () =>
   {
@@ -90,6 +93,13 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     setSelectedTask( null );
     setInviteUrl( "" );
     setModalView( false );
+    setRewards( { xp: 0, coins: 0, } );
+    setTaskDescription( " " );
+    setTaskName( ' ' );
+    setFileType( '' );
+    setPolls( [ { question: "", options: [ "", "" ] } ] );
+    setQuizzes( [ { question: "", options: [ "", "", "", "" ], correctAnswer: '' } ] );
+    setWallets( 0 );
   };
 
 
@@ -104,6 +114,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     }[ selectedTask.name ] || {};
     setSelectedTask( { ...selectedTask, ...updatedField } );
   };
+
   const handlediscordChange = ( inviteUrl: any, guildata: any ) =>
   {
     if ( !selectedTask ) return;
@@ -124,6 +135,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       creator: KolId,
       taskName,
       taskDescription,
+      rewards
     };
 
     const taskDataMap: any = {
@@ -148,15 +160,18 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
         ...baseTask,
         uploadFileType: fileType
       },
+      "Connect multiple wallet": {
+        ...baseTask,
+        walletsToConnect: wallets
+      }
     };
 
     const taskData = taskDataMap[ selectedTask.name ] || baseTask;
-
+console.log('taskdata:-',taskData)
     try
     {
-      console.log( "task", taskData );
       const response = await dispatch( createTask( taskData ) );
-      console.log( "response after creating task:", response );
+      console.log('response in adding the task:-',response)
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
     } catch ( error ) 
@@ -252,7 +267,6 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       if ( checkguild )
       {
         setSuccess( true );
-        console.log( response );
         handlediscordChange( inviteUrl, guildata );
         notify( "success", "Bot connected successfully" );
       } else
@@ -314,7 +328,6 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                   className="p-4 md:p-5 flex flex-col gap-4 bg-[#141414] text-white w-full md:w-1/2" >
                   { categories.slice( 0, Math.ceil( categories.length / 2 ) ).map( ( category: string ) => (
                     <div key={ category }>
-
                       <div className="mx-4">
                         <h4 className="text-xl font-medium mb-2 text-gray-400 ">{ category }</h4>
                       </div>
@@ -371,7 +384,6 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                               className="flex items-center p-3 text-base font-medium rounded-3xl dark:text-white cursor-pointer hover:bg-[#272A2A] text-white shadow"
                               onClick={ () => openTaskModal( task ) }
                             >
-
                               <div className="flex items-center justify-center  mr-3">
                                 <img
                                   src={ task.icon }
@@ -385,7 +397,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                               <div className="flex-1 ">
                                 <h3>{ task.name }</h3>
                                 <div className="text-sm  ">
-                                  <p className="text-gray-400"> { task.description } </p>
+                                  <p className="text-gray-400"> { task?.description } </p>
                                 </div>
                               </div>
                             </div>
@@ -426,6 +438,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
               <div className="p-6 space-y-6 overflow-y-auto flex-grow">
                 <p className="text-gray-300">{ selectedTask.description }</p>
 
+
                 <div className="space-y-4">
                   <input
                     type="text"
@@ -439,6 +452,62 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                     onChange={ ( e ) => setTaskDescription( e.target.value ) }
                     rows={ 4 }
                   />
+
+                  { ( selectedTask.name === "Connect multiple wallet" ) &&
+                    <div className="flex items-center mt-2">
+                      <label
+                        className="w-full p-3 border-r-1  rounded-l-lg bg-gray-700 text-white"
+                      >
+                        Total wallet to connect
+                      </label>
+                      <input
+                        type="number"
+                        min={ 1 }
+                        max={ 10 }
+                        value={wallets}
+                        className="w-3/4 p-3 bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none"
+                        placeholder="Wallets to connect"
+                        onChange={ ( e ) => setWallets( parseInt( e.target.value )>10?10:parseInt( e.target.value )) }
+                      />
+                    </div>
+                  }
+
+
+                  <label className="block text-gray-300 font-semibold mb-2">Rewards</label>
+                  <div className="flex items-center mt-2">
+                    <label
+                      className="w-1/2 px-4 py-2 border rounded-l-lg bg-gray-800 text-white"
+                    >
+                      XP
+                    </label>
+                    <input
+                      type="number"
+                      value={ rewards.xp }
+                      min={ 0 }
+                      max={ 500 }
+                      onChange={ ( e ) => setRewards( { ...rewards, xp: parseInt( e.target.value )>500?500:parseInt( e.target.value ) } ) }
+                      placeholder="Value"
+                      className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <label
+                      className="w-1/2 px-4 py-2 border rounded-l-lg bg-gray-800 text-white"
+                    >
+                      Coins
+                    </label>
+                    <input
+                      type="number"
+                      min={ 0 }
+                      max={ 100 }
+                      value={ rewards.coins }
+                      onChange={ ( e ) => setRewards( { ...rewards, coins:parseInt( e.target.value )>100?100:parseInt( e.target.value ) } ) }
+                      placeholder="Value"
+                      className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
+                      required
+                    />
+                  </div>
                 </div>
 
                 {/* Task-specific inputs */ }
@@ -567,7 +636,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
 
                     label="Select type of file you will upload"
                     placeholder="Select type of file you will upload"
-                    onChange={(e) => setFileType(e.target.value)}
+                    onChange={ ( e ) => setFileType( e.target.value ) }
                     className="w-full border border-gray-800 rounded-lg focus:outline-none focus:ring-2 transition-colors duration-300 bg-black text-sm text-white"
                   >
                     <SelectItem className="bg-gray-600 text-white" key={ "image" } value="image">Image (.jpg, .png, .gif)</SelectItem>
@@ -586,6 +655,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
                     In this task, the user will respond with a { selectedTask.name.toLowerCase() }.
                   </p>
                 ) }
+
 
                 <div className="flex justify-end space-x-4 mt-6">
                   <button

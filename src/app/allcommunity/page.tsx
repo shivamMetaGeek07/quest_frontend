@@ -125,7 +125,7 @@ const MyCommunities = () =>
       console.error( "Failed to fetch communities:", error );
     }
   };
-  console.log( "communities:-", communities );
+  // console.log( "communities:-", communities );
 
   useEffect( () =>
   {

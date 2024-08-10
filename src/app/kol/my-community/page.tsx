@@ -20,9 +20,6 @@ const MyCommunities: React.FC = () =>
   const userCommunities = useSelector( ( state: RootState ) => state.community?.userCommunities );
   const userCommunityIds = useSelector( ( state: RootState ) => state.login.user?.community );
 
-console.log(userCommunities)
-  console.log( userCommunities )
-
   useEffect( () =>
   {
     dispatch( fetchUserData() );

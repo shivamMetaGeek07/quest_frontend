@@ -33,7 +33,7 @@ const Page = () => {
       setTotalPages(response.data.totalPages);
       // console.log("Community items :-", response.data);
     } catch (error) {
-      // console.log("error in getting community :-", error);
+      console.log("error in getting community :-", error);
     }
   };
 

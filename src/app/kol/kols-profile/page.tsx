@@ -36,7 +36,7 @@ const KolsProfile = ( props: Props ) =>
         communityIds: ids,
       } );
       setCommunities( response.data.communities );
-      console.log( "community data", response.data );
+      // console.log( "community data", response.data );
     } catch ( error )
     {
       console.error( 'Failed to fetch communities:', error );
