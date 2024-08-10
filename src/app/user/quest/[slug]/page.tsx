@@ -1309,7 +1309,7 @@ const checkCivicPass = async (taskId: any) => {
                   { selectedCard.type === "Connect multiple wallet" && (
                     <div>
                       { [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
-                        <div className="flex justify-between py-4">
+                        <div key={ index } className="flex justify-between py-4">
                           <label htmlFor="">Connect your wallet { index + 1 }</label>
                           <Button
                             key={ index }
