@@ -13,7 +13,7 @@ export const useProtectedRoute = (requiredRole: 'user' | 'kol') => {
     if (userRole === null) {
       router.push('/login');  
     } else if (userRole !== requiredRole) {
-      router.push('/');  
+      router.push('/home');  
     } else {
       setHasAccess(true);
     }

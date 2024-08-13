@@ -255,7 +255,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                     // console.log( data );
                     dispatch( fetchUserData() );
                     setNav( true );
-                    router.push( '/' );
+                    router.push('/home' );
                 }
             } catch ( error )
             {

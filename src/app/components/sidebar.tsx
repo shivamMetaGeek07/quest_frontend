@@ -36,7 +36,7 @@ const Sidebar = () =>
       setNav( false );
       if ( pathname === "/login" )
       {
-        router.push( '/' );
+        router.push( '/home' );
       }
     }
     prevPathRef.current = pathname;

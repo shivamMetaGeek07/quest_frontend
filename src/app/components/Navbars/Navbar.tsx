@@ -63,7 +63,7 @@ const Navbar: React.FC = () =>
                 localStorage.clear();
                 Cookies.remove( 'authToken' );
                 setRefresh( true );
-                router.push( '/' );
+                router.push( '/home' );
                 window.location.reload();
                 notify( "success", "Logout Successful" );
                 setRefresh( false );
