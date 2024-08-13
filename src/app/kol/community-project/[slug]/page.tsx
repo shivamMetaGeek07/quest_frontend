@@ -1,12 +1,11 @@
 "use client";
 
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCommunity } from "@/redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "@/redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
-import Image from "next/image";
 import UserTable from "@/app/components/table/userTable";
 import { User } from "@/app/leaderboard/data";
 import axios from "axios";
@@ -43,7 +42,7 @@ export default function CommunityProject ( {
   {
     dispatch( fetchCommunity( id ) );
     // console.log(community);
-  }, [ dispatch, id ] );
+  }, [ id ] );
 
   useEffect( () =>
   {
@@ -51,7 +50,7 @@ export default function CommunityProject ( {
     {
       dispatch( fetchQuests( questIds ) );
     }
-  }, [ dispatch, questIds ] );
+  }, [ questIds ] );
 
   const getUsers = useCallback( async () =>
   {
