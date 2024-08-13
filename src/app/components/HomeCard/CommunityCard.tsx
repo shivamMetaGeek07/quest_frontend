@@ -1,8 +1,9 @@
-import Image from "next/image";
 import React from "react";
+import {useRouter} from 'next/navigation'
 
 // Define the TypeScript type for the card data
 type CommunityCardData = {
+  _id: string;
   logo: string;
   title: string; // alphahub
   quests: []; // length
@@ -12,8 +13,11 @@ type CommunityCardData = {
 
 // CommunityCard component
 const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
+  const router=useRouter();
+  console.log(data);
   return (
-    <div className="cursor-pointer">
+    
+    <div className="cursor-pointer" onClick={() => {router.push(`/kol/community-project/${data._id}`)}}>
       <div className="outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-5 sm:p-2 p-4 flex-col justify-center w-full sm:w-full ">
         <div className="flex flex-row text-xl items-center justify-around ">
           <div className="p-1">
@@ -64,7 +68,7 @@ const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
         </div>
 
         <div>
-          <div className="flex flex-row text-xs m-1 gap-2 justify-start">
+          <div className="flex flex-row text-xs h-[5vh] m-1 gap-2 justify-start">
             <span className="descText">Bio:</span>
             <span className="descdata text-wrap break-words overflow-hidden line-clamp-2">
               {data.description}

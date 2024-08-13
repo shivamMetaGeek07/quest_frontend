@@ -13,7 +13,7 @@ const UserProfile: React.FC = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    router.push('/'); 
+    router.push('/home'); 
   };
 
   if (!isOpen) return null;
