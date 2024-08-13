@@ -271,8 +271,10 @@ function CreateQuest ()
                 </label>
                 <input
                   type="number"
-                  onChange={ ( e ) => handleRewardChange( index, +e.target.value ) }
+                  onChange={ ( e ) => handleRewardChange( index, parseInt( e.target.value )>500?500:parseInt( e.target.value ) ) }
                   placeholder="Value"
+                  min={1}
+                  max={500}
                   className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
                   required
                 />
