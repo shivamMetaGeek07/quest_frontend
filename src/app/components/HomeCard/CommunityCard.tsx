@@ -13,7 +13,7 @@ type CommunityCardData = {
 // CommunityCard component
 const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
   return (
-    <div className="">
+    <div className="cursor-pointer">
       <div className="outer-div relative flex lg:gap-2 sm:gap-4 gap-4  hover:bg-[#8c71ff] hover:text-[#111111] border-[#282828] border rounded-md lg:p-5 sm:p-2 p-4 flex-col justify-center w-full sm:w-full ">
         <div className="flex flex-row text-xl items-center justify-around ">
           <div className="p-1">
