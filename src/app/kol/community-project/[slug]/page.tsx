@@ -436,7 +436,9 @@ export default function CommunityProject ( {
                       <div>
                         <img
                           src={
-                            "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U4DiI90Nb~y-baCsBKlUdMg0bdnFmPTwIHqnEj6XIpfLQ-Wrrkxh19U3XxyEBSYW6skusvRfpKf1JglEQirKFdDOr-F61gwWjzqgfffqjJ4F2nSZoG77-uhqZ3oe0G-M~bfpO-OfRuMFxMe4WGaRKoZqNB~yI1MRN~0e~kyuD37gWTGNPqDYML7sSexowM2laSDLDVFZZqc~xJEulldl9iCWRvhbjMHvRqqkF3XxcfQu7lPvZVIS9b~a6vPmLfg~G-GEgp-m8b-Vp4ESk8e~xFjt2ww7Kl9R9aSle4QXsvE6BudwTUeSATqxnxfiM3POsBR7oxS8OUSKiDlIdTZh8w__"
+                            quest.logo
+                              ? quest.logo
+                              : 'https://img.freepik.com/premium-photo/beautiful-bright-fantasystyle-loot-box-box-with-items-inside_763713-1516.jpg'
                           }
                           alt=''
                           className='h-16 w-36 object-cover'
