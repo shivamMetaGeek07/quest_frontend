@@ -2,7 +2,7 @@ import React from "react";
 
 function page() {
   return (
-    <div>
+    <div >
       <div className="main mt-8 lg:mx-10 md:mx-6 mx-4">
         <div className="h main ml-8">
           <div className="relative  flex md:flex-row flex-col justify-between items-center gap-3">
@@ -80,7 +80,102 @@ function page() {
     </div>
         
       </div>
-      
+        <div className="lg:block md:hidden hidden">
+      <div className="flex gap-32 relative">
+
+     <div className="flex flex-col relative  ">
+    <div className="absolute left-72 top-0"> <svg xmlns="http://www.w3.org/2000/svg" width="42" height="5" viewBox="0 0 42 5" fill="none">
+  <path d="M0.5 4L1.65685 2.84315C3.15715 1.34285 5.19198 0.5 7.31371 0.5H42" stroke="url(#paint0_linear_528_362)" stroke-width="1.2"/>
+  <defs>
+    <linearGradient id="paint0_linear_528_362" x1="0.5" y1="2.25" x2="42" y2="2.25" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA00FF"/>
+      <stop offset="1" stop-color="#960099" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+</div>
+
+<div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="370" height="45" viewBox="0 0 370 45" fill="none">
+  <path opacity="0.7" d="M-183 1L-164.343 19.6569C-162.843 21.1571 -160.808 22 -158.686 22H269.186C271.308 22 273.343 21.1571 274.843 19.6569L280.657 13.8431C282.157 12.3429 284.192 11.5 286.314 11.5H333.686C335.808 11.5 337.843 12.3429 339.343 13.8431L369.5 44" stroke="url(#paint0_linear_528_358)" stroke-width="0.5"/>
+  <defs>
+    <linearGradient id="paint0_linear_528_358" x1="288" y1="8" x2="345.5" y2="23" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white"/>
+      <stop offset="1" stop-color="#999999" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+</div>
+
+<div className="absolute left-64 top-7">
+<svg xmlns="http://www.w3.org/2000/svg" width="13" height="6" viewBox="0 0 13 6" fill="none">
+  <path d="M12 1L9.84314 3.15686C8.34285 4.65715 6.30802 5.5 4.18629 5.5H0" stroke="url(#paint0_linear_528_361)" stroke-width="1"/>
+  <defs>
+    <linearGradient  id="paint0_linear_528_361" x1="0" y1="3.25" x2="12" y2="3.25" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA00FF"/>
+      <stop offset="1" stop-color="#960099" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+</div>
+<div className="absolute bottom-6 left-72 flex-col">
+ <p className="text-small text-neutral-500">DEVELOPERS</p>
+ <p className="text-[#FA00FF]">DECUMENTATION</p>
+ <p className="text-[#FA00FF]">GITHUB</p>
+</div>
+</div>
+
+
+
+<div className="flex flex-col relative mt-16 ">
+
+
+  <div className="absolute top-3 left-24">
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="6" viewBox="0 0 13 6" fill="none">
+  <path d="M0.5 5L2.65686 2.84314C4.15715 1.34285 6.19198 0.5 8.31371 0.5H12.5" stroke="url(#paint0_linear_528_367)" stroke-width="0.9"/>
+  <defs>
+    <linearGradient id="paint0_linear_528_367" x1="12.5" y1="2.75" x2="0.5" y2="2.75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA00FF"/>
+      <stop offset="1" stop-color="#960099" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+  </div>
+
+<div><svg xmlns="http://www.w3.org/2000/svg" width="554" height="45" viewBox="0 0 554 45" fill="none">
+  <path opacity="0.8" d="M553.5 44L534.843 25.3431C533.343 23.8429 531.308 23 529.186 23H101.314C99.192 23 97.1571 23.8429 95.6569 25.3431L89.8431 31.1569C88.3429 32.6571 86.308 33.5 84.1863 33.5H36.8137C34.692 33.5 32.6571 32.6571 31.1569 31.1569L1 1" stroke="url(#paint0_linear_528_364)" stroke-width="0.5"/>
+  <defs>
+    <linearGradient id="paint0_linear_528_364" x1="27.5" y1="18" x2="277" y2="17.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0"/>
+      <stop offset="0.443985" stop-color="white"/>
+      <stop offset="1" stop-color="#999999" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+</div>
+
+<div className="absolute bottom-0 left-12">
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="5" viewBox="0 0 43 5" fill="none">
+  <path d="M42 1L40.8431 2.15685C39.3429 3.65715 37.308 4.5 35.1863 4.5H0.5" stroke="url(#paint0_linear_528_368)" stroke-width="0.9"/>
+  <defs>
+    <linearGradient id="paint0_linear_528_368" x1="42" y1="2.75" x2="0.5" y2="2.75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FA00FF"/>
+      <stop offset="1" stop-color="#960099" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+</svg>
+</div>
+<div className="absolute -left-6 -top-10 text-right">
+<p className="text-small text-neutral-500 ">ABOUT</p>
+<p className="text-[#FA00FF]">CAREERS</p>
+<p className="text-[#FA00FF]">COMMUNITY</p>
+</div>
+</div>
+
+
+</div>
+</div>
+
     </div>
   );
 }
