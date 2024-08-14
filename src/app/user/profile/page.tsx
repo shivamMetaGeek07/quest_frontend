@@ -173,8 +173,61 @@ const Profile: React.FC = () =>
      const url = ` https://web.telegram.org/a/#${user?.teleInfo?.telegramId}`;
       window.open(url, '_blank');
     }
-  
   };
+  const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+
+  const targetUserId="@Kiritosubaro"
+  const handleXfollow=async()=>{
+    const response=await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/follows/${targetUserId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken,
+        }, 
+        withCredentials:true
+      }
+    )
+    console.log(response)
+  }
+  
+  // const handleXfollow = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/check-like`, {
+  //       params: {
+  //         tweetUrl: "https://x.com/Shivam7Sisodia/status/1769045141606875625",
+  //         userId: "fr_Ani5",
+  //       },
+  //       headers: {
+  //         'Authorization': `Bearer ${authToken}`, // Assuming you use Bearer token for authorization
+  //       },
+  //       withCredentials: true,
+  //     });
+  
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Error checking if user liked the tweet:', error);
+  //   }
+  // }; 
+  // const tweetContent="this is my tweet from tweets"
+  // const handleXfollow = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/postuser`,
+  //       { tweetContent }, 
+  //       {
+  //         headers: {
+  //           'Authorization': `Bearer ${authToken}`,  
+  //           'Content-Type': 'application/json', 
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
+  
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Error posting tweet content:', error);
+  //   }
+  // };
   useEffect( () =>
   {
       const script = document.createElement('script');
@@ -261,6 +314,9 @@ const Profile: React.FC = () =>
                       <div className="flex  flex-col  items-center justify-center">
                         <div>
                           <ModalForm />
+                        </div>
+                        <div onClick={handleXfollow}>
+                          twitter check
                         </div>
                         <div className="flex flex-row justify-center items-center gap-2">
                         {
