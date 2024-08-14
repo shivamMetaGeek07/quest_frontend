@@ -336,30 +336,19 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
               {/* badges */ }
               <div className="lg:w-1/2 ">
                 <div className="flex flex-col lg:justify-start justify-center lg:items-start items-center">
-                  {/* <svg className="top-0 left-0" style={{strokeWidth: "1px",stroke: "#FFF"}} xmlns="http://www.w3.org/2000/svg" width="135" height="51" viewBox="0 0 135 51" fill="none">
-                <path d="M134 1L96.0755 39.3478H19.3836L8.84906 50H0" stroke="url(#paint0_linear_213_1475)" strokeOpacity="0.1"/>
-                <defs>
-                <linearGradient id="paint0_linear_213_1475" x1="11" y1="50" x2="16.5" y2="38" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="white"/>
-                  <stop offset="1" stop-color="#999999" stop-opacity="0"/>
-                </linearGradient>
-                </defs>
-              </svg>
-              <svg className="top-0 left-0" style={{strokeWidth: "1px",stroke: "rgba(255, 255, 255, 0.10)"}} xmlns="http://www.w3.org/2000/svg" width="127" height="27" viewBox="0 0 127 27" fill="none">
-                <path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" strokeOpacity="0.1"/>
-              </svg> */}
-                  {/* <div className="flex items-end justify-end ">
-              <button onClick={()=>{
-                router.push('/user/rewards')
-              }} className="bg-blue-600 rounded-full px-2 py-1 text-sm font-bold">
-                View all
-              </button>
-              </div> */}
-                  <div className="badgesBox">
-                    <div className="bg-black flex lg:flex-row flex-wrap lg:justify-start justify-center items-center p-4 ">
-                      { userData?.badges.length ? (
+                  <div className="badgesBox w-full min-h-32 mt-5 lg:mt-0">
+                    <div className="w-full min-h-32 innerbox2 ">
+                      <svg className="top-0 left-0 svg1" style={ { strokeWidth: "1px", stroke: "#FA00FF" } } xmlns="http://www.w3.org/2000/svg" width="5" height="4" viewBox="0 0 5 4" fill="none">
+                        <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
+                      </svg>
+                      <svg className="top-0 left-0 svg2" style={ { strokeWidth: "1px", stroke: "#FA00FF" } } xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5" fill="none">
+                        <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF" />
+                      </svg>
+                      <div className="flex justify-start items-center">
+
+                        { userData?.badges?.length ? (
                         <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
-                          { userData.badges.map( ( data: any ) => (
+                          { userData.badges.map( ( data:any ) => (
                             <div
                               key={ data?.id }
                               className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
@@ -376,7 +365,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                           ) ) }
                         </div>
                       ) : (
-                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" >
+                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" onClick={()=>router.push('/allcommunity')} >
                           <div className=" rounded-lg p-6 text-center shadow-md">
                             <svg
                               className="mx-auto h-12 w-12 text-gray-400"
@@ -393,12 +382,10 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
                               />
                             </svg>
                             <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
-                            <p className="mt-1 text-sm text-gray-500">
-                              { userData?.displayName } does not have any badge
-                            </p>
                           </div>
                         </div>
                       ) }
+                      </div>
                     </div>
                   </div>
                 </div>

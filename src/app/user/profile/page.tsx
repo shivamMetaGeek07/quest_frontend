@@ -15,48 +15,9 @@ import axios from "axios";
 
 type BadgesData = {
   id: number;
-  title: string;
+  name: string;
   imageUrl: string;
 };
-
-const BadgesData: BadgesData[] = [
-  {
-    id: 1,
-    title: "Badges",
-    imageUrl:
-      "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
-  },
-  {
-    id: 2,
-    title: "Badges",
-    imageUrl:
-      "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
-  },
-  {
-    id: 3,
-    title: "Badges",
-    imageUrl:
-      "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
-  },
-  {
-    id: 4,
-    title: "Badges",
-    imageUrl:
-      "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
-  },
-  {
-    id: 5,
-    title: "Badges",
-    imageUrl:
-      "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
-  },
-  {
-    id: 6,
-    title: "Badges",
-    imageUrl:
-      "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
-  },
-];
 
 const columns = [
   // { name: "SNO.", uid: "sno" },
@@ -354,30 +315,50 @@ const Profile: React.FC = () =>
                       <svg className="top-0 left-0 svg2" style={ { strokeWidth: "1px", stroke: "#FA00FF" } } xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5" fill="none">
                         <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF" />
                       </svg>
-                      {/* <svg className="top-0 left-0 svg" style={{strokeWidth: "1px",stroke: "rgba(255, 255, 255, 0.10)"}} xmlns="http://www.w3.org/2000/svg" width="127" height="27" viewBox="0 0 127 27" fill="none">
-<path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" stroke-opacity="0.1"/>
-</svg> */}
-
-                      <div className="flex flex-wrap lg:justify-start justify-center items-center p-2 ">
-                        { BadgesData.map( ( data ) => (
-                          <div
-                            key={ data.id }
-                            className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
-                          >
-                            <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                              <img
-                                src={ data.imageUrl }
-                                alt="badge photo"
-                                className="w-full h-full bg-cover object-cover"
-                              />
+                        { user?.badges?.length ? (
+                        <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
+                          { user.badges.map( ( data:any ) => (
+                            <div
+                              key={ data?.id }
+                              className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
+                            >
+                              <div className="w-[2rem] h-[2rem] bottom-trapezium">
+                                <img
+                                  src={ data?.imageUrl || 'https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png' }
+                                  alt="badge photo"
+                                  className="w-full h-full bg-cover object-cover"
+                                />
+                              </div>
+                              <h1 className="font-medium">{ data?.name }</h1>
                             </div>
-                            <h1 className="  font-medium">{ data.title }</h1>
+                          ) ) }
+                        </div>
+                      ) : (
+                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" onClick={()=>router.push('/allcommunity')} >
+                          <div className=" rounded-lg p-6 text-center shadow-md">
+                            <svg
+                              className="mx-auto h-12 w-12 text-gray-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                              />
+                            </svg>
+                            <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
+                            <p className="mt-1 text-sm text-gray-500">
+                              Complete quests and tasks to earn badges!
+                            </p>
                           </div>
-                        ) ) }
-                      </div>
+                        </div>
+                      ) }
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
