@@ -5,25 +5,24 @@ import { Button,Modal, ModalContent, ModalHeader,Input, ModalBody, ModalFooter, 
 import { ethers } from "ethers";
 import {Spinner} from "@nextui-org/react";
 import axios from "axios";
-// import { Span } from "next/dist/trace";
-  
-
 const LandingPage = ()=> {
   const {isOpen, onOpen, onClose} = useDisclosure();
-  const [domain, setDomain] = useState<string>('');
+  const [domain, setDomain] = useState<string>("");
   const [error, setError] = useState('');
   const [address, setAddress] = useState<string>('');
   const [balance, setBalance] = useState<string>('');
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
   const [iswalletconnected, setIswalletconnected] = useState(false);
-  const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
+  const [showPasswordField, setShowPasswordField] = useState<boolean>(true);
   const [password, setPassword] = useState<string>('');
   const [passReq,setPassReq]=useState(false);
-  const [thankyou,setThankyou]=useState(false);
+  const [hash,setHash]=useState('');
 
   const isAlphanumericWithHyphen = (str: string): boolean => {
-    const regex = /^[a-zA-Z0-9-]+\.fam$/;
+    console.log("step1",str);
+    const regex = /^[a-zA-Z0-9-]+$/
+    console.log("step2",regex.test(str));
     return regex.test(str);
   };
 
@@ -68,6 +67,7 @@ const LandingPage = ()=> {
 
   const handleDomainChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
+    setAlertMessage('');
     setDomain(event.target.value);
   }
 
@@ -78,6 +78,7 @@ const LandingPage = ()=> {
     onOpen();
     setShowPasswordField(false);
     setPassword('');
+    setAlertMessage('')
     // setIswalletconnected(false)
   }
 
@@ -90,17 +91,17 @@ const LandingPage = ()=> {
 
   const handleCreateDomain= async()=>{
     setLoader(true);
+    const updatedDomain=domain+'.fam';
     try{
       const response=await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/domain`,{
-        domainAddress:domain,
+        domainAddress:updatedDomain,
         password:password,
-        hashCode:password, 
+        hashCode:hash, 
         walletAddress:address
       });
 
       if(response.status===200){
         alert(response.data.message);
-        setThankyou(true);
         setPassReq(false);
         alert("Domain created successfully");
         handleClose();
@@ -116,13 +117,14 @@ const LandingPage = ()=> {
 
   const handleMinting = async () => {
     setLoader(true)
-    const updatedDomain = `${domain}.fam`;
-    setDomain(updatedDomain);
-
+    
+    
     if(!isAlphanumericWithHyphen(domain)) {
       setError('Invalid domain name.domain name must be alphanumeric with hyphen.domain must end with .fam');
       return;
     }
+
+    const updatedDomain = domain + '.fam';
 
     const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
       const contractABI = process.env.NEXT_PUBLIC_CONTRACT_ABI
@@ -144,22 +146,23 @@ const LandingPage = ()=> {
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
       
       // Sending transaction
-      const tx = await contract.mintDomain(domain);
+      const tx = await contract.mintDomain(updatedDomain);
       
       // Waiting for the transaction to be mined
       await tx.wait();
 
       // Update the state to show success message
       console.log("Domain mited successfully", tx );
-      setAlertMessage(`Domain ${domain} minted successfully!`);
+      setAlertMessage(`Domain ${updatedDomain} minted successfully!`);
+      setHash(tx.hash);
       setShowPasswordField(true);
       setPassReq(true);
   } catch (error) {
        // Type narrowing with `if` checks
     if (typeof error === "object" && error !== null && "reason" in error) {
-        setAlertMessage(`Error: ${(error as { reason: string }).reason}`);
+        setAlertMessage(`${(error as { reason: string }).reason}`);
     } else if (typeof error === "object" && error !== null && "message" in error) {
-        setAlertMessage(`Error: ${(error as { message: string }).message}`);
+        setAlertMessage(`${(error as { message: string }).message}`);
     } else {
         setAlertMessage("An unknown error occurred.");
     }
@@ -291,9 +294,14 @@ const LandingPage = ()=> {
                 <ModalHeader className="flex flex-col gap-1">Connect Your Wallet and Mint Unique Domain </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col justify-center items-center">
-                <div className="flex w-[90%] mx-auto bg-white justify-between text-black items-center rounded-lg" ><input disabled={showPasswordField} name="domain" className="w-full text-black px-4 py-2 rounded" placeholder="domain name" value={domain} onChange={(e) => handleDomainChange(e)} /><span className=" px-4 py-2">.fam</span></div>
-                  {error && <div className="text-red-600 text-small text-start">{error}</div>}
-                  {alertMessage && <div className={`mt-4 ${alertMessage.includes("Error") ? "text-red-600" : "text-green-600"}`}>{alertMessage}</div>}
+                <div className="flex w-[90%] mx-auto mb-4 bg-white justify-between text-black items-center rounded-lg" >
+                <input disabled={showPasswordField} name="domain" className="w-full  text-black px-4 py-2 rounded" placeholder="domain name" value={domain} onChange={(e) => handleDomainChange(e)} /><span className=" px-4 py-2">.fam</span>
+                </div>
+                  {error && <div className=" text-red-600 text-small text-start mb-4">{error}</div>}
+                  {alertMessage && <div className={`flex justify-start items-center mb-4 ${alertMessage.includes("Error") ? "text-red-600" : "text-green-600"}`}>{alertMessage}</div>}
+                  {showPasswordField && ( 
+                      <Input type="password" variant="flat" label="Password" name="password" className="w-full " value={password} onChange={(e) => setPassword(e.target.value)} />
+                    )}
                 </div>
                 
               </ModalBody>
