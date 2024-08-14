@@ -24,9 +24,7 @@ interface LoginPageProps
 const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 {
     const [ name, setName ] = useState( '' );
-    const [ phoneNumber, setPhoneNumber ] = useState( '' );
     const [ nameError, setNameError ] = useState( '' );
-    const [ phoneError, setPhoneError ] = useState( '' );
     const fileInputRef = useRef<HTMLInputElement>( null );
     const [ otp, setOtp ] = useState( "" );
     const [ ph, setPh ] = useState( "" );
@@ -56,24 +54,6 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
     };
 
 
-    const validatePhoneNumber = ( value: string ) =>
-    {
-        // console.log( value.length );
-        if ( !value )
-        {
-            setPhoneError( 'Phone number is required' );
-        } else if ( !isPossiblePhoneNumber( value ) )
-        {
-            setPhoneError( 'Please enter a valid phone number' );
-        } else if ( value.length !== 13 )
-        {
-            setPhoneError( 'Phone number should be 10 digits long' );
-        }
-        else
-        {
-            setPhoneError( '' );
-        }
-    };
 
     function onCaptchVerify ()
     {
@@ -143,10 +123,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
         {
             const response = await axios.post( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/check/user`, { phone_number: phoneNumber } );
             // console.log( response );
-            if ( response.status == 200 )
-            {
-                notify( 'warn', `${ response.data.message }` );
-            }
+         
             return response.data.existingUser;
         } catch ( error )
         {
@@ -158,6 +135,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
     const onSignup = async () =>
     {
         setLoading( true );
+
+      
 
         if ( !isExistingUser && !logo )
         {
@@ -181,11 +160,18 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 
 
         try
-        {
+        {  if(!ph){
+            setLoading( false );
+            return notify( "warn", "Please Fill form completely" );
+            }
+            if(!name){
+                setLoading( false );
+                return notify( "warn", "Please Fill form completely" );
+                }
             const userExists = await checkExistingUser( ph );
 
             setIsExistingUser( userExists );
-
+            
             if ( !userExists )
             {
                 const uploadSuccess = await handleUpload();
@@ -226,8 +212,13 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
 
     const handleVerifyCode = async () =>
     {
+        if(!otp){
+            toast.error('Please fill  the otp ')
+        }
         if ( confirmationResult && otp )
-        {
+        {                
+            setLoading( true);
+
             try
             {
                 const result = await confirmationResult.confirm( otp );
@@ -236,7 +227,6 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                 const number = users?.phoneNumber;
                 // console.log( users );
                 setuser( users );
-                setLoading( false );
                 toast.success( "OTP verified successfully!" );
                 //   Send user data to the backend
                 const response = await fetch( `${ process.env.NEXT_PUBLIC_SERVER_URL }/api/verify-phone`, {
@@ -253,12 +243,19 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                     const data = await response.json();
                     Cookies.set( 'authToken', data.authToken, { expires: 7 } );
                     // console.log( data );
+                    setLoading( false );
+
                     dispatch( fetchUserData() );
                     setNav( true );
                     router.push('/home' );
+                }else{
+                    toast.error('Invalid otp')
+
                 }
             } catch ( error )
             {
+                setLoading( false );
+                toast.error('Invalid otp')
                 console.error( 'Error during code verification:', error );
             }
         }
@@ -268,11 +265,6 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
         validateName( name );
     }, [ name ] );
 
-
-    useEffect( () =>
-    {
-        validatePhoneNumber( phoneNumber );
-    }, [ phoneNumber ] );
 
     const handleLogoUpload = ( event: React.ChangeEvent<HTMLInputElement> ) =>
     {
@@ -297,35 +289,43 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
         fileInputRef.current?.click();
     };
 
-
-    const handleLogin = async () =>
-    {
-
-        const formatPh = "+91" + ph;
-        const userExists = await checkExistingUser( formatPh );
-        setIsExistingUser( userExists );
-
-        // setuser( userExists );
-        // console.log( userExists );
-        if ( !userExists )
-        {
-            setIsExistingUser( false );
-            // notify( 'warn', "You don't have any account, Please signup" );
-            return;
+    const handleLogin = async () => {
+        if(!ph){
+            toast.error("Please Fill the form")
         }
-
-        await onCaptchVerify();
-
-        const appVerifier = window.recaptchaVerifier;
-        // // const formatPh = "+91" + ph;
-
-        const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
-        // console.log( "result:", result );
-        setConfirmationResult( result );
-        setShowOTP( true );
-        toast.success( "OTP sent successfully!" );
+        try {
+            setLoading(true);
+    
+            const formatPh = "+91" + ph;
+            const userExists = await checkExistingUser(formatPh);
+            setIsExistingUser(userExists);
+    
+            if (!userExists) {
+                setIsExistingUser(false);
+                setLoading(false);
+                // notify('warn', "You don't have any account, Please signup");
+                return;
+            }
+    
+            await onCaptchVerify();
+    
+            const appVerifier = window.recaptchaVerifier;
+    
+            const result = await signInWithPhoneNumber(auth, formatPh, appVerifier);
+    
+            if (result) {
+                setConfirmationResult(result);
+                setShowOTP(true);
+                toast.success("OTP sent successfully!");
+            }
+        } catch (error) {
+            console.error("Error during phone sign-in:", error);
+            toast.error("Failed to send OTP. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
-
+    
     return (
         <div className="min-h-screen flex items-center justify-center p-4 box1">
             <div className="rounded-lg shadow-xl w-full max-w-[492px] bg-[#00000066] border border-gray-700 overflow-hidden">
@@ -363,8 +363,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                                             onClick={ handleVerifyCode }
                                             className="bg-[#5538CE] w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
                                         >
-                                            { loading && <CgSpinner size={ 20 } className="mt-1 animate-spin" /> }
-                                            <span>Verify OTP</span>
+                                            { loading ? <CgSpinner size={ 20 } className="mt-1 animate-spin" />:<span>Verify OTP</span> }
+                                            
                                         </button>
                                     </>
                                 ) : (
@@ -434,8 +434,8 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                                                 onClick={ isExistingUser ? handleLogin : onSignup }
                                                 className="bg-[#5538CE] w-full flex items-center justify-center py-1 text-white rounded"
                                             >
-                                                { loading && <CgSpinner size={ 20 } className="mt-1 animate-spin" /> }
-                                                <span>{ isExistingUser ? "Login" : "Sign Up" }</span>
+                                                { loading ?<CgSpinner size={ 20 } className="mt-1 animate-spin" />:<span>{ isExistingUser ? "Login" : "Sign Up" }</span> }
+                                                
                                             </button>
                                         </div>
                                     </>

@@ -5,11 +5,58 @@ import { BallTriangle } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "@/app/components/ModalForm";
-import { fetchUserData } from "@/redux/reducer/authSlice";
+import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Button, Chip } from "@nextui-org/react";
+import Cookies from 'js-cookie';
 import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
 import TeleApp from "@/app/components/telegram"
+import axios from "axios";
+
+type BadgesData = {
+  id: number;
+  title: string;
+  imageUrl: string;
+};
+
+const BadgesData: BadgesData[] = [
+  {
+    id: 1,
+    title: "Badges",
+    imageUrl:
+      "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
+  },
+  {
+    id: 2,
+    title: "Badges",
+    imageUrl:
+      "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
+  },
+  {
+    id: 3,
+    title: "Badges",
+    imageUrl:
+      "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
+  },
+  {
+    id: 4,
+    title: "Badges",
+    imageUrl:
+      "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
+  },
+  {
+    id: 5,
+    title: "Badges",
+    imageUrl:
+      "https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png",
+  },
+  {
+    id: 6,
+    title: "Badges",
+    imageUrl:
+      "https://antonia.lv/images/izsole79/staba-bataljona-zetons_511_xl.jpg",
+  },
+];
 
 const columns = [
   // { name: "SNO.", uid: "sno" },
@@ -71,6 +118,7 @@ const Profile: React.FC = () =>
     }
   };
 
+
   useEffect( () =>
   {
     getFriends();
@@ -87,36 +135,93 @@ const Profile: React.FC = () =>
       setEarned( null );
     }
   };
+  // console.log( "user", user );
+  const handleEarnRewardsClick = () =>
+  {
+    router.push( "/" );
+  };
+
+  const handleEarnRewardsClickss = () =>
+  {
+    router.push( "/user/leaderboard" );
+  };
 
   const signupDiscord = async () => {
-    if(!user?.discordInfo?.username){
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/discord`;
-    }
-    else{
-      const url = `https://discordapp.com/users/${user?.discordInfo?.discordId}`;
-      window.open(url, '_blank');
-    }
-   
   };
   const signupX = async () => {
-    if(!user?.twitterInfo?.username){
     window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter`;
-
-    }
-    else{
-      const url = `https://x.com/${user?.twitterInfo?.username}`;
-      window.open(url, '_blank');
-    }
   };
   const signupTelegram= async () => {
     if(user?.teleInfo?.telegramId){
      const url = ` https://web.telegram.org/a/#${user?.teleInfo?.telegramId}`;
       window.open(url, '_blank');
     }
-  
   };
+  const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+
+  const targetUserId="@Kiritosubaro"
+  const handleXfollow=async()=>{
+    const response=await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/follows/${targetUserId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authToken,
+        }, 
+        withCredentials:true
+      }
+    )
+    console.log(response)
+  }
+  
+  // const handleXfollow = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/check-like`, {
+  //       params: {
+  //         tweetUrl: "https://x.com/Shivam7Sisodia/status/1769045141606875625",
+  //         userId: "fr_Ani5",
+  //       },
+  //       headers: {
+  //         'Authorization': `Bearer ${authToken}`, // Assuming you use Bearer token for authorization
+  //       },
+  //       withCredentials: true,
+  //     });
+  
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Error checking if user liked the tweet:', error);
+  //   }
+  // }; 
+  // const tweetContent="this is my tweet from tweets"
+  // const handleXfollow = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/twitter/postuser`,
+  //       { tweetContent }, 
+  //       {
+  //         headers: {
+  //           'Authorization': `Bearer ${authToken}`,  
+  //           'Content-Type': 'application/json', 
+  //         },
+  //         withCredentials: true,
+  //       }
+  //     );
+  
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Error posting tweet content:', error);
+  //   }
+  // };
   useEffect( () =>
   {
+      const script = document.createElement('script');
+      script.src = 'https://telegram.org/js/telegram-widget.js?22';
+      script.async = true;
+      script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
+      script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
+      script.setAttribute('data-auth-url', 'https://docsblock.io/auth/telegram/callback');  // Back-End Callback URL
+      script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
+      document.getElementById('telegram-login')?.appendChild(script);
     setIsClient( true );
     dispatch( fetchUserData() );
   }, [] );
@@ -145,7 +250,7 @@ const Profile: React.FC = () =>
 
                       className="bottom-trapezium"
                     /> ) : ( <img
-                      src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                      src="https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1719532800&semt=ais_user"
                       alt="avatar photo"
 
                       className="bottom-trapezium "
@@ -191,8 +296,11 @@ const Profile: React.FC = () =>
                   <div className="lg:w-2/5">
                     <div className="">
                       <div className="flex  flex-col  items-center justify-center">
-                        <div className="mb-2">
+                        <div>
                           <ModalForm />
+                        </div>
+                        <div onClick={handleXfollow}>
+                          twitter check
                         </div>
                         <div className="flex flex-row justify-center items-center gap-2">
                         {
@@ -246,48 +354,27 @@ const Profile: React.FC = () =>
                       <svg className="top-0 left-0 svg2" style={ { strokeWidth: "1px", stroke: "#FA00FF" } } xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5" fill="none">
                         <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF" />
                       </svg>
-                      { user?.badges?.length ? (
-                        <div className="flex flex-wrap lg:justify-start justify-center items-center p-2">
-                          { user.badges.map( ( data:any ) => (
-                            <div
-                              key={ data?.id }
-                              className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
-                            >
-                              <div className="w-[2rem] h-[2rem] bottom-trapezium">
-                                <img
-                                  src={ data?.imageUrl || 'https://i.pinimg.com/originals/88/ea/0a/88ea0a1c3c448867bb7133692c5c6682.png' }
-                                  alt="badge photo"
-                                  className="w-full h-full bg-cover object-cover"
-                                />
-                              </div>
-                              <h1 className="font-medium">{ data?.name }</h1>
-                            </div>
-                          ) ) }
-                        </div>
-                      ) : (
-                        <div className="flex justify-center items-center p-4 hover:cursor-pointer" onClick={()=>router.push('/allcommunity')} >
-                          <div className=" rounded-lg p-6 text-center shadow-md">
-                            <svg
-                              className="mx-auto h-12 w-12 text-gray-400"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                      {/* <svg className="top-0 left-0 svg" style={{strokeWidth: "1px",stroke: "rgba(255, 255, 255, 0.10)"}} xmlns="http://www.w3.org/2000/svg" width="127" height="27" viewBox="0 0 127 27" fill="none">
+<path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" stroke-opacity="0.1"/>
+</svg> */}
+
+                      <div className="flex flex-wrap lg:justify-start justify-center items-center p-2 ">
+                        { user?.badges?.map( ( data ) => (
+                          <div
+                            key={ data.id }
+                            className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
+                          >
+                            <div className="w-[2rem] h-[2rem] bottom-trapezium">
+                              <img
+                                src={ data.imageUrl }
+                                alt="badge photo"
+                                className="w-full h-full bg-cover object-cover"
                               />
-                            </svg>
-                            <h3 className="mt-2 text-sm font-medium text-gray-300">No badges yet</h3>
-                            <p className="mt-1 text-sm text-gray-500">
-                              Complete quests and tasks to earn badges!
-                            </p>
+                            </div>
+                            <h1 className="  font-medium">{ data.title }</h1>
                           </div>
-                        </div>
-                      ) }
+                        ) ) }
+                      </div>
                     </div>
                   </div>
 

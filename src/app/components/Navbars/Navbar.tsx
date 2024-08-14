@@ -84,7 +84,6 @@ const Navbar: React.FC = () =>
     return (
         <nav className="bg-black text-white py-2 md:py-4  ml-[8rem] mr-[4rem] ">
             <div className="container mx-auto ">
-                <Toaster toastOptions={ { duration: 4000 } } />
 
                 {/* Desktop menu */ }
                 <div className="hidden lg:flex items-center justify-between space-x-4">
