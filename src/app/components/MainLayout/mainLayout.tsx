@@ -17,12 +17,13 @@ const MainLayout = ( {
 {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith( '/admin' );
+  const isLandingRoute = pathname.startsWith('/');
 
 
   return (
     <div>
       <NextUIProvider>
-        { isAdminRoute ? ( <AdminNavbar /> ) : <Navbar /> }
+        { isAdminRoute ? ( <AdminNavbar /> ) : isLandingRoute && <Navbar /> }
         {!isAdminRoute ? <Sidebar /> : null}
         <main className={`min-h-screen ${isAdminRoute?'':'md:ml-[4rem]'}`}>{ children }</main>
         <ToastContainer />

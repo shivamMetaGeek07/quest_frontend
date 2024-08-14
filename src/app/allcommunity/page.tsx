@@ -46,7 +46,7 @@ const MyCommunities = () =>
   const [ selectedCategories, setSelectedCategories ] = useState<string[]>( [] );
   const [ page, setPage ] = useState( 1 );
   const [ totalPages, setTotalPages ] = useState( 1 );
-  const [ itemsPerPage, setItemsPerPage ] = useState( 12 );
+  const [ itemsPerPage, setItemsPerPage ] = useState<Number>(10);
 
 
   // const data = useSelector( ( state: RootState ) => state.community.forall );
@@ -169,7 +169,7 @@ const MyCommunities = () =>
           </p>
         </div>
 
-        <div>
+        <div className="mb-4">
           <form onSubmit={ handleSubmit }>
             <div className="flex flex-col lg:flex-row lg:justify-between justify-center gap-2 lg:gap-0 p-4">
               <div className="relative md:block">
@@ -276,7 +276,17 @@ const MyCommunities = () =>
             </div>
           </form>
         </div>
-
+        
+          <div className="flex justify-end items-center my-2">
+              <div className="flex items-center justify-end border-white border-1 rounded-xl gap-2 bg-slate-900 p-2 text-white">
+              <label htmlFor="itemPerPage" className="text-sm font-medium ">Items Per Page</label>
+              <select className="text-white bg-slate-900" name="itemPerPage" id="itemPerPage" value={itemsPerPage.toString()} onChange={(e) => setItemsPerPage(parseInt(e.target.value))}>
+              <option value="12">12</option>
+              <option value="24">24</option>
+              <option value="36">36</option>
+              </select>
+            </div>
+            </div>
         { ( communities && communities.length ) ?
           <>
             <div className="grid gap-4 sm:gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 pt-8 ">
@@ -413,36 +423,14 @@ const MyCommunities = () =>
               ) ) }
             </div>
 
-            <div className="flex w-full justify-center gap-4 mt-7">
+            <div className="flex justify-center items-center my-16">
               <Pagination
-                onChange={ handlePageChange }
-                page={ page }
-                initialPage={ 1 }
-                total={ totalPages }
-                isCompact
-                showControls
-                showShadow
-                color="secondary"
+                onChange={ handlePageChange } page={ page }initialPage={ 1 } total={ totalPages } isCompact showControls
+               
               />
-              <div className="flex items-center ">
-                <label htmlFor="itemsPerPage" className="text-sm px-2 text-gray-400">
-                  Items per page:
-                </label>
-
-                <Select
-                  id="itemsPerPage"
-                  value={ itemsPerPage.toString() }
-                  defaultSelectedKeys={ [ itemsPerPage.toString() ] }
-                  onChange={ ( e ) => setItemsPerPage( Number( e.target.value ) ) }
-                  className="bg-black border border-[#282828] rounded-md text-black px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#8c71ff] w-28"
-                >
-                  <SelectItem className="bg-gray-600 text-white" key={ 12 } value="12">12</SelectItem>
-                  <SelectItem className="bg-gray-600 text-white" key={ 21 } value="21">21</SelectItem>
-                  <SelectItem className="bg-gray-600 text-white" key={ 51 } value="51">51</SelectItem>
-                  <SelectItem className="bg-gray-600 text-white" key={ 100 } value="102">100</SelectItem>
-                </Select>
               </div>
-            </div>
+            
+           
           </>
           : <div className="col-span-full flex justify-center items-center py-12">
             <div className="bg-white/5 border border-[#282828] rounded-lg p-8 text-center max-w-md">

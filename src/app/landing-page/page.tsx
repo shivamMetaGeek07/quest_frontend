@@ -2,7 +2,7 @@ import React from "react";
 
 function page() {
   return (
-    <div >
+    <div>
       <div className="main mt-8 lg:mx-10 md:mx-6 mx-4">
         <div className="h main ml-8">
           <div className="relative  flex md:flex-row flex-col justify-between items-center gap-3">

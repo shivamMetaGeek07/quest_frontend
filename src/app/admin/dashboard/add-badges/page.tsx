@@ -174,7 +174,7 @@ const Page = () => {
                 getBadges();
                 notify( "success",'badge created successfully' );
               }
-              // router.push('/dashboard');
+              
             } catch ( error )
             {
               console.error( 'Error creating  badge:', error );

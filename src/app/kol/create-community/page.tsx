@@ -171,7 +171,7 @@ const CreateCommunity: React.FC = () =>
   };
 
   if ( !isClient ) return (
-    <div className="flex justify-center h-screen items-center">
+    <div className="flex justify-center items-center">
       <BallTriangle color="#8B5CF6" height={ 100 } width={ 100 } />
     </div>
   );

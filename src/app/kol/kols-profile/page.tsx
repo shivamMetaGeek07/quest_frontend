@@ -62,7 +62,7 @@ const KolsProfile = ( props: Props ) =>
   if ( !user )
   {
     return (
-      <div className="min-h-screen flex justify-center items-center">
+      <div className="flex justify-center items-center">
         <BallTriangle />
       </div>
     );
@@ -71,7 +71,7 @@ const KolsProfile = ( props: Props ) =>
   if ( !isClient )
   {
     return (
-      <div className="flex justify-center h-screen items-center">
+      <div className="flex justify-center items-center">
         <BallTriangle />
       </div>
     );
