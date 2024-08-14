@@ -404,7 +404,7 @@ text-transform: uppercase;
 /* Grants */
 
 .grant-clip{
-  clip-path: polygon(0 0, 100% 0, 100% 89%, 87% 89%, 78% 100%, 21% 100%, 15% 89%, 0 89%);
+  clip-path: polygon(0 0, 100% 0, 100% 89%, 86% 89%, 78% 100%, 19% 100%, 13% 90%, 0 90%);
 }
 
 .box1{
@@ -514,11 +514,11 @@ text-transform: uppercase;
   background-image: linear-gradient(to right,#5538cecc
   rgba(23, 23, 23, 0.8));
 }
-.neo{
+/* .neo{
   border-radius: 6px;
   background: #111;
   box-shadow:  15px 15px 30px #111,-15px 15px 30px #111;
-}
+} */
 
 .slick-slide > div{
   margin: 0 10px;

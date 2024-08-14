@@ -16,7 +16,7 @@ const AllCommunity=()=>{
 
   // console.log( Communities );
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -48,7 +48,7 @@ const AllCommunity=()=>{
   }, [] );
     return(
         <>
-             <div className="mx-5 md:mx-2 mb-8">
+             <div className="mx-5 md:mx-2 lg:mt-10 md:mt-5 mt-5">
         <div className="flex items-center gap-1 mt-10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
