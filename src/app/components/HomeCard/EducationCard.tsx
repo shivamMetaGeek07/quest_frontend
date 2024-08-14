@@ -42,27 +42,33 @@ const EducationCardList: React.FC = () =>
   const { allQuests, loading } = useSelector( ( state: RootState ) => state.quest );
 
   // Filter and shuffle education quests
-  const educationQuests = shuffleArray(
-    allQuests.filter( ( quest: any ) =>
-      quest?.categories?.some( ( category: any ) =>
-        category?.name?.toLowerCase() === 'education'
+  const educationQuests = Array.isArray(allQuests)
+  ? shuffleArray(
+      allQuests.filter((quest: any) =>
+        quest?.categories?.some(
+          (category: any) => category?.name?.toLowerCase() === 'education'
+        )
       )
-    )
-  ).slice( 0, 3 );
+    ).slice(0, 3)
+  : [];
+
 
   // Filter and shuffle KOL quests
-  const kolQuests = shuffleArray(
-    allQuests.filter( ( quest: any ) =>
-      quest?.categories?.some( ( category: any ) =>
-        category?.name?.toLowerCase() === 'kol quest'
+ const kolQuests = Array.isArray(allQuests)
+  ? shuffleArray(
+      allQuests.filter((quest: any) =>
+        quest?.categories?.some(
+          (category: any) => category?.name?.toLowerCase() === 'kol quest'
+        )
       )
-    )
-  ).slice( 0, 3 );
+    ).slice(0, 3)
+  : [];
+
 
   useEffect( () =>
   {
     dispatch( fetchAllQuests() );
-  }, [] );
+  }, [dispatch] );
   return (
     <div className=" gap-1 mb-8">
       <div className="mb-8">
@@ -187,7 +193,7 @@ const EducationCardList: React.FC = () =>
                 <SkeletonCard />
                 <SkeletonCard />
               </>
-            ) : ( educationQuests.map( ( data, index ) => (
+            ) : ( educationQuests?.map( ( data, index ) => (
               <div key={ index } className="cursor-pointer" onClick={ () => router.push( `/user/community-project/${ data?.community }` ) } >
                 <div>
                   <div className="box1 education-clip bg-red-700 ">

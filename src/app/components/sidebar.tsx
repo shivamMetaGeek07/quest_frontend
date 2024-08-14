@@ -47,7 +47,7 @@ const Sidebar = () =>
   return (
     <>
       <div className='w-[4rem] flex flex-row  md:flex-col justify-center items-center border-r-gray-600/45 md:border-r bg-[#15151557] z-50 fixed md:h-screen glass_effect top-0'>
-        < Link href="/" className='hidden md:flex'><div className='border-b-gray-600/45 flex justify-center items-center md:border-b border-b w-[4rem] h-[5rem]'><img src="https://clusterprotocol2024.s3.amazonaws.com/website+logo/logo.png" alt="logo" /></div></Link>
+        < Link href="/home" className='hidden md:flex'><div className='border-b-gray-600/45 flex justify-center items-center md:border-b border-b w-[4rem] h-[5rem]'><img src="https://clusterprotocol2024.s3.amazonaws.com/website+logo/logo.png" alt="logo" /></div></Link>
         {/* <button className="justify-center border-none text-white text-2xl cursor-pointer" onClick={ handleNav }> */ }
         { nav ? (
           <div className='p-2 items-center justify-center m-auto'>

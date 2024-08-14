@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "@/app/components/ModalForm";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { Button, Chip,Modal, ModalContent, ModalHeader,Input, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
+import { Button, Chip } from "@nextui-org/react";
 import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
 import TeleApp from "@/app/components/telegram"
@@ -26,18 +26,10 @@ const Profile: React.FC = () =>
   const [ isClient, setIsClient ] = useState( false );
   const [ earned, setEarned ] = useState<number | null>( null );
   const [ allFriends, setAllFriends ] = useState<any>( [] );
-  const {isOpen, onOpen, onClose} = useDisclosure();
-  const [domain, setDomain] = useState<string>('');
-
-  const handleMinting = () => {
-    //domain mint logic
-
-    onClose();
-  }
-
+  
   const dispatch = useDispatch<AppDispatch>();
   const user: any = useSelector( ( state: RootState ) => state.login.user );
-  console.log( user );
+  // console.log( user );
 
   const getFriendIds = ( user: any ) =>
   {
@@ -127,8 +119,7 @@ const Profile: React.FC = () =>
   {
     setIsClient( true );
     dispatch( fetchUserData() );
-  }, [ dispatch ] );
-
+  }, [] );
 
   if ( !isClient ) return (
     <div className="flex justify-center items-center">
@@ -231,15 +222,13 @@ const Profile: React.FC = () =>
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{ user?.following?.length } following</button>
                         <button className="px-4 font-bold py-2 rounded-full text-center hover:text-[#FA00FF] ">{ user?.followers?.length } followers</button>
                       </div>
-
                       <div className="flex col gap-5 justify-center items-center">
                         <Chip onClick={ handleEarnRewardsClicks } color="warning" variant="bordered" className="cursor-pointer px-4 py-2 mt-3">{ user?.rewards?.xp } pts</Chip>
 
                         <Chip onClick={ () => router.push( '/user/my-community' ) } variant="solid" className="cursor-pointer px-4 py-2 mt-3" color="warning">
                           Earn rewards
                         </Chip>
-                        <Chip onClick={ onOpen } className="cursor-pointer px-4 py-2 mt-3" color="success" variant="bordered" > Mint Domain</Chip>
-                       
+
                       </div>
                     </div>
                   </div>
@@ -320,34 +309,9 @@ const Profile: React.FC = () =>
             <div className="friendTable">
               <UserTable<Friend> data={ allFriends } columns={ columns } rowsPerPage={ 5 } />
             </div>
-
           </section>
-
         </div>
       </div>
-      <Modal backdrop="blur" isOpen={isOpen} className="text-white bg-slate-900" onClose={onClose}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">Connect your domain </ModalHeader>
-              <ModalBody >
-              <div className="flex flex-col justify-center items-center">
-               <Input className="w-full" label="Domain" value={domain} onChange={(e)=>setDomain(e.target.value)} />
-               <div className="text-center ">{domain}</div>
-              </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger"  onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button color="primary" onPress={handleMinting}>
-                  Mint
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
     </>
   );
 };
