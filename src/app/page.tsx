@@ -4,17 +4,28 @@ import { useState } from "react";
 import { Button,Modal, ModalContent, ModalHeader,Input, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { ethers } from "ethers";
 import {Spinner} from "@nextui-org/react";
+import axios from "axios";
 // import { Span } from "next/dist/trace";
   
+
 const LandingPage = ()=> {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const [domain, setDomain] = useState<string>('');
   const [error, setError] = useState('');
-  const [address, setAddress] = useState<string>('')
-  const [balance, setBalance] = useState<string>('')
+  const [address, setAddress] = useState<string>('');
+  const [balance, setBalance] = useState<string>('');
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-  const [loader, setLoader] = useState(false)
-  const [iswalletconnected, setIswalletconnected] = useState(false)
+  const [loader, setLoader] = useState(false);
+  const [iswalletconnected, setIswalletconnected] = useState(false);
+  const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [passReq,setPassReq]=useState(false);
+  const [thankyou,setThankyou]=useState(false);
+
+  const isAlphanumericWithHyphen = (str: string): boolean => {
+    const regex = /^[a-zA-Z0-9-]+\.fam$/;
+    return regex.test(str);
+  };
 
   const connectWallet = async (): Promise<string | null> => {
     try {
@@ -53,16 +64,7 @@ const LandingPage = ()=> {
         console.log('Error connecting wallet:', err);
         return null;
     }
-};
-
-
-
-
-  const isAlphanumericWithHyphen = (str: string): boolean => {
-  const regex = /^[a-zA-Z0-9-]+\.fam$/;
-
-  return regex.test(str);
-};
+  };
 
   const handleDomainChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setError('');
@@ -73,12 +75,50 @@ const LandingPage = ()=> {
     setLoader(false)
     setDomain("")
     setError("")
-    onOpen()
+    onOpen();
+    setShowPasswordField(false);
+    setPassword('');
     // setIswalletconnected(false)
+  }
+
+  const handleClose = () => {
+    if(passReq){
+     return;
+    }
+    onClose();
+  }
+
+  const handleCreateDomain= async()=>{
+    setLoader(true);
+    try{
+      const response=await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/domain`,{
+        domainAddress:domain,
+        password:password,
+        hashCode:password, 
+        walletAddress:address
+      });
+
+      if(response.status===200){
+        alert(response.data.message);
+        setThankyou(true);
+        setPassReq(false);
+        alert("Domain created successfully");
+        handleClose();
+      }
+    }
+    catch(err:any){
+      console.log(err);
+      setError(err.data.message);
+
+    }
+    setLoader(false);
   }
 
   const handleMinting = async () => {
     setLoader(true)
+    const updatedDomain = `${domain}.fam`;
+    setDomain(updatedDomain);
+
     if(!isAlphanumericWithHyphen(domain)) {
       setError('Invalid domain name.domain name must be alphanumeric with hyphen.domain must end with .fam');
       return;
@@ -112,6 +152,8 @@ const LandingPage = ()=> {
       // Update the state to show success message
       console.log("Domain mited successfully", tx );
       setAlertMessage(`Domain ${domain} minted successfully!`);
+      setShowPasswordField(true);
+      setPassReq(true);
   } catch (error) {
        // Type narrowing with `if` checks
     if (typeof error === "object" && error !== null && "reason" in error) {
@@ -122,11 +164,7 @@ const LandingPage = ()=> {
         setAlertMessage("An unknown error occurred.");
     }
 }
-setLoader(false)
-
-    //domain mint logic here
-
-    // onClose();
+  setLoader(false)
   }
   return (
     <>
@@ -218,7 +256,6 @@ setLoader(false)
               </div>
             </div>
           </div>
-
           <div className="relative flex items-center justify-center h-screen text-white">
             <div className="absolute inset-0 opacity-25" />
             <div className="relative z-10 text-center max-w-3xl">
@@ -247,25 +284,30 @@ setLoader(false)
         </div>
       </div>
       </div>
-       <Modal backdrop="blur" isOpen={isOpen} className="text-white bg-slate-900" onClose={onClose}>
+       <Modal backdrop="blur" isOpen={isOpen} className="text-white bg-slate-900" onClose={handleClose}>
         <ModalContent>
           {(onClose) => (
             <>
                 <ModalHeader className="flex flex-col gap-1">Connect Your Wallet and Mint Unique Domain </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col justify-center items-center">
-                  <input name="domain" className="w-full text-black px-2 py-2 border border-gray-300 rounded" placeholder="domain.fam" value={domain} onChange={(e) => handleDomainChange(e)} />
+                <div className="flex w-[90%] mx-auto bg-white justify-between text-black items-center rounded-lg" ><input disabled={showPasswordField} name="domain" className="w-full text-black px-4 py-2 rounded" placeholder="domain name" value={domain} onChange={(e) => handleDomainChange(e)} /><span className=" px-4 py-2">.fam</span></div>
                   {error && <div className="text-red-600 text-small text-start">{error}</div>}
                   {alertMessage && <div className={`mt-4 ${alertMessage.includes("Error") ? "text-red-600" : "text-green-600"}`}>{alertMessage}</div>}
                 </div>
+                
               </ModalBody>
               <ModalFooter>
-                <Button color="danger"  onPress={onClose}>
+              {!showPasswordField &&  <Button color="danger"  onPress={onClose}>
                   Cancel
-                </Button>
-                <Button color="primary" onPress={handleMinting}>
+                </Button>}
+               
+                {
+                  showPasswordField ? (<Button color="primary" onPress={handleCreateDomain}>Set Password</Button>) :
+                  ( <Button color="primary" onPress={handleMinting}>
                   {loader?(<Spinner color="danger" size="sm" />): (iswalletconnected? <span>Mint</span> : <span>connect wallet</span>)}
-                </Button>
+                </Button>)
+                }
               </ModalFooter>
             </>
           )}
