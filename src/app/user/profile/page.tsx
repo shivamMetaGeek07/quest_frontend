@@ -359,7 +359,7 @@ const Profile: React.FC = () =>
 </svg> */}
 
                       <div className="flex flex-wrap lg:justify-start justify-center items-center p-2 ">
-                        { user?.badges?.map( ( data ) => (
+                        { BadgesData.map( ( data ) => (
                           <div
                             key={ data.id }
                             className="p-2 rounded-md flex items-center text-white flex-col justify-center hover:text-white hover:bg-gray-500 cursor-pointer"
