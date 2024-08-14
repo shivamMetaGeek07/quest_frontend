@@ -62,8 +62,8 @@ const GrantsCard = () => {
   };
 
   return (
-    <div className="mb-8">
-      <div className="flex items-center gap-1 mt-8 ">
+    <div className="mb-8 lg:mt-10 md:mt-5 mt-5">
+      <div className="flex items-center gap-1 mb-5 ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -84,7 +84,7 @@ const GrantsCard = () => {
         </div>
       </div>
 
-      <div  className=" reasponsive div here  mt-5">
+      <div  className=" reasponsive div here  ">
       <Slider { ...settings }>
         {grantItems.map((grant, index) => (
           <div className="relative" key={grant._id}>

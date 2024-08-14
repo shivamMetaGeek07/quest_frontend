@@ -250,7 +250,7 @@ const Profile: React.FC = () =>
               <div className="lg:w-1/2 ">
                 <div className="flex flex-col lg:justify-start justify-center lg:items-start items-center">
                   <div className="badgesBox mt-5 lg:mt-0">
-                    <div className="w-full h-full innerbox2">
+                    <div className="w-full h-full innerbox2 ">
                       <svg className="top-0 left-0 svg1" style={ { strokeWidth: "1px", stroke: "#FA00FF" } } xmlns="http://www.w3.org/2000/svg" width="5" height="4" viewBox="0 0 5 4" fill="none">
                         <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
                       </svg>

@@ -19,7 +19,7 @@ const shuffleArray = ( array: any[] ) =>
 
 const SkeletonCard = () => (
   <div className="animate-pulse">
-    <div className="box1 education-clip bg-gray-700">
+    <div className="box1 education-clip bg-gray-700 ">
       <div className="education-clip box2 border h-28 w-48 bg-gray-600 flex justify-center items-center p-4">
         <div className="h-16 w-36 bg-gray-500"></div>
       </div>
@@ -64,7 +64,7 @@ const EducationCardList: React.FC = () =>
     dispatch( fetchAllQuests() );
   }, [] );
   return (
-    <div className=" gap-1 mb-8">
+    <div className=" gap-1 lg:mt-10 md:mt-5 mt-5">
       <div className="mb-8">
         <svg
           className="w-full"
@@ -180,7 +180,7 @@ const EducationCardList: React.FC = () =>
             </div>
           </div>
 
-          <div className="p-2 edu neo mt-5 grid lg:gap-10 sm:gap-10 gap-4 mx-8 lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 lg:basis-[50%]">
+          <div className="p-2  edu neo mt-5 grid lg:gap-10 sm:gap-10 gap-4 mx-8 lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 lg:basis-[50%]">
             { loading ? (
               <>
                 <SkeletonCard />
@@ -202,7 +202,7 @@ const EducationCardList: React.FC = () =>
                     </div>
                   </div>
 
-                  <div className="mt-2 flex gap-3">
+                  <div className="mt-2 flex gap-3  justify-center">
                     {/* <div>
                       <img
                         src={ data.logo }
@@ -216,7 +216,7 @@ const EducationCardList: React.FC = () =>
                   </div>
 
                   <div>
-                    <div className="flex md:gap-4 gap-2">
+                    <div className="flex md:gap-4 gap-2 justify-center">
                       {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
                       <p className="md:text-medium text-sm">{ data.description }</p>
                     </div>
@@ -327,7 +327,7 @@ const EducationCardList: React.FC = () =>
                     </div>
                   </div>
 
-                  <div className="mt-2 flex gap-3">
+                  <div className="mt-2 flex gap-3 justify-center">
                     <div>
                       {/* <img
                         src={ data.logo }
@@ -341,7 +341,7 @@ const EducationCardList: React.FC = () =>
                   </div>
 
                   <div>
-                    <div className="flex md:gap-4 gap-2">
+                    <div className="flex md:gap-4 gap-2 justify-center">
                       {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
                       <p className="md:text-medium text-sm">{ data.description }</p>
                     </div>

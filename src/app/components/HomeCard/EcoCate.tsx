@@ -22,7 +22,7 @@ const EcoCate: React.FC = () =>
 
   // console.log( "ecosystem :-0", communityData );
   return (
-    <div className="mb-8">
+    <div className="lg:mt-10 md:mt-4 mt-4 ">
       <div className="flex items-center gap-1 mt-8 lg:mx-0 sm:mx-6 mx-6">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,6 @@ const EcoCate: React.FC = () =>
           <p>Ecosystems</p>
         </div>
       </div>
-
       <div className="eco&cat flex flex-col lg:flex-row lg:justify-between gap-10 ">
         <div className="Main grid gap-4 mx-8  lg:mx-0 grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 pt-6 lg:basis-[50%]">
           { ecosystem?.map( ( item: data ) => (
