@@ -17,7 +17,7 @@ type Kols={
 const KolsProfileSlug = (props: Props) => {
   
   const { slug } = useParams();
-  console.log("slug", slug );
+  // console.log("slug", slug );
   const [ votes, setvotes ] = useState( 0 );
   const [ users, setusers ] = useState<Kols | null>( null );
   
@@ -26,7 +26,7 @@ const KolsProfileSlug = (props: Props) => {
        const response= axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/kols/${ slug }`);
 
     const users = await response;
-    console.log( users.data.kols );
+    // console.log( users.data.kols );
     setusers( users.data.kols );
     }
     catch( error ){

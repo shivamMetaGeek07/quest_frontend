@@ -59,7 +59,6 @@ const EducationCardList: React.FC = () =>
     )
   ).slice( 0, 3 );
 
-  console.log( 'allquests:-', educationQuests, kolQuests );
   useEffect( () =>
   {
     dispatch( fetchAllQuests() );

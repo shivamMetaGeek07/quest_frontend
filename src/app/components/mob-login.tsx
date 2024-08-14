@@ -234,7 +234,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                 const users = result.user as User; // Type assertion
                 const idToken = await users.getIdToken();
                 const number = users?.phoneNumber;
-                console.log( users );
+                // console.log( users );
                 setuser( users );
                 setLoading( false );
                 toast.success( "OTP verified successfully!" );
@@ -247,15 +247,15 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                     body: JSON.stringify( { users: result, idToken, name: name, number: number, img: profilePic } ),
                     credentials: 'include'
                 } );
-                console.log( "response:-", response );
+                // console.log( "response:-", response );
                 if ( response.ok )
                 {
                     const data = await response.json();
                     Cookies.set( 'authToken', data.authToken, { expires: 7 } );
-                    console.log( data );
+                    // console.log( data );
                     dispatch( fetchUserData() );
                     setNav( true );
-                    router.push( '/' );
+                    router.push('/home' );
                 }
             } catch ( error )
             {
@@ -320,7 +320,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
         // // const formatPh = "+91" + ph;
 
         const result = await signInWithPhoneNumber( auth, formatPh, appVerifier );
-        console.log( "result:", result );
+        // console.log( "result:", result );
         setConfirmationResult( result );
         setShowOTP( true );
         toast.success( "OTP sent successfully!" );

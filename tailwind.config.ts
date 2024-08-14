@@ -16,6 +16,7 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "custom-gradient": "linear-gradient(90deg, #FA00FF, #FF7B7B, #5538CE)",
+        "landing-page":"url('https://clusterprotocol2024.s3.amazonaws.com/others/Vector+37.png')",
       },
       colors: {
         black: "#000",

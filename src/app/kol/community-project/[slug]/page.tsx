@@ -1,12 +1,11 @@
 "use client";
 
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCommunity } from "@/redux/reducer/communitySlice";
 import { RootState, AppDispatch } from "@/redux/store";
 
 import { fetchQuests } from "@/redux/reducer/questSlice";
-import Image from "next/image";
 import UserTable from "@/app/components/table/userTable";
 import { User } from "@/app/leaderboard/data";
 import axios from "axios";
@@ -38,12 +37,12 @@ export default function CommunityProject ( {
   const [ users, setUsers ] = useState( [] );
   const questIds = community?.quests;
   const userData = community?.members;
-  console.log( userData );
+  // console.log( userData );
   useEffect( () =>
   {
     dispatch( fetchCommunity( id ) );
     // console.log(community);
-  }, [ dispatch, id ] );
+  }, [ id ] );
 
   useEffect( () =>
   {
@@ -51,7 +50,7 @@ export default function CommunityProject ( {
     {
       dispatch( fetchQuests( questIds ) );
     }
-  }, [ dispatch, questIds ] );
+  }, [ questIds ] );
 
   const getUsers = useCallback( async () =>
   {
@@ -437,7 +436,9 @@ export default function CommunityProject ( {
                       <div>
                         <img
                           src={
-                            "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U4DiI90Nb~y-baCsBKlUdMg0bdnFmPTwIHqnEj6XIpfLQ-Wrrkxh19U3XxyEBSYW6skusvRfpKf1JglEQirKFdDOr-F61gwWjzqgfffqjJ4F2nSZoG77-uhqZ3oe0G-M~bfpO-OfRuMFxMe4WGaRKoZqNB~yI1MRN~0e~kyuD37gWTGNPqDYML7sSexowM2laSDLDVFZZqc~xJEulldl9iCWRvhbjMHvRqqkF3XxcfQu7lPvZVIS9b~a6vPmLfg~G-GEgp-m8b-Vp4ESk8e~xFjt2ww7Kl9R9aSle4QXsvE6BudwTUeSATqxnxfiM3POsBR7oxS8OUSKiDlIdTZh8w__"
+                            quest.logo
+                              ? quest.logo
+                              : 'https://img.freepik.com/premium-photo/beautiful-bright-fantasystyle-loot-box-box-with-items-inside_763713-1516.jpg'
                           }
                           alt=''
                           className='h-16 w-36 object-cover'

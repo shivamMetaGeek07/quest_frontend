@@ -5,15 +5,14 @@ import { BallTriangle } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import ModalForm from "@/app/components/ModalForm";
+import { Button, Chip,Modal, ModalContent, ModalHeader,Input, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { fetchUserData, IUser } from "@/redux/reducer/authSlice";
 import { Inter, Roboto_Mono } from 'next/font/google';
-import { Button, Chip } from "@nextui-org/react";
 import Cookies from 'js-cookie';
 import type { Friend } from './data';
 import UserTable from "@/app/components/table/userTable";
-import Image from "next/image";
-import axios from "axios";
 import TeleApp from "@/app/components/telegram"
+import axios from "axios";
 
 const inter = Inter( {
   subsets: [ 'latin' ],
@@ -71,7 +70,6 @@ const BadgesData: BadgesData[] = [
   },
 ];
 
-
 const columns = [
   // { name: "SNO.", uid: "sno" },
   { name: "NAME", uid: "name" },
@@ -87,6 +85,14 @@ const Profile: React.FC = () =>
   const [ isClient, setIsClient ] = useState( false );
   const [ earned, setEarned ] = useState<number | null>( null );
   const [ allFriends, setAllFriends ] = useState<any>( [] );
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  const [domain, setDomain] = useState<string>('');
+
+  const handleMinting = () => {
+    //domain mint logic
+
+    onClose();
+  }
 
   const dispatch = useDispatch<AppDispatch>();
   const user: any = useSelector( ( state: RootState ) => state.login.user );
@@ -137,8 +143,6 @@ const Profile: React.FC = () =>
   {
     getFriends();
   }, [] );
-
-  // console.log("ALl friends:",allFriends)
 
   const handleEarnRewardsClicks = () =>
   {
@@ -243,7 +247,7 @@ const Profile: React.FC = () =>
   }, [ dispatch ] );
 
   if ( !isClient ) return (
-    <div className="flex justify-center h-screen items-center">
+    <div className="flex justify-center items-center">
       <BallTriangle />
     </div>
   );
@@ -278,7 +282,7 @@ const Profile: React.FC = () =>
                   <div className="lg:w-[16rem] flex lg:justify-start  mt-6 lg:mt-1">
                     <div className=" flex flex-col lg:items-start items-center gap-[0.75rem]">
                       <div className="flex justify-start gap-[1rem] row items-stretch">
-                        <div className={ `${ inter.variable } ${ roboto_mono.variable } username ` }>
+                        <div className="username">
                           { user?.displayName }
                         </div>
                         <div className="user-rank" >
@@ -353,6 +357,8 @@ const Profile: React.FC = () =>
                         <Chip onClick={ () => router.push( '/user/my-community' ) } variant="solid" className="cursor-pointer px-4 py-2 mt-3" color="warning">
                           Earn rewards
                         </Chip>
+                        <Chip onClick={ onOpen } className="cursor-pointer px-4 py-2 mt-3" color="success" variant="bordered" > Mint Domain</Chip>
+                       
                       </div>
                     </div>
                   </div>
@@ -362,26 +368,6 @@ const Profile: React.FC = () =>
               {/* badges */ }
               <div className="lg:w-1/2 ">
                 <div className="flex flex-col lg:justify-start justify-center lg:items-start items-center">
-                  {/* <svg className="top-0 left-0" style={ { strokeWidth: "1px", stroke: "#FFF" } } xmlns="http://www.w3.org/2000/svg" width="135" height="51" viewBox="0 0 135 51" fill="none">
-                    <path d="M134 1L96.0755 39.3478H19.3836L8.84906 50H0" stroke="url(#paint0_linear_213_1475)" strokeOpacity="0.1" />
-                    <defs>
-                      <linearGradient id="paint0_linear_213_1475" x1="11" y1="50" x2="16.5" y2="38" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="white" />
-                        <stop offset="1" stop-color="#999999" stop-opacity="0" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <svg className="top-0 left-0" style={ { strokeWidth: "1px", stroke: "rgba(255, 255, 255, 0.10)" } } xmlns="http://www.w3.org/2000/svg" width="127" height="27" viewBox="0 0 127 27" fill="none">
-                    <path d="M126.5 1L114 13.5H23L10.5 26H0" stroke="white" strokeOpacity="0.1" />
-                  </svg> */}
-                  {/* <div className="flex items-end justify-end ">
-                    <button onClick={ () =>
-                    {
-                      router.push( '/user/rewards' );
-                    } } className="bg-blue-600 rounded-full px-2 py-1 text-sm font-bold">
-                      View all
-                    </button>
-                  </div> */}
                   <div className="badgesBox mt-5 lg:mt-0">
                     <div className="w-full h-full innerbox2">
                       <svg className="top-0 left-0 svg1" style={ { strokeWidth: "1px", stroke: "#FA00FF" } } xmlns="http://www.w3.org/2000/svg" width="5" height="4" viewBox="0 0 5 4" fill="none">
@@ -437,6 +423,29 @@ const Profile: React.FC = () =>
 
         </div>
       </div>
+      <Modal backdrop="blur" isOpen={isOpen} className="text-white bg-slate-900" onClose={onClose}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Connect your domain </ModalHeader>
+              <ModalBody >
+              <div className="flex flex-col justify-center items-center">
+               <Input className="w-full" label="Domain" value={domain} onChange={(e)=>setDomain(e.target.value)} />
+               <div className="text-center ">{domain}</div>
+              </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger"  onPress={onClose}>
+                  Cancel
+                </Button>
+                <Button color="primary" onPress={handleMinting}>
+                  Mint
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 };

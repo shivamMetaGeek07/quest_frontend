@@ -71,13 +71,13 @@ export const createQuest = createAsyncThunk(
 export const createQuest1 = createAsyncThunk(
   "quests/createQuest",
   async (newQuest: Quest, { rejectWithValue }) => {
-    console.log(newQuest);
+    // console.log(newQuest);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/quest/`,
         newQuest
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (err) {
       console.log(err);
@@ -94,7 +94,7 @@ export const fetchAllQuests = createAsyncThunk(
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/quest`
       );
-      console.log("all quests:-", response.data);
+      // console.log("all quests:-", response.data);
       return response.data.allQuests;
     } catch (err) {
       console.log("error in gettng quest details :", err);
@@ -107,7 +107,7 @@ export const fetchAllQuests = createAsyncThunk(
 export const fetchQuests = createAsyncThunk(
   "quests/fetchQuests",
   async (questIds: string[], { rejectWithValue }) => {
-    console.log(questIds);
+    // console.log(questIds);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/quest/getByIds`,
@@ -120,7 +120,7 @@ export const fetchQuests = createAsyncThunk(
         }
       );
       const data = await response.json();
-      console.log(response);
+      // console.log(response);
       return data.quests;
     } catch (err) {
       console.log("error in gettng quest details :", err);
@@ -137,7 +137,6 @@ export const fetchQuestById = createAsyncThunk(
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/quest/${id}`
       );
-      console.log(response);
       return response.data;
     } catch (err) {
       return rejectWithValue("Failed to fetch quest data");
@@ -181,7 +180,6 @@ const questSlice = createSlice({
       })
       
       .addCase(fetchQuestById.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
         state.quests = action.payload.quest;
       });

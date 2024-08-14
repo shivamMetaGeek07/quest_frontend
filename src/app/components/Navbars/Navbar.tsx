@@ -56,14 +56,14 @@ const Navbar: React.FC = () =>
         try
         {
             const response = await dispatch( logoutUser() );
-            console.log(response)
+            // console.log(response)
             if ( response )
             {
                 await persistor.flush();
                 localStorage.clear();
                 Cookies.remove( 'authToken' );
                 setRefresh( true );
-                router.push( '/' );
+                router.push( '/home' );
                 window.location.reload();
                 notify( "success", "Logout Successful" );
                 setRefresh( false );

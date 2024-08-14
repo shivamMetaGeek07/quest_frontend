@@ -149,7 +149,7 @@ const CreateCommunity: React.FC = () =>
         creator: UserId
       };
 
-      console.log("newCommunity ",newCommunity)
+      // console.log("newCommunity ",newCommunity)
 
       const resultAction = await dispatch( createCommunity( newCommunity ) );
       if ( createCommunity.fulfilled.match( resultAction ) )
@@ -171,7 +171,7 @@ const CreateCommunity: React.FC = () =>
   };
 
   if ( !isClient ) return (
-    <div className="flex justify-center h-screen items-center">
+    <div className="flex justify-center items-center">
       <BallTriangle color="#8B5CF6" height={ 100 } width={ 100 } />
     </div>
   );
@@ -282,12 +282,10 @@ const CreateCommunity: React.FC = () =>
                   
                   onSelect={ ( selectedList ) =>
                   {
-                    console.log( "Selected:", selectedList );
                     setCategories( selectedList );
                   } }
                   onRemove={ ( selectedList ) =>
                   {
-                    console.log( "After remove:", selectedList );
                     setCategories( selectedList );
                   } }
                   displayValue="name"
@@ -343,7 +341,6 @@ const CreateCommunity: React.FC = () =>
             { !loader ? (
               <button
                 type="submit"
-                onClick={ () => console.log( "clicked" ) }
                 className={ `bg-purple-600 hover:bg-purple-700 px-6 py-2 rounded-lg transition-colors duration-300 text-sm ${ isDisable ? "hover:bg-red-500" : "bg-blue-500" }` }
                 disabled={ isDisable }
               >

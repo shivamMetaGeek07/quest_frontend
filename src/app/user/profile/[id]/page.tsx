@@ -177,7 +177,7 @@ const UserProfile = ( { params }: { params: { id: string; }; } ) =>
 
   if ( !isClient )
     return (
-      <div className="flex justify-center h-screen items-center">
+      <div className="flex justify-center items-center">
         <BallTriangle />
       </div>
     );
