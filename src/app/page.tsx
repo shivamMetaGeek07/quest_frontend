@@ -5,6 +5,7 @@ import { Button,Modal, ModalContent, ModalHeader,Input, ModalBody, ModalFooter, 
 import { ethers } from "ethers";
 import {Spinner} from "@nextui-org/react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 const LandingPage = ()=> {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const [domain, setDomain] = useState<string>("");
@@ -16,8 +17,8 @@ const LandingPage = ()=> {
   const [iswalletconnected, setIswalletconnected] = useState(false);
   const [showPasswordField, setShowPasswordField] = useState<boolean>(true);
   const [password, setPassword] = useState<string>('');
-  const [passReq,setPassReq]=useState(false);
   const [hash,setHash]=useState('');
+  const router = useRouter();
 
   const isAlphanumericWithHyphen = (str: string): boolean => {
     console.log("step1",str);
@@ -83,15 +84,13 @@ const LandingPage = ()=> {
   }
 
   const handleClose = () => {
-    if(passReq){
-     return;
-    }
     onClose();
   }
 
   const handleCreateDomain= async()=>{
     setLoader(true);
     const updatedDomain=domain+'.fam';
+    console.log(updatedDomain);
     try{
       const response=await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/domain`,{
         domainAddress:updatedDomain,
@@ -102,17 +101,19 @@ const LandingPage = ()=> {
 
       if(response.status===200){
         alert(response.data.message);
-        setPassReq(false);
         alert("Domain created successfully");
         handleClose();
+        router.push('/domin-registered');
+        setLoader(false);
+        setShowPasswordField(true);
       }
     }
     catch(err:any){
       console.log(err);
-      setError(err.data.message);
-
+      setError(err.response.data.message);
+      setLoader(false);
     }
-    setLoader(false);
+    
   }
 
   const handleMinting = async () => {
@@ -156,7 +157,7 @@ const LandingPage = ()=> {
       setAlertMessage(`Domain ${updatedDomain} minted successfully!`);
       setHash(tx.hash);
       setShowPasswordField(true);
-      setPassReq(true);
+
   } catch (error) {
        // Type narrowing with `if` checks
     if (typeof error === "object" && error !== null && "reason" in error) {
