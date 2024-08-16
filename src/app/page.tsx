@@ -21,9 +21,9 @@ const LandingPage = ()=> {
   const router = useRouter();
 
   const isAlphanumericWithHyphen = (str: string): boolean => {
-    console.log("step1",str);
+    // console.log("step1",str);
     const regex = /^[a-zA-Z0-9-]+$/
-    console.log("step2",regex.test(str));
+    // console.log("step2",regex.test(str));
     return regex.test(str);
   };
 
@@ -119,9 +119,9 @@ const LandingPage = ()=> {
   const handleMinting = async () => {
     setLoader(true)
     
-    
     if(!isAlphanumericWithHyphen(domain)) {
       setError('Invalid domain name.domain name must be alphanumeric with hyphen.domain must end with .fam');
+      setLoader(false);
       return;
     }
 
@@ -132,7 +132,7 @@ const LandingPage = ()=> {
           ? JSON.parse(process.env.NEXT_PUBLIC_CONTRACT_ABI)
           : null;
           
-  
+      console.log("step1 ",contractAddress, contractABI, address)
       if (!contractAddress || !contractABI || !address) {
           await connectWallet();
           setAlertMessage("Wallet connected successfully");
@@ -140,7 +140,7 @@ const LandingPage = ()=> {
           setLoader(false);
           return;
       }
-    
+    console.log("step2: react minting stage ",)
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
