@@ -46,7 +46,7 @@ const MyCommunities = () =>
   const [ selectedCategories, setSelectedCategories ] = useState<string[]>( [] );
   const [ page, setPage ] = useState( 1 );
   const [ totalPages, setTotalPages ] = useState( 1 );
-  const [ itemsPerPage, setItemsPerPage ] = useState<Number>(10);
+  const [ itemsPerPage, setItemsPerPage ] = useState<Number>(12);
 
 
   // const data = useSelector( ( state: RootState ) => state.community.forall );
