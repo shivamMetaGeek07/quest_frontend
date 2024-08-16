@@ -17,12 +17,11 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { notify } from "@/utils/notify";
 import { Button, Progress } from "@nextui-org/react";
 import axios from "axios";
-import { warning } from "framer-motion/dom";
-import Image from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ethers } from 'ethers'
 import { GITCOIN_PASSPORT_WEIGHTS } from './stamp-weights'
+import { useRouter } from "next/navigation";
 
 
 // types.ts
@@ -477,6 +476,7 @@ const Popup: React.FC<{
     const [showScore, setShowScore] = useState(false);
     const [stampArray, setStampArray] = useState<Array<Stamp>>([])
     const user = useSelector( ( state: RootState ) => state.login.user );
+    const router = useRouter();
     // const tasks = useSelector( ( state: RootState ) => state.task.tasks );
     const connectMultipleWallet = async (id: string) => {
       try {
@@ -593,6 +593,7 @@ const Popup: React.FC<{
     const handleLinkClick = () =>
     {
       setLinkClicked( true );
+      
     };
 
     const handleVisibilityChange = () =>
@@ -631,6 +632,7 @@ const Popup: React.FC<{
         {
           notify( "success", "Join Successful" );
           await dispatch( completeTask( datas ) );
+          router.refresh();
           onClose();
 
         } else
@@ -1254,7 +1256,7 @@ const checkCivicPass = async (taskId: any) => {
                       Connect your wallet
                     </Button>
                   ) }
-                   {address && balance && (
+                   {address && selectedCard.type === "Connect wallet" && balance && (
                       <div className="mt-4">
                         <p className="text-white">Address: {address}</p>
                         <p className="text-white">Balance: {balance} ETH</p>
@@ -1269,7 +1271,7 @@ const checkCivicPass = async (taskId: any) => {
                       Submit Gitcoin passport
                     </Button>
                   ) }
-                   {showScore && (
+                   {showScore && selectedCard.type === "Gitcoin passport" && (
                     <Button variant="solid"
                     color="primary"
                     className="justify-center text-center"
