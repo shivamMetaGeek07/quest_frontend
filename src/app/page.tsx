@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import {Spinner} from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+
 const LandingPage = ()=> {
   const {isOpen, onOpen, onClose} = useDisclosure();
   const [domain, setDomain] = useState<string>("");
@@ -15,8 +16,9 @@ const LandingPage = ()=> {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
   const [iswalletconnected, setIswalletconnected] = useState(false);
-  const [showPasswordField, setShowPasswordField] = useState<boolean>(true);
+  const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
   const [hash,setHash]=useState('');
   const router = useRouter();
 
@@ -161,14 +163,14 @@ const LandingPage = ()=> {
   } catch (error) {
        // Type narrowing with `if` checks
     if (typeof error === "object" && error !== null && "reason" in error) {
-        setAlertMessage(`${(error as { reason: string }).reason}`);
+        setError(`${(error as { reason: string }).reason}`);
     } else if (typeof error === "object" && error !== null && "message" in error) {
-        setAlertMessage(`${(error as { message: string }).message}`);
+        setError(`${(error as { message: string }).message}`);
     } else {
-        setAlertMessage("An unknown error occurred.");
+        setError("An unknown error occurred.");
     }
 }
-  setLoader(false)
+  setLoader(false);
   }
   return (
     <>
@@ -296,13 +298,15 @@ const LandingPage = ()=> {
               <ModalBody>
                 <div className="flex flex-col justify-center items-center">
                 <div className="flex w-[90%] mx-auto mb-4 bg-white justify-between text-black items-center rounded-lg" >
-                <input disabled={showPasswordField} name="domain" className="w-full  text-black px-4 py-2 rounded" placeholder="domain name" value={domain} onChange={(e) => handleDomainChange(e)} /><span className=" px-4 py-2">.fam</span>
+                <input disabled={showPasswordField} name="domain" className="w-full text-black px-4 py-2 rounded" placeholder="domain name" value={domain} onChange={(e) => handleDomainChange(e)} /><span className=" px-4 py-2">.fam</span>
                 </div>
                   {error && <div className=" text-red-600 text-small text-start mb-4">{error}</div>}
                   {alertMessage && <div className={`flex justify-start items-center mb-4 ${alertMessage.includes("Error") ? "text-red-600" : "text-green-600"}`}>{alertMessage}</div>}
                   {showPasswordField && ( 
-                      <Input type="password" variant="flat" label="Password" name="password" className="w-full " value={password} onChange={(e) => setPassword(e.target.value)} />
-                    )}
+                      <div className="flex w-[90%] mx-auto mb-4 bg-white justify-between text-black items-center rounded-lg" >
+                <input name="password" type={showPassword ? "text" : "password"} className="w-full text-black px-4 py-2 rounded" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><span className="cursor-pointer px-4 py-2" onClick={() => setShowPassword(!showPassword)} >{showPassword?<i className="bi bi-eye-slash-fill"></i>:<i className="bi bi-eye-fill"></i>}</span>
+                </div>
+                  )}
                 </div>
                 
               </ModalBody>

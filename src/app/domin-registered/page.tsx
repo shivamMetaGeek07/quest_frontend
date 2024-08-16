@@ -1,7 +1,7 @@
 const Page=()=>{
     return (
-        <div className="flex justify-center text-green-400 items-center min-h-screen">
-        Thank you for registering your domain.
+        <div className="flex justify-center text-green-400 items-center font-bold text-lg min-h-screen">
+        Thank you for registering your domain
         </div>
     )
 }
