@@ -126,11 +126,13 @@ export const connetToWallets = createAsyncThunk(
   async ({ taskId,  address }: { taskId: string, address: string }) : Promise<any> => {
     try {
       const response = await axios.post( `${ API_BASE_URL }/connect-wallet`, {taskId,address} );
-      console.log("wallet connect response:-",response)
+      console.log( "wallet connect response:-", response )
+      notify("success","Wallet connect successfully")
       return response.data;
     } catch ( error )
     {
-      console.log("error in connecting to wallet:-",error)
+      console.log( "error in connecting to wallet:-", error )
+      notify("error","Wallet address is already connected to this task")
       // return rejectWithValue('Failed to create task');
     }
   }

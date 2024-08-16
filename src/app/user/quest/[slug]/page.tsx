@@ -1,5 +1,7 @@
-declare global {
-  interface Window {
+declare global
+{
+  interface Window
+  {
     ethereum?: any;
   }
 
@@ -8,7 +10,7 @@ declare global {
     _id: string;
     connectedWallets?: string[];
     walletsToConnect?: number;
-};
+  };
 }
 "use client";
 import QuizPollCarousel from "@/app/components/QuizPollCarousel";
@@ -21,8 +23,8 @@ import { warning } from "framer-motion/dom";
 import Image from "next/image";
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ethers } from 'ethers'
-import { GITCOIN_PASSPORT_WEIGHTS } from './stamp-weights'
+import { ethers } from 'ethers';
+import { GITCOIN_PASSPORT_WEIGHTS } from './stamp-weights';
 
 
 // types.ts
@@ -68,6 +70,7 @@ export interface CardData
   completions: Completion[];
   uploadFileType?: string;
   walletsToConnect?: number;
+  connectedWallets?: [];
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
@@ -164,7 +167,6 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
 
   const validateSubmission = ( taskType: string | undefined, submission: any ): any =>
   {
-
     switch ( taskType )
     {
       case "Text":
@@ -183,21 +185,21 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       case "Poll":
       case "Quiz":
         return typeof submission === 'object' && Object.keys( submission ).length > 0;
-        case "Connect wallet":
+      case "Connect wallet":
         return true;
-        case "Gitcoin passport":
-          return true;
-        case "Civic pass verification":
-          return true;
-        case "Ens holder":
-          return true;
-        case "Eth holder":
-          return true;
-        case "Connect multiple wallet":
-          return true;
-      // default:
-      //   console.log( "validation is complete, no matches found" );
-      //   return false;
+      case "Gitcoin passport":
+        return true;
+      case "Civic pass verification":
+        return true;
+      case "Ens holder":
+        return true;
+      case "Eth holder":
+        return true;
+      case "Connect multiple wallet":
+        return true;
+      default:
+        console.log( "validation is complete, no matches found" );
+        return false;
     }
   };
 
@@ -466,130 +468,78 @@ const Popup: React.FC<{
     const [ linkClicked, setLinkClicked ] = useState( false );
     const [ isMember, setIsMember ] = useState<boolean>( false );
     const dispatch = useDispatch<AppDispatch>();
-    const [address, setAddress] = useState<string>('')
-    const [balance, setBalance] = useState<string>('')
-    const [isENSHolder, setIsENSHolder] = useState<boolean>(false)
-    const [isETHHolder, setIsETHHolder] = useState<boolean>(false);
-    const [showStamps, setShowStamps] = useState(false);
-    const [tasks, setTasks] = useState<TaskType[]>([]); // TaskType should be replaced with your task object type
+    const [ address, setAddress ] = useState<string>( '' );
+    const [ balance, setBalance ] = useState<string>( '' );
+    const [ isENSHolder, setIsENSHolder ] = useState<boolean>( false );
+    const [ isETHHolder, setIsETHHolder ] = useState<boolean>( false );
+    const [ showStamps, setShowStamps ] = useState( false );
+    const [ tasks, setTasks ] = useState<TaskType[]>( [] ); // TaskType should be replaced with your task object type
     // const [tasks, setTasks] = useState<any[]>([]);
-    const [score, setScore] = useState(0);
-    const [showScore, setShowScore] = useState(false);
-    const [stampArray, setStampArray] = useState<Array<Stamp>>([])
+    const [ score, setScore ] = useState( 0 );
+    const [ showScore, setShowScore ] = useState( false );
+    const [ stampArray, setStampArray ] = useState<Array<Stamp>>( [] );
     const user = useSelector( ( state: RootState ) => state.login.user );
-    // const tasks = useSelector( ( state: RootState ) => state.task.tasks );
-    const connectMultipleWallet = async (id: string) => {
-      try {
-          const provider = new ethers.BrowserProvider(window.ethereum);
-          const accounts = await provider.send('eth_requestAccounts', []);
-  
-          if (accounts.length > 0) {
-              const accountAddress = accounts[0];
-              setAddress(accountAddress);
-  
-              // Fetch the balance of the connected account
-              const balance = await provider.getBalance(accountAddress);
-              setBalance(ethers.formatEther(balance));
-  
-              console.log('Wallet connected:', accountAddress);
-  
-              // Ensure the ID is in the correct format
-              const trimmedId = id.trim();
-              const taskIndex = tasks.findIndex((item) => item._id === trimmedId);
-              console.log("Task index:", taskIndex);
-  
-              if (taskIndex >= 0) {
-                  // Create a copy of the tasks array
-                  const updatedTasks = [...tasks];
-  
-                  // Create a copy of the task object
-                  const updatedTask = { ...updatedTasks[taskIndex] };
-  
-                  // Update the connectedWallets array
-                  updatedTask.connectedWallets = [...(updatedTask.connectedWallets || []), accountAddress];
-  
-                  // Replace the task object in the updatedTasks array
-                  updatedTasks[taskIndex] = updatedTask;
-  
-                  // Update the state with the new tasks array
-                  setTasks(updatedTasks);
-  
-                  console.log('Updated task:', updatedTask);
-  
-                  // Check if the required wallets are connected
-                  if (
-                      updatedTask.connectedWallets.length &&
-                      updatedTask.walletsToConnect &&
-                      updatedTask.connectedWallets.length === updatedTask.walletsToConnect
-                  ) {
-                      onSubmit(id, { visit: 'wallet connected' });
-                  }
-              } else {
-                  console.log('Task not found or undefined');
-              }
-  
-              return accountAddress;
-          }
-      } catch (error) {
-          console.log("Error connecting wallet:", error);
-      }
-  };
-  
-  
-    // const connectMultipleWalletBy = async (id: string) => {
-    //   try {
 
-    //      // Simulate connecting the wallet to tasks
-    //      const task = tasks?.filter((item) => item._id === id);
-    //      if (task && task.length > 0) {
-    //        console.log('task:', task);
-    //        if (!task[0].connectedWallets) {
-    //         task[0].connectedWallets = [];
-    //       }
-    //     // Connect to the wallet using the ethers library
-    //     const provider = new ethers.BrowserProvider(window.ethereum);
-    //     const accounts = await provider.send('eth_requestAccounts', []);
-    
-    //     if (accounts.length > 0) {
-    //       const accountAddress = accounts[0];
-    //       setAddress(accountAddress);
-    
-    //       // Fetch the balance of the connected account
-    //       const balance = await provider.getBalance(accountAddress);
-    //       setBalance(ethers.formatEther(balance));
-    
-    //       console.log('Wallet connected:', accountAddress);
-    
-         
-    
-    //         // Ensure connectedWallets array exists before pushing the accountAddress
-          
-    
-    //         task[0].connectedWallets.push(accountAddress);
-    
-    //         // Check if the required wallets are connected
-    //         if (
-    //           task[0].walletsToConnect &&
-    //           task[0].connectedWallets.length === task[0].walletsToConnect
-    //         ) {
-    //           onSubmit(id, { visit: 'wallet connected' });
-    //         }
-    //       } else {
-    //         console.log('Task not found or undefined');
-    //       }
-    
-    //       // return accountAddress;
-    //     } else {
-    //       console.log('No wallet accounts found.');
-    //       return null;
-    //     }
-    //   } catch (err) {
-    //     console.log('Error connecting wallet:', err);
-    //     return null;
-    //   }
-    // };
-    
-    
+    console.log( selectedCard );
+
+    // if ( selectedCard.type === "Connect multiple wallet" && selectedCard?.connectedWallets?.length === selectedCard?.walletsToConnect )
+    // {
+    //   onSubmit( selectedCard._id, { visited: "All wallets connected" } );
+    // }
+
+    const connectMultipleWallet = async () =>
+    {
+      try
+      {
+        if ( typeof window.ethereum === 'undefined' )
+        {
+          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+          {
+            window.open( "https://metamask.io/download.html", "_blank" );
+          }
+          return;
+        }
+
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const accounts = await provider.send( 'eth_requestAccounts', [] );
+
+        if ( accounts.length === 0 )
+        {
+          notify( "warn", "No Ethereum account connected. Please connect your wallet." );
+          return;
+        }
+
+        const accountAddress: any = accounts[ 0 ];
+
+        if ( selectedCard?.connectedWallets?.includes( accountAddress ) )
+        {
+          notify( "warn", "This wallet is already connected." );
+          return;
+        }
+
+        const balance = await provider.getBalance( accountAddress );
+        setBalance( ethers.formatEther( balance ) );
+
+        console.log( 'Wallet connected:', accountAddress );
+        // Update the backend
+        await dispatch( connetToWallets( { taskId: selectedCard?._id, address: accountAddress } ) );
+
+        // Refresh the task data to get the updated connectedWallets from the backend
+        await dispatch( fetchTaskById( selectedCard?._id ) );
+
+        // notify("success","Wallet connect successfully")
+        if ( selectedCard?.connectedWallets?.length === selectedCard.walletsToConnect )
+        {
+          onSubmit( selectedCard._id, { visit: 'All required wallets connected' } );
+        }
+      } catch ( error )
+      {
+        console.log( "Error connecting wallet:", error );
+        notify( "error", "Failed to connect wallet. Please try again." );
+      }
+    };
+
+
     const handleLinkClick = () =>
     {
       setLinkClicked( true );
@@ -671,340 +621,346 @@ const Popup: React.FC<{
       }
     };
 
+
+
     //Below line codes are using for to fetch the details form env for gitcoin api key, smart contract address and abi
-      
-      const APIKEY = process.env.NEXT_PUBLIC_GC_API_KEY   //API key for the access of gitcoin API
-      const SCORERID = process.env.NEXT_PUBLIC_GC_SCORER_ID  //Scorer Id using to fectch the user score on behalf of stamp verification activity
-      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-      const contractABI = process.env.NEXT_PUBLIC_CONTRACT_ABI ? JSON.parse(process.env.NEXT_PUBLIC_CONTRACT_ABI) : null;
-      
-      // below line using for access gitcoin passport data and connectection
-      const SUBMIT_PASSPORT_URI = 'https://api.scorer.gitcoin.co/registry/submit-passport'
-      const SIGNING_MESSAGE_URI = 'https://api.scorer.gitcoin.co/registry/signing-message'
-  
-      const headers = APIKEY ? {
-        'Content-Type': 'application/json',
-        'X-API-Key': APIKEY
-      } : undefined
-  
-      interface Stamp {
-        id: number
-        name: string
-        icon: string
+
+    const APIKEY = process.env.NEXT_PUBLIC_GC_API_KEY;   //API key for the access of gitcoin API
+    const SCORERID = process.env.NEXT_PUBLIC_GC_SCORER_ID;  //Scorer Id using to fectch the user score on behalf of stamp verification activity
+    const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+    const contractABI = process.env.NEXT_PUBLIC_CONTRACT_ABI ? JSON.parse( process.env.NEXT_PUBLIC_CONTRACT_ABI ) : null;
+
+    // below line using for access gitcoin passport data and connectection
+    const SUBMIT_PASSPORT_URI = 'https://api.scorer.gitcoin.co/registry/submit-passport';
+    const SIGNING_MESSAGE_URI = 'https://api.scorer.gitcoin.co/registry/signing-message';
+
+    const headers = APIKEY ? {
+      'Content-Type': 'application/json',
+      'X-API-Key': APIKEY
+    } : undefined;
+
+    interface Stamp
+    {
+      id: number;
+      name: string;
+      icon: string;
+    }
+
+    //Below codes are related to Metamask wallet connection
+    // useEffect( () =>
+    // {
+    //   checkConnection();
+    // }, [] );
+
+
+
+    const checkConnection = async () =>
+    {
+      try
+      {
+        // Check if MetaMask is installed
+        if ( typeof window.ethereum === 'undefined' )
+        {
+          // Prompt the user to install MetaMask and provide a link
+          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+          {
+            // Open the MetaMask download page in a new tab
+            window.open( "https://metamask.io/download.html", "_blank" );
+          }
+          return null;
+        }
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const accounts = await provider.listAccounts();
+        if ( accounts && accounts[ 0 ] )
+        {
+          setAddress( accounts[ 0 ].address );
+          const balance = await provider.getBalance( accounts[ 0 ].address );
+          setBalance( ethers.formatEther( balance ) );
+          await checkENS( accounts[ 0 ].address );
+        }
+      } catch ( err )
+      {
+        console.log( 'Not connected...', err );
       }
-  
-      //Below codes are related to Metamask wallet connection
-      useEffect(() => {
-        checkConnection();
-      }, []);
-    
-      const checkConnection = async () => {
-        try {
-          const provider = new ethers.BrowserProvider(window.ethereum);
-          const accounts = await provider.listAccounts();
-          if (accounts && accounts[0]) {
-            setAddress(accounts[0].address);
-            const balance = await provider.getBalance(accounts[0].address);
-            setBalance(ethers.formatEther(balance));
-            await checkENS(accounts[0].address)
-          }
-        } catch (err) {
-          console.log('Not connected...');
-        }
-      };
-    
-    
-      // const connectWallet = async (taskId: any): Promise<string | null> => {
-      //   try {
-      //     const provider = new ethers.BrowserProvider(window.ethereum);
-      //     const accounts = await provider.send('eth_requestAccounts', []);
-      //     setAddress(accounts[0]);
-      //     const balance = await provider.getBalance(accounts[0]);
-      //     setBalance(ethers.formatEther(balance));
-      //     await checkENS(accounts[0].address)
-      //     console.log('Wallet connected:', accounts[0]);
-      //     onSubmit( taskId, { visited: "wallet connected" } )
-      //     return accounts[0];
-      //   } catch (err) {
-      //     console.log('Error connecting wallet:', err);
-      //     return null;
-      //   }
-      // };
-      const connectWallet = async (taskId: any): Promise<string | null> => {
-        try {
-          // Check if MetaMask is installed
-          if (typeof window.ethereum === 'undefined') {
-              // Prompt the user to install MetaMask and provide a link
-              if (confirm("MetaMask is not installed. Would you like to download it now?")) {
-                  // Open the MetaMask download page in a new tab
-                  window.open("https://metamask.io/download.html", "_blank");
-              }
-              return null;
-          }
-    
-            const provider = new ethers.BrowserProvider(window.ethereum);
-            const accounts = await provider.send('eth_requestAccounts', []);
-    
-            if (accounts.length === 0) {
-                alert("No Ethereum account is connected. Please connect your wallet.");
-                return null;
-            }
-    
-            const accountAddress = accounts[0];
-            setAddress(accountAddress);
-    
-            const balance = await provider.getBalance(accountAddress);
-            setBalance(ethers.formatEther(balance));
-    
-            // Assuming checkENS is an async function that needs the account address
-            await checkENS(accountAddress);
-    
-            console.log('Wallet connected:', accountAddress);
-            onSubmit(taskId, { visited: "wallet connected" });
-    
-            return accountAddress;
-        } catch (err) {
-            console.log('Error connecting wallet:', err);
-            return null;
-        }
     };
-    
 
-      // async function submit() {
-      //   if (!address) {
-      //     await connectWallet();
-      //     console.log('user address is missing')
-      //     return
-      //   }
-      //   try {
-      //     const provider = new ethers.BrowserProvider(window.ethereum);
-      //     const signer = await provider.getSigner();
-      //     const contract = new ethers.Contract(contractAddress, contractABI, signer);
-      //     await contract.connectWallet();
-      //     // await updatePoints(address);  // Update points after calling connectWallet
-      
-      //     // Alert on successful connection and points award
-      //     alert('Wallet connected successfully and points added to your address');
-      //     console.log('Wallet connected and points awarded');
-      //   } catch (err) {
-      //     console.log('Error connecting wallet:', err);
-      //   }
-      // }
-
-      
-  const getSigningMessage = async () => {
-    try {
-      const response = await fetch(SIGNING_MESSAGE_URI, { headers });
-      if (!response.ok) {
-        throw new Error('Failed to fetch signing message');
-      }
-      return await response.json();
-    } catch (err) {
-      console.log('error: ', err);
-    }
-  };
-   // Below codes are related to gitcoin passport submission
-   const submitPassport = async (taskId : any ) => {
-    try {
-      if (!address) {
-        await connectWallet(selectedCard._id);
-        console.log('user address is missing')
-        return
-      }
-      const { message, nonce } = await getSigningMessage();
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const signature = await signer.signMessage(message);
-      const response = await fetch(SUBMIT_PASSPORT_URI, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          address,
-          scorer_id: SCORERID,
-          signature,
-          nonce,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to submit passport');
-      }
-      const data = await response.json();
-      console.log('data:', data);
-      alert('Passport submitted successfully');
-      onSubmit( taskId, {visited: "Passport verified"} )
-      getStamps();
-      calculateGitcoinScore(); // Calculate score after stamps are fetched
-    } catch (err) {
-      console.log('error: ', err);
-    }
-  };
-
-
-  const calculateGitcoinScore = () => {
-    let score = 0;
-  
-    console.log("Calculating Gitcoin score...");
-    console.log("Stamp array:", stampArray);
-    console.log("Gitcoin Passport Weights:", GITCOIN_PASSPORT_WEIGHTS);
-  
-    for (let i = 0; i < stampArray.length; i++) {
-      const stampName = stampArray[i].name;
-      console.log(`Processing stamp: ${stampName}`);
-  
-      if (GITCOIN_PASSPORT_WEIGHTS.hasOwnProperty(stampName)) {
-        try {
-          const temp_score = GITCOIN_PASSPORT_WEIGHTS[stampName as keyof typeof GITCOIN_PASSPORT_WEIGHTS];
-          console.log(`Adding ${temp_score} to score for stamp: ${stampName}`);
-          score += temp_score;
-        } catch (error) {
-          console.log("Error adding element to cumulative score:", error);
+    const connectWallet = async ( taskId: any ): Promise<string | null> =>
+    {
+      try
+      {
+        // Check if MetaMask is installed
+        if ( typeof window.ethereum === 'undefined' )
+        {
+          // Prompt the user to install MetaMask and provide a link
+          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+          {
+            // Open the MetaMask download page in a new tab
+            window.open( "https://metamask.io/download.html", "_blank" );
+          }
+          return null;
         }
-      } else {
-        console.log(`Stamp ${stampName} not found in GITCOIN_PASSPORT_WEIGHTS`);
+
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const accounts = await provider.send( 'eth_requestAccounts', [] );
+
+        if ( accounts.length === 0 )
+        {
+          alert( "No Ethereum account is connected. Please connect your wallet." );
+          return null;
+        }
+
+        const accountAddress = accounts[ 0 ];
+        setAddress( accountAddress );
+
+        const balance = await provider.getBalance( accountAddress );
+        setBalance( ethers.formatEther( balance ) );
+
+        // Assuming checkENS is an async function that needs the account address
+        await checkENS( accountAddress );
+
+        console.log( 'Wallet connected:', accountAddress );
+        onSubmit( taskId, { visited: "wallet connected" } );
+
+        return accountAddress;
+      } catch ( err )
+      {
+        console.log( 'Error connecting wallet:', err );
+        return null;
       }
-    }
-  
-    console.log("Final score:", score);
-    setShowScore(true);
-    setScore(score);
-  };
-  
-  const Score = () => {
-    return (
-      <>
-        <p> Your Gitcoin score is {score}</p>
-      </>
-    )
-  }
+    };
+
+    const getSigningMessage = async () =>
+    {
+      try
+      {
+        const response = await fetch( SIGNING_MESSAGE_URI, { headers } );
+        if ( !response.ok )
+        {
+          throw new Error( 'Failed to fetch signing message' );
+        }
+        return await response.json();
+      } catch ( err )
+      {
+        console.log( 'error: ', err );
+      }
+    };
+    // Below codes are related to gitcoin passport submission
+    const submitPassport = async ( taskId: any ) =>
+    {
+      try
+      {
+        if ( !address )
+        {
+          await connectWallet( selectedCard._id );
+          console.log( 'user address is missing' );
+          return;
+        }
+        const { message, nonce } = await getSigningMessage();
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const signer = await provider.getSigner();
+        const signature = await signer.signMessage( message );
+        const response = await fetch( SUBMIT_PASSPORT_URI, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify( {
+            address,
+            scorer_id: SCORERID,
+            signature,
+            nonce,
+          } ),
+        } );
+        if ( !response.ok )
+        {
+          throw new Error( 'Failed to submit passport' );
+        }
+        const data = await response.json();
+        console.log( 'data:', data );
+        alert( 'Passport submitted successfully' );
+        onSubmit( taskId, { visited: "Passport verified" } );
+        getStamps();
+        calculateGitcoinScore(); // Calculate score after stamps are fetched
+      } catch ( err )
+      {
+        console.log( 'error: ', err );
+      }
+    };
 
 
-  
-  
-  const getStamps = async () => {
-    const stampProviderArray: Stamp[] = [];
-    const GET_PASSPORT_STAMPS_URI = `https://api.scorer.gitcoin.co/registry/stamps/${address}?include_metadata=true`;
-  
-    try {
-      const response = await fetch(GET_PASSPORT_STAMPS_URI, { headers });
-      if (!response.ok) {
-        throw new Error('Failed to fetch stamps');
+    const calculateGitcoinScore = () =>
+    {
+      let score = 0;
+
+      console.log( "Calculating Gitcoin score..." );
+      console.log( "Stamp array:", stampArray );
+      console.log( "Gitcoin Passport Weights:", GITCOIN_PASSPORT_WEIGHTS );
+
+      for ( let i = 0; i < stampArray.length; i++ )
+      {
+        const stampName = stampArray[ i ].name;
+        console.log( `Processing stamp: ${ stampName }` );
+
+        if ( GITCOIN_PASSPORT_WEIGHTS.hasOwnProperty( stampName ) )
+        {
+          try
+          {
+            const temp_score = GITCOIN_PASSPORT_WEIGHTS[ stampName as keyof typeof GITCOIN_PASSPORT_WEIGHTS ];
+            console.log( `Adding ${ temp_score } to score for stamp: ${ stampName }` );
+            score += temp_score;
+          } catch ( error )
+          {
+            console.log( "Error adding element to cumulative score:", error );
+          }
+        } else
+        {
+          console.log( `Stamp ${ stampName } not found in GITCOIN_PASSPORT_WEIGHTS` );
+        }
       }
-  
-      const data = await response.json();
-      let counter = 0;
-      for (const item of data.items) {
-        const stamp: Stamp = {
-          id: counter,
-          name: item.credential.credentialSubject.provider,
-          icon: item.metadata.platform.icon,
-        };
-        stampProviderArray.push(stamp);
-        counter += 1;
+
+      console.log( "Final score:", score );
+      setShowScore( true );
+      setScore( score );
+    };
+
+    const Score = () =>
+    {
+      return (
+        <>
+          <p> Your Gitcoin score is { score }</p>
+        </>
+      );
+    };
+
+
+
+
+    const getStamps = async () =>
+    {
+      const stampProviderArray: Stamp[] = [];
+      const GET_PASSPORT_STAMPS_URI = `https://api.scorer.gitcoin.co/registry/stamps/${ address }?include_metadata=true`;
+
+      try
+      {
+        const response = await fetch( GET_PASSPORT_STAMPS_URI, { headers } );
+        if ( !response.ok )
+        {
+          throw new Error( 'Failed to fetch stamps' );
+        }
+
+        const data = await response.json();
+        let counter = 0;
+        for ( const item of data.items )
+        {
+          const stamp: Stamp = {
+            id: counter,
+            name: item.credential.credentialSubject.provider,
+            icon: item.metadata.platform.icon,
+          };
+          stampProviderArray.push( stamp );
+          counter += 1;
+        }
+
+        setStampArray( stampProviderArray );
+        setShowStamps( true );
+        console.log( 'Fetched stamps:', stampProviderArray );
+      } catch ( err )
+      {
+        console.log( 'Error fetching stamps:', err );
       }
-  
-      setStampArray(stampProviderArray);
-      setShowStamps(true);
-      console.log('Fetched stamps:', stampProviderArray);
-    } catch (err) {
-      console.log('Error fetching stamps:', err);
-    }
-  };
-  
-  //Below codes are using for checking the civic pass verification if civic pass true then user can able to proceed the action
-//   const checkCivicPass = async (taskId: any) => {
-//     if (!contractAddress || !contractABI || !address) {
-//       await connectWallet(selectedCard._id);
-//       console.log('Contract address, ABI is missing')
-//       return
-//     }
-//     try {
-//       const provider = new ethers.BrowserProvider(window.ethereum)
-//       const signer = await provider.getSigner()
-//       const contract = new ethers.Contract(contractAddress, contractABI, signer)
-//         const result = await contract.verifyCivicPass();
-//         if (result) {
-//             console.log("User has a valid Civic Pass.");
-//             // Proceed with the action
-//             onSubmit( taskId, {visited: "Civic Pass Verified"} )
-//         }
-//     } catch (error) {
-//         console.error("User does not have a valid Civic Pass:", error);
-//         alert("You do not have a valid Civic Pass verification.");
-//     }
-// }
-const checkCivicPass = async (taskId: any) => {
-  if (!contractAddress || !contractABI || !address) {
-      await connectWallet(selectedCard._id);
-      console.log('Contract address, ABI is missing');
-      return;
-  }
-  try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
-      const result = await contract.verifyCivicPass();
-      if (result) {
-          console.log("User has a valid Civic Pass.");
+    };
+
+    const checkCivicPass = async ( taskId: any ) =>
+    {
+      if ( !contractAddress || !contractABI || !address )
+      {
+        await connectWallet( selectedCard._id );
+        console.log( 'Contract address, ABI is missing' );
+        return;
+      }
+      try
+      {
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const signer = await provider.getSigner();
+        const contract = new ethers.Contract( contractAddress, contractABI, signer );
+        const result = await contract.verifyCivicPass();
+        if ( result )
+        {
+          console.log( "User has a valid Civic Pass." );
           // Proceed with the action
-          onSubmit(taskId, { visited: "Civic Pass Verified" });
-      }
-  } catch (error) {
-      console.error("User does not have a valid Civic Pass:", error);
-      if (confirm(`You do not have a valid Civic Pass verification. Would you like to visit the Civic Pass verification site?`)) {
-          window.open('https://civic.me/', '_blank');
-      }
-  }
-}
-
-
-//Below codes are using to checkENS on connected user address, if user address hold any ENS then he will be able to proceed with action
-    const checkENS = async (taskId: any) => {
-      try {
-        if (!address) {
-          await connectWallet(selectedCard._id);
-          if (!address) { // Re-check address after attempting to connect
-            console.log('User address is still missing');
-            return;
-          }
+          onSubmit( taskId, { visited: "Civic Pass Verified" } );
         }
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const ensName = await provider.lookupAddress(address); // Use 'address' instead of 'userAddress'
-        if (ensName) {
-          setIsENSHolder(true);
-          console.log(`ENS name found: ${ensName}`);
-          onSubmit(taskId, { visited: "User address holds ENS" });
-        } else {
-          setIsENSHolder(false);
-          alert('No ENS name found');
-          console.log('No ENS name found');
+      } catch ( error )
+      {
+        console.error( "User does not have a valid Civic Pass:", error );
+        if ( confirm( `You do not have a valid Civic Pass verification. Would you like to visit the Civic Pass verification site?` ) )
+        {
+          window.open( 'https://civic.me/', '_blank' );
         }
-      } catch (err) {
-        console.log('Error checking ENS:', err);
       }
     };
 
-//Below codes are using to checkETH balance on connected user address, if user address hold any amount of ETH then he will be able to proceed with action
-    const checkETHBalance = async (taskId: any) => {
-      try {
-        if (!address) {
-          const connectedAddress = await connectWallet(selectedCard._id);
-          if (!connectedAddress) {
-            console.log('User address is still missing');
+
+    //Below codes are using to checkENS on connected user address, if user address hold any ENS then he will be able to proceed with action
+    const checkENS = async ( taskId: any ) =>
+    {
+      try
+      {
+        if ( !address )
+        {
+          // await connectWallet( selectedCard._id );
+          if ( !address )
+          { // Re-check address after attempting to connect
+            console.log( 'User address is still missing' );
             return;
           }
         }
-        if (parseFloat(balance) > 0) {
-          setIsETHHolder(true);
-          console.log(`ETH balance: ${balance}`);
-          alert(`ETH balance: ${balance}`);
-          onSubmit(taskId, { visited: "User address holds ETH" });
-        } else {
-          setIsETHHolder(false);
-          console.log('No ETH balance found');
-          alert('Your account does not hold any ETH balance');
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const ensName = await provider.lookupAddress( address ); // Use 'address' instead of 'userAddress'
+        if ( ensName )
+        {
+          setIsENSHolder( true );
+          console.log( `ENS name found: ${ ensName }` );
+          onSubmit( taskId, { visited: "User address holds ENS" } );
+        } else
+        {
+          setIsENSHolder( false );
+          alert( 'No ENS name found' );
+          console.log( 'No ENS name found' );
         }
-      } catch (err) {
-        console.log('Error checking ETH balance:', err);
+      } catch ( err )
+      {
+        console.log( 'Error checking ENS:', err );
+      }
+    };
+
+    //Below codes are using to checkETH balance on connected user address, if user address hold any amount of ETH then he will be able to proceed with action
+    const checkETHBalance = async ( taskId: any ) =>
+    {
+      try
+      {
+        if ( !address )
+        {
+          const connectedAddress = await connectWallet( selectedCard._id );
+          if ( !connectedAddress )
+          {
+            console.log( 'User address is still missing' );
+            return;
+          }
+        }
+        if ( parseFloat( balance ) > 0 )
+        {
+          setIsETHHolder( true );
+          console.log( `ETH balance: ${ balance }` );
+          alert( `ETH balance: ${ balance }` );
+          onSubmit( taskId, { visited: "User address holds ETH" } );
+        } else
+        {
+          setIsETHHolder( false );
+          console.log( 'No ETH balance found' );
+          alert( 'Your account does not hold any ETH balance' );
+        }
+      } catch ( err )
+      {
+        console.log( 'Error checking ETH balance:', err );
       }
     };
 
@@ -1033,6 +989,7 @@ const checkCivicPass = async (taskId: any) => {
           return '';
       }
     };
+
 
 
     const getAcceptedFileTypes = ( uploadFileType: string | any ) =>
@@ -1249,41 +1206,42 @@ const checkCivicPass = async (taskId: any) => {
                   { selectedCard.type === "Connect wallet" && (
                     <Button variant="solid"
                       color="primary"
-                      className="justify-center text-center " 
-                      onClick={()=> connectWallet(selectedCard._id) }>
+                      className="justify-center text-center "
+                      onClick={ () => connectWallet( selectedCard._id ) }>
                       Connect your wallet
                     </Button>
                   ) }
-                   {address && balance && (
-                      <div className="mt-4">
-                        <p className="text-white">Address: {address}</p>
-                        <p className="text-white">Balance: {balance} ETH</p>
-                      </div>
-                    )}
-                
+
+                  { address && balance && (
+                    <div className="mt-4">
+                      <p className="text-white">Address: { address }</p>
+                      <p className="text-white">Balance: { balance } ETH</p>
+                    </div>
+                  ) }
+
                   { selectedCard.type === "Gitcoin passport" && (
                     <Button variant="solid"
                       color="primary"
                       className="justify-center text-center "
-                      onClick={()=>submitPassport(selectedCard._id)}>
+                      onClick={ () => submitPassport( selectedCard._id ) }>
                       Submit Gitcoin passport
                     </Button>
                   ) }
-                   {showScore && (
+                  { showScore && (
                     <Button variant="solid"
-                    color="primary"
-                    className="justify-center text-center"
-                    onClick={Score}>
-                    gitcoin score
-                    </Button> 
-                      
-                    )}
+                      color="primary"
+                      className="justify-center text-center"
+                      onClick={ Score }>
+                      gitcoin score
+                    </Button>
+
+                  ) }
 
                   { selectedCard.type == "Civic pass verification" && (
-                      <Button variant="solid" 
+                    <Button variant="solid"
                       color="primary"
                       className="justify-center text-center "
-                      onClick={()=>checkCivicPass(selectedCard._id)}>
+                      onClick={ () => checkCivicPass( selectedCard._id ) }>
                       Verify the Civic pass
                     </Button>
                   ) }
@@ -1292,7 +1250,7 @@ const checkCivicPass = async (taskId: any) => {
                     <Button variant="solid"
                       color="primary"
                       className="justify-center text-center "
-                      onClick={()=> checkENS(selectedCard._id) } >
+                      onClick={ () => checkENS( selectedCard._id ) } >
 
                       Verify the account
                     </Button>
@@ -1300,32 +1258,45 @@ const checkCivicPass = async (taskId: any) => {
                   { selectedCard.type == "Eth holder" && (
                     <Button variant="solid"
                       color="primary"
-                        className="text-center justify-center "
-                        onClick={()=> checkETHBalance(selectedCard._id)}>
+                      className="text-center justify-center "
+                      onClick={ () => checkETHBalance( selectedCard._id ) }>
                       Verify the account
                     </Button>
                   ) }
 
                   { selectedCard.type === "Connect multiple wallet" && (
-                    <div>
-                      { [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
-                        <div key={ index } className="flex justify-between py-4">
-                          <label htmlFor="">Connect your wallet { index + 1 }</label>
-                          <Button
-                            key={ index }
-                            onClick={ () => connectMultipleWallet( selectedCard._id ) }
-                            variant="solid"
-                            color="primary"
-                            className="text-center justify-center"
-
-                          >
-                            Connect to wallet
-                          </Button>
-                        </div>
-                      ) ) }
-
-                    </div>
+                    [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
+                      <div key={ index }>
+                        { selectedCard?.connectedWallets && selectedCard.connectedWallets[ index ] ? (
+                          <div
+                            className="flex justify-between py-4" >
+                            <label htmlFor="">Connected your wallet { index + 1 }</label>
+                            <Button
+                              variant="flat"
+                              color="primary"
+                              className="text-center justify-center"
+                              disabled
+                            >
+                              Connected to wallet { index + 1 }
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex justify-between py-4" >
+                            <label htmlFor="">Connect your wallet { index + 1 }</label>
+                            <Button
+                              onClick={ connectMultipleWallet }
+                              variant="solid"
+                              color="primary"
+                              className="text-center justify-center"
+                            >
+                              Connect to wallet { index + 1 }
+                            </Button>
+                          </div>
+                        ) }
+                      </div>
+                    ) )
                   ) }
+
                   {/* <Button
                     variant="solid"
                     color="danger"
@@ -1355,6 +1326,6 @@ const checkCivicPass = async (taskId: any) => {
       </div >
     );
   };
-  
+
 
 export default QuestPage;
