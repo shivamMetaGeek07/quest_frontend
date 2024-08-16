@@ -519,9 +519,7 @@ export default function CommunityProject ( {
                                         <div className='education-clip box2 border h-28 w-48 bg-red-700/10 flex justify-center items-center p-4'>
                                             <div>
                                                 <img
-                                                    src={
-                                                        "https://s3-alpha-sig.figma.com/img/acb9/32bf/b481a3a08bea2f6b1039c9581c8ed7d8?Expires=1722211200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U4DiI90Nb~y-baCsBKlUdMg0bdnFmPTwIHqnEj6XIpfLQ-Wrrkxh19U3XxyEBSYW6skusvRfpKf1JglEQirKFdDOr-F61gwWjzqgfffqjJ4F2nSZoG77-uhqZ3oe0G-M~bfpO-OfRuMFxMe4WGaRKoZqNB~yI1MRN~0e~kyuD37gWTGNPqDYML7sSexowM2laSDLDVFZZqc~xJEulldl9iCWRvhbjMHvRqqkF3XxcfQu7lPvZVIS9b~a6vPmLfg~G-GEgp-m8b-Vp4ESk8e~xFjt2ww7Kl9R9aSle4QXsvE6BudwTUeSATqxnxfiM3POsBR7oxS8OUSKiDlIdTZh8w__"
-                                                    }
+                                                    src={quest.logo}
                                                     alt=''
                                                     className='h-16 w-36 object-cover'
                                                 />
@@ -541,19 +539,6 @@ export default function CommunityProject ( {
                                             <p className='text-small text-slate-300'>{ quest.title }</p>
                                         </div>
                                     </div>
-
-                                    {/* <div>
-                    <div className="flex gap-4">
-                      <p>{data.description1}</p>
-                      <p>{data.description2}</p>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <p>{data.description3}</p>
-                      <p>|</p>
-                      <p>{data.description4}</p>
-                    </div>
-                  </div> */}
                                 </div>
                             </div>
                         ) ) }
