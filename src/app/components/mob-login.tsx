@@ -334,7 +334,7 @@ const LoginPage: React.FC<LoginPageProps> = ( { setNav } ) =>
                         { isExistingUser ? "LOGIN" : "SIGN UP" }
                     </h1>
                     <form onSubmit={ ( e ) => e.preventDefault() } className="flex-grow flex flex-col justify-between space-y-6">
-                        <Toaster toastOptions={ { duration: 4000 } } />
+                       
                         <div id="recaptcha-container"></div>
                         { user ? (
                             <h2 className="text-center text-white font-medium text-2xl">
