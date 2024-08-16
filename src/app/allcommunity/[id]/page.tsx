@@ -211,7 +211,7 @@ export default function CommunityProject ( {
                                     <div className='absolute lg:bottom-5 lg:right-5 sm:bottom-5 sm:right-5  bottom-1 right-1 flex gap-2 place-items-center '>
                                         <div className='mr-8'>
                                             { " " }
-                                            <h1 className='lg:text-lg sm:text-lg text-sm'>LINEA</h1>
+                                            <h1 className='lg:text-lg sm:text-lg text-sm'>{ community.title }</h1>
                                         </div>
                                         <div className='flex  mr-2 items-center flex-col'>
                                             <span className='card-white-text lg:text-xl sm:text-xl text-sm'>
