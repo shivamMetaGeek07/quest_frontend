@@ -106,27 +106,7 @@ const EducationCardList: React.FC = () =>
         <div>
           <div className="relative">
             <div className="flex ml-8 items-center gap-1 absolute bottom-6 left-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="10"
-                viewBox="0 0 16 10"
-                fill="none"
-              >
-                <path
-                  d="M1 0.5H6.48652L15 9.5"
-                  stroke="white"
-                  strokeOpacity="0.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6 4.5L11 9.5"
-                  stroke="white"
-                  strokeOpacity="0.3"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <img src="" alt="" />
               <div>
                 <h1 className="text-gray-400 font-thin">Educational quests</h1>
               </div>
@@ -209,29 +189,12 @@ const EducationCardList: React.FC = () =>
                   </div>
 
                   <div className="mt-2 flex gap-3  justify-center">
-                    {/* <div>
-                      <img
-                        src={ data.logo }
-                        alt=""
-                        className="h-6 w-6 rounded-full object-cover"
-                      />
-                    </div> */}
+                   
                     <div>
                       <p className="text-small text-slate-300">{ data.title }</p>
                     </div>
                   </div>
-
                   <div>
-                    {/* <div className="flex md:gap-4 gap-2 justify-center">
-                     <p className="md:text-medium text-sm">{data.description}</p> 
-                      <p className="md:text-medium text-sm">{ data.description }</p>
-                    </div> */}
-
-                    <div className="flex md:gap-4 gap-2">
-                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
-                      {/* <p className="md:text-medium text-sm">|</p> */ }
-                      {/* <p className="md:text-medium text-sm">{ data.description }</p> */}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -240,77 +203,13 @@ const EducationCardList: React.FC = () =>
         </div>
 
         {/* pending */ }
-
-        <div>
-          <div className="relative lg:mx-0  sm:mx-10 mx-10">
-            <div className="flex ml- items-center gap-1 absolute bottom-6 left-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="10"
-                viewBox="0 0 16 10"
-                fill="none"
-              >
-                <path
-                  d="M1 0.5H6.48652L15 9.5"
-                  stroke="white"
-                  strokeOpacity="0.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6 4.5L11 9.5"
-                  stroke="white"
-                  strokeOpacity="0.3"
-                  strokeLinecap="round"
-                />
-              </svg>
+          <div className="w-1/2">
+            <div className="flex items-center justify-start">
+             <div> <img src="https://clusterprotocol2024.s3.amazonaws.com/others/Group+44.png" alt="seprator" /></div>
               <div>
                 <h1 className="text-gray-400 font-thin">KOL quests</h1>
               </div>
             </div>
-
-            <div className="relative ">
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="160"
-                  height="59"
-                  viewBox="0 0 160 59"
-                  fill="none"
-                >
-                  <path
-                    d="M159 0.5L114 45.5H23L10.5 58H0"
-                    stroke="white"
-                    strokeOpacity="0.4"
-                  />
-                </svg>
-              </div>
-              <div className="absolute bottom-0 left-0 ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="7"
-                  height="6"
-                  viewBox="0 0 4 5"
-                  fill="none"
-                >
-                  <path d="M0 4L3.5 4L3.5 0.5" stroke="#FA00FF" />
-                </svg>
-              </div>
-              <div className="absolute top-0 left-40 ">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="7"
-                  height="5"
-                  viewBox="0 0 5 4"
-                  fill="none"
-                >
-                  <path d="M4.5 3.5L1 3.5L1 4.17371e-08" stroke="#FA00FF" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
           <div className="mt-5 neo p-2 grid lg:gap-10 sm:gap-10 gap-4 mx-8 lg:mx-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 lg:basis-[50%]">
             { loading ? (
               <>
@@ -335,27 +234,7 @@ const EducationCardList: React.FC = () =>
 
                   <div className="mt-2 flex gap-3 justify-center">
                     <div>
-                      {/* <img
-                        src={ data.logo }
-                        alt=""
-                        className="h-6 w-6 rounded-full object-cover"
-                      /> */}
-                    </div>
-                    <div>
                       <p className="text-small text-slate-300">{ data.title }</p>
-                    </div>
-                  </div>
-
-                  <div>
-                    {/* <div className="flex md:gap-4 gap-2 justify-center">
-                      <p className="md:text-medium text-sm">{data.description}</p>
-                    <p className="md:text-medium text-sm">{ data.description }</p> 
-                    </div> */}
-
-                    <div className="flex md:gap-4 gap-2">
-                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
-                      {/* <p className="md:text-medium text-sm">|</p> */ }
-                      {/* <p className="md:text-medium text-sm">{ data.description }</p> */}
                     </div>
                   </div>
                 </div>
