@@ -70,6 +70,7 @@ export interface CardData
   completions: Completion[];
   uploadFileType?: string;
   walletsToConnect?: number;
+  connectedWallets?: [ string ];
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
@@ -480,124 +481,80 @@ const Popup: React.FC<{
     const [ stampArray, setStampArray ] = useState<Array<Stamp>>( [] );
     const user = useSelector( ( state: RootState ) => state.login.user );
     // const tasks = useSelector( ( state: RootState ) => state.task.tasks );
-    const connectMultipleWallet = async ( id: string ) =>
+    const [ localConnectedWallets, setLocalConnectedWallets ] = useState<any>( [] );
+
+    useEffect( () =>
     {
-      try
+      if ( selectedCard?.connectedWallets )
       {
-        const provider = new ethers.BrowserProvider( window.ethereum );
-        const accounts = await provider.send( 'eth_requestAccounts', [] );
-
-        if ( accounts.length > 0 )
-        {
-          const accountAddress = accounts[ 0 ];
-          setAddress( accountAddress );
-
-          // Fetch the balance of the connected account
-          const balance = await provider.getBalance( accountAddress );
-          setBalance( ethers.formatEther( balance ) );
-
-          console.log( 'Wallet connected:', accountAddress );
-
-          // Ensure the ID is in the correct format
-          const trimmedId = id.trim();
-          const taskIndex = tasks.findIndex( ( item ) => item._id === trimmedId );
-          console.log( "Task index:", taskIndex );
-
-          if ( taskIndex >= 0 )
-          {
-            // Create a copy of the tasks array
-            const updatedTasks = [ ...tasks ];
-
-            // Create a copy of the task object
-            const updatedTask = { ...updatedTasks[ taskIndex ] };
-
-            // Update the connectedWallets array
-            updatedTask.connectedWallets = [ ...( updatedTask.connectedWallets || [] ), accountAddress ];
-
-            // Replace the task object in the updatedTasks array
-            updatedTasks[ taskIndex ] = updatedTask;
-
-            // Update the state with the new tasks array
-            setTasks( updatedTasks );
-
-            console.log( 'Updated task:', updatedTask );
-
-            // Check if the required wallets are connected
-            if (
-              updatedTask.connectedWallets.length &&
-              updatedTask.walletsToConnect &&
-              updatedTask.connectedWallets.length === updatedTask.walletsToConnect
-            )
-            {
-              onSubmit( id, { visit: 'wallet connected' } );
-            }
-          } else
-          {
-            console.log( 'Task not found or undefined' );
-          }
-
-          return accountAddress;
-        }
-      } catch ( error )
-      {
-        console.log( "Error connecting wallet:", error );
+        setLocalConnectedWallets( selectedCard?.connectedWallets );
       }
-    };
 
+      // fetchData();
+    }, [ selectedCard ] );
 
-    // const connectMultipleWalletBy = async (id: string) => {
-    //   try {
-
-    //      // Simulate connecting the wallet to tasks
-    //      const task = tasks?.filter((item) => item._id === id);
-    //      if (task && task.length > 0) {
-    //        console.log('task:', task);
-    //        if (!task[0].connectedWallets) {
-    //         task[0].connectedWallets = [];
-    //       }
-    //     // Connect to the wallet using the ethers library
-    //     const provider = new ethers.BrowserProvider(window.ethereum);
-    //     const accounts = await provider.send('eth_requestAccounts', []);
-
-    //     if (accounts.length > 0) {
-    //       const accountAddress = accounts[0];
-    //       setAddress(accountAddress);
-
-    //       // Fetch the balance of the connected account
-    //       const balance = await provider.getBalance(accountAddress);
-    //       setBalance(ethers.formatEther(balance));
-
-    //       console.log('Wallet connected:', accountAddress);
-
-
-
-    //         // Ensure connectedWallets array exists before pushing the accountAddress
-
-
-    //         task[0].connectedWallets.push(accountAddress);
-
-    //         // Check if the required wallets are connected
-    //         if (
-    //           task[0].walletsToConnect &&
-    //           task[0].connectedWallets.length === task[0].walletsToConnect
-    //         ) {
-    //           onSubmit(id, { visit: 'wallet connected' });
-    //         }
-    //       } else {
-    //         console.log('Task not found or undefined');
-    //       }
-
-    //       // return accountAddress;
-    //     } else {
-    //       console.log('No wallet accounts found.');
-    //       return null;
-    //     }
-    //   } catch (err) {
-    //     console.log('Error connecting wallet:', err);
-    //     return null;
-    //   }
+    // const fetchData = async () =>
+    // {
+    //   await dispatch( fetchTaskById( selectedCard?._id ) );
     // };
+    console.log( selectedCard );
 
+  const connectMultipleWallet = async () =>
+  {
+    try
+    {
+      if ( typeof window.ethereum === 'undefined' )
+      {
+        if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+        {
+          window.open( "https://metamask.io/download.html", "_blank" );
+        }
+        return;
+      }
+
+      const provider = new ethers.BrowserProvider( window.ethereum );
+      const [ accountAddress ] = await provider.send( 'eth_requestAccounts', [] );
+
+      if ( !accountAddress )
+      {
+        notify( "warn", "No Ethereum account connected. Please connect your wallet." );
+        return;
+      }
+
+      if ( selectedCard?.connectedWallets?.includes( accountAddress ) )
+      {
+        notify( "warn", "This wallet is already connected." );
+        return;
+      }
+
+      const balance = await provider.getBalance( accountAddress );
+      setBalance( ethers.formatEther( balance ) );
+
+      console.log( 'Wallet connected:', accountAddress );
+
+      // Update the backend and refresh task data
+      await Promise.all( [
+        dispatch( connetToWallets( { taskId: selectedCard?._id, address: accountAddress } ) ),
+        dispatch( fetchTaskById( selectedCard?._id ) )
+      ] ); 
+
+      console.log('localconnectedbefore :-',localConnectedWallets)
+      // Update local state immediately
+      setLocalConnectedWallets( (prev:any) => [ ...prev, accountAddress ] );
+
+      // const connectedWalletsCount = Number(selectedCard?.connectedWallets?.length) ?? 0;
+      const newConnectedWalletsCount = localConnectedWallets?.length + 1;
+      if ( newConnectedWalletsCount === (selectedCard?.walletsToConnect ))
+      {
+        onSubmit( selectedCard._id, { visit: 'All required wallets connected' } );
+      }
+
+    } catch ( error )
+    {
+      console.error( "Error connecting wallet:", error );
+      notify( "error", "Failed to connect wallet. Please try again." );
+    }
+  };
 
     const handleLinkClick = () =>
     {
@@ -828,29 +785,6 @@ const Popup: React.FC<{
         return null;
       }
     };
-
-
-    // async function submit() {
-    //   if (!address) {
-    //     await connectWallet();
-    //     console.log('user address is missing')
-    //     return
-    //   }
-    //   try {
-    //     const provider = new ethers.BrowserProvider(window.ethereum);
-    //     const signer = await provider.getSigner();
-    //     const contract = new ethers.Contract(contractAddress, contractABI, signer);
-    //     await contract.connectWallet();
-    //     // await updatePoints(address);  // Update points after calling connectWallet
-
-    //     // Alert on successful connection and points award
-    //     alert('Wallet connected successfully and points added to your address');
-    //     console.log('Wallet connected and points awarded');
-    //   } catch (err) {
-    //     console.log('Error connecting wallet:', err);
-    //   }
-    // }
-
 
     const getSigningMessage = async () =>
     {
@@ -1363,7 +1297,7 @@ const Popup: React.FC<{
                       Connect your wallet
                     </Button>
                   ) }
-                  { address && balance && (
+                  { selectedCard.type === "Connect wallet" && address && balance && (
                     <div className="mt-4">
                       <p className="text-white">Address: { address }</p>
                       <p className="text-white">Balance: { balance } ETH</p>
@@ -1378,14 +1312,13 @@ const Popup: React.FC<{
                       Submit Gitcoin passport
                     </Button>
                   ) }
-                  { showScore && (
+                  { selectedCard.type === "Gitcoin passport" && showScore && (
                     <Button variant="solid"
                       color="primary"
                       className="justify-center text-center"
                       onClick={ Score }>
                       gitcoin score
                     </Button>
-
                   ) }
 
                   { selectedCard.type == "Civic pass verification" && (
@@ -1416,25 +1349,38 @@ const Popup: React.FC<{
                   ) }
 
                   { selectedCard.type === "Connect multiple wallet" && (
-                    <div>
-                      { [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
-                        <div key={ index } className="flex justify-between py-4">
-                          <label htmlFor="">Connect your wallet { index + 1 }</label>
-                          <Button
-                            key={ index }
-                            onClick={ () => connectMultipleWallet( selectedCard._id ) }
-                            variant="solid"
-                            color="primary"
-                            className="text-center justify-center"
-
-                          >
-                            Connect to wallet
-                          </Button>
-                        </div>
-                      ) ) }
-
-                    </div>
+                    [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
+                      <div key={ index }>
+                        { localConnectedWallets[ index ] ? (
+                          <div className="flex justify-between py-4">
+                            <label htmlFor="">Connected your wallet { index + 1 }</label>
+                            <Button
+                              variant="flat"
+                              color="primary"
+                              className="text-center justify-center"
+                              disabled
+                            >
+                              Connected to wallet { index + 1 }
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex justify-between py-4">
+                            <label htmlFor="">Connect your wallet { index + 1 }</label>
+                            <Button
+                              onClick={ connectMultipleWallet }
+                              variant="solid"
+                              color="primary"
+                              className="text-center justify-center"
+                            >
+                              Connect to wallet { index + 1 }
+                            </Button>
+                          </div>
+                        ) }
+                      </div>
+                    ) )
                   ) }
+
+
                   {/* <Button
                     variant="solid"
                     color="danger"
