@@ -14,7 +14,7 @@ type CommunityCardData = {
 // CommunityCard component
 const CommunityCard: React.FC<{ data: CommunityCardData }> = ({ data }) => {
   const router=useRouter();
-  console.log(data);
+  // console.log(data);
   return (
     
     <div className="cursor-pointer" onClick={() => {router.push(`/kol/community-project/${data._id}`)}}>
