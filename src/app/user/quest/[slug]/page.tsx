@@ -699,6 +699,14 @@ const Popup: React.FC<{
       }, []);
     
       const checkConnection = async () => {
+        if (typeof window.ethereum === 'undefined') {
+          // Prompt the user to install MetaMask and provide a link
+          if (confirm("MetaMask is not installed. Would you like to download it now?")) {
+              // Open the MetaMask download page in a new tab
+              window.open("https://metamask.io/download.html", "_blank");
+          }
+          return null;
+      }        
         try {
           const provider = new ethers.BrowserProvider(window.ethereum);
           const accounts = await provider.listAccounts();
@@ -714,23 +722,7 @@ const Popup: React.FC<{
       };
     
     
-      // const connectWallet = async (taskId: any): Promise<string | null> => {
-      //   try {
-      //     const provider = new ethers.BrowserProvider(window.ethereum);
-      //     const accounts = await provider.send('eth_requestAccounts', []);
-      //     setAddress(accounts[0]);
-      //     const balance = await provider.getBalance(accounts[0]);
-      //     setBalance(ethers.formatEther(balance));
-      //     await checkENS(accounts[0].address)
-      //     console.log('Wallet connected:', accounts[0]);
-      //     onSubmit( taskId, { visited: "wallet connected" } )
-      //     return accounts[0];
-      //   } catch (err) {
-      //     console.log('Error connecting wallet:', err);
-      //     return null;
-      //   }
-      // };
-      const connectWallet = async (taskId: any): Promise<string | null> => {
+      const connectWallet = async (): Promise<string | null> => {
         try {
           // Check if MetaMask is installed
           if (typeof window.ethereum === 'undefined') {
@@ -758,6 +750,45 @@ const Popup: React.FC<{
     
             // Assuming checkENS is an async function that needs the account address
             await checkENS(accountAddress);
+    
+            console.log('Wallet connected:', accountAddress);
+            // onSubmit(taskId, { visited: "wallet connected" });
+    
+            return accountAddress;
+        } catch (err) {
+            console.log('Error connecting wallet:', err);
+            return null;
+        }
+    };
+    
+      const connectSingleWallet = async (taskId: any): Promise<string | null> => {
+        try {
+          // Check if MetaMask is installed
+          if (typeof window.ethereum === 'undefined') {
+              // Prompt the user to install MetaMask and provide a link
+              if (confirm("MetaMask is not installed. Would you like to download it now?")) {
+                  // Open the MetaMask download page in a new tab
+                  window.open("https://metamask.io/download.html", "_blank");
+              }
+              return null;
+          }
+    
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const accounts = await provider.send('eth_requestAccounts', []);
+    
+            if (accounts.length === 0) {
+                alert("No Ethereum account is connected. Please connect your wallet.");
+                return null;
+            }
+    
+            const accountAddress = accounts[0];
+            setAddress(accountAddress);
+    
+            const balance = await provider.getBalance(accountAddress);
+            setBalance(ethers.formatEther(balance));
+    
+            // Assuming checkENS is an async function that needs the account address
+            // await checkENS(accountAddress);
     
             console.log('Wallet connected:', accountAddress);
             onSubmit(taskId, { visited: "wallet connected" });
@@ -807,7 +838,7 @@ const Popup: React.FC<{
    const submitPassport = async (taskId : any ) => {
     try {
       if (!address) {
-        await connectWallet(selectedCard._id);
+        await connectWallet();
         console.log('user address is missing')
         return
       }
@@ -934,7 +965,7 @@ const Popup: React.FC<{
 // }
 const checkCivicPass = async (taskId: any) => {
   if (!contractAddress || !contractABI || !address) {
-      await connectWallet(selectedCard._id);
+      await connectWallet();
       console.log('Contract address, ABI is missing');
       return;
   }
@@ -958,36 +989,43 @@ const checkCivicPass = async (taskId: any) => {
 
 
 //Below codes are using to checkENS on connected user address, if user address hold any ENS then he will be able to proceed with action
-    const checkENS = async (taskId: any) => {
-      try {
-        if (!address) {
-          await connectWallet(selectedCard._id);
-          if (!address) { // Re-check address after attempting to connect
-            console.log('User address is still missing');
-            return;
-          }
-        }
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const ensName = await provider.lookupAddress(address); // Use 'address' instead of 'userAddress'
-        if (ensName) {
-          setIsENSHolder(true);
-          console.log(`ENS name found: ${ensName}`);
-          onSubmit(taskId, { visited: "User address holds ENS" });
-        } else {
-          setIsENSHolder(false);
-          alert('No ENS name found');
-          console.log('No ENS name found');
-        }
-      } catch (err) {
-        console.log('Error checking ENS:', err);
+const checkENS = async (taskId: any) => {
+  try {
+    if (!address) {
+      await connectWallet();
+      if (!address) { // Re-check address after attempting to connect
+        console.log('User address is still missing');
+        return;
       }
-    };
+    }
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const ensName = await provider.lookupAddress(address); // Use 'address' instead of 'userAddress'
+    if (ensName) {
+      setIsENSHolder(true);
+      console.log(`ENS name found: ${ensName}`);
+      onSubmit(taskId, { visited: "User address holds ENS" });
+    } else {
+      setIsENSHolder(false);
+      // Use a confirm dialog instead of alert
+      const userConfirmed = window.confirm(
+        'No ENS name found. Would you like to visit the ENS domain services to register an ENS name?'
+      );
+      if (userConfirmed) {
+        window.open('https://app.ens.domains/', '_blank');
+      }
+      console.log('No ENS name found');
+    }
+  } catch (err) {
+    console.log('Error checking ENS:', err);
+  }
+};
+
 
 //Below codes are using to checkETH balance on connected user address, if user address hold any amount of ETH then he will be able to proceed with action
     const checkETHBalance = async (taskId: any) => {
       try {
         if (!address) {
-          const connectedAddress = await connectWallet(selectedCard._id);
+          const connectedAddress = await connectWallet();
           if (!connectedAddress) {
             console.log('User address is still missing');
             return;
@@ -1250,7 +1288,7 @@ const checkCivicPass = async (taskId: any) => {
                     <Button variant="solid"
                       color="primary"
                       className="justify-center text-center " 
-                      onClick={()=> connectWallet(selectedCard._id) }>
+                      onClick={()=> connectSingleWallet(selectedCard._id) }>
                       Connect your wallet
                     </Button>
                   ) }
