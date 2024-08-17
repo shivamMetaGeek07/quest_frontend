@@ -222,10 +222,10 @@ const EducationCardList: React.FC = () =>
                   </div>
 
                   <div>
-                    <div className="flex md:gap-4 gap-2 justify-center">
-                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
+                    {/* <div className="flex md:gap-4 gap-2 justify-center">
+                     <p className="md:text-medium text-sm">{data.description}</p> 
                       <p className="md:text-medium text-sm">{ data.description }</p>
-                    </div>
+                    </div> */}
 
                     <div className="flex md:gap-4 gap-2">
                       {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
@@ -347,10 +347,10 @@ const EducationCardList: React.FC = () =>
                   </div>
 
                   <div>
-                    <div className="flex md:gap-4 gap-2 justify-center">
-                      {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
-                      <p className="md:text-medium text-sm">{ data.description }</p>
-                    </div>
+                    {/* <div className="flex md:gap-4 gap-2 justify-center">
+                      <p className="md:text-medium text-sm">{data.description}</p>
+                    <p className="md:text-medium text-sm">{ data.description }</p> 
+                    </div> */}
 
                     <div className="flex md:gap-4 gap-2">
                       {/* <p className="md:text-medium text-sm">{data.description}</p> */ }
