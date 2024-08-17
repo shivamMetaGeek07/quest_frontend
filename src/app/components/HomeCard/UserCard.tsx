@@ -5,9 +5,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-
-
+import { useRouter } from "next/navigation"; 
 export interface User
 {
   id: number;
@@ -18,16 +16,12 @@ export interface User
   icons: string[];
 }
 
-const UserCard = () =>
-{
-
+const UserCard = () => {
   const [ data, setData ] = useState( [] );
   const [loading,setLoading] = useState(false)
   const router = useRouter();
-  const getAllUser = async () =>
-  {
-    try
-    {
+  const getAllUser = async () => {
+    try {
       setLoading( true );
       const response = await axios.get(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/user/`,
@@ -37,6 +31,7 @@ const UserCard = () =>
           },
         }
       );
+      // console.log("respinse in gettitng user:-",response);
       setData( response.data );
     } catch ( error )
     {
@@ -46,7 +41,7 @@ const UserCard = () =>
       setLoading( false );
     }
   };
-  // console.log( "Users :-", data );
+  console.log( "Users :-", data );
 
   useEffect( () =>
   {
@@ -112,7 +107,7 @@ const UserCard = () =>
             </div>
           </div>
           <hr className="border-gray-700 my-2 mt-5" />
-          <div className="z-10 flex items-center space-x-3 mt-6">
+          <div className="z-10 flex items-center space-x-3 mt-6"  >
 
             { [ "🍎", "⭐", "⭐" ].map( ( icon, index ) => (
               <div
