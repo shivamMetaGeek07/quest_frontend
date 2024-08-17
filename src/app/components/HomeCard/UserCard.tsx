@@ -103,6 +103,7 @@ const UserCard = () =>
             <div>
               <div className="font-bold" style={ { letterSpacing: "5px" } }>
                 { user?.displayName }
+                {user?.domain?.domainAddress}
               </div>
 
             </div>
