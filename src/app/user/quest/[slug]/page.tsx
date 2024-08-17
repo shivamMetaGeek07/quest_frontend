@@ -70,7 +70,6 @@ export interface CardData
   completions: Completion[];
   uploadFileType?: string;
   walletsToConnect?: number;
-  connectedWallets?: [];
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
@@ -167,6 +166,7 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
 
   const validateSubmission = ( taskType: string | undefined, submission: any ): any =>
   {
+
     switch ( taskType )
     {
       case "Text":
@@ -197,9 +197,9 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
         return true;
       case "Connect multiple wallet":
         return true;
-      default:
-        console.log( "validation is complete, no matches found" );
-        return false;
+      // default:
+      //   console.log( "validation is complete, no matches found" );
+      //   return false;
     }
   };
 
@@ -479,65 +479,124 @@ const Popup: React.FC<{
     const [ showScore, setShowScore ] = useState( false );
     const [ stampArray, setStampArray ] = useState<Array<Stamp>>( [] );
     const user = useSelector( ( state: RootState ) => state.login.user );
-
-    console.log( selectedCard );
-
-    // if ( selectedCard.type === "Connect multiple wallet" && selectedCard?.connectedWallets?.length === selectedCard?.walletsToConnect )
-    // {
-    //   onSubmit( selectedCard._id, { visited: "All wallets connected" } );
-    // }
-
-    const connectMultipleWallet = async () =>
+    // const tasks = useSelector( ( state: RootState ) => state.task.tasks );
+    const connectMultipleWallet = async ( id: string ) =>
     {
       try
       {
-        if ( typeof window.ethereum === 'undefined' )
-        {
-          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
-          {
-            window.open( "https://metamask.io/download.html", "_blank" );
-          }
-          return;
-        }
-
         const provider = new ethers.BrowserProvider( window.ethereum );
         const accounts = await provider.send( 'eth_requestAccounts', [] );
 
-        if ( accounts.length === 0 )
+        if ( accounts.length > 0 )
         {
-          notify( "warn", "No Ethereum account connected. Please connect your wallet." );
-          return;
-        }
+          const accountAddress = accounts[ 0 ];
+          setAddress( accountAddress );
 
-        const accountAddress: any = accounts[ 0 ];
+          // Fetch the balance of the connected account
+          const balance = await provider.getBalance( accountAddress );
+          setBalance( ethers.formatEther( balance ) );
 
-        if ( selectedCard?.connectedWallets?.includes( accountAddress ) )
-        {
-          notify( "warn", "This wallet is already connected." );
-          return;
-        }
+          console.log( 'Wallet connected:', accountAddress );
 
-        const balance = await provider.getBalance( accountAddress );
-        setBalance( ethers.formatEther( balance ) );
+          // Ensure the ID is in the correct format
+          const trimmedId = id.trim();
+          const taskIndex = tasks.findIndex( ( item ) => item._id === trimmedId );
+          console.log( "Task index:", taskIndex );
 
-        console.log( 'Wallet connected:', accountAddress );
-        // Update the backend
-        await dispatch( connetToWallets( { taskId: selectedCard?._id, address: accountAddress } ) );
+          if ( taskIndex >= 0 )
+          {
+            // Create a copy of the tasks array
+            const updatedTasks = [ ...tasks ];
 
-        // Refresh the task data to get the updated connectedWallets from the backend
-        await dispatch( fetchTaskById( selectedCard?._id ) );
+            // Create a copy of the task object
+            const updatedTask = { ...updatedTasks[ taskIndex ] };
 
-        // notify("success","Wallet connect successfully")
-        if ( selectedCard?.connectedWallets?.length === selectedCard.walletsToConnect )
-        {
-          onSubmit( selectedCard._id, { visit: 'All required wallets connected' } );
+            // Update the connectedWallets array
+            updatedTask.connectedWallets = [ ...( updatedTask.connectedWallets || [] ), accountAddress ];
+
+            // Replace the task object in the updatedTasks array
+            updatedTasks[ taskIndex ] = updatedTask;
+
+            // Update the state with the new tasks array
+            setTasks( updatedTasks );
+
+            console.log( 'Updated task:', updatedTask );
+
+            // Check if the required wallets are connected
+            if (
+              updatedTask.connectedWallets.length &&
+              updatedTask.walletsToConnect &&
+              updatedTask.connectedWallets.length === updatedTask.walletsToConnect
+            )
+            {
+              onSubmit( id, { visit: 'wallet connected' } );
+            }
+          } else
+          {
+            console.log( 'Task not found or undefined' );
+          }
+
+          return accountAddress;
         }
       } catch ( error )
       {
         console.log( "Error connecting wallet:", error );
-        notify( "error", "Failed to connect wallet. Please try again." );
       }
     };
+
+
+    // const connectMultipleWalletBy = async (id: string) => {
+    //   try {
+
+    //      // Simulate connecting the wallet to tasks
+    //      const task = tasks?.filter((item) => item._id === id);
+    //      if (task && task.length > 0) {
+    //        console.log('task:', task);
+    //        if (!task[0].connectedWallets) {
+    //         task[0].connectedWallets = [];
+    //       }
+    //     // Connect to the wallet using the ethers library
+    //     const provider = new ethers.BrowserProvider(window.ethereum);
+    //     const accounts = await provider.send('eth_requestAccounts', []);
+
+    //     if (accounts.length > 0) {
+    //       const accountAddress = accounts[0];
+    //       setAddress(accountAddress);
+
+    //       // Fetch the balance of the connected account
+    //       const balance = await provider.getBalance(accountAddress);
+    //       setBalance(ethers.formatEther(balance));
+
+    //       console.log('Wallet connected:', accountAddress);
+
+
+
+    //         // Ensure connectedWallets array exists before pushing the accountAddress
+
+
+    //         task[0].connectedWallets.push(accountAddress);
+
+    //         // Check if the required wallets are connected
+    //         if (
+    //           task[0].walletsToConnect &&
+    //           task[0].connectedWallets.length === task[0].walletsToConnect
+    //         ) {
+    //           onSubmit(id, { visit: 'wallet connected' });
+    //         }
+    //       } else {
+    //         console.log('Task not found or undefined');
+    //       }
+
+    //       // return accountAddress;
+    //     } else {
+    //       console.log('No wallet accounts found.');
+    //       return null;
+    //     }
+    //   } catch (err) {
+    //     console.log('Error connecting wallet:', err);
+    //     return null;
+    //   }
+    // };
 
 
     const handleLinkClick = () =>
@@ -621,8 +680,6 @@ const Popup: React.FC<{
       }
     };
 
-
-
     //Below line codes are using for to fetch the details form env for gitcoin api key, smart contract address and abi
 
     const APIKEY = process.env.NEXT_PUBLIC_GC_API_KEY;   //API key for the access of gitcoin API
@@ -647,28 +704,25 @@ const Popup: React.FC<{
     }
 
     //Below codes are related to Metamask wallet connection
-    // useEffect( () =>
-    // {
-    //   checkConnection();
-    // }, [] );
-
-
+    useEffect( () =>
+    {
+      checkConnection();
+    }, [] );
 
     const checkConnection = async () =>
     {
+      if ( typeof window.ethereum === 'undefined' )
+      {
+        // Prompt the user to install MetaMask and provide a link
+        if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+        {
+          // Open the MetaMask download page in a new tab
+          window.open( "https://metamask.io/download.html", "_blank" );
+        }
+        return null;
+      }
       try
       {
-        // Check if MetaMask is installed
-        if ( typeof window.ethereum === 'undefined' )
-        {
-          // Prompt the user to install MetaMask and provide a link
-          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
-          {
-            // Open the MetaMask download page in a new tab
-            window.open( "https://metamask.io/download.html", "_blank" );
-          }
-          return null;
-        }
         const provider = new ethers.BrowserProvider( window.ethereum );
         const accounts = await provider.listAccounts();
         if ( accounts && accounts[ 0 ] )
@@ -680,11 +734,12 @@ const Popup: React.FC<{
         }
       } catch ( err )
       {
-        console.log( 'Not connected...', err );
+        console.log( 'Not connected...' );
       }
     };
 
-    const connectWallet = async ( taskId: any ): Promise<string | null> =>
+
+    const connectWallet = async (): Promise<string | null> =>
     {
       try
       {
@@ -719,6 +774,51 @@ const Popup: React.FC<{
         await checkENS( accountAddress );
 
         console.log( 'Wallet connected:', accountAddress );
+        // onSubmit(taskId, { visited: "wallet connected" });
+
+        return accountAddress;
+      } catch ( err )
+      {
+        console.log( 'Error connecting wallet:', err );
+        return null;
+      }
+    };
+
+    const connectSingleWallet = async ( taskId: any ): Promise<string | null> =>
+    {
+      try
+      {
+        // Check if MetaMask is installed
+        if ( typeof window.ethereum === 'undefined' )
+        {
+          // Prompt the user to install MetaMask and provide a link
+          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+          {
+            // Open the MetaMask download page in a new tab
+            window.open( "https://metamask.io/download.html", "_blank" );
+          }
+          return null;
+        }
+
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const accounts = await provider.send( 'eth_requestAccounts', [] );
+
+        if ( accounts.length === 0 )
+        {
+          alert( "No Ethereum account is connected. Please connect your wallet." );
+          return null;
+        }
+
+        const accountAddress = accounts[ 0 ];
+        setAddress( accountAddress );
+
+        const balance = await provider.getBalance( accountAddress );
+        setBalance( ethers.formatEther( balance ) );
+
+        // Assuming checkENS is an async function that needs the account address
+        // await checkENS(accountAddress);
+
+        console.log( 'Wallet connected:', accountAddress );
         onSubmit( taskId, { visited: "wallet connected" } );
 
         return accountAddress;
@@ -728,6 +828,29 @@ const Popup: React.FC<{
         return null;
       }
     };
+
+
+    // async function submit() {
+    //   if (!address) {
+    //     await connectWallet();
+    //     console.log('user address is missing')
+    //     return
+    //   }
+    //   try {
+    //     const provider = new ethers.BrowserProvider(window.ethereum);
+    //     const signer = await provider.getSigner();
+    //     const contract = new ethers.Contract(contractAddress, contractABI, signer);
+    //     await contract.connectWallet();
+    //     // await updatePoints(address);  // Update points after calling connectWallet
+
+    //     // Alert on successful connection and points award
+    //     alert('Wallet connected successfully and points added to your address');
+    //     console.log('Wallet connected and points awarded');
+    //   } catch (err) {
+    //     console.log('Error connecting wallet:', err);
+    //   }
+    // }
+
 
     const getSigningMessage = async () =>
     {
@@ -751,7 +874,7 @@ const Popup: React.FC<{
       {
         if ( !address )
         {
-          await connectWallet( selectedCard._id );
+          await connectWallet();
           console.log( 'user address is missing' );
           return;
         }
@@ -868,11 +991,33 @@ const Popup: React.FC<{
       }
     };
 
+    //Below codes are using for checking the civic pass verification if civic pass true then user can able to proceed the action
+    //   const checkCivicPass = async (taskId: any) => {
+    //     if (!contractAddress || !contractABI || !address) {
+    //       await connectWallet(selectedCard._id);
+    //       console.log('Contract address, ABI is missing')
+    //       return
+    //     }
+    //     try {
+    //       const provider = new ethers.BrowserProvider(window.ethereum)
+    //       const signer = await provider.getSigner()
+    //       const contract = new ethers.Contract(contractAddress, contractABI, signer)
+    //         const result = await contract.verifyCivicPass();
+    //         if (result) {
+    //             console.log("User has a valid Civic Pass.");
+    //             // Proceed with the action
+    //             onSubmit( taskId, {visited: "Civic Pass Verified"} )
+    //         }
+    //     } catch (error) {
+    //         console.error("User does not have a valid Civic Pass:", error);
+    //         alert("You do not have a valid Civic Pass verification.");
+    //     }
+    // }
     const checkCivicPass = async ( taskId: any ) =>
     {
       if ( !contractAddress || !contractABI || !address )
       {
-        await connectWallet( selectedCard._id );
+        await connectWallet();
         console.log( 'Contract address, ABI is missing' );
         return;
       }
@@ -906,7 +1051,7 @@ const Popup: React.FC<{
       {
         if ( !address )
         {
-          // await connectWallet( selectedCard._id );
+          await connectWallet();
           if ( !address )
           { // Re-check address after attempting to connect
             console.log( 'User address is still missing' );
@@ -923,7 +1068,14 @@ const Popup: React.FC<{
         } else
         {
           setIsENSHolder( false );
-          alert( 'No ENS name found' );
+          // Use a confirm dialog instead of alert
+          const userConfirmed = window.confirm(
+            'No ENS name found. Would you like to visit the ENS domain services to register an ENS name?'
+          );
+          if ( userConfirmed )
+          {
+            window.open( 'https://app.ens.domains/', '_blank' );
+          }
           console.log( 'No ENS name found' );
         }
       } catch ( err )
@@ -932,6 +1084,7 @@ const Popup: React.FC<{
       }
     };
 
+
     //Below codes are using to checkETH balance on connected user address, if user address hold any amount of ETH then he will be able to proceed with action
     const checkETHBalance = async ( taskId: any ) =>
     {
@@ -939,7 +1092,7 @@ const Popup: React.FC<{
       {
         if ( !address )
         {
-          const connectedAddress = await connectWallet( selectedCard._id );
+          const connectedAddress = await connectWallet();
           if ( !connectedAddress )
           {
             console.log( 'User address is still missing' );
@@ -989,7 +1142,6 @@ const Popup: React.FC<{
           return '';
       }
     };
-
 
 
     const getAcceptedFileTypes = ( uploadFileType: string | any ) =>
@@ -1207,11 +1359,10 @@ const Popup: React.FC<{
                     <Button variant="solid"
                       color="primary"
                       className="justify-center text-center "
-                      onClick={ () => connectWallet( selectedCard._id ) }>
+                      onClick={ () => connectSingleWallet( selectedCard._id ) }>
                       Connect your wallet
                     </Button>
                   ) }
-
                   { address && balance && (
                     <div className="mt-4">
                       <p className="text-white">Address: { address }</p>
@@ -1265,38 +1416,25 @@ const Popup: React.FC<{
                   ) }
 
                   { selectedCard.type === "Connect multiple wallet" && (
-                    [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
-                      <div key={ index }>
-                        { selectedCard?.connectedWallets && selectedCard.connectedWallets[ index ] ? (
-                          <div
-                            className="flex justify-between py-4" >
-                            <label htmlFor="">Connected your wallet { index + 1 }</label>
-                            <Button
-                              variant="flat"
-                              color="primary"
-                              className="text-center justify-center"
-                              disabled
-                            >
-                              Connected to wallet { index + 1 }
-                            </Button>
-                          </div>
-                        ) : (
-                          <div className="flex justify-between py-4" >
-                            <label htmlFor="">Connect your wallet { index + 1 }</label>
-                            <Button
-                              onClick={ connectMultipleWallet }
-                              variant="solid"
-                              color="primary"
-                              className="text-center justify-center"
-                            >
-                              Connect to wallet { index + 1 }
-                            </Button>
-                          </div>
-                        ) }
-                      </div>
-                    ) )
-                  ) }
+                    <div>
+                      { [ ...Array( selectedCard.walletsToConnect ) ].map( ( _, index ) => (
+                        <div key={ index } className="flex justify-between py-4">
+                          <label htmlFor="">Connect your wallet { index + 1 }</label>
+                          <Button
+                            key={ index }
+                            onClick={ () => connectMultipleWallet( selectedCard._id ) }
+                            variant="solid"
+                            color="primary"
+                            className="text-center justify-center"
 
+                          >
+                            Connect to wallet
+                          </Button>
+                        </div>
+                      ) ) }
+
+                    </div>
+                  ) }
                   {/* <Button
                     variant="solid"
                     color="danger"
