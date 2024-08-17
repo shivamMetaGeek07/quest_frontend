@@ -168,13 +168,16 @@ const Navbar = () =>
               <Link href="/admin/dashboard">Dashboard</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard/add-community-data">community MetaData</Link>
+              <Link href="/admin/dashboard/add-community-data">Community MetaData</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
-              <Link href="/admin/dashboard/feed-section">feed section</Link>
+              <Link href="/admin/dashboard/feed-section">Feed section</Link>
             </li>
              <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <Link href="/admin/dashboard/community-section">Community section</Link>
+            </li>
+            <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
+            <Link href="/admin/dashboard/grant-section">Grants section</Link>
             </li>
             <li className="flex justify-center items-center font-bold my-4 hover:text-cyan-500">
               <button onClick={handleLogout}>Logout</button>
