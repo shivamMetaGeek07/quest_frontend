@@ -15,6 +15,7 @@ import { ethers } from "ethers";
 import { Spinner } from "@nextui-org/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { notify } from "@/utils/notify";
 
 const LandingPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,6 +33,7 @@ const LandingPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logo, setLogo] = useState<any>(null);
+  const [thankYou, setThankYou] = useState<boolean>(false);
   const router = useRouter();
 
   const isAlphanumericWithHyphen = (str: string): boolean => {
@@ -98,18 +100,20 @@ const LandingPage = () => {
     setShowPasswordField(false);
     setPassword("");
     setAlertMessage("");
+    setThankYou(false);
     // setIswalletconnected(false)
   };
 
   const handleClose = () => {
+    setError("");
+    setAlertMessage("");
     onClose();
   };
 
   const handleCreateDomain = async () => {
-    
     setLoader(true);
     if (!isAlphanumericWithHyphen(domain)) {
-      setError("Invalid domain name");
+      // setError("Invalid user name");
       setLoader(false);
       return;
     }
@@ -138,7 +142,7 @@ const LandingPage = () => {
             return;
         }
 
-        const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${domain}/${ logo.name }`;
+      const path = `https://${ process.env.NEXT_PUBLIC_S3_BUCKET_NAME }.s3.amazonaws.com/userProfile/${domain}-${ logo.name }`;
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/user/domain`,
         {
@@ -151,11 +155,11 @@ const LandingPage = () => {
       );
 
       if (response.status === 200) {
-        alert(response.data.message);
-        alert("Domain created successfully");
-        handleClose();
-        router.push("/domin-registered");
+        // alert(response.data.message);
+        notify("success", response.data.message);
         setLoader(false);
+        setThankYou(true);
+        handleClose();
         setShowPasswordField(true);
       }
     } catch (err: any) {
@@ -170,7 +174,7 @@ const LandingPage = () => {
 
     if (!isAlphanumericWithHyphen(domain)) {
       setError(
-        "Invalid domain name.domain name must be alphanumeric with hyphen.domain must end with .fam"
+        "Invalid Username: The username must contain only alphanumeric characters and hyphens. Spaces are not allowed"
       );
       setLoader(false);
       return;
@@ -183,11 +187,13 @@ const LandingPage = () => {
       ? JSON.parse(process.env.NEXT_PUBLIC_CONTRACT_ABI)
       : null;
 
-    console.log("step1 ", contractAddress, contractABI, address);
+    // console.log("step1 ", contractAddress, contractABI, address);
     if (!contractAddress || !contractABI || !address) {
-      await connectWallet();
-      setAlertMessage("Wallet connected successfully");
-      setIswalletconnected(true);
+      const res = await connectWallet();
+      if(res){
+        setAlertMessage("Wallet connected successfully");
+        setIswalletconnected(true);
+      }
       setLoader(false);
       return;
     }
@@ -233,7 +239,7 @@ const LandingPage = () => {
       const response = await axios.post<{ url: string }>(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/aws/generate-upload-url`,
         {
-          folder: `userProfile/${domain}`,
+          folder: `userProfile`,
           fileName,
         }
       );
@@ -249,7 +255,10 @@ const LandingPage = () => {
     console.log(logo);
     
     try {
-      const uploadUrl = await getUploadUrl(logo.name);
+      const logoName=logo.name as string;
+      const fileName=domain+"-"+logoName;
+
+      const uploadUrl = await getUploadUrl(fileName);
       if (!uploadUrl) return false;
 
       const res = await axios.put(uploadUrl, logo, {
@@ -283,14 +292,14 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="min-h-screen">
-        <div className="landing-page p-8">
-          <div className="lg:mx-10 md:mx-6 mx-4">
-            <div className="ml-8">
-              <div className="relative  flex md:flex-row flex-col justify-between items-center gap-3">
+        <div className="landing-page">
+          <div className="w-[90%] mx-auto p-8">
+          <div className="flex flex-col justify-between h-screen">
+            <div className="w-full md:mt-0 mt-4">
+              <div className="flex md:flex-row flex-col-reverse md:justify-between items-center gap-3 ">
                 <div className="flex items-center gap-1">
                   <div>
-                    <h1 className="text-[#FA00FF] mt-2">VIEW DOCUMENTATION</h1>
+                    <h1 className="text-[#FA00FF]">VIEW DOCUMENTATION</h1>
                   </div>
                   <div className="mt-2">
                     <svg
@@ -371,9 +380,15 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-            <div className="relative flex items-center justify-center h-screen text-white">
-              <div className="absolute inset-0 opacity-25" />
-              <div className="relative z-10 text-center max-w-3xl">
+            <div className="mt-auto mb-auto">
+               <div className="flex items-center justify-center h-full text-white">
+             {thankYou ? (
+                <div className="flex flex-col justify-center text-white items-center ">
+                 <div className="text-center mb-4 font-bold text-lg">Thank you for registering your domain with us! </div>
+                 <div className="text-center mb-4 ">We're excited to have you on board and look forward to supporting you as you build and grow your online presence. </div>
+        </div>
+             ):(
+               <div className="z-10 text-center max-w-3xl">
                 <p className="text-sm tracking-widest text-neutral-400">
                   FAM PROTOCOL PRESENTS...
                 </p>
@@ -401,12 +416,17 @@ const LandingPage = () => {
                   </Link>
                 </div>
               </div>
+             )}
+             
+            </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
+    
       <Modal
         backdrop="blur"
+        placement="center"
         shadow="sm"
         size="xl"
         radius="none"
@@ -419,11 +439,11 @@ const LandingPage = () => {
             <>
               <ModalBody className="text-white p-8 ">
                 <div className="flex flex-col justify-center items-center  ">
-                  <div className="text-2xl font-bold font-['Qanelas'] uppercase mb-4 ">
+                  <div className="text-2xl font-bold font-['Qanelas'] uppercase mb-6 md:mb-4 ">
                     Get onboarded
                   </div>
-                  <div className="flex  gap-4 mb-4 justify-between items-center rounded-lg">
-                    <div className="w-2/3">
+                  <div className="flex gap-4 mb-4 md:flex-row flex-col justify-between items-center rounded-lg">
+                    <div className="w-full md:w-1/3 flex justify-center items-center">
                       <div
                         className="bg-gray-950 border border-gray-600 h-36 w-36 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden transition-all duration-300 hover:border-blue-500"
                         onClick={handleLogoClick}
@@ -517,15 +537,17 @@ const LandingPage = () => {
                     </div>
                   </div>
                   {error && (
-                    <div className=" text-red-600 text-small text-start mb-4">
+                    <div className=" text-red-600 font-['profontwindows'] text-small text-start mb-4">
                       {error}
                     </div>
                   )}
                   {alertMessage && (
-                    <div className="text-small text-start mb-4 text-green-600">
+                    <div className="text-small font-['profontwindows'] text-start mb-4 text-green-600">
                       {alertMessage}
                     </div>
                   )}
+
+                  {/* <button className="mb-4 bg-red-800 text-white " onClick={handleCreateDomain}>upload</button> */}
                   <div className="w-full">
                     {showPasswordField ? (
                       <Button
@@ -551,7 +573,6 @@ const LandingPage = () => {
                       </Button>
                     )}
                   </div>
-                  
                 </div>
               </ModalBody>
             </>
