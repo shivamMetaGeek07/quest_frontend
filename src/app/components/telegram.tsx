@@ -2,6 +2,8 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 import { notify } from '@/utils/notify';
 const TeleApp: React.FC = () => {
   useEffect(() => {
@@ -31,15 +33,16 @@ const TeleApp: React.FC = () => {
 
       try {
         // Call your API route to save Telegram data
-        const response = await axios.get('https://docsblock.io/auth/telegram/callback', {
+        const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+        const response = await axios.get( `https://docsblock.io/auth/telegram/callback`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authToken,
+          },
           params: telegramData,
-          withCredentials: true, // To include cookies, if necessary
-        });
+          withCredentials:true
+        } );
         console.log(response);
-        // if (response.status === 200) {
-        //   notify('success','Telegram data saved successfully!');
-        //   router.push('/user/profile'); // Navigate to the user profile page
-        // }
       } catch (error) {
         console.error('Error saving Telegram data:', error);
         // notify('error','Failed to save Telegram data. Please try again.');
