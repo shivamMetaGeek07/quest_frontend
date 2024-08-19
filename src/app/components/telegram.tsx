@@ -36,10 +36,10 @@ const TeleApp: React.FC = () => {
           withCredentials: true, // To include cookies, if necessary
         });
 
-        if (response.status === 200) {
-          notify('success','Telegram data saved successfully!');
-          router.push('/user/profile'); // Navigate to the user profile page
-        }
+        // if (response.status === 200) {
+        //   notify('success','Telegram data saved successfully!');
+        //   router.push('/user/profile'); // Navigate to the user profile page
+        // }
       } catch (error) {
         console.error('Error saving Telegram data:', error);
         notify('error','Failed to save Telegram data. Please try again.');
