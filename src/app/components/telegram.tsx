@@ -10,7 +10,7 @@ const TeleApp: React.FC = () => {
     script.async = true;
     script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
     script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
-    script.setAttribute('data-auth-url', 'https://docsblock.io/auth/telegram/callback');  // Back-End Callback URL
+    script.setAttribute('data-auth-url','');  // Back-End Callback URL
     script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
     document.getElementById('telegram-login')?.appendChild(script);
   }, []);
@@ -35,14 +35,14 @@ const TeleApp: React.FC = () => {
           params: telegramData,
           withCredentials: true, // To include cookies, if necessary
         });
-
+        console.log(response.data);
         // if (response.status === 200) {
         //   notify('success','Telegram data saved successfully!');
         //   router.push('/user/profile'); // Navigate to the user profile page
         // }
       } catch (error) {
         console.error('Error saving Telegram data:', error);
-        notify('error','Failed to save Telegram data. Please try again.');
+        // notify('error','Failed to save Telegram data. Please try again.');
       }
     };
 
