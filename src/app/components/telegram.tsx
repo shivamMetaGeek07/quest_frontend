@@ -35,7 +35,7 @@ const TeleApp: React.FC = () => {
           params: telegramData,
           withCredentials: true, // To include cookies, if necessary
         });
-        console.log(response.data);
+        console.log(response);
         // if (response.status === 200) {
         //   notify('success','Telegram data saved successfully!');
         //   router.push('/user/profile'); // Navigate to the user profile page
