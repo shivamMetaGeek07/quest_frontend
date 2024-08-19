@@ -10,7 +10,6 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "@/redux/reducer/authSlice";
-import { fetchCategoryEcosystem } from "@/redux/reducer/communitySlice";
 import
 {
   Dropdown,
@@ -19,14 +18,10 @@ import
   DropdownItem,
   Button,
   Pagination,
-  Input,
-  Select,
-  SelectItem,
 } from "@nextui-org/react";
 import axios from "axios";
 import ReferralForm from "@/app/components/referalPopUp";
 import { notify } from "@/utils/notify";
-import Image from "next/image";
 import { getCommunitySuccess } from "@/redux/reducer/adminCommunitySlice";
 
 const MyCommunities = () =>

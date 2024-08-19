@@ -55,16 +55,14 @@ interface ReferralFormProps {
     <Button
       className={ `px-2 py-1 bg-white/10 hover:bg-white/25 text-neutral-400 descdata text-center text-medium rounded-lg transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg ` }
         onPress={onOpen}>Join with referral</Button>
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal className='bg-slate-800' isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Referral</ModalHeader>
             <ModalBody>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white shadow-md rounded">
-      
+            <form onSubmit={handleSubmit} className="w-[90%] mx-auto p-4 rounded">
       <div className="mb-4">
-        <label htmlFor="nickname" className="block text-sm  text-gray-700">Referral</label>
         <input
         type="text"
         id="referral"
