@@ -89,7 +89,6 @@ export default function CommunityProject ( {
     try {
       
       const response = await axios.delete( `${ process.env.NEXT_PUBLIC_SERVER_URL }/community/${ id }` );
-      console.log( response )
       notify( 'success', "Community has deleted successfully" )
       router.push( `/user/my-community`)
     } catch (error) {

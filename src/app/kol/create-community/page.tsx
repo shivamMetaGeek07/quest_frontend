@@ -150,12 +150,18 @@ const CreateCommunity: React.FC = () =>
       };
 
       // console.log("newCommunity ",newCommunity)
-
       const resultAction = await dispatch( createCommunity( newCommunity ) );
       if ( createCommunity.fulfilled.match( resultAction ) )
       {
-        notify( "success", 'Community created successfully' );
-        router.push( '/user/my-community' );
+        const message=title
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/message/channel`,{message},
+        {
+          withCredentials:true
+        }  )
+      if(response.status===200){
+      notify( "success", 'Community created successfully' );
+      router.push( '/user/my-community' );
+          }
       } else
       {
         notify( "error", 'Failed to create community' );
