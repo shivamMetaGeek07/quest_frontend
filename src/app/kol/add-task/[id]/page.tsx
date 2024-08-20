@@ -255,6 +255,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
     try
     {
       const encodedInviteUrl = encodeURIComponent( inviteUrl ); // encode the URL
+      console.log("authToken", authToken);
       const response = await axios.post(
         `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/validate/${ encodedInviteUrl }`,
         {}, // assuming there is no body payload
