@@ -12,7 +12,7 @@ const TeleApp: React.FC = () => {
     script.async = true;
     script.setAttribute('data-telegram-login', 'Anijojo_bot');  // Your Bot Username
     script.setAttribute('data-size', 'medium');  // Widget Size: small, medium, large
-    script.setAttribute('data-auth-url', 'https://docsblock.io/auth/telegram/callback');  // Back-End Callback URL
+    script.setAttribute('data-auth-url', ' ');  // Back-End Callback URL
     script.setAttribute('data-request-access', 'write');  // Permissions requested from the user
     document.getElementById('telegram-login')?.appendChild(script);
   }, []);
