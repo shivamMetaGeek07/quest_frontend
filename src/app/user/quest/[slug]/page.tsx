@@ -21,8 +21,8 @@ import { Button, Progress } from "@nextui-org/react";
 import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ethers } from 'ethers'
-import { GITCOIN_PASSPORT_WEIGHTS } from './stamp-weights'
+import { ethers } from 'ethers';
+import { GITCOIN_PASSPORT_WEIGHTS } from './stamp-weights';
 import { useRouter } from "next/navigation";
 
 
@@ -70,6 +70,7 @@ export interface CardData
   uploadFileType?: string;
   walletsToConnect?: number;
   connectedWallets?: [ string ];
+  opinionQuestion?:string;
 }
 
 const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
@@ -115,15 +116,23 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
     setSubmissions( {} );
   }, [] );
 
-  const handleSubmission = useCallback( async ( taskId: string, submissionData?: { [ key: string ]: string; } ) =>
+  const handleSubmission = useCallback( async ( taskId: string, submissionData?: { [ key: string ]: any; } ) =>
   {
     try
     {
       let submission = submissionData || submissions[ taskId ];
-      console.log( "submission from submission" );
+
+      if ( selectedCard?.type === "Opinion Scale" )
+      {
+        submission = { opinionRating: submissionData?.opinionRating };
+      }
+      console.log( "submission from submission",submission );
       // Validate submission based on task type
+
       if ( !validateSubmission( selectedCard?.type, submission ) )
       {
+        console.log( selectedCard )
+
         notify( "warn", "Invalid submission. Please check your input." );
         return;
       }
@@ -185,6 +194,8 @@ const QuestPage: React.FC<{ params: { slug: string; }; }> = ( { params } ) =>
       case "Poll":
       case "Quiz":
         return typeof submission === 'object' && Object.keys( submission ).length > 0;
+      case "Opinion Scale":
+        return typeof submission === 'object' && typeof submission.opinionRating === 'string' && submission.opinionRating >= 1 && submission.opinionRating <= 5; 
       case "Connect wallet":
         return true;
       case "Gitcoin passport":
@@ -474,7 +485,8 @@ const Popup: React.FC<{
     const [ isETHHolder, setIsETHHolder ] = useState<boolean>( false );
     const [ showStamps, setShowStamps ] = useState( false );
     const [ tasks, setTasks ] = useState<TaskType[]>( [] ); // TaskType should be replaced with your task object type
-    // const [tasks, setTasks] = useState<any[]>([]);
+  // const [tasks, setTasks] = useState<any[]>([]);
+  const [ selectedValue, setSelectedValue ] = useState( 3 );
     const [ score, setScore ] = useState( 0 );
     const [ showScore, setShowScore ] = useState( false );
     const [ stampArray, setStampArray ] = useState<Array<Stamp>>( [] );
@@ -497,69 +509,67 @@ const Popup: React.FC<{
     // {
     //   await dispatch( fetchTaskById( selectedCard?._id ) );
     // };
-    console.log( selectedCard );
 
-  const connectMultipleWallet = async () =>
-  {
-    try
+    const connectMultipleWallet = async () =>
     {
-      if ( typeof window.ethereum === 'undefined' )
+      try
       {
-        if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+        if ( typeof window.ethereum === 'undefined' )
         {
-          window.open( "https://metamask.io/download.html", "_blank" );
+          if ( confirm( "MetaMask is not installed. Would you like to download it now?" ) )
+          {
+            window.open( "https://metamask.io/download.html", "_blank" );
+          }
+          return;
         }
-        return;
-      }
 
-      const provider = new ethers.BrowserProvider( window.ethereum );
-      const [ accountAddress ] = await provider.send( 'eth_requestAccounts', [] );
+        const provider = new ethers.BrowserProvider( window.ethereum );
+        const [ accountAddress ] = await provider.send( 'eth_requestAccounts', [] );
 
-      if ( !accountAddress )
+        if ( !accountAddress )
+        {
+          notify( "warn", "No Ethereum account connected. Please connect your wallet." );
+          return;
+        }
+
+        if ( selectedCard?.connectedWallets?.includes( accountAddress ) )
+        {
+          notify( "warn", "This wallet is already connected." );
+          return;
+        }
+
+        const balance = await provider.getBalance( accountAddress );
+        setBalance( ethers.formatEther( balance ) );
+
+        console.log( 'Wallet connected:', accountAddress );
+
+        // Update the backend and refresh task data
+        await Promise.all( [
+          dispatch( connetToWallets( { taskId: selectedCard?._id, address: accountAddress } ) ),
+          dispatch( fetchTaskById( selectedCard?._id ) )
+        ] );
+
+        // Update local state immediately
+        setLocalConnectedWallets( ( prev: any ) => [ ...prev, accountAddress ] );
+
+        // const connectedWalletsCount = Number(selectedCard?.connectedWallets?.length) ?? 0;
+        const newConnectedWalletsCount = localConnectedWallets?.length + 1;
+        if ( newConnectedWalletsCount === ( selectedCard?.walletsToConnect ) )
+        {
+          onSubmit( selectedCard._id, { visit: 'All required wallets connected' } );
+        }
+
+      } catch ( error )
       {
-        notify( "warn", "No Ethereum account connected. Please connect your wallet." );
-        return;
+        console.error( "Error connecting wallet:", error );
+        notify( "error", "Failed to connect wallet. Please try again." );
       }
-
-      if ( selectedCard?.connectedWallets?.includes( accountAddress ) )
-      {
-        notify( "warn", "This wallet is already connected." );
-        return;
-      }
-
-      const balance = await provider.getBalance( accountAddress );
-      setBalance( ethers.formatEther( balance ) );
-
-      console.log( 'Wallet connected:', accountAddress );
-
-      // Update the backend and refresh task data
-      await Promise.all( [
-        dispatch( connetToWallets( { taskId: selectedCard?._id, address: accountAddress } ) ),
-        dispatch( fetchTaskById( selectedCard?._id ) )
-      ] ); 
-
-      console.log('localconnectedbefore :-',localConnectedWallets)
-      // Update local state immediately
-      setLocalConnectedWallets( (prev:any) => [ ...prev, accountAddress ] );
-
-      // const connectedWalletsCount = Number(selectedCard?.connectedWallets?.length) ?? 0;
-      const newConnectedWalletsCount = localConnectedWallets?.length + 1;
-      if ( newConnectedWalletsCount === (selectedCard?.walletsToConnect ))
-      {
-        onSubmit( selectedCard._id, { visit: 'All required wallets connected' } );
-      }
-
-    } catch ( error )
-    {
-      console.error( "Error connecting wallet:", error );
-      notify( "error", "Failed to connect wallet. Please try again." );
-    }
-  };
+    };
 
     const handleLinkClick = () =>
     {
       setLinkClicked( true );
-      
+
     };
 
     const handleVisibilityChange = () =>
@@ -574,7 +584,6 @@ const Popup: React.FC<{
     };
     const checkMembership = async () =>
     {
-      // console.log( "check membership called" );
       const data = user?.discordInfo?.discordId;
       const accessToken = user?.discordInfo?.accessToken;
       const guildId = selectedCard?.guild;
@@ -587,7 +596,6 @@ const Popup: React.FC<{
         },
         );
         const discordShip = response.data.isMember;
-        // console.log( "dfd", discordShip );
         const datas = {
           taskId: selectedCard._id,
           userId: user?._id,
@@ -625,19 +633,26 @@ const Popup: React.FC<{
       };
     }, [ linkClicked ] );
 
-    const handleSubmit = () =>
+  const handleSubmit = () =>
+  {
+    if ( selectedCard.type === "Opinion Scale" )
     {
-      if ( validateSubmission( selectedCard.type, submissions[ selectedCard._id ] ) )
+      if ( selectedValue )
       {
-        onSubmit( selectedCard._id );
+        onSubmit( selectedCard._id, { opinionRating: selectedValue.toString() } );
       } else
       {
-        notify( "warn", "Invalid input.Please check your submission." );
-        // console.log(
-        //   "Submission is invalid. Please check the submission and try again."
-        // );
+        notify( "warn", "Please select a rating before submitting." );
       }
-    };
+    } else if ( validateSubmission( selectedCard.type, submissions[ selectedCard._id ] ) )
+    {
+      onSubmit( selectedCard._id );
+    } else
+    {
+      notify( "warn", "Invalid input. Please check your submission." );
+
+    }
+  };
 
     //Below line codes are using for to fetch the details form env for gitcoin api key, smart contract address and abi
 
@@ -1237,7 +1252,7 @@ const Popup: React.FC<{
                         Generate Referral
                       </button>
                     </div>
-                  ) }
+                    ) } 
 
                   { selectedCard.type === "File upload" && (
                     <div>
@@ -1290,6 +1305,51 @@ const Popup: React.FC<{
                       }
                     />
                   ) }
+
+                    { selectedCard.type === "Opinion Scale" && (
+                      <div className="flex flex-col mt-4 bg-gradient-to-br from-indigo-800 via-purple-700 to-pink-600 p-8 rounded-2xl shadow-2xl">
+                        <h2 className="text-2xl text-white font-bold mb-4 text-center">
+                          { selectedCard?.opinionQuestion }
+                        </h2>
+                        <p className="text-sm text-gray-200 mb-6 text-center">
+                          Drag the slider or click a number to rate your opinion
+                        </p>
+                        <div className="relative mb-8">
+                          <input
+                            type="range"
+                            min="1"
+                            max="5"
+                            value={ selectedValue || 3 } 
+                            onChange={ ( e ) => setSelectedValue( Number( e.target.value ) ) }
+                            className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+                          />
+                          <div className="flex justify-between mt-2">
+                            { [ 1, 2, 3, 4, 5 ].map( ( value ) => (
+                              <button
+                                key={ value }
+                                className={ `w-10 h-10 rounded-full text-lg font-bold transition-all duration-300 ease-in-out transform hover:scale-110
+              ${ selectedValue === value
+                                    ? 'bg-white text-indigo-600 scale-125 shadow-lg'
+                                    : 'bg-indigo-400 text-white hover:bg-indigo-300' }` }
+                                onClick={ () => setSelectedValue( value ) }
+                              >
+                                { value }
+                              </button>
+                            ) ) }
+                          </div>
+                        </div>
+                        <div className="flex justify-between text-sm text-gray-300 font-medium">
+                          <span>Strongly Disagree</span>
+                          <span>Strongly Agree</span>
+                        </div>
+                        <div className="mt-8 text-center">
+                          <p className="text-xl text-white font-semibold mb-2">Your Rating</p>
+                          <div className="text-5xl text-white font-bold animate-pulse">
+                            { selectedValue || "-" }
+                          </div>
+                        </div>
+                      </div>
+                    ) }
 
                   { selectedCard.type === "Connect wallet" && (
                     <Button variant="solid"
@@ -1392,7 +1452,7 @@ const Popup: React.FC<{
                     Cancel
                   </Button> */}
 
-                  { ( selectedCard.type === 'File upload' || selectedCard.type === 'Text' || selectedCard.type === 'Number' || selectedCard.type === 'URL'
+                    { ( selectedCard.type === "Opinion Scale" || selectedCard.type === 'File upload' || selectedCard.type === 'Text' || selectedCard.type === 'Number' || selectedCard.type === 'URL'
                   ) &&
                     (
                       <Button
