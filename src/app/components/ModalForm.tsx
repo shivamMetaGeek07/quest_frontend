@@ -120,7 +120,7 @@ const ModalForm = () =>
         notify("success", "Profile updated successfully");
 
         setIsModalVisible( false );
-        // router.push( '/user/profile' );
+       
       } else
       {
         notify("error", "Failed to update profile");
