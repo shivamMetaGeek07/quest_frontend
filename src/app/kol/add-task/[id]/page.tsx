@@ -57,6 +57,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   ] );
   const [ taskName, setTaskName ] = useState( "" );
   const [ taskDescription, setTaskDescription ] = useState( "" );
+  const [ opinionQuestion, setOpinionQuestion ] = useState( "" );
   const [ rewards, setRewards ] = useState( { xp: 0, coins: 0, } );
   const [ fileType, setFileType ] = useState( "" );
   const [ inviteUrl, setInviteUrl ] = useState( '' );
@@ -65,6 +66,7 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
   const [ modalView, setModalView ] = useState( false );
   const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
   const [ wallets, setWallets ] = useState( 0 );
+
 
   const { taskOptions, categories } = useSelector( ( state: any ) => state.taskOption );
   const KolId = useSelector( ( state: any ) => state?.login?.user?._id );
@@ -163,15 +165,19 @@ const AddTask = ( { params }: { params: { id: string; }; } ) =>
       "Connect multiple wallet": {
         ...baseTask,
         walletsToConnect: wallets
+      },
+      "Opinion Scale": {
+        ...baseTask,
+        opinionQuestion: opinionQuestion
       }
     };
 
     const taskData = taskDataMap[ selectedTask.name ] || baseTask;
-console.log('taskdata:-',taskData)
+    console.log( 'taskdata:-', taskData );
     try
     {
       const response = await dispatch( createTask( taskData ) );
-      console.log('response in adding the task:-',response)
+      console.log( 'response in adding the task:-', response );
       notify( "success", response?.payload?.msg || "Task created successfully" );
       closeTaskModal();
     } catch ( error ) 
@@ -464,10 +470,10 @@ console.log('taskdata:-',taskData)
                         type="number"
                         min={ 1 }
                         max={ 10 }
-                        value={wallets}
+                        value={ wallets }
                         className="w-3/4 p-3 bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:outline-none"
                         placeholder="Wallets to connect"
-                        onChange={ ( e ) => setWallets( parseInt( e.target.value )>10?10:parseInt( e.target.value )) }
+                        onChange={ ( e ) => setWallets( parseInt( e.target.value ) > 10 ? 10 : parseInt( e.target.value ) ) }
                       />
                     </div>
                   }
@@ -485,7 +491,7 @@ console.log('taskdata:-',taskData)
                       value={ rewards.xp }
                       min={ 0 }
                       max={ 500 }
-                      onChange={ ( e ) => setRewards( { ...rewards, xp: parseInt( e.target.value )>500?500:parseInt( e.target.value ) } ) }
+                      onChange={ ( e ) => setRewards( { ...rewards, xp: parseInt( e.target.value ) > 500 ? 500 : parseInt( e.target.value ) } ) }
                       placeholder="Value"
                       className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
                       required
@@ -502,7 +508,7 @@ console.log('taskdata:-',taskData)
                       min={ 0 }
                       max={ 100 }
                       value={ rewards.coins }
-                      onChange={ ( e ) => setRewards( { ...rewards, coins:parseInt( e.target.value )>100?100:parseInt( e.target.value ) } ) }
+                      onChange={ ( e ) => setRewards( { ...rewards, coins: parseInt( e.target.value ) > 100 ? 100 : parseInt( e.target.value ) } ) }
                       placeholder="Value"
                       className="w-1/2 px-4 py-2 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300 bg-gray-800 text-white"
                       required
@@ -519,6 +525,19 @@ console.log('taskdata:-',taskData)
                     onChange={ handleInputChange }
                   />
                 ) }
+
+                { selectedTask.name === "Opinion Scale" && (
+                  <div className="flex flex-col mt-4">
+                    <label className="block text-gray-300 font-semibold mb-2">Opinion Question</label>
+                    <textarea
+                      className="w-full p-3 bg-gray-700 rounded-lg focus:ring-2 focus"
+                      placeholder="Opinion Question"
+                      onChange={ (e) => setOpinionQuestion(e.target.value) }
+                    />
+                  </div>
+                ) }
+
+
                 { selectedTask.name === "Discord" && (
                   <>
                     <input

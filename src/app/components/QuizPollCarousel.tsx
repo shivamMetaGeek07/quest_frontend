@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface QuizQuestion
 {
@@ -42,20 +43,31 @@ const QuizPollCarousel: React.FC<QuizPollCarouselProps> = ( { selectedCard, hand
         setAllAnswered( answeredCount === totalQuestions );
     }, [ answers, totalQuestions ] );
 
-    const handleInputChange = ( index: number, value: string ) =>
+    const handleOptionSelect = ( index: number, value: string ) =>
     {
         setAnswers( prevAnswers => ( {
             ...prevAnswers,
             [ index ]: value
         } ) );
+
+        if ( selectedCard.type === "Quiz" )
+        {
+            checkQuizAnswer( index, value );
+        } else if ( currentIndex < ( totalQuestions || 0 ) - 1 )
+        {
+            setTimeout( () =>
+            {
+                setCurrentIndex( prevIndex => prevIndex + 1 );
+            }, 1500 );
+        }
     };
 
-    const checkQuizAnswer = ( index: number ) =>
+    const checkQuizAnswer = ( index: number, selectedAnswer: string ) =>
     {
         const currentQuiz = selectedCard.quizzes?.[ index ];
         if ( currentQuiz )
         {
-            const isCorrect = answers[ index ] === currentQuiz.correctAnswer;
+            const isCorrect = selectedAnswer === currentQuiz.correctAnswer;
             setQuizResults( prevResults => ( {
                 ...prevResults,
                 [ index ]: isCorrect
@@ -66,7 +78,7 @@ const QuizPollCarousel: React.FC<QuizPollCarouselProps> = ( { selectedCard, hand
                 setTimeout( () =>
                 {
                     setCurrentIndex( prevIndex => prevIndex + 1 );
-                }, 1000 );
+                }, 3000 );
             }
         }
     };
@@ -94,103 +106,81 @@ const QuizPollCarousel: React.FC<QuizPollCarouselProps> = ( { selectedCard, hand
 
     const renderQuestion = () =>
     {
-        if ( selectedCard.type === "Poll" && selectedCard.polls )
-        {
-            const poll = selectedCard.polls[ currentIndex ];
-            return (
-                <div className="bg-[#1E1E1E] p-4 rounded-lg">
-                    <p className="font-semibold mb-3 text-lg">Poll Question { currentIndex + 1 }</p>
-                    <p className="mb-2">{ poll.question }</p>
-                    { poll.options.map( ( option, optionIndex ) => (
-                        <div key={ optionIndex } className="mb-2 flex items-center">
-                            <input
-                                type="radio"
-                                id={ `poll-${ currentIndex }-option-${ optionIndex }` }
-                                name={ `poll-${ currentIndex }` }
-                                value={ option }
-                                checked={ answers[ currentIndex ] === option }
-                                onChange={ ( e ) => handleInputChange( currentIndex, e.target.value ) }
-                                className="mr-2"
-                            />
-                            <label htmlFor={ `poll-${ currentIndex }-option-${ optionIndex }` } className="text-gray-300">
-                                { option }
-                            </label>
-                        </div>
-                    ) ) }
-                </div>
-            );
-        } else if ( selectedCard.type === "Quiz" && selectedCard.quizzes )
-        {
-            const quiz = selectedCard.quizzes[ currentIndex ];
-            
-            return (
-                <div className="bg-[#1E1E1E] p-4 rounded-lg border border-gray-700">
-                    <p className="font-semibold mb-3 text-lg">Quiz Question { currentIndex + 1 }</p>
-                    <p className="mb-2">{ quiz?.question }</p>
-                    { quiz?.options?.map( ( option, optionIndex ) => (
-                        <div key={ optionIndex } className="mb-2 flex items-center">
-                            <input
-                                type="radio"
-                                id={ `quiz-${ currentIndex }-option-${ optionIndex }` }
-                                name={ `quiz-${ currentIndex }` }
-                                value={ option }
-                                checked={ answers[ currentIndex ] === option }
-                                onChange={ ( e ) => handleInputChange( currentIndex, e.target.value ) }
-                                className="mr-2"
-                            />
-                            <label
-                                htmlFor={ `quiz-${ currentIndex }-option-${ optionIndex }` }
-                                className={ `
-                  ${ quizResults[ currentIndex ] !== undefined
+        const question = selectedCard.type === "Poll"
+            ? selectedCard.polls?.[ currentIndex ]
+            : selectedCard.quizzes?.[ currentIndex ];
+
+        if ( !question ) return null;
+
+        return (
+            <motion.div
+                initial={ { opacity: 0, y: 20 } }
+                animate={ { opacity: 1, y: 0 } }
+                exit={ { opacity: 0, y: -20 } }
+                transition={ { duration: 0.3 } }
+                className="bg-gradient-to-br from-[#2A2A2A] to-[#1E1E1E] p-6 rounded-xl shadow-lg"
+            >
+                <h2 className="text-2xl font-bold mb-4 text-white">
+                    { selectedCard.type === "Poll" ? "Poll" : "Quiz" } Question { currentIndex + 1 }
+                </h2>
+                <p className="text-lg mb-6 text-gray-200">{ question.question }</p>
+                <div className="grid grid-cols-1 gap-4">
+                    { question.options.map( ( option, optionIndex ) => (
+                        <motion.button
+                            key={ optionIndex }
+                            whileHover={ { scale: 1.02 } }
+                            whileTap={ { scale: 0.98 } }
+                            className={ `p-4 rounded-lg text-left transition-colors duration-200 ${ answers[ currentIndex ] === option
+                                    ? selectedCard.type === "Quiz"
                                         ? quizResults[ currentIndex ]
-                                            ? "text-green-400"
-                                            : "text-red-400"
-                                        : "text-gray-300"
-                                    }
-                `}
-                            >
-                                { option }
-                            </label>
-                        </div>
+                                            ? "bg-green-500 text-white"
+                                            : "bg-red-500 text-white"
+                                        : "bg-blue-500 text-white"
+                                    : "bg-[#383838] text-gray-200 hover:bg-[#484848]"
+                                }` }
+                            onClick={ () => handleOptionSelect( currentIndex, option ) }
+                        >
+                            { option }
+                        </motion.button>
                     ) ) }
-                    <button
-                        className="mt-2 bg-[#383838] text-white px-2 py-1 rounded hover:bg-[#484848]"
-                        onClick={ () => checkQuizAnswer( currentIndex ) }
-                    >
-                        Check Answer
-                    </button>
                 </div>
-            );
-        }
+            </motion.div>
+        );
     };
 
     return (
         <div className="space-y-6">
             { renderQuestion() }
-            <div className="flex justify-between">
-                <button
-                    className="bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] disabled:opacity-50 disabled:cursor-not-allowed"
+            <div className="flex justify-between mt-6">
+                <motion.button
+                    whileHover={ { scale: 1.05 } }
+                    whileTap={ { scale: 0.95 } }
+                    className="bg-[#383838] text-white px-6 py-3 rounded-full hover:bg-[#484848] disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={ handlePrevious }
                     disabled={ currentIndex === 0 }
                 >
                     Previous
-                </button>
+                </motion.button>
                 { currentIndex === ( totalQuestions || 0 ) - 1 ? (
-                    <button
-                        className="bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] disabled:opacity-50 disabled:cursor-not-allowed"
+                    <motion.button
+                        whileHover={ { scale: 1.05 } }
+                        whileTap={ { scale: 0.95 } }
+                        className="bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                         onClick={ handleSubmitAnswer }
                         disabled={ !allAnswered }
                     >
                         Submit
-                    </button>
+                    </motion.button>
                 ) : (
-                    <button
-                        className="bg-[#383838] text-white px-4 py-2 rounded hover:bg-[#484848] disabled:opacity-50 disabled:cursor-not-allowed"
+                    <motion.button
+                        whileHover={ { scale: 1.05 } }
+                        whileTap={ { scale: 0.95 } }
+                        className="bg-[#383838] text-white px-6 py-3 rounded-full hover:bg-[#484848] disabled:opacity-50 disabled:cursor-not-allowed"
                         onClick={ handleNext }
                         disabled={ currentIndex === ( totalQuestions || 0 ) - 1 }
                     >
                         Next
-                    </button>
+                    </motion.button>
                 ) }
             </div>
         </div>
