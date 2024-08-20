@@ -251,9 +251,9 @@ const Profile: React.FC = () =>
                         <div>
                           <ModalForm />
                         </div>
-                        <div onClick={handleXfollow}>
+                        {/* <div onClick={handleXfollow}>
                           twitter check
-                        </div>
+                        </div> */}
                         <div className="flex flex-row justify-center items-center gap-2">
                         {
                           !user?.teleInfo?.telegramId && (
@@ -265,7 +265,7 @@ const Profile: React.FC = () =>
                        
                         {!user?.discordInfo?.username && (
                           <div className="mb-2">
-                          <Button className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
+                          <Button onClick={signupDiscord} className="bg-[#c62df4] text-white text-md"><span>connect </span><span><i className="bi bi-discord"></i></span></Button>
                           </div>
                         )
                                   }
