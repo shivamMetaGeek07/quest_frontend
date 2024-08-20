@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { Quest } from './questSlice';
 import { persistor } from '../store';
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // Define interfaces for Twitter and Discord info
 export interface ITwitterInfo
@@ -109,10 +109,17 @@ export const logoutUser = createAsyncThunk(
       const response = await axios.get( `${ process.env.NEXT_PUBLIC_SERVER_URL }/auth/logout`, { withCredentials: true } );
     //  console.log("response from logout",response)
       return response.data;
-    } catch ( err )
-    {
-      return rejectWithValue( 'Failed to log out' );
+    } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // Axios error handling
+      const axiosError = error as AxiosError<{ message: string }>;
+      return rejectWithValue(
+        axiosError.response?.data?.message || 'Failed to log out'
+      );
     }
+    // Generic error handling
+    return rejectWithValue('An unexpected error occurred during logout');
+  }
   }
 );
 

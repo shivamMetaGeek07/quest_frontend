@@ -56,7 +56,7 @@ const Navbar: React.FC = () =>
         try
         {
             const response = await dispatch( logoutUser() );
-            // console.log(response)
+            console.log("response in logout:-",response)
             if ( response )
             {
                 await persistor.flush();
@@ -64,13 +64,13 @@ const Navbar: React.FC = () =>
                 Cookies.remove( 'authToken' );
                 setRefresh( true );
                 router.push( '/home' );
-                window.location.reload();
                 notify( "success", "Logout Successful" );
                 setRefresh( false );
             }
         } catch ( error )
         {
             console.error( 'Error logging out:', error );
+            notify( "error", "Logout failed. Please try again." );
         }
     }, [ dispatch, router ] );
 
