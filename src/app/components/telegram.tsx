@@ -34,15 +34,16 @@ const TeleApp: React.FC = () => {
       try {
         // Call your API route to save Telegram data
         const authToken = `Bearer ${ Cookies.get( 'authToken' ) }`;
+        console.log("step1, authToken:",authToken)
         const response = await axios.get( `https://docsblock.io/auth/telegram/callback`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': authToken,
           },
-          params: telegramData,
+          params:telegramData,
           withCredentials:true
         } );
-        console.log(response);
+        console.log("step2, response:",response);
       } catch (error) {
         console.error('Error saving Telegram data:', error);
         // notify('error','Failed to save Telegram data. Please try again.');
