@@ -1252,7 +1252,7 @@ const Popup: React.FC<{
                         Generate Referral
                       </button>
                     </div>
-                  ) }
+                    ) } 
 
                   { selectedCard.type === "File upload" && (
                     <div>
