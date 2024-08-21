@@ -295,10 +295,7 @@ export default function CommunityProject ( {
             <div className='flex gap-2 lg:mt-0 sm:mt-4'>
               <h1 className='text-neutral-200'>BIO:</h1>
               <p className='text-sm text-neutral-500'>
-                Leading lending market on zkSync, Manta Network, Blast & Linea.
-                Audited by Halborn Security, Immunefi and Mundus Security.
-                Incubated by MahaDAO. - Earn Zero Points Complete below tasks to
-                earn Zero Points. Jump in daily to earn more!
+                {community?.description || ''}
               </p>
             </div>
           </div>
