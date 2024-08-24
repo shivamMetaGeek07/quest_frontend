@@ -292,7 +292,7 @@ const LandingPage = () => {
 
   return (
     <>
-        <div className="landing-page">
+        <div className="min-h-screen landing-page">
           <div className="w-[90%] mx-auto p-8">
           <div className="flex flex-col justify-between h-screen">
             <div className="w-full md:mt-0 mt-4">
