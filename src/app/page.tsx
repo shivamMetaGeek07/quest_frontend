@@ -403,13 +403,14 @@ const LandingPage = () => {
                 </p>
                 <div className="mt-8 flex justify-center gap-4">
                   <Button
-                    onClick={() => handleOpen()}
+                    // onClick={() => handleOpen()}
                     className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
                   >
                     Get Onboarded
                   </Button>
                   <Link
-                    href="/home"
+                    // href="/home"
+                    href='#'
                     className="bg-white text-black py-2 px-6 rounded-lg hover:bg-gray-200 transition duration-300"
                   >
                     Explore
